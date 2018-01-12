@@ -1,0 +1,17 @@
+import os
+
+# On a new deployment (whether production or development) make
+# a copy of this file called 'config.py' and change 'False' for
+# SECRET_KEY to a newly generated string using these python commands:
+# $ import os
+# $ os.urandom(24)
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+class Config(object):
+    SECRET_KEY = False
+    DEBUG = True
+    FORCE_HOST_FOR_REDIRECTS = 'waarismijnstemlokaal.nl'
+    BABEL_DEFAULT_LOCALE = 'nl'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

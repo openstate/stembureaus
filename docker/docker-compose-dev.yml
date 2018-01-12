@@ -1,0 +1,16 @@
+version: "3.1"
+services:
+  nginx:
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-dev/:/etc/nginx/
+    restart: "no"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-app-dev
+    restart: "no"
+networks:
+  stm:
+  nginx-load-balancer:

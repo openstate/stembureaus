@@ -1,0 +1,27 @@
+version: "3.1"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - ./nginx/:/etc/nginx/
+      - ../app/static/:/usr/share/nginx/html/static/
+    networks:
+      - nginx-load-balancer
+      - stm
+    restart: always
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    volumes:
+      - ../app/:/opt/stm
+    networks:
+      - stm
+    restart: always
+networks:
+  stm:
+  nginx-load-balancer:
+    external:
+      name: docker_nginx-load-balancer
