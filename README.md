@@ -6,12 +6,14 @@ Collecting and presenting stembureaus
 [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Run
+- Clone or download this project from GitHub:
+- Copy `app/config.py.example` to `app/config.py` and create a SECRET_KEY as per the instructions in the file
 - Production
    - First time use
       - `cd docker`
       - `sudo docker-compose up -d`
    - After the first time use: `docker-compose start`
-- Development; Flask debug will be set to on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
+- Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
