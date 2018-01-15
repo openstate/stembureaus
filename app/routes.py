@@ -1,50 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import UserMixin, login_required, login_user, logout_user, current_user
-from flask_wtf import FlaskForm
-from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo
-from app import app, db, login_manager
-
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-    def __repr__(self):
-        return '<User {}>'.format(self.email)
-
-
-class RegisterForm(FlaskForm):
-    email = StringField('E-mailadres', validators=[DataRequired(), Email()])
-    # Use 'Wachtwoord' instead of 'password' as the variable
-    # is used in a user-facing error message when the passwords
-    # don't match and we want it to show a Dutch word instead of
-    # English
-    Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
-    Wachtwoord2 = PasswordField(
-        'Herhaal wachtwoord', validators=[DataRequired(), EqualTo('Wachtwoord')])
-    submit = SubmitField('Aanmelden')
-
-
-class LoginForm(FlaskForm):
-    email = StringField('E-mailadres', validators=[DataRequired(), Email()])
-    Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
-    submit = SubmitField('Inloggen')
-
-
-# Create the 'User' table above if it doesn't exist
-db.create_all()
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+from app import app, db
+from app.forms import RegisterForm, LoginForm
+from app.models import User
 
 @app.route("/")
 def index():

@@ -22,4 +22,4 @@ login_manager.login_view = "gemeente_login"
 
 locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
 
-from app import routes
+from app import routes, models
