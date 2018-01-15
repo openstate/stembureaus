@@ -17,5 +17,5 @@ WORKDIR /opt/stm
 RUN pip install --upgrade pip
 RUN pip install flask flask-sqlalchemy flask-login Flask-WTF Flask-Babel uwsgi pytz
 
-ENV FLASK_APP=app.py FLASK_DEBUG=1
+ENV FLASK_APP=website.py FLASK_DEBUG=1
 CMD flask run --host=0.0.0.0

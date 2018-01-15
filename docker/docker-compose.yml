@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile-app
     volumes:
-      - ../app/:/opt/stm
+      - ../:/opt/stm
     networks:
       - stm
     restart: always

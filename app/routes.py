@@ -1,35 +1,10 @@
-#/usr/bin/env python
-# -*- coding: utf-8 -*-
-import locale
-import os
-import re
-from collections import defaultdict
-from config import Config
-from decimal import *
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask.ext.babel import Babel
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
+from flask import render_template, request, redirect, url_for, flash
+from flask_login import UserMixin, login_required, login_user, logout_user, current_user
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo
-
-app = Flask(__name__)
-app.config.from_object(Config)
-
-db = SQLAlchemy(app)
-
-# Used for translating error messages for Flask-WTF forms
-babel = Babel(app)
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_message = u"Log in om verder te gaan"
-login_manager.login_view = "gemeente_login"
-
-locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
-
+from app import app, db, login_manager
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

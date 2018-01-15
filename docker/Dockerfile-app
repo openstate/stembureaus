@@ -17,4 +17,4 @@ WORKDIR /opt/stm
 RUN pip install --upgrade pip
 RUN pip install flask flask-sqlalchemy flask-login Flask-WTF Flask-Babel uwsgi pytz
 
-CMD uwsgi --socket 0.0.0.0:5000 --touch-reload=uwsgi-touch-reload -w app:app
+CMD uwsgi --socket 0.0.0.0:5000 --touch-reload=uwsgi-touch-reload -w website:app
