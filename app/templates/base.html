@@ -34,9 +34,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/over-deze-website">Over deze website</a></li>
-            <li><a href="/dataset">Dataset</a></li>
+            <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('over_deze_website') }}">Over deze website</a></li>
+            <li><a href="{{ url_for('dataset') }}">Dataset</a></li>
             {% block menu %}
             {% endblock %}
           </ul>
