@@ -14,3 +14,10 @@ class Config(object):
     BABEL_DEFAULT_LOCALE = 'nl'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAIL_SERVER = ''
+    MAIL_PORT = ''
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = ''
+    MAIL_PASSWORD = ''
+    FROM = ''
+    ADMINS = ['']
