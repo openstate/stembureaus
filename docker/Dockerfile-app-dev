@@ -2,7 +2,7 @@
 # Dockerfile-app)
 
 
-FROM python:2.7
+FROM python:3.6
 MAINTAINER Open State Foundation <developers@openstate.eu>
 
 RUN echo "Europe/Amsterdam" > /etc/timezone \
@@ -15,7 +15,8 @@ RUN sed -i -e 's/# nl_NL.UTF-8 UTF-8/nl_NL.UTF-8 UTF-8/' /etc/locale.gen \
 
 WORKDIR /opt/stm
 RUN pip install --upgrade pip
-RUN pip install flask flask-sqlalchemy flask-login Flask-WTF Flask-Babel uwsgi pytz
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 ENV FLASK_APP=website.py FLASK_DEBUG=1
 CMD flask run --host=0.0.0.0
