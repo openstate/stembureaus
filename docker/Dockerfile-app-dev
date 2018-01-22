@@ -18,5 +18,6 @@ RUN pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-ENV FLASK_APP=website.py FLASK_DEBUG=1
+ENV FLASK_APP=website.py
+ENV FLASK_DEBUG=1
 CMD flask run --host=0.0.0.0

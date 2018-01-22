@@ -3,6 +3,8 @@
   <li><a href="/gemeente-logout">Uitloggen</a></li>
 {% endblock %}
 {% block content %}
+  Hallo, gemeente <b>{{ current_user.gemeente }}</b>!
+  <br>
   Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen
 {% endblock %}
 {% block scripts %}

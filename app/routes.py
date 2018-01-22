@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import UserMixin, login_required, login_user, logout_user, current_user
 from app import app, db
-from app.forms import RegisterForm, LoginForm
+from app.forms import ResetPasswordRequestForm, ResetPasswordForm, LoginForm
+from app.email import send_password_reset_email
 from app.models import User
 
 @app.route("/")
@@ -16,20 +17,29 @@ def over_deze_website():
 def dataset():
     return render_template('dataset.html')
 
-@app.route("/gemeente-aanmelden", methods=['GET', 'POST'])
-def gemeente_aanmelden():
-    if current_user.is_authenticated:
-        return redirect(url_for('gemeente_stemlokalen_overzicht'))
-
-    form = RegisterForm()
+@app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
+def gemeente_reset_wachtwoord_verzoek():
+    form = ResetPasswordRequestForm()
     if form.validate_on_submit():
-        user = User(email=form.email.data)
-        user.set_password(form.Wachtwoord.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Aanmelden gelukt')
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Er is een e-mail verzonden met instructies om het wachtwoord te veranderen')
         return redirect(url_for('gemeente_login'))
-    return render_template('gemeente-aanmelden.html', form=form)
+    return render_template('gemeente-reset-wachtwoord-verzoek.html', form=form)
+
+@app.route("/gemeente-reset-wachtwoord/<token>", methods=['GET', 'POST'])
+def gemeente_reset_wachtwoord(token):
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.Wachtwoord.data)
+        db.session.commit()
+        flash('Uw wachtwoord is aangepast')
+        return redirect(url_for('gemeente_login'))
+    return render_template('gemeente-reset-wachtwoord.html', form=form)
 
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():

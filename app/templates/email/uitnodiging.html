@@ -1,0 +1,14 @@
+<p>Beste medewerker van de gemeente {{ user.gemeente }},</p>
+<p>
+<p>
+<p>Bij dezen nodigen wij u graag uit om deel te nemem.... etc. etc. etc.</p>
+<p>
+<p>Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een <a href="{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}">wachtwoord aan te maken voor uw account</a>.
+<p>
+<p>U kunt ook de volgende pagina bezoeken:</p>
+<p>{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}</p>
+<p>
+<p>Deze pagina komt over 24 uur te vervallen. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een <a href="{{ url_for('gemeente_reset_wachtwoord_verzoek', _external=True) }}">nieuw verzoek indienen</a>.</p>
+<p>
+<p>Met vriendelijke groet,</p>
+<p>Open State Foundation namens waarismijnstemlokaal.nl</p>

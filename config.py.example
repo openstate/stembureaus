@@ -10,6 +10,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = False
+    SERVER_NAME = 'waarismijnstemlokaal.nl'
+    PREFERRED_URL_SCHEME = 'https'
     FORCE_HOST_FOR_REDIRECTS = 'waarismijnstemlokaal.nl'
     BABEL_DEFAULT_LOCALE = 'nl'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')

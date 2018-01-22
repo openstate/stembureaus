@@ -3,8 +3,8 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
-  <h1>Inloggen</h1>
-  Inlogpagina voor gemeenten
+  <h1>Wachtwoord veranderen</h1>
+  Voer je e-mailadres in en ontvang een e-mail waarmee je je wachtwoord kunt veranderen.
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -25,16 +25,7 @@
       {% endfor %}
     </div>
     <div>
-      {{ form.Wachtwoord.label }} {{ form.Wachtwoord(size=32) }}
-      {% for error in form.Wachtwoord.errors %}
-        <span style="color: red;">{{ error }}</span>
-      {% endfor %}
-    </div>
-    <div>
     {{ form.submit }}
-    </div>
-    <div>
-    <p><a href="{{ url_for('gemeente_reset_wachtwoord_verzoek') }}">Wachtwoord vergeten</a></p>
     </div>
   </form>
 {% endblock %}

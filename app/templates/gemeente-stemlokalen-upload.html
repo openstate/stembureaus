@@ -6,6 +6,8 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
+  Hallo, gemeente <b>{{ current_user.gemeente }}</b>!
+  <br>
   Pagina waar alle stemlokalen van een gemeente getoond worden en aangepast kunnen worden, waarna ze opgeslagen of gepubliceerd kunnen worden.
 {% endblock %}
 {% block scripts %}
