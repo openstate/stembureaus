@@ -78,8 +78,10 @@ def gemeente_logout():
 @app.route("/gemeente-verkiezing-overzicht", methods=['GET', 'POST'])
 @login_required
 def gemeente_verkiezing_overzicht():
-    resource_data = ckanapi.get_resources()
-    return render_template('gemeente-verkiezing-overzicht.html', resource_data=resource_data)
+    return render_template(
+        'gemeente-verkiezing-overzicht.html',
+        elections=ckanapi.elections
+    )
 
 
 @app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])

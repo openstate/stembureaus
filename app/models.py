@@ -7,20 +7,25 @@ import jwt
 
 
 class CKAN():
-    ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
-    ckan = RemoteCKAN(
-        'https://acc-ckan.dataplatform.nl',
-        apikey=app.config['CKAN_API_KEY'],
-        user_agent=ua
-    )
+    def __init__(self):
+        self.ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
+        self.ckan = RemoteCKAN(
+            'https://acc-ckan.dataplatform.nl',
+            apikey=app.config['CKAN_API_KEY'],
+            user_agent=self.ua
+        )
+        self.elections = app.config['CKAN_CURRENT_ELECTIONS']
+        self.resources_metadata = self._get_resources_metadata()
 
-    def get_resources(self):
-        resources = app.config['CKAN_PUBLISH_RESOURCE_IDS']
-        resource_data = {}
-        for resource in resources:
-            resource_metadata = self.ckan.action.resource_show(id=resource)
-            resource_data[resource] = resource_metadata['name']
-        return resource_data
+    def _get_resources_metadata(self):
+        resources_metadata = {}
+        for election_key, election_value in self.elections.items():
+            resources_metadata[election_key] = {}
+            for resource_key, resource_value in election_value.items():
+                resources_metadata[election_key][resource_key] = (
+                    self.ckan.action.resource_show(id=resource_value)
+                )
+        return resources_metadata
 
 
 ckanapi = CKAN()

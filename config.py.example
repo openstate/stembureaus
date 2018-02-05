@@ -21,13 +21,17 @@ class Config(object):
 
     CKAN_API_KEY = ''
     # List the resource IDs of the elections which are allowed to be
-    # edited. 'CKAN_PUBLISH_RESOURCE_IDS' contains the IDs of resources
+    # edited. 'publish_resource' contains the IDs of resources
     # of upcoming elections where the stemlokalen data will be made
-    # public, while the 'CKAN_DRAFT_RESOURCE_IDS' contains the IDS of
+    # public, while the 'draft_resource' contains the IDS of
     # resources where drafts of the stemlokalen data will be saved while
     # the gemeenten input all the information.
-    CKAN_PUBLISH_RESOURCE_IDS = []
-    CKAN_DRAFT_RESOURCE_IDS = []
+    CKAN_CURRENT_ELECTIONS = {
+        '<name of election>': {
+            'publish_resource': '<ID_of_resource>',
+            'draft_resource': '<ID_of_resource>',
+        }
+    }
 
     MAIL_SERVER = ''
     MAIL_PORT = ''
