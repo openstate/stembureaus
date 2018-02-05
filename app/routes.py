@@ -87,7 +87,24 @@ def gemeente_verkiezing_overzicht():
 @app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
-    return render_template('gemeente-stemlokalen-overzicht.html', verkiezing=verkiezing)
+    publish_records = ckan.get_records(ckan.elections[verkiezing]['publish_resource'])
+    draft_records = ckan.get_records(ckan.elections[verkiezing]['draft_resource'])
+
+    publish_records = [
+        record for record in publish_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+    draft_records = [
+        record for record in draft_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+
+    return render_template(
+        'gemeente-stemlokalen-overzicht.html',
+        verkiezing=verkiezing,
+        total_publish_records=len(publish_records),
+        total_draft_records=len(draft_records)
+    )
 
 
 @app.route("/gemeente-stemlokalen-edit", methods=['GET', 'POST'])

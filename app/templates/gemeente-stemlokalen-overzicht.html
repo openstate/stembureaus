@@ -5,9 +5,11 @@
 {% block content %}
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
-  {{ verkiezing }}
   <br>
-  Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen
+  U heeft voor de {{ verkiezing }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd.
+  <br>
+  <br>
+  Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen.
 {% endblock %}
 {% block scripts %}
   {{ super() }}

@@ -27,6 +27,9 @@ class CKAN():
                 )
         return resources_metadata
 
+    def get_records(self, resource_id):
+        return self.ckanapi.datastore_search(resource_id=resource_id)
+
 
 ckan = CKAN()
 
