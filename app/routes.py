@@ -92,7 +92,7 @@ def gemeente_stemlokalen_overzicht(verkiezing):
 
 @app.route("/gemeente-stemlokalen-edit", methods=['GET', 'POST'])
 @login_required
-def gemeente_stemlokalen_upload():
+def gemeente_stemlokalen_edit():
     return render_template('gemeente-stemlokalen-edit.html')
 
 if __name__ == "__main__":

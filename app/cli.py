@@ -236,7 +236,11 @@ def toon_alle_gemeenten():
     Toon alle gemeenten in de database
     """
     for user in User.query.all():
-        print('"%s","%s"' % (user.gemeente, user.email))
+        print('"%s","%s","%s"' %
+            (
+                user.gemeente_naam, user.gemeente_code, user.email
+            )
+        )
 
 
 @gemeenten.command()
@@ -282,7 +286,11 @@ def eenmalig_gemeenten_aanmaken():
         reader = csv.DictReader(IN)
         total_created = 0
         for row in reader:
-            user = User(gemeente=row['gemeente'], email=row['email'])
+            user = User(
+                gemeente_naam=row['gemeente_naam'],
+                gemeente_code=row['gemeente_code'],
+                email=row['email']
+            )
             user.set_password(os.urandom(24))
             db.session.add(user)
             total_created += 1

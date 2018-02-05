@@ -33,7 +33,8 @@ ckan = CKAN()
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    gemeente = db.Column(db.String(120), index=True, unique=True)
+    gemeente_naam = db.Column(db.String(120), index=True, unique=True)
+    gemeente_code = db.Column(db.String(6), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
