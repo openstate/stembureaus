@@ -9,6 +9,7 @@ PyJWT==1.5.3
 pytz==2017.3
 uWSGI==2.0.15
 ckanapi==4.1
+xlrd==1.1.0
 
 # Dependencies installed by the packages above
 Babel==2.5.3
