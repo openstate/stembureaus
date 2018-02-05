@@ -18,7 +18,7 @@ class CKAN():
         resources = app.config['CKAN_PUBLISH_RESOURCE_IDS']
         resource_data = {}
         for resource in resources:
-            resource_metadata = self.ckan.resource_show(id=resource)
+            resource_metadata = self.ckan.action.resource_show(id=resource)
             resource_data[resource] = resource_metadata['name']
         return resource_data
 
