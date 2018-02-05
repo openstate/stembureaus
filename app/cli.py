@@ -1,14 +1,218 @@
 from app import app, db
-from app.models import User
+from app.models import User, CKAN
 from app.email import send_invite
+import click
 import csv
 import os
 
 
+ckanapi = CKAN()
+
+
+# CKAN
+@app.cli.group()
+def ckan():
+    """ckan commands"""
+    pass
+
+
+@ckan.command()
+@click.argument('resource_id')
+def maak_nieuwe_datastore(resource_id):
+    """
+    Maak een nieuwe datastore tabel in een resource
+    """
+    fields = [
+        {
+            "id": "Gemeente",
+            "type": "text"
+        },
+        {
+            "id": "CBS gemeentecode",
+            "type": "text"
+        },
+        {
+            "id": "Nummer stembureau",
+            "type": "int"
+        },
+        {
+            "id": "Naam stembureau",
+            "type": "text"
+        },
+        {
+            "id": "Gebruikersdoel het gebouw",
+            "type": "text"
+        },
+        {
+            "id": "Website locatie",
+            "type": "text"
+        },
+        {
+            "id": "Wijknaam",
+            "type": "text"
+        },
+        {
+            "id": "CBS wijknummer",
+            "type": "text"
+        },
+        {
+            "id": "Buurtnaam",
+            "type": "text"
+        },
+        {
+            "id": "CBS buurtnummer",
+            "type": "text"
+        },
+        {
+            "id": "BAG referentienummer",
+            "type": "text"
+        },
+        {
+            "id": "Straatnaam",
+            "type": "text"
+        },
+        {
+            "id": "Huisnummer",
+            "type": "text"
+        },
+        {
+            "id": "Huisnummertoevoeging",
+            "type": "text"
+        },
+        {
+            "id": "Postcode",
+            "type": "text"
+        },
+        {
+            "id": "Plaats",
+            "type": "text"
+        },
+        {
+            "id": "Extra adresaanduiding",
+            "type": "text"
+        },
+        {
+            "id": "X",
+            "type": "int"
+        },
+        {
+            "id": "Y",
+            "type": "int"
+        },
+        {
+            "id": "Longitude",
+            "type": "float"
+        },
+        {
+            "id": "Latitude",
+            "type": "float"
+        },
+        {
+            "id": "Openingstijden",
+            "type": "text"
+        },
+        {
+            "id": "Mindervaliden toegankelijk",
+            "type": "bool"
+        },
+        {
+            "id": "Invalidenparkeerplaatsen",
+            "type": "bool"
+        },
+        {
+            "id": "Akoestiek",
+            "type": "bool"
+        },
+        {
+            "id": "Mindervalide toilet aanwezig",
+            "type": "bool"
+        },
+        {
+            "id": "Kieskring ID",
+            "type": "text"
+        },
+        {
+            "id": "Contactgegevens",
+            "type": "text"
+        },
+        {
+            "id": "Beschikbaarheid",
+            "type": "text"
+        }
+    ]
+
+    ckanapi.action.datastore_create(
+        resource_id=resource_id,
+        force=True,
+        fields=fields
+    )
+
+
+@ckan.command()
+@click.argument('resource_id')
+def upsert_datastore(resource_id):
+    """
+    Insert or update data in de datastore tabel in een resource
+    """
+    records = [
+        {
+          "Gemeente": "'s-Gravenhage",
+          "CBS gemeentecode": "GM0518",
+          "Nummer stembureau": "517",
+          "Naam stembureau": "Stadhuis",
+          "Gebruikersdoel het gebouw": "kantoor",
+          "Website locatie": "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm",
+          "Wijknaam": "Centrum",
+          "CBS wijknummer": "WK051828",
+          "Buurtnaam": "Kortenbos",
+          "CBS buurtnummer": "BU05182811",
+          "BAG referentienummer": "0518100000275247",
+          "Straatnaam": "Spui",
+          "Huisnummer": 70,
+          "Huisnummertoevoeging": "",
+          "Postcode": "2511 BT",
+          "Plaats": "Den Haag",
+          "Extra adresaanduiding": "",
+          "X": 81611,
+          "Y": 454909,
+          "Longitude": 4.3166395,
+          "Latitude": 52.0775912,
+          "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
+          "Mindervaliden toegankelijk": True,
+          "Invalidenparkeerplaatsen": False,
+          "Akoestiek": True,
+          "Mindervalide toilet aanwezig": True,
+          "Kieskring ID": "'s-Gravenhage",
+          "Contactgegevens": "persoonx@denhaag.nl",
+          "Beschikbaarheid": "https://www.stembureausindenhaag.nl/"
+        }
+    ]
+    ckanapi.action.datastore_upsert(
+        resource_id=resource_id,
+        force=True,
+        records=records,
+        method='insert'
+    )
+
+
+@ckan.command()
+@click.argument('resource_id')
+def verwijder_datastore(resource_id):
+    """
+    Verwijder een datastore tabel in een resource
+    """
+    ckanapi.action.datastore_delete(
+        resource_id=resource_id,
+        force=True
+    )
+
+
+# Gemeenten
 @app.cli.group()
 def gemeenten():
     """Gemeenten gerelateerde commands"""
     pass
+
 
 @gemeenten.command()
 def toon_alle_gemeenten():
@@ -17,6 +221,7 @@ def toon_alle_gemeenten():
     """
     for user in User.query.all():
         print('"%s","%s"' % (user.gemeente, user.email))
+
 
 @gemeenten.command()
 def verwijder_alle_gemeenten():
@@ -39,11 +244,12 @@ def verwijder_alle_gemeenten():
     print("%d gemeenten verwijderd" % total_removed)
     db.session.commit()
 
+
 @gemeenten.command()
 def eenmalig_gemeenten_aanmaken():
     """
     Gebruik deze command slechts eenmaal(!) om alle gemeenten in de
-    database aan te maken op basis van 'data/gemeenten.csv'
+    database aan te maken op basis van 'app/data/gemeenten.csv'
     """
     if not app.debug:
         result = input(
@@ -67,6 +273,7 @@ def eenmalig_gemeenten_aanmaken():
         # Only commit if all users are successfully added
         db.session.commit()
         print('%d gemeenten aangemaakt' % (total_created))
+
 
 @gemeenten.command()
 def eenmalig_gemeenten_uitnodigen():

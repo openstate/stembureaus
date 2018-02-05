@@ -5,9 +5,12 @@
 {% block content %}
   Hallo, gemeente <b>{{ current_user.gemeente }}</b>!
   <br>
-  {{ verkiezing }}
+  Selecteer verkiezing:
   <br>
-  Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen
+  {% for key, name in resource_data.items() %}
+  <a href="{{ url_for('gemeente_stemlokalen_overzicht', verkiezing=key) }}">{{ name }}</a>
+  <br>
+  {% endfor %}
 {% endblock %}
 {% block scripts %}
   {{ super() }}

@@ -2,7 +2,26 @@ from app import app, db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from time import time
+from ckanapi import RemoteCKAN
 import jwt
+
+
+class CKAN():
+    ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
+    ckan = RemoteCKAN(
+        'https://acc-ckan.dataplatform.nl',
+        apikey=app.config['CKAN_API_KEY'],
+        user_agent=ua
+    )
+
+    def get_resources(self):
+        resources = app.config['CKAN_PUBLISH_RESOURCE_IDS']
+        resource_data = {}
+        for resource in resources:
+            resource_metadata = self.ckan.resource_show(id=resource)
+            resource_data[resource] = resource_metadata['name']
+        return resource_data
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,6 +67,7 @@ class User(UserMixin, db.Model):
 
 # Create the 'User' table above if it doesn't exist
 db.create_all()
+
 
 @login_manager.user_loader
 def load_user(user_id):

@@ -60,7 +60,8 @@ if not app.debug:
     )
     file_handler.setFormatter(
         logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+            '%(asctime)s %(levelname)s: %(message)s '
+            '[in %(pathname)s:%(lineno)d]'
         )
     )
     file_handler.setLevel(logging.INFO)

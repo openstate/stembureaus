@@ -8,14 +8,21 @@ Flask-WTF==0.14.2
 PyJWT==1.5.3
 pytz==2017.3
 uWSGI==2.0.15
+ckanapi==4.1
 
 # Dependencies installed by the packages above
 Babel==2.5.3
 blinker==1.4
+certifi==2018.1.18
+chardet==3.0.4
 click==6.7
+docopt==0.6.2
+idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+requests==2.18.4
 SQLAlchemy==1.2.1
+urllib3==1.22
 Werkzeug==0.14.1
 WTForms==2.1

@@ -13,9 +13,22 @@ class Config(object):
     SERVER_NAME = 'waarismijnstemlokaal.nl'
     PREFERRED_URL_SCHEME = 'https'
     FORCE_HOST_FOR_REDIRECTS = 'waarismijnstemlokaal.nl'
+
     BABEL_DEFAULT_LOCALE = 'nl'
+
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    CKAN_API_KEY = ''
+    # List the resource IDs of the elections which are allowed to be
+    # edited. 'CKAN_PUBLISH_RESOURCE_IDS' contains the IDs of resources
+    # of upcoming elections where the stemlokalen data will be made
+    # public, while the 'CKAN_DRAFT_RESOURCE_IDS' contains the IDS of
+    # resources where drafts of the stemlokalen data will be saved while
+    # the gemeenten input all the information.
+    CKAN_PUBLISH_RESOURCE_IDS = []
+    CKAN_DRAFT_RESOURCE_IDS = []
+
     MAIL_SERVER = ''
     MAIL_PORT = ''
     MAIL_USE_TLS = True
