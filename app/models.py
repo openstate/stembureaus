@@ -23,6 +23,9 @@ class CKAN():
         return resource_data
 
 
+ckanapi = CKAN()
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gemeente = db.Column(db.String(120), index=True, unique=True)

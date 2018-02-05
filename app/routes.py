@@ -5,10 +5,7 @@ from flask_login import (
 from app import app, db
 from app.forms import ResetPasswordRequestForm, ResetPasswordForm, LoginForm
 from app.email import send_password_reset_email
-from app.models import User, CKAN
-
-
-ckanapi = CKAN()
+from app.models import User, ckanapi
 
 
 @app.route("/")

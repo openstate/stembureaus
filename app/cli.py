@@ -1,12 +1,9 @@
 from app import app, db
-from app.models import User, CKAN
+from app.models import User, ckanapi
 from app.email import send_invite
 import click
 import csv
 import os
-
-
-ckanapi = CKAN()
 
 
 # CKAN
