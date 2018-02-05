@@ -9,11 +9,11 @@ import jwt
 class CKAN():
     def __init__(self):
         self.ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
-        self.ckan = RemoteCKAN(
+        self.ckanapi = RemoteCKAN(
             'https://acc-ckan.dataplatform.nl',
             apikey=app.config['CKAN_API_KEY'],
             user_agent=self.ua
-        )
+        ).action
         self.elections = app.config['CKAN_CURRENT_ELECTIONS']
         self.resources_metadata = self._get_resources_metadata()
 
@@ -23,12 +23,12 @@ class CKAN():
             resources_metadata[election_key] = {}
             for resource_key, resource_value in election_value.items():
                 resources_metadata[election_key][resource_key] = (
-                    self.ckan.action.resource_show(id=resource_value)
+                    self.ckanapi.resource_show(id=resource_value)
                 )
         return resources_metadata
 
 
-ckanapi = CKAN()
+ckan = CKAN()
 
 
 class User(UserMixin, db.Model):

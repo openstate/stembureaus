@@ -1,19 +1,30 @@
 from app import app, db
-from app.models import User, ckanapi
+from app.models import User, ckan
 from app.email import send_invite
+from pprint import pprint
 import click
 import csv
 import os
 
 
-# CKAN
+# CKAN (use uppercase to avoid conflict with 'ckan' import from
+# app.models)
 @app.cli.group()
-def ckan():
+def CKAN():
     """ckan commands"""
     pass
 
 
-@ckan.command()
+@CKAN.command()
+def toon_verkiezingen():
+    """
+    Toon alle huidige verkiezingen en de bijbehornde public en draft
+    resources
+    """
+    pprint(ckan.elections)
+
+
+@CKAN.command()
 @click.argument('resource_id')
 def maak_nieuwe_datastore(resource_id):
     """
@@ -105,6 +116,10 @@ def maak_nieuwe_datastore(resource_id):
             "type": "float"
         },
         {
+            "id": "Districtcode",
+            "type": "text"
+        },
+        {
             "id": "Openingstijden",
             "type": "text"
         },
@@ -129,6 +144,10 @@ def maak_nieuwe_datastore(resource_id):
             "type": "text"
         },
         {
+            "id": "Hoofdstembureau",
+            "type": "text"
+        },
+        {
             "id": "Contactgegevens",
             "type": "text"
         },
@@ -138,14 +157,14 @@ def maak_nieuwe_datastore(resource_id):
         }
     ]
 
-    ckanapi.action.datastore_create(
+    ckan.ckanapi.datastore_create(
         resource_id=resource_id,
         force=True,
         fields=fields
     )
 
 
-@ckan.command()
+@CKAN.command()
 @click.argument('resource_id')
 def upsert_datastore(resource_id):
     """
@@ -153,38 +172,38 @@ def upsert_datastore(resource_id):
     """
     records = [
         {
-          "Gemeente": "'s-Gravenhage",
-          "CBS gemeentecode": "GM0518",
-          "Nummer stembureau": "517",
-          "Naam stembureau": "Stadhuis",
-          "Gebruikersdoel het gebouw": "kantoor",
-          "Website locatie": "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm",
-          "Wijknaam": "Centrum",
-          "CBS wijknummer": "WK051828",
-          "Buurtnaam": "Kortenbos",
-          "CBS buurtnummer": "BU05182811",
-          "BAG referentienummer": "0518100000275247",
-          "Straatnaam": "Spui",
-          "Huisnummer": 70,
-          "Huisnummertoevoeging": "",
-          "Postcode": "2511 BT",
-          "Plaats": "Den Haag",
-          "Extra adresaanduiding": "",
-          "X": 81611,
-          "Y": 454909,
-          "Longitude": 4.3166395,
-          "Latitude": 52.0775912,
-          "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
-          "Mindervaliden toegankelijk": True,
-          "Invalidenparkeerplaatsen": False,
-          "Akoestiek": True,
-          "Mindervalide toilet aanwezig": True,
-          "Kieskring ID": "'s-Gravenhage",
-          "Contactgegevens": "persoonx@denhaag.nl",
-          "Beschikbaarheid": "https://www.stembureausindenhaag.nl/"
+            "Gemeente": "'s-Gravenhage",
+            "CBS gemeentecode": "GM0518",
+            "Nummer stembureau": "517",
+            "Naam stembureau": "Stadhuis",
+            "Gebruikersdoel het gebouw": "kantoor",
+            "Website locatie": "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm",
+            "Wijknaam": "Centrum",
+            "CBS wijknummer": "WK051828",
+            "Buurtnaam": "Kortenbos",
+            "CBS buurtnummer": "BU05182811",
+            "BAG referentienummer": "0518100000275247",
+            "Straatnaam": "Spui",
+            "Huisnummer": 70,
+            "Huisnummertoevoeging": "",
+            "Postcode": "2511 BT",
+            "Plaats": "Den Haag",
+            "Extra adresaanduiding": "",
+            "X": 81611,
+            "Y": 454909,
+            "Longitude": 4.3166395,
+            "Latitude": 52.0775912,
+            "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
+            "Mindervaliden toegankelijk": True,
+            "Invalidenparkeerplaatsen": False,
+            "Akoestiek": True,
+            "Mindervalide toilet aanwezig": True,
+            "Kieskring ID": "'s-Gravenhage",
+            "Contactgegevens": "persoonx@denhaag.nl",
+            "Beschikbaarheid": "https://www.stembureausindenhaag.nl/"
         }
     ]
-    ckanapi.action.datastore_upsert(
+    ckan.ckanapi.datastore_upsert(
         resource_id=resource_id,
         force=True,
         records=records,
@@ -192,13 +211,13 @@ def upsert_datastore(resource_id):
     )
 
 
-@ckan.command()
+@CKAN.command()
 @click.argument('resource_id')
 def verwijder_datastore(resource_id):
     """
     Verwijder een datastore tabel in een resource
     """
-    ckanapi.action.datastore_delete(
+    ckan.ckanapi.datastore_delete(
         resource_id=resource_id,
         force=True
     )
