@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+
+from xlrd import open_workbook
+
 
 class BaseParser(object):
     def __init__(self, *args, **kwargs):
@@ -15,7 +19,13 @@ class BaseParser(object):
 
 
 class ExcelParser(BaseParser):
-    pass
+    def parse(self, path):
+        if not os.path.exists(path):
+            return [], []
+
+        wb = open_workbook(path)
+
+        return [], []
 
 
 class CSVParser(BaseParser):
