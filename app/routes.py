@@ -90,10 +90,10 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     return render_template('gemeente-stemlokalen-overzicht.html', verkiezing=verkiezing)
 
 
-@app.route("/gemeente-stemlokalen-upload", methods=['GET', 'POST'])
+@app.route("/gemeente-stemlokalen-edit", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_upload():
-    return render_template('gemeente-stemlokalen-upload.html')
+    return render_template('gemeente-stemlokalen-edit.html')
 
 if __name__ == "__main__":
     app.run(threaded=True)
