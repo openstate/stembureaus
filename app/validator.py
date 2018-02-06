@@ -3,6 +3,9 @@
 
 from werkzeug.datastructures import MultiDict
 
+from app.forms import VotingStationForm
+import app
+
 
 class RecordValidator(object):
     def __init__(self, *args, **kwargs):
@@ -13,9 +16,13 @@ class RecordValidator(object):
         Validates a single record. Gets a line number and a list of headers as
         well as a dict. Returns a list of issues found, which can be empty.
         """
-        results = []
-        data = MultiDict(mapping=record)
-        return results
+        old_val = app.app.config.get('WTF_CSRF_ENABLED', True)
+        app.app.config['WTF_CSRF_ENABLED'] = False
+        form = VotingStationForm(MultiDict(record))
+        result = form.validate()
+        errors = form.errors
+        app.app.config['WTF_CSRF_ENABLED'] = old_val
+        return result, errors
 
 
 class Validator(object):
