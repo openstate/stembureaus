@@ -3,7 +3,9 @@ from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user
 )
 from app import app, db
-from app.forms import ResetPasswordRequestForm, ResetPasswordForm, LoginForm
+from app.forms import (
+    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm
+)
 from app.email import send_password_reset_email
 from app.models import User, ckan
 
@@ -84,11 +86,18 @@ def gemeente_verkiezing_overzicht():
     )
 
 
-@app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
+@app.route(
+    "/gemeente-stemlokalen-overzicht/<verkiezing>",
+    methods=['GET', 'POST']
+)
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
-    publish_records = ckan.get_records(ckan.elections[verkiezing]['publish_resource'])
-    draft_records = ckan.get_records(ckan.elections[verkiezing]['draft_resource'])
+    publish_records = ckan.get_records(
+        ckan.elections[verkiezing]['publish_resource']
+    )
+    draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
 
     publish_records = [
         record for record in publish_records['records']
@@ -107,10 +116,63 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     )
 
 
-@app.route("/gemeente-stemlokalen-edit", methods=['GET', 'POST'])
+@app.route("/gemeente-stemlokalen-edit/<verkiezing>", methods=['GET', 'POST'])
 @login_required
-def gemeente_stemlokalen_edit():
-    return render_template('gemeente-stemlokalen-edit.html')
+def gemeente_stemlokalen_edit(verkiezing):
+    publish_records = ckan.get_recordsi(
+        ckan.elections[verkiezing]['publish_resource']
+    )
+    draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
+
+    publish_records = [
+        record for record in publish_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+    draft_records = [
+        record for record in draft_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+
+    # Initialize the form with the data already available in the draft
+    init_records = []
+    for record in draft_records:
+        init_record = {
+            'cbs_gemeentecode': record['CBS gemeentecode'],
+            'nummer_stembureau': record['Nummer stembureau'],
+            'naam_stembureau': record['Naam stembureau'],
+            'gebruikersdoel_het_gebouw': record['Gebruikersdoel het gebouw'],
+            'website_locatie': record['Website locatie'],
+            'bag_referentienummer': record['BAG referentienummer'],
+            'extra_adresaanduiding': record['Extra adresaanduiding'],
+            'longitude': record['Longitude'],
+            'latitude': record['Latitude'],
+            'districtcode': record['Districtcode'],
+            'openingstijden': record['Openingstijden'],
+            'mindervaliden_toegankelijk': record['Mindervaliden toegankelijk'],
+            'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
+            'akoestiek': record['Akoestiek'],
+            'mindervalide_toilet_aanwezig': record[
+                'Mindervalide toilet aanwezig'
+            ],
+            'kieskring_id': record['Kieskring ID'],
+            'hoofdstembureau': record['Hoofdstembureau'],
+            'contactgegevens': record['Contactgegevens'],
+            'beschikbaarheid': record['Beschikbaarheid']
+        }
+        init_records.append(init_record)
+
+    form = EditForm(stembureaus=init_records)
+
+    if form.validate_on_submit():
+        pass
+
+    return render_template(
+        'gemeente-stemlokalen-edit.html',
+        verkiezing=verkiezing,
+        form=form
+    )
 
 if __name__ == "__main__":
     app.run(threaded=True)

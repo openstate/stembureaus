@@ -154,6 +154,10 @@ def maak_nieuwe_datastore(resource_id):
         {
             "id": "Beschikbaarheid",
             "type": "text"
+        },
+        {
+            "id": "ID",
+            "type": "text"
         }
     ]
 
@@ -177,7 +181,10 @@ def upsert_datastore(resource_id):
             "Nummer stembureau": "517",
             "Naam stembureau": "Stadhuis",
             "Gebruikersdoel het gebouw": "kantoor",
-            "Website locatie": "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm",
+            "Website locatie": (
+                "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
+                "de-gemeente/stadhuis-den-haag.htm"
+            ),
             "Wijknaam": "Centrum",
             "CBS wijknummer": "WK051828",
             "Buurtnaam": "Kortenbos",
@@ -236,8 +243,8 @@ def toon_alle_gemeenten():
     Toon alle gemeenten in de database
     """
     for user in User.query.all():
-        print('"%s","%s","%s"' %
-            (
+        print(
+            '"%s","%s","%s"' % (
                 user.gemeente_naam, user.gemeente_code, user.email
             )
         )

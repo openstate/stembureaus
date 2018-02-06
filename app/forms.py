@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms import (
+    BooleanField, StringField, IntegerField, FloatField, PasswordField,
+    SubmitField, FormField, FieldList
+)
+from wtforms.validators import DataRequired, Email, EqualTo, Length, URL
 
 
 class ResetPasswordRequestForm(FlaskForm):
@@ -28,3 +31,111 @@ class LoginForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
+
+
+class EditEntryForm(FlaskForm):
+    cbs_gemeentecode = StringField(
+        'CBS gemeentecode',
+        validators=[
+            DataRequired()
+        ]
+    )
+    nummer_stembureau = IntegerField(
+        'Nummer stembureau',
+        validators=[
+            DataRequired()
+        ]
+    )
+    naam_stembureau = StringField(
+        'Naam stembureau',
+        validators=[
+            DataRequired()
+        ]
+    )
+    gebruikersdoel_het_gebouw = StringField(
+        'Gebruikersdoel het gebouw',
+        validators=[
+            DataRequired()
+        ]
+    )
+    website_locatie = StringField(
+        'Website locatie',
+        validators=[
+            URL()
+        ]
+    )
+    bag_referentienummer = StringField(
+        'BAG referentienummer',
+        validators=[
+            DataRequired()
+        ]
+    )
+    extra_adresaanduiding = StringField(
+        'Extra adresaanduiding',
+        validators=[]
+    )
+    longitude = FloatField(
+        'Longitude',
+        validators=[
+            DataRequired()
+        ]
+    )
+    latitude = FloatField(
+        'Latitude',
+        validators=[
+            DataRequired()
+        ]
+    )
+    districtcode = StringField(
+        'Districtcode',
+        validators=[]
+    )
+    openingstijden = StringField(
+        'Openingstijden',
+        validators=[
+            DataRequired()
+        ]
+    )
+    mindervaliden_toegankelijk = BooleanField(
+        'Mindervaliden toegankelijk',
+        validators=[]
+    )
+    invalidenparkeerplaatsen = BooleanField(
+        'Invalidenparkeerplaatsen',
+        validators=[]
+    )
+    akoestiek = BooleanField(
+        'Akoestiek',
+        validators=[]
+    )
+    mindervalide_toilet_aanwezig = BooleanField(
+        'Mindervalide toilet aanwezig',
+        validators=[]
+    )
+    kieskring_id = StringField(
+        'Kieskring ID',
+        validators=[]
+    )
+    hoofdstembureau = StringField(
+        'Hoofdstembureau',
+        validators=[]
+    )
+    contactgegevens = StringField(
+        'Contactgegevens',
+        validators=[
+            DataRequired()
+        ]
+    )
+    beschikbaarheid = StringField(
+        'Beschikbaarheid',
+        validators=[
+            DataRequired(),
+            URL()
+        ]
+    )
+
+
+class EditForm(FlaskForm):
+    stembureaus = FieldList(FormField(EditEntryForm), min_entries=1)
+    submit_draft = SubmitField('Bewaar')
+    submit_publish = SubmitField('Publiceer')

@@ -8,7 +8,9 @@ import jwt
 
 class CKAN():
     def __init__(self):
-        self.ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
+        self.ua = (
+            'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
+        )
         self.ckanapi = RemoteCKAN(
             'https://acc-ckan.dataplatform.nl',
             apikey=app.config['CKAN_API_KEY'],

@@ -6,7 +6,7 @@
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
   <br>
-  U heeft voor de {{ verkiezing }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd.
+  U heeft voor de {{ verkiezing }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd. <a href="{{ url_for('gemeente_stemlokalen_edit', verkiezing=verkiezing) }}">[bewerk]</a>
   <br>
   <br>
   Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen.

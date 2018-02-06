@@ -8,7 +8,42 @@
 {% block content %}
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
-  Pagina waar alle stemlokalen van een gemeente getoond worden en aangepast kunnen worden, waarna ze opgeslagen of gepubliceerd kunnen worden.
+  <br>
+  Bewerk hieronder de stembureaus voor: {{ verkiezing }}
+  <br>
+  <br>
+  <br>
+  <br>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="">
+    {{ form.csrf_token }}
+    {{ form.submit_draft }} {{ form.submit_publish }}
+    <hr>
+    {% for stembureau in form.stembureaus %}
+      {% for f in stembureau %}
+        {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
+          <div>
+            {{ f(size=20) }} {{ f.label }}
+            {% for error in f.errors %}
+              <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+           </div>
+        {% endif %}
+      {% endfor %}
+      <hr>
+    {% endfor %}
+    {{ form.submit_draft }} {{ form.submit_publish }}
+  </form>
 {% endblock %}
 {% block scripts %}
   {{ super() }}
