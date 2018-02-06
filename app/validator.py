@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from werkzeug.datastructures import MultiDict
+
 
 class RecordValidator(object):
     def __init__(self, *args, **kwargs):
@@ -12,6 +14,7 @@ class RecordValidator(object):
         well as a dict. Returns a list of issues found, which can be empty.
         """
         results = []
+        data = MultiDict(mapping=record)
         return results
 
 

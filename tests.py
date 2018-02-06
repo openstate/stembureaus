@@ -7,5 +7,6 @@ sys.path.insert(0, '.')
 
 from tests import *
 
+
 if __name__ == '__main__':
     unittest.main()

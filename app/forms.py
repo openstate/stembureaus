@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
@@ -28,3 +28,15 @@ class LoginForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
+
+
+class VotingStationForm(FlaskForm):
+        # TODO: validate correctly
+        gemeente = StringField(
+            'Gemeente', validators=[DataRequired()])
+        gemeente_code = StringField(
+            'CBS gemeentecode', validators=[DataRequired()])
+        stembureau_nummer = IntegerField(
+            'Nummer Stembureau', validators=[DataRequired()])
+        stembureau_naam = StringField(
+            'Naam Stembureau', validators=[DataRequired()])
