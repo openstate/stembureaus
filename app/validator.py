@@ -39,5 +39,8 @@ class Validator(object):
         line_no = 0
         for record in records:
             line_no += 1
-            results += record_validator.validate(line_no, headers, record)
+            validated, errors = record_validator.validate(
+                line_no, headers, record)
+            if not validated:
+                results += [errors]
         return (len(results) == 0), results

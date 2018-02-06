@@ -27,7 +27,19 @@ class TestValidator(unittest.TestCase):
     def setUp(self):
         self.validator = Validator()
 
-    def test_parse(self):
+    def test_parse_empty(self):
         validated, result = self.validator.validate()
+        self.assertEqual(validated, True)
+        self.assertEqual(result, [])
+
+    def test_parse_one(self):
+        records = [{
+            'gemeente': 'Utrecht',
+            'gemeente_code': 'GM0344',
+            'stembureau_nummer': 1,
+            'stembureau_naam': 'Utrecht Centraal'
+        }]
+        with app.app.test_request_context('/'):
+            validated, result = self.validator.validate(records=records)
         self.assertEqual(validated, True)
         self.assertEqual(result, [])
