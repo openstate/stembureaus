@@ -34,12 +34,26 @@ class JSONParser(BaseParser):
 
 class ExcelParser(BaseParser):
     def parse(self, path):
+        headers = []
+        rows = []
         if not os.path.exists(path):
             return [], []
 
         wb = open_workbook(path)
+        # altijd de tweede tab
+        # TODO: checken of alle tabs er in staan
+        sh = wb.sheet_by_index(1)
 
-        return [], []
+        headers = sh.col_values(0)[1:]
+
+        rows = []
+        for col_num in range(5, sh.ncols):
+            rows.append(dict(zip(headers, sh.col_values(col_num)[1:])))
+
+        return headers, [
+            r for r in rows if ''.join([
+                str(x).replace('0', '') for x in r.values()
+            ]).strip() != '']
 
 
 class CSVParser(BaseParser):
@@ -48,7 +62,8 @@ class CSVParser(BaseParser):
 
 class UploadFileParser(BaseParser):
     PARSERS = {
-        '.json': JSONParser
+        '.json': JSONParser,
+        '.xlsx': ExcelParser
     }
 
     def parse(self, path):
