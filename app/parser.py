@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
 
 from xlrd import open_workbook
 
@@ -18,6 +19,19 @@ class BaseParser(object):
         raise NotImplementedError
 
 
+class JSONParser(BaseParser):
+    def parse(self, path):
+        headers = []
+        records = []
+        if not os.path.exists(path):
+            return [], []
+
+        with open(path) as in_file:
+            records = json.load(in_file)
+
+        return headers, records
+
+
 class ExcelParser(BaseParser):
     def parse(self, path):
         if not os.path.exists(path):
@@ -30,3 +44,21 @@ class ExcelParser(BaseParser):
 
 class CSVParser(BaseParser):
     pass
+
+
+class UploadFileParser(BaseParser):
+    PARSERS = {
+        '.json': JSONParser
+    }
+
+    def parse(self, path):
+        headers = []
+        records = []
+        if not os.path.exists(path):
+            return [], []
+        _, extension = os.path.splitext(path)
+        if extension in self.PARSERS.keys():
+            klass = self.PARSERS[extension]
+            parser = klass()
+            headers, records = parser.parse(path)
+        return headers, records

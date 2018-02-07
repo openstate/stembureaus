@@ -1,9 +1,15 @@
+import os
+
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user)
+from werkzeug.utils import secure_filename
+
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, FileUploadForm)
+from app.parser import UploadFileParser
+from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import User, CKAN
 
@@ -89,10 +95,25 @@ def gemeente_verkiezing_overzicht():
 @app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
+    result = None
     form = FileUploadForm()
+
+    if form.validate_on_submit():
+            f = form.data_file.data
+            filename = secure_filename(f.filename)
+            file_path = os.path.join(
+                os.path.abspath(
+                    os.path.join(app.instance_path, '../data-files')),
+                filename)
+            f.save(file_path)
+            parser = UploadFileParser()
+            headers, records = parser.parse(file_path)
+            validator = Validator()
+            result = validator.validate(headers, records)
+
     return render_template(
         'gemeente-stemlokalen-overzicht.html', verkiezing=verkiezing,
-        form=form)
+        form=form, result=result)
 
 
 @app.route("/gemeente-stemlokalen-upload", methods=['GET', 'POST'])
