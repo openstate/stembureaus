@@ -8,6 +8,12 @@
   {{ verkiezing }}
   <br>
   Overzichtspagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.data_file() }}
+    {{ form.submit }}
+  </fom>
+
 {% endblock %}
 {% block scripts %}
   {{ super() }}

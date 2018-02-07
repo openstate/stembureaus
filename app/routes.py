@@ -1,9 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import (
-    UserMixin, login_required, login_user, logout_user, current_user
-)
+    UserMixin, login_required, login_user, logout_user, current_user)
 from app import app, db
-from app.forms import ResetPasswordRequestForm, ResetPasswordForm, LoginForm
+from app.forms import (
+    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, FileUploadForm)
 from app.email import send_password_reset_email
 from app.models import User, CKAN
 
@@ -82,13 +82,17 @@ def gemeente_logout():
 @login_required
 def gemeente_verkiezing_overzicht():
     resource_data = ckanapi.get_resources()
-    return render_template('gemeente-verkiezing-overzicht.html', resource_data=resource_data)
+    return render_template(
+        'gemeente-verkiezing-overzicht.html', resource_data=resource_data)
 
 
 @app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
-    return render_template('gemeente-stemlokalen-overzicht.html', verkiezing=verkiezing)
+    form = FileUploadForm()
+    return render_template(
+        'gemeente-stemlokalen-overzicht.html', verkiezing=verkiezing,
+        form=form)
 
 
 @app.route("/gemeente-stemlokalen-upload", methods=['GET', 'POST'])

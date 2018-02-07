@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, IntegerField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from werkzeug.utils import secure_filename
 
 
 class ResetPasswordRequestForm(FlaskForm):
@@ -28,6 +30,11 @@ class LoginForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
+
+
+class FileUploadForm(FlaskForm):
+    data_file = FileField('Bestand', validators=[FileRequired()])
+    submit = SubmitField('Uploaden')
 
 
 class VotingStationForm(FlaskForm):
