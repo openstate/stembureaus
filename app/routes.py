@@ -10,6 +10,28 @@ from app.email import send_password_reset_email
 from app.models import User, ckan
 
 
+field_order = [
+    'Nummer stembureau',
+    'Naam stembureau',
+    'Gebruikersdoel het gebouw',
+    'Website locatie',
+    'BAG referentienummer',
+    'Extra adresaanduiding',
+    'Longitude',
+    'Latitude',
+    'Districtcode',
+    'Openingstijden',
+    'Mindervaliden toegankelijk',
+    'Invalidenparkeerplaatsen',
+    'Akoestiek',
+    'Mindervalide toilet aanwezig',
+    'Kieskring ID',
+    'Hoofdstembureau',
+    'Contactgegevens',
+    'Beschikbaarheid'
+]
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -77,7 +99,7 @@ def gemeente_logout():
     return redirect(url_for('index'))
 
 
-@app.route("/gemeente-verkiezing-overzicht", methods=['GET', 'POST'])
+@app.route("/gemeente-verkiezing-overzicht")
 @login_required
 def gemeente_verkiezing_overzicht():
     return render_template(
@@ -87,11 +109,11 @@ def gemeente_verkiezing_overzicht():
 
 
 @app.route(
-    "/gemeente-stemlokalen-overzicht/<verkiezing>",
+    "/gemeente-stemlokalen-dashboard/<verkiezing>",
     methods=['GET', 'POST']
 )
 @login_required
-def gemeente_stemlokalen_overzicht(verkiezing):
+def gemeente_stemlokalen_dashboard(verkiezing):
     publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
     )
@@ -109,17 +131,50 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     ]
 
     return render_template(
-        'gemeente-stemlokalen-overzicht.html',
+        'gemeente-stemlokalen-dashboard.html',
         verkiezing=verkiezing,
         total_publish_records=len(publish_records),
         total_draft_records=len(draft_records)
     )
 
 
-@app.route("/gemeente-stemlokalen-edit/<verkiezing>", methods=['GET', 'POST'])
+@app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
 @login_required
-def gemeente_stemlokalen_edit(verkiezing):
-    publish_records = ckan.get_recordsi(
+def gemeente_stemlokalen_overzicht(verkiezing):
+    publish_records = ckan.get_records(
+        ckan.elections[verkiezing]['publish_resource']
+    )
+    draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
+
+    largest_primary_key = 0
+    for record in draft_records['records']:
+        if record['primary_key'] > largest_primary_key:
+            largest_primary_key = record['primary_key']
+
+    publish_records = [
+        record for record in publish_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+    draft_records = [
+        record for record in draft_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+
+    return render_template(
+        'gemeente-stemlokalen-overzicht.html',
+        verkiezing=verkiezing,
+        draft_records=draft_records,
+        field_order=field_order,
+        new_primary_key=largest_primary_key + 1
+    )
+
+
+@app.route("/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>", methods=['GET', 'POST'])
+@login_required
+def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
+    publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
     )
     draft_records = ckan.get_records(
@@ -136,43 +191,68 @@ def gemeente_stemlokalen_edit(verkiezing):
     ]
 
     # Initialize the form with the data already available in the draft
-    init_records = []
+    init_record = {}
     for record in draft_records:
-        init_record = {
-            'cbs_gemeentecode': record['CBS gemeentecode'],
-            'nummer_stembureau': record['Nummer stembureau'],
-            'naam_stembureau': record['Naam stembureau'],
-            'gebruikersdoel_het_gebouw': record['Gebruikersdoel het gebouw'],
-            'website_locatie': record['Website locatie'],
-            'bag_referentienummer': record['BAG referentienummer'],
-            'extra_adresaanduiding': record['Extra adresaanduiding'],
-            'longitude': record['Longitude'],
-            'latitude': record['Latitude'],
-            'districtcode': record['Districtcode'],
-            'openingstijden': record['Openingstijden'],
-            'mindervaliden_toegankelijk': record['Mindervaliden toegankelijk'],
-            'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
-            'akoestiek': record['Akoestiek'],
-            'mindervalide_toilet_aanwezig': record[
-                'Mindervalide toilet aanwezig'
-            ],
-            'kieskring_id': record['Kieskring ID'],
-            'hoofdstembureau': record['Hoofdstembureau'],
-            'contactgegevens': record['Contactgegevens'],
-            'beschikbaarheid': record['Beschikbaarheid']
-        }
-        init_records.append(init_record)
+        if record['primary_key'] == int(stemlokaal_id):
+            init_record = {
+                'nummer_stembureau': record['Nummer stembureau'],
+                'naam_stembureau': record['Naam stembureau'],
+                'gebruikersdoel_het_gebouw': record['Gebruikersdoel het gebouw'],
+                'website_locatie': record['Website locatie'],
+                'bag_referentienummer': record['BAG referentienummer'],
+                'extra_adresaanduiding': record['Extra adresaanduiding'],
+                'longitude': record['Longitude'],
+                'latitude': record['Latitude'],
+                'districtcode': record['Districtcode'],
+                'openingstijden': record['Openingstijden'],
+                'mindervaliden_toegankelijk': record['Mindervaliden toegankelijk'],
+                'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
+                'akoestiek': record['Akoestiek'],
+                'mindervalide_toilet_aanwezig': record[
+                    'Mindervalide toilet aanwezig'
+                ],
+                'kieskring_id': record['Kieskring ID'],
+                'hoofdstembureau': record['Hoofdstembureau'],
+                'contactgegevens': record['Contactgegevens'],
+                'beschikbaarheid': record['Beschikbaarheid']
+            }
 
-    form = EditForm(stembureaus=init_records)
+    form = EditForm(**init_record)
 
     if form.validate_on_submit():
-        pass
+        record = create_record(form, stemlokaal_id, current_user)
+        ckan.save_record(
+            ckan.elections[verkiezing]['draft_resource'],
+            record=record
+        )
+        return redirect(
+            url_for(
+                'gemeente_stemlokalen_overzicht',
+                verkiezing=verkiezing,
+                draft_records=draft_records,
+                field_order=field_order
+            )
+        )
 
     return render_template(
         'gemeente-stemlokalen-edit.html',
         verkiezing=verkiezing,
         form=form
     )
+
+def create_record(form, stemlokaal_id, current_user):
+    record = {
+        'primary_key': stemlokaal_id,
+        'Gemeente': current_user.gemeente_naam,
+        'CBS gemeentecode': current_user.gemeente_code
+    }
+
+    for f in form:
+        if f.type != 'SubmitField' and f.type != 'CSRFTokenField':
+            record[f.label.text] = f.data
+
+    return record
+
 
 if __name__ == "__main__":
     app.run(threaded=True)

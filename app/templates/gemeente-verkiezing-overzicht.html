@@ -8,7 +8,7 @@
   Selecteer verkiezing:
   <br>
   {% for election in elections.keys() %}
-  <a href="{{ url_for('gemeente_stemlokalen_overzicht', verkiezing=election) }}">{{ election }}</a>
+  <a href="{{ url_for('gemeente_stemlokalen_dashboard', verkiezing=election) }}">{{ election }}</a>
   <br>
   {% endfor %}
 {% endblock %}

@@ -33,13 +33,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Inloggen')
 
 
-class EditEntryForm(FlaskForm):
-    cbs_gemeentecode = StringField(
-        'CBS gemeentecode',
-        validators=[
-            DataRequired()
-        ]
-    )
+class EditForm(FlaskForm):
+    submit = SubmitField('Opslaan')
+
     nummer_stembureau = IntegerField(
         'Nummer stembureau',
         validators=[
@@ -133,9 +129,3 @@ class EditEntryForm(FlaskForm):
             URL()
         ]
     )
-
-
-class EditForm(FlaskForm):
-    stembureaus = FieldList(FormField(EditEntryForm), min_entries=1)
-    submit_draft = SubmitField('Bewaar')
-    submit_publish = SubmitField('Publiceer')

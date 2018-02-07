@@ -32,6 +32,10 @@ def maak_nieuwe_datastore(resource_id):
     """
     fields = [
         {
+            "id": "primary_key",
+            "type": "int"
+        },
+        {
             "id": "Gemeente",
             "type": "text"
         },
@@ -164,7 +168,8 @@ def maak_nieuwe_datastore(resource_id):
     ckan.ckanapi.datastore_create(
         resource_id=resource_id,
         force=True,
-        fields=fields
+        fields=fields,
+        primary_key=['primary_key']
     )
 
 
@@ -176,6 +181,7 @@ def upsert_datastore(resource_id):
     """
     records = [
         {
+            "primary_key": 1,
             "Gemeente": "'s-Gravenhage",
             "CBS gemeentecode": "GM0518",
             "Nummer stembureau": "517",
@@ -207,14 +213,15 @@ def upsert_datastore(resource_id):
             "Mindervalide toilet aanwezig": True,
             "Kieskring ID": "'s-Gravenhage",
             "Contactgegevens": "persoonx@denhaag.nl",
-            "Beschikbaarheid": "https://www.stembureausindenhaag.nl/"
+            "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
+            "ID": "NLODSGM0518stembureaus20180321001"
         }
     ]
     ckan.ckanapi.datastore_upsert(
         resource_id=resource_id,
         force=True,
         records=records,
-        method='insert'
+        method='upsert'
     )
 
 

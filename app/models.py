@@ -32,6 +32,14 @@ class CKAN():
     def get_records(self, resource_id):
         return self.ckanapi.datastore_search(resource_id=resource_id)
 
+    def save_record(self, resource_id, record):
+        self.ckanapi.datastore_upsert(
+            resource_id=resource_id,
+            force=True,
+            records=[record],
+            method='upsert'
+        )
+
 
 ckan = CKAN()
 

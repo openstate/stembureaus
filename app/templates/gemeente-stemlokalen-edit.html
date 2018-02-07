@@ -9,9 +9,7 @@
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
   <br>
-  Bewerk hieronder de stembureaus voor: {{ verkiezing }}
-  <br>
-  <br>
+  Bewerk het stembureau.
   <br>
   <br>
 
@@ -27,22 +25,18 @@
 
   <form method="POST" action="">
     {{ form.csrf_token }}
-    {{ form.submit_draft }} {{ form.submit_publish }}
-    <hr>
-    {% for stembureau in form.stembureaus %}
-      {% for f in stembureau %}
-        {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
-          <div>
-            {{ f(size=20) }} {{ f.label }}
-            {% for error in f.errors %}
-              <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-           </div>
-        {% endif %}
-      {% endfor %}
-      <hr>
+    {% for f in form %}
+      {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
+        <div>
+          {{ f(size=20) }} {{ f.label }}
+          {% for error in f.errors %}
+            <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+         </div>
+      {% endif %}
     {% endfor %}
-    {{ form.submit_draft }} {{ form.submit_publish }}
+    <br>
+    {{ form.submit }}
   </form>
 {% endblock %}
 {% block scripts %}
