@@ -19,6 +19,17 @@
   <br>
   <br>
   <br>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  <br>
+  <br>
   <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit', verkiezing=verkiezing, stemlokaal_id=new_primary_key) }}">Voeg nieuw stembureau toe</a>
   <br>
   <table>

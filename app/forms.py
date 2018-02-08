@@ -44,6 +44,8 @@ class FileUploadForm(FlaskForm):
 
 class EditForm(FlaskForm):
     submit = SubmitField('Opslaan')
+    submit_annuleren = SubmitField('Annuleren')
+    submit_verwijderen = SubmitField('Verwijderen')
 
     nummer_stembureau = IntegerField(
         'Nummer stembureau',

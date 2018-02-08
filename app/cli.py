@@ -165,12 +165,7 @@ def maak_nieuwe_datastore(resource_id):
         }
     ]
 
-    ckan.ckanapi.datastore_create(
-        resource_id=resource_id,
-        force=True,
-        fields=fields,
-        primary_key=['primary_key']
-    )
+    ckan.create_datastore(resource_id, fields)
 
 
 @CKAN.command()
@@ -179,49 +174,45 @@ def upsert_datastore(resource_id):
     """
     Insert or update data in de datastore tabel in een resource
     """
-    records = [
-        {
-            "primary_key": 1,
-            "Gemeente": "'s-Gravenhage",
-            "CBS gemeentecode": "GM0518",
-            "Nummer stembureau": "517",
-            "Naam stembureau": "Stadhuis",
-            "Gebruikersdoel het gebouw": "kantoor",
-            "Website locatie": (
-                "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
-                "de-gemeente/stadhuis-den-haag.htm"
-            ),
-            "Wijknaam": "Centrum",
-            "CBS wijknummer": "WK051828",
-            "Buurtnaam": "Kortenbos",
-            "CBS buurtnummer": "BU05182811",
-            "BAG referentienummer": "0518100000275247",
-            "Straatnaam": "Spui",
-            "Huisnummer": 70,
-            "Huisnummertoevoeging": "",
-            "Postcode": "2511 BT",
-            "Plaats": "Den Haag",
-            "Extra adresaanduiding": "",
-            "X": 81611,
-            "Y": 454909,
-            "Longitude": 4.3166395,
-            "Latitude": 52.0775912,
-            "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
-            "Mindervaliden toegankelijk": True,
-            "Invalidenparkeerplaatsen": False,
-            "Akoestiek": True,
-            "Mindervalide toilet aanwezig": True,
-            "Kieskring ID": "'s-Gravenhage",
-            "Contactgegevens": "persoonx@denhaag.nl",
-            "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
-            "ID": "NLODSGM0518stembureaus20180321001"
-        }
-    ]
-    ckan.ckanapi.datastore_upsert(
+    record = {
+        "primary_key": 1,
+        "Gemeente": "'s-Gravenhage",
+        "CBS gemeentecode": "GM0518",
+        "Nummer stembureau": "517",
+        "Naam stembureau": "Stadhuis",
+        "Gebruikersdoel het gebouw": "kantoor",
+        "Website locatie": (
+            "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
+            "de-gemeente/stadhuis-den-haag.htm"
+        ),
+        "Wijknaam": "Centrum",
+        "CBS wijknummer": "WK051828",
+        "Buurtnaam": "Kortenbos",
+        "CBS buurtnummer": "BU05182811",
+        "BAG referentienummer": "0518100000275247",
+        "Straatnaam": "Spui",
+        "Huisnummer": 70,
+        "Huisnummertoevoeging": "",
+        "Postcode": "2511 BT",
+        "Plaats": "Den Haag",
+        "Extra adresaanduiding": "",
+        "X": 81611,
+        "Y": 454909,
+        "Longitude": 4.3166395,
+        "Latitude": 52.0775912,
+        "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
+        "Mindervaliden toegankelijk": True,
+        "Invalidenparkeerplaatsen": False,
+        "Akoestiek": True,
+        "Mindervalide toilet aanwezig": True,
+        "Kieskring ID": "'s-Gravenhage",
+        "Contactgegevens": "persoonx@denhaag.nl",
+        "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
+        "ID": "NLODSGM0518stembureaus20180321001"
+    }
+    ckan.save_record(
         resource_id=resource_id,
-        force=True,
-        records=records,
-        method='upsert'
+        record=record
     )
 
 
@@ -231,10 +222,7 @@ def verwijder_datastore(resource_id):
     """
     Verwijder een datastore tabel in een resource
     """
-    ckan.ckanapi.datastore_delete(
-        resource_id=resource_id,
-        force=True
-    )
+    ckan.delete_datastore(resource_id)
 
 
 # Gemeenten

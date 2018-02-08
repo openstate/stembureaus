@@ -189,12 +189,43 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
 
     form = EditForm(**init_record)
 
+    # When the user clicked the 'Annuleren' button go back to the
+    # overzicht page without doing anything
+    if form.submit_annuleren.data:
+        flash('Bewerking geannuleerd')
+        return redirect(
+            url_for(
+                'gemeente_stemlokalen_overzicht',
+                verkiezing=verkiezing,
+                draft_records=draft_records,
+                field_order=field_order
+            )
+        )
+
+    # When the user clicked the 'Verwijderen' button delete the
+    # stembureau
+    if form.submit_verwijderen.data:
+        ckan.delete_record(
+            ckan.elections[verkiezing]['draft_resource'],
+            stemlokaal_id
+        )
+        flash('Stembureau verwijderd')
+        return redirect(
+            url_for(
+                'gemeente_stemlokalen_overzicht',
+                verkiezing=verkiezing,
+                draft_records=draft_records,
+                field_order=field_order
+            )
+        )
+
     if form.validate_on_submit():
         record = create_record(form, stemlokaal_id, current_user)
         ckan.save_record(
             ckan.elections[verkiezing]['draft_resource'],
             record=record
         )
+        flash('Stembureau opgeslagen')
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
