@@ -19,6 +19,20 @@ class CKAN():
         self.elections = app.config['CKAN_CURRENT_ELECTIONS']
         self.resources_metadata = self._get_resources_metadata()
 
+    def create_datastore(self, resource_id, fields):
+        self.ckanapi.datastore_create(
+            resource_id=resource_id,
+            force=True,
+            fields=fields,
+            primary_key=['primary_key']
+        )
+
+    def delete_datastore(self, resource_id):
+        self.ckanapi.datastore_delete(
+            resource_id=resource_id,
+            force=True
+        )
+
     def _get_resources_metadata(self):
         resources_metadata = {}
         for election_key, election_value in self.elections.items():
