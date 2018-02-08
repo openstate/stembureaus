@@ -71,10 +71,6 @@ class CKAN():
             {'CBS gemeentecode': draft_records[0]['CBS gemeentecode']}
         )
 
-        # Remove '_id' as CKAN doesn't accept this field in upsert
-        for record in draft_records:
-            del record['_id']
-
         self.save_records(election['publish_resource'], draft_records)
 
 
