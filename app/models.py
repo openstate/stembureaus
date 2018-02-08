@@ -46,20 +46,36 @@ class CKAN():
     def get_records(self, resource_id):
         return self.ckanapi.datastore_search(resource_id=resource_id)
 
-    def save_record(self, resource_id, record):
+    def save_records(self, resource_id, records):
         self.ckanapi.datastore_upsert(
             resource_id=resource_id,
             force=True,
-            records=[record],
+            records=records,
             method='upsert'
         )
 
-    def delete_record(self, resource_id, stemlokaal_id):
+    def delete_records(self, resource_id, filters):
         self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,
-            filters={'primary_key': stemlokaal_id}
+            filters=filters
         )
+
+    # First delete all records in the publish_resource for the current
+    # gemeente, then upsert all draft_records of the current gemeenten
+    # to the publish_resource
+    def publish(self, verkiezing, draft_records):
+        election = self.elections[verkiezing]
+        self.delete_records(
+            election['publish_resource'],
+            {'CBS gemeentecode': draft_records[0]['CBS gemeentecode']}
+        )
+
+        # Remove '_id' as CKAN doesn't accept this field in upsert
+        for record in draft_records:
+            del record['_id']
+
+        self.save_records(election['publish_resource'], draft_records)
 
 
 ckan = CKAN()

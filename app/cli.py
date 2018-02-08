@@ -210,9 +210,9 @@ def upsert_datastore(resource_id):
         "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
         "ID": "NLODSGM0518stembureaus20180321001"
     }
-    ckan.save_record(
+    ckan.save_records(
         resource_id=resource_id,
-        record=record
+        records=[record]
     )
 
 

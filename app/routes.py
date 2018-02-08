@@ -4,7 +4,8 @@ from flask_login import (
 )
 from app import app, db
 from app.forms import (
-    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm
+    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    PubliceerForm
 )
 from app.email import send_password_reset_email
 from app.models import User, ckan
@@ -148,6 +149,8 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         ckan.elections[verkiezing]['draft_resource']
     )
 
+    # Find the current largest primary_key value in order to create a
+    # new primary_key value when the user wants to add a new stembureau
     largest_primary_key = 0
     for record in draft_records['records']:
         if record['primary_key'] > largest_primary_key:
@@ -162,11 +165,21 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
+    form = PubliceerForm()
+
+    if form.validate_on_submit():
+        if form.submit.data:
+            ckan.publish(
+                verkiezing, draft_records
+            )
+            flash('Stembureaus gepubliceerd')
+
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing=verkiezing,
         draft_records=draft_records,
         field_order=field_order,
+        form=form,
         new_primary_key=largest_primary_key + 1
     )
 
@@ -226,42 +239,36 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
     # When the user clicked the 'Verwijderen' button delete the
-    # stembureau
+    # stembureau from the draft_resource
     if form.submit_verwijderen.data:
-        ckan.delete_record(
+        ckan.delete_records(
             ckan.elections[verkiezing]['draft_resource'],
-            stemlokaal_id
+            {'primary_key': stemlokaal_id}
         )
         flash('Stembureau verwijderd')
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
     if form.validate_on_submit():
-        record = create_record(form, stemlokaal_id, current_user)
-        ckan.save_record(
+        record = _create_record(form, stemlokaal_id, current_user)
+        ckan.save_records(
             ckan.elections[verkiezing]['draft_resource'],
-            record=record
+            records=[record]
         )
         flash('Stembureau opgeslagen')
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
@@ -271,7 +278,7 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         form=form
     )
 
-def create_record(form, stemlokaal_id, current_user):
+def _create_record(form, stemlokaal_id, current_user):
     record = {
         'primary_key': stemlokaal_id,
         'Gemeente': current_user.gemeente_naam,
