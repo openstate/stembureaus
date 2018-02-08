@@ -40,6 +40,13 @@ class CKAN():
             method='upsert'
         )
 
+    def delete_record(self, resource_id, stemlokaal_id):
+        self.ckanapi.datastore_delete(
+            resource_id=resource_id,
+            force=True,
+            filters={'primary_key': stemlokaal_id}
+        )
+
 
 ckan = CKAN()
 
