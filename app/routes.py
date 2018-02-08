@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 from app import app, db
 from app.forms import (
-    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm)
+    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm, FileUploadForm)
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
@@ -106,9 +106,40 @@ def gemeente_logout():
 @app.route("/gemeente-verkiezing-overzicht")
 @login_required
 def gemeente_verkiezing_overzicht():
-    resource_data = ckan.get_resources()
     return render_template(
-        'gemeente-verkiezing-overzicht.html', resource_data=resource_data)
+        'gemeente-verkiezing-overzicht.html',
+        elections=ckan.elections
+    )
+
+
+@app.route(
+    "/gemeente-stemlokalen-dashboard/<verkiezing>",
+    methods=['GET', 'POST']
+)
+@login_required
+def gemeente_stemlokalen_dashboard(verkiezing):
+    publish_records = ckan.get_records(
+        ckan.elections[verkiezing]['publish_resource']
+    )
+    draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
+
+    publish_records = [
+        record for record in publish_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+    draft_records = [
+        record for record in draft_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+
+    return render_template(
+        'gemeente-stemlokalen-dashboard.html',
+        verkiezing=verkiezing,
+        total_publish_records=len(publish_records),
+        total_draft_records=len(draft_records)
+    )
 
 
 @app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
@@ -185,7 +216,7 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
     for record in draft_records:
         if record['primary_key'] == int(stemlokaal_id):
             init_record = Record(
-                **{k.lower(): v for k, v in record.iteritems()}).record
+                **{k.lower(): v for k, v in record.items()}).record
 
     form = EditForm(**init_record)
 

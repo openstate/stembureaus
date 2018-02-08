@@ -33,6 +33,12 @@ class JSONParser(BaseParser):
 
 
 class ExcelParser(BaseParser):
+    def _has_correct_sheet_count(self, wb):
+        return (wb.nsheets == 3) or (wb.nsheets == 1)
+
+    def _get_headers(self, sh):
+        return [x.lower() for x in sh.col_values(0)[1:]]
+
     def parse(self, path):
         headers = []
         rows = []
@@ -40,11 +46,21 @@ class ExcelParser(BaseParser):
             return [], []
 
         wb = open_workbook(path)
-        # altijd de tweede tab
-        # TODO: checken of alle tabs er in staan
-        sh = wb.sheet_by_index(1)
 
-        headers = sh.col_values(0)[1:]
+        # moet 1 of 3 sheets hebben anders is het niet goed
+        if not self._has_correct_sheet_count(wb):
+            return [], []
+
+        # TODO: checken of alle tabs er in staan
+
+        # als we 1 tab hebben dan de eerste, anders de tweede
+        if wb.nsheets == 1:
+            nsh = 0
+        else:
+            nsh = 1
+        sh = wb.sheet_by_index(nsh)
+
+        headers = self._get_headers(sh)
 
         rows = []
         for col_num in range(5, sh.ncols):
