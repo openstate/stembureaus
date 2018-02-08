@@ -7,25 +7,47 @@ import jwt
 
 
 class CKAN():
-    ua = 'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
-    ckan = RemoteCKAN(
-        'https://acc-ckan.dataplatform.nl',
-        apikey=app.config['CKAN_API_KEY'],
-        user_agent=ua
-    )
+    def __init__(self):
+        self.ua = (
+            'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
+        )
+        self.ckanapi = RemoteCKAN(
+            'https://acc-ckan.dataplatform.nl',
+            apikey=app.config['CKAN_API_KEY'],
+            user_agent=self.ua
+        ).action
+        self.elections = app.config['CKAN_CURRENT_ELECTIONS']
+        self.resources_metadata = self._get_resources_metadata()
 
-    def get_resources(self):
-        resources = app.config['CKAN_PUBLISH_RESOURCE_IDS']
-        resource_data = {}
-        for resource in resources:
-            resource_metadata = self.ckan.action.resource_show(id=resource)
-            resource_data[resource] = resource_metadata['name']
-        return resource_data
+    def _get_resources_metadata(self):
+        resources_metadata = {}
+        for election_key, election_value in self.elections.items():
+            resources_metadata[election_key] = {}
+            for resource_key, resource_value in election_value.items():
+                resources_metadata[election_key][resource_key] = (
+                    self.ckanapi.resource_show(id=resource_value)
+                )
+        return resources_metadata
+
+    def get_records(self, resource_id):
+        return self.ckanapi.datastore_search(resource_id=resource_id)
+
+    def save_record(self, resource_id, record):
+        self.ckanapi.datastore_upsert(
+            resource_id=resource_id,
+            force=True,
+            records=[record],
+            method='upsert'
+        )
+
+
+ckan = CKAN()
 
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    gemeente = db.Column(db.String(120), index=True, unique=True)
+    gemeente_naam = db.Column(db.String(120), index=True, unique=True)
+    gemeente_code = db.Column(db.String(6), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 

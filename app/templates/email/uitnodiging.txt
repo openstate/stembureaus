@@ -1,4 +1,4 @@
-Beste medewerker van de gemeente {{ user.gemeente }},
+Beste medewerker van de gemeente {{ user.gemeente_naam }},
 
 Bij dezen nodigen wij u graag uit om deel te nemem.... etc. etc. etc.
 

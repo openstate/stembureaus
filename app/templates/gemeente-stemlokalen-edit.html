@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block menu %}
+  <li><a href="/gemeente-logout">Uitloggen</a></li>
+{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
+  <br>
+  <br>
+  Bewerk het stembureau.
+  <br>
+  <br>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="">
+    {{ form.csrf_token }}
+    {% for f in form %}
+      {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
+        <div>
+          {{ f(size=20) }} {{ f.label }}
+          {% for error in f.errors %}
+            <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+         </div>
+      {% endif %}
+    {% endfor %}
+    <br>
+    {{ form.submit }}
+  </form>
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+{% endblock %}

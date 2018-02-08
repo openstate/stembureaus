@@ -1,28 +1,40 @@
 from app import app, db
-from app.models import User, CKAN
+from app.models import User, ckan
 from app.email import send_invite
+from pprint import pprint
 import click
 import csv
 import os
 
 
-ckanapi = CKAN()
-
-
-# CKAN
+# CKAN (use uppercase to avoid conflict with 'ckan' import from
+# app.models)
 @app.cli.group()
-def ckan():
+def CKAN():
     """ckan commands"""
     pass
 
 
-@ckan.command()
+@CKAN.command()
+def toon_verkiezingen():
+    """
+    Toon alle huidige verkiezingen en de bijbehornde public en draft
+    resources
+    """
+    pprint(ckan.elections)
+
+
+@CKAN.command()
 @click.argument('resource_id')
 def maak_nieuwe_datastore(resource_id):
     """
     Maak een nieuwe datastore tabel in een resource
     """
     fields = [
+        {
+            "id": "primary_key",
+            "type": "int"
+        },
         {
             "id": "Gemeente",
             "type": "text"
@@ -108,6 +120,10 @@ def maak_nieuwe_datastore(resource_id):
             "type": "float"
         },
         {
+            "id": "Districtcode",
+            "type": "text"
+        },
+        {
             "id": "Openingstijden",
             "type": "text"
         },
@@ -132,23 +148,32 @@ def maak_nieuwe_datastore(resource_id):
             "type": "text"
         },
         {
+            "id": "Hoofdstembureau",
+            "type": "text"
+        },
+        {
             "id": "Contactgegevens",
             "type": "text"
         },
         {
             "id": "Beschikbaarheid",
             "type": "text"
+        },
+        {
+            "id": "ID",
+            "type": "text"
         }
     ]
 
-    ckanapi.action.datastore_create(
+    ckan.ckanapi.datastore_create(
         resource_id=resource_id,
         force=True,
-        fields=fields
+        fields=fields,
+        primary_key=['primary_key']
     )
 
 
-@ckan.command()
+@CKAN.command()
 @click.argument('resource_id')
 def upsert_datastore(resource_id):
     """
@@ -156,52 +181,57 @@ def upsert_datastore(resource_id):
     """
     records = [
         {
-          "Gemeente": "'s-Gravenhage",
-          "CBS gemeentecode": "GM0518",
-          "Nummer stembureau": "517",
-          "Naam stembureau": "Stadhuis",
-          "Gebruikersdoel het gebouw": "kantoor",
-          "Website locatie": "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm",
-          "Wijknaam": "Centrum",
-          "CBS wijknummer": "WK051828",
-          "Buurtnaam": "Kortenbos",
-          "CBS buurtnummer": "BU05182811",
-          "BAG referentienummer": "0518100000275247",
-          "Straatnaam": "Spui",
-          "Huisnummer": 70,
-          "Huisnummertoevoeging": "",
-          "Postcode": "2511 BT",
-          "Plaats": "Den Haag",
-          "Extra adresaanduiding": "",
-          "X": 81611,
-          "Y": 454909,
-          "Longitude": 4.3166395,
-          "Latitude": 52.0775912,
-          "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
-          "Mindervaliden toegankelijk": True,
-          "Invalidenparkeerplaatsen": False,
-          "Akoestiek": True,
-          "Mindervalide toilet aanwezig": True,
-          "Kieskring ID": "'s-Gravenhage",
-          "Contactgegevens": "persoonx@denhaag.nl",
-          "Beschikbaarheid": "https://www.stembureausindenhaag.nl/"
+            "primary_key": 1,
+            "Gemeente": "'s-Gravenhage",
+            "CBS gemeentecode": "GM0518",
+            "Nummer stembureau": "517",
+            "Naam stembureau": "Stadhuis",
+            "Gebruikersdoel het gebouw": "kantoor",
+            "Website locatie": (
+                "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
+                "de-gemeente/stadhuis-den-haag.htm"
+            ),
+            "Wijknaam": "Centrum",
+            "CBS wijknummer": "WK051828",
+            "Buurtnaam": "Kortenbos",
+            "CBS buurtnummer": "BU05182811",
+            "BAG referentienummer": "0518100000275247",
+            "Straatnaam": "Spui",
+            "Huisnummer": 70,
+            "Huisnummertoevoeging": "",
+            "Postcode": "2511 BT",
+            "Plaats": "Den Haag",
+            "Extra adresaanduiding": "",
+            "X": 81611,
+            "Y": 454909,
+            "Longitude": 4.3166395,
+            "Latitude": 52.0775912,
+            "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
+            "Mindervaliden toegankelijk": True,
+            "Invalidenparkeerplaatsen": False,
+            "Akoestiek": True,
+            "Mindervalide toilet aanwezig": True,
+            "Kieskring ID": "'s-Gravenhage",
+            "Contactgegevens": "persoonx@denhaag.nl",
+            "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
+            "ID": "NLODSGM0518stembureaus20180321001"
         }
     ]
-    ckanapi.action.datastore_upsert(
+    ckan.ckanapi.datastore_upsert(
         resource_id=resource_id,
         force=True,
         records=records,
-        method='insert'
+        method='upsert'
     )
 
 
-@ckan.command()
+@CKAN.command()
 @click.argument('resource_id')
 def verwijder_datastore(resource_id):
     """
     Verwijder een datastore tabel in een resource
     """
-    ckanapi.action.datastore_delete(
+    ckan.ckanapi.datastore_delete(
         resource_id=resource_id,
         force=True
     )
@@ -220,7 +250,11 @@ def toon_alle_gemeenten():
     Toon alle gemeenten in de database
     """
     for user in User.query.all():
-        print('"%s","%s"' % (user.gemeente, user.email))
+        print(
+            '"%s","%s","%s"' % (
+                user.gemeente_naam, user.gemeente_code, user.email
+            )
+        )
 
 
 @gemeenten.command()
@@ -266,7 +300,11 @@ def eenmalig_gemeenten_aanmaken():
         reader = csv.DictReader(IN)
         total_created = 0
         for row in reader:
-            user = User(gemeente=row['gemeente'], email=row['email'])
+            user = User(
+                gemeente_naam=row['gemeente_naam'],
+                gemeente_code=row['gemeente_code'],
+                email=row['email']
+            )
             user.set_password(os.urandom(24))
             db.session.add(user)
             total_created += 1
