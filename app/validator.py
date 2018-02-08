@@ -3,7 +3,7 @@
 
 from werkzeug.datastructures import MultiDict
 
-from app.forms import VotingStationForm
+from app.forms import EditForm
 import app
 
 
@@ -18,7 +18,7 @@ class RecordValidator(object):
         """
         old_val = app.app.config.get('WTF_CSRF_ENABLED', True)
         app.app.config['WTF_CSRF_ENABLED'] = False
-        form = VotingStationForm(MultiDict(record))
+        form = EditForm(MultiDict(record))
         result = form.validate()
         errors = form.errors
         app.app.config['WTF_CSRF_ENABLED'] = old_val
