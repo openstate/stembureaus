@@ -11,7 +11,7 @@ from app.forms import (
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import User, ckan
+from app.models import User, ckan, Record
 
 
 field_order = [
@@ -106,7 +106,7 @@ def gemeente_logout():
 @app.route("/gemeente-verkiezing-overzicht")
 @login_required
 def gemeente_verkiezing_overzicht():
-    resource_data = ckanapi.get_resources()
+    resource_data = ckan.get_resources()
     return render_template(
         'gemeente-verkiezing-overzicht.html', resource_data=resource_data)
 
@@ -184,28 +184,8 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
     init_record = {}
     for record in draft_records:
         if record['primary_key'] == int(stemlokaal_id):
-            init_record = {
-                'nummer_stembureau': record['Nummer stembureau'],
-                'naam_stembureau': record['Naam stembureau'],
-                'gebruikersdoel_het_gebouw': record['Gebruikersdoel het gebouw'],
-                'website_locatie': record['Website locatie'],
-                'bag_referentienummer': record['BAG referentienummer'],
-                'extra_adresaanduiding': record['Extra adresaanduiding'],
-                'longitude': record['Longitude'],
-                'latitude': record['Latitude'],
-                'districtcode': record['Districtcode'],
-                'openingstijden': record['Openingstijden'],
-                'mindervaliden_toegankelijk': record['Mindervaliden toegankelijk'],
-                'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
-                'akoestiek': record['Akoestiek'],
-                'mindervalide_toilet_aanwezig': record[
-                    'Mindervalide toilet aanwezig'
-                ],
-                'kieskring_id': record['Kieskring ID'],
-                'hoofdstembureau': record['Hoofdstembureau'],
-                'contactgegevens': record['Contactgegevens'],
-                'beschikbaarheid': record['Beschikbaarheid']
-            }
+            init_record = Record(
+                **{k.lower(): v for k, v in record.iteritems()}).record
 
     form = EditForm(**init_record)
 
