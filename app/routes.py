@@ -139,7 +139,9 @@ def gemeente_stemlokalen_dashboard(verkiezing):
     )
 
 
-@app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
+@app.route(
+    "/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST']
+)
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
     draft_records = ckan.get_records(
@@ -195,7 +197,10 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     )
 
 
-@app.route("/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>", methods=['GET', 'POST'])
+@app.route(
+    "/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>",
+    methods=['GET', 'POST']
+)
 @login_required
 def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
     draft_records = ckan.get_records(
@@ -214,7 +219,9 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
             init_record = {
                 'nummer_stembureau': record['Nummer stembureau'],
                 'naam_stembureau': record['Naam stembureau'],
-                'gebruikersdoel_het_gebouw': record['Gebruikersdoel het gebouw'],
+                'gebruikersdoel_het_gebouw': record[
+                    'Gebruikersdoel het gebouw'
+                ],
                 'website_locatie': record['Website locatie'],
                 'bag_referentienummer': record['BAG referentienummer'],
                 'extra_adresaanduiding': record['Extra adresaanduiding'],
@@ -222,7 +229,9 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
                 'latitude': record['Latitude'],
                 'districtcode': record['Districtcode'],
                 'openingstijden': record['Openingstijden'],
-                'mindervaliden_toegankelijk': record['Mindervaliden toegankelijk'],
+                'mindervaliden_toegankelijk': record[
+                    'Mindervaliden toegankelijk'
+                ],
                 'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
                 'akoestiek': record['Akoestiek'],
                 'mindervalide_toilet_aanwezig': record[
@@ -282,6 +291,7 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         form=form
     )
 
+
 def _create_record(form, stemlokaal_id, current_user):
     record = {
         'primary_key': stemlokaal_id,
@@ -294,6 +304,7 @@ def _create_record(form, stemlokaal_id, current_user):
             record[f.label.text] = f.data
 
     return record
+
 
 # Remove '_id' as CKAN doesn't accept this field in upsert when we
 # want to publish and '_id' is almost never the same in
