@@ -42,6 +42,10 @@ class FileUploadForm(FlaskForm):
     submit = SubmitField('Uploaden')
 
 
+class PubliceerForm(FlaskForm):
+    submit = SubmitField('Publiceer')
+
+
 class EditForm(FlaskForm):
     submit = SubmitField('Opslaan')
     submit_annuleren = SubmitField('Annuleren')

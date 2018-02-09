@@ -31,6 +31,17 @@
   <br>
   <br>
   <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit', verkiezing=verkiezing, stemlokaal_id=new_primary_key) }}">Voeg nieuw stembureau toe</a>
+  <form method="POST" action="">
+    {{ form.csrf_token }}
+  {% if show_form %}
+    {{ form.submit }} (de (aangepaste) stembureaus in dit overzicht zijn nog niet gepubliceerd)
+  {% else %}
+    {{ form.submit(disabled=True) }} (de stembureaus zijn gepubliceerd)
+  {% endif %}
+  </form>
+  <form method="POST" action="">
+    {{ form.csrf_token }}
+  </form>
   <br>
   <table>
     <tr>

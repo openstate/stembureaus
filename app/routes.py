@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 
 from app import app, db
 from app.forms import (
-    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm, FileUploadForm)
+    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    FileUploadForm, PubliceerForm)
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
@@ -142,7 +143,9 @@ def gemeente_stemlokalen_dashboard(verkiezing):
     )
 
 
-@app.route("/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST'])
+@app.route(
+    "/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST']
+)
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
     result = None
@@ -168,19 +171,43 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         ckan.elections[verkiezing]['draft_resource']
     )
 
+    # Find the current largest primary_key value in order to create a
+    # new primary_key value when the user wants to add a new stembureau
     largest_primary_key = 0
     for record in draft_records['records']:
         if record['primary_key'] > largest_primary_key:
             largest_primary_key = record['primary_key']
 
-    publish_records = [
-        record for record in publish_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
-    ]
     draft_records = [
         record for record in draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
+
+    _remove_id(draft_records)
+
+    form = PubliceerForm()
+
+    if form.validate_on_submit():
+        if form.submit.data:
+            ckan.publish(
+                verkiezing, draft_records
+            )
+            flash('Stembureaus gepubliceerd')
+
+    publish_records = ckan.get_records(
+        ckan.elections[verkiezing]['publish_resource']
+    )
+    publish_records = [
+        record for record in publish_records['records']
+        if record['CBS gemeentecode'] == current_user.gemeente_code
+    ]
+    _remove_id(publish_records)
+
+    # Check whether draft_records differs from publish_records in order
+    # to disable or enable the 'Publiceer' button
+    show_form = False
+    if draft_records != publish_records:
+        show_form = True
 
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
@@ -188,24 +215,21 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         draft_records=draft_records,
         field_order=field_order,
         new_primary_key=largest_primary_key + 1,
+        show_form=show_form,
         form=form,
         result=result)
 
 
-@app.route("/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>", methods=['GET', 'POST'])
+@app.route(
+    "/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>",
+    methods=['GET', 'POST']
+)
 @login_required
 def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
-    publish_records = ckan.get_records(
-        ckan.elections[verkiezing]['publish_resource']
-    )
     draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
 
-    publish_records = [
-        record for record in publish_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
-    ]
     draft_records = [
         record for record in draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
@@ -227,42 +251,36 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
     # When the user clicked the 'Verwijderen' button delete the
-    # stembureau
+    # stembureau from the draft_resource
     if form.submit_verwijderen.data:
-        ckan.delete_record(
+        ckan.delete_records(
             ckan.elections[verkiezing]['draft_resource'],
-            stemlokaal_id
+            {'primary_key': stemlokaal_id}
         )
         flash('Stembureau verwijderd')
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
     if form.validate_on_submit():
-        record = create_record(form, stemlokaal_id, current_user)
-        ckan.save_record(
+        record = _create_record(form, stemlokaal_id, current_user)
+        ckan.save_records(
             ckan.elections[verkiezing]['draft_resource'],
-            record=record
+            records=[record]
         )
         flash('Stembureau opgeslagen')
         return redirect(
             url_for(
                 'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing,
-                draft_records=draft_records,
-                field_order=field_order
+                verkiezing=verkiezing
             )
         )
 
@@ -272,7 +290,8 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         form=form
     )
 
-def create_record(form, stemlokaal_id, current_user):
+
+def _create_record(form, stemlokaal_id, current_user):
     record = {
         'primary_key': stemlokaal_id,
         'Gemeente': current_user.gemeente_naam,
@@ -284,6 +303,15 @@ def create_record(form, stemlokaal_id, current_user):
             record[f.label.text] = f.data
 
     return record
+
+
+# Remove '_id' as CKAN doesn't accept this field in upsert when we
+# want to publish and '_id' is almost never the same in
+# publish_records and draft_records so we need to remove it in order
+# to compare them
+def _remove_id(records):
+    for record in records:
+        del record['_id']
 
 
 if __name__ == "__main__":
