@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms.validators import DataRequired, Email, EqualTo, Length, URL
 from wtforms import (
     BooleanField, StringField, IntegerField, FloatField, PasswordField,
     SubmitField, FormField, FieldList
 )
-from wtforms.validators import DataRequired, Email, EqualTo, Length, URL
 
 
 class ResetPasswordRequestForm(FlaskForm):
@@ -31,6 +32,14 @@ class LoginForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
+
+
+class FileUploadForm(FlaskForm):
+    data_file = FileField('Bestand', validators=[
+        FileRequired(), FileAllowed(
+            ['json', 'csv', 'xls', 'xlsx', 'ods'],
+            'Alleen Excel of Open Office bestanden zijn toegestaan.')])
+    submit = SubmitField('Uploaden')
 
 
 class PubliceerForm(FlaskForm):

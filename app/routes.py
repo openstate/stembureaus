@@ -1,14 +1,18 @@
+import os
+
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import (
-    UserMixin, login_required, login_user, logout_user, current_user
-)
+    UserMixin, login_required, login_user, logout_user, current_user)
+from werkzeug.utils import secure_filename
+
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    PubliceerForm
-)
+    FileUploadForm, PubliceerForm)
+from app.parser import UploadFileParser
+from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import User, ckan
+from app.models import User, ckan, Record
 from math import ceil
 
 
@@ -145,6 +149,22 @@ def gemeente_stemlokalen_dashboard(verkiezing):
 )
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
+    result = None
+    form = FileUploadForm()
+
+    if form.validate_on_submit():
+            f = form.data_file.data
+            filename = secure_filename(f.filename)
+            file_path = os.path.join(
+                os.path.abspath(
+                    os.path.join(app.instance_path, '../data-files')),
+                filename)
+            f.save(file_path)
+            parser = UploadFileParser()
+            headers, records = parser.parse(file_path)
+            validator = Validator()
+            result = validator.validate(headers, records)
+
     all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
@@ -228,7 +248,6 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         verkiezing=verkiezing,
         draft_records=paged_draft_records,
         field_order=field_order,
-        form=form,
         show_form=show_form,
         new_primary_key=largest_primary_key + 1,
         page=page,
@@ -236,8 +255,9 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         end_record=end_record,
         total_records=len(gemeente_draft_records),
         previous_url=previous_url,
-        next_url=next_url
-    )
+        next_url=next_url,
+        form=form,
+        result=result)
 
 
 @app.route(
@@ -259,32 +279,8 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
     init_record = {}
     for record in gemeente_draft_records:
         if record['primary_key'] == int(stemlokaal_id):
-            init_record = {
-                'nummer_stembureau': record['Nummer stembureau'],
-                'naam_stembureau': record['Naam stembureau'],
-                'gebruikersdoel_het_gebouw': record[
-                    'Gebruikersdoel het gebouw'
-                ],
-                'website_locatie': record['Website locatie'],
-                'bag_referentienummer': record['BAG referentienummer'],
-                'extra_adresaanduiding': record['Extra adresaanduiding'],
-                'longitude': record['Longitude'],
-                'latitude': record['Latitude'],
-                'districtcode': record['Districtcode'],
-                'openingstijden': record['Openingstijden'],
-                'mindervaliden_toegankelijk': record[
-                    'Mindervaliden toegankelijk'
-                ],
-                'invalidenparkeerplaatsen': record['Invalidenparkeerplaatsen'],
-                'akoestiek': record['Akoestiek'],
-                'mindervalide_toilet_aanwezig': record[
-                    'Mindervalide toilet aanwezig'
-                ],
-                'kieskring_id': record['Kieskring ID'],
-                'hoofdstembureau': record['Hoofdstembureau'],
-                'contactgegevens': record['Contactgegevens'],
-                'beschikbaarheid': record['Beschikbaarheid']
-            }
+            init_record = Record(
+                **{k.lower(): v for k, v in record.items()}).record
 
     form = EditForm(**init_record)
 

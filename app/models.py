@@ -77,6 +77,40 @@ class CKAN():
 ckan = CKAN()
 
 
+class Record(object):
+    def __init__(self, *args, **kwargs):
+        self.record = {}
+        self.populate(kwargs)
+
+    def populate(self, record):
+        try:
+            bag_ref = record['bag referentienummer']
+        except KeyError:
+            bag_ref = record['bag referentie nummer']
+        self.record = {
+            'nummer_stembureau': record['nummer stembureau'],
+            'naam_stembureau': record['naam stembureau'],
+            'gebruikersdoel_het_gebouw': record['gebruikersdoel het gebouw'],
+            'website_locatie': record['website locatie'],
+            'bag_referentienummer': bag_ref,
+            'extra_adresaanduiding': record['extra adresaanduiding'],
+            'longitude': record['longitude'],
+            'latitude': record['latitude'],
+            'districtcode': record['districtcode'],
+            'openingstijden': record['openingstijden'],
+            'mindervaliden_toegankelijk': record['mindervaliden toegankelijk'],
+            'invalidenparkeerplaatsen': record['invalidenparkeerplaatsen'],
+            'akoestiek': record['akoestiek'],
+            'mindervalide_toilet_aanwezig': record[
+                'mindervalide toilet aanwezig'],
+            'kieskring_id': record['kieskring id'],
+            'hoofdstembureau': record['hoofdstembureau'],
+            'contactgegevens': record['contactgegevens'],
+            'beschikbaarheid': record['beschikbaarheid']
+        }
+
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gemeente_naam = db.Column(db.String(120), index=True, unique=True)
