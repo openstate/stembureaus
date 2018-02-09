@@ -9,6 +9,7 @@ from app.forms import (
 )
 from app.email import send_password_reset_email
 from app.models import User, ckan
+from math import ceil
 
 
 field_order = [
@@ -115,27 +116,27 @@ def gemeente_verkiezing_overzicht():
 )
 @login_required
 def gemeente_stemlokalen_dashboard(verkiezing):
-    publish_records = ckan.get_records(
+    all_publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
     )
-    draft_records = ckan.get_records(
+    all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
 
-    publish_records = [
-        record for record in publish_records['records']
+    gemeente_publish_records = [
+        record for record in all_publish_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
-    draft_records = [
-        record for record in draft_records['records']
+    gemeente_draft_records = [
+        record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing=verkiezing,
-        total_publish_records=len(publish_records),
-        total_draft_records=len(draft_records)
+        total_publish_records=len(gemeente_publish_records),
+        total_draft_records=len(gemeente_draft_records)
     )
 
 
@@ -144,56 +145,98 @@ def gemeente_stemlokalen_dashboard(verkiezing):
 )
 @login_required
 def gemeente_stemlokalen_overzicht(verkiezing):
-    draft_records = ckan.get_records(
+    all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
 
     # Find the current largest primary_key value in order to create a
     # new primary_key value when the user wants to add a new stembureau
     largest_primary_key = 0
-    for record in draft_records['records']:
+    for record in all_draft_records['records']:
         if record['primary_key'] > largest_primary_key:
             largest_primary_key = record['primary_key']
 
-    draft_records = [
-        record for record in draft_records['records']
+    gemeente_draft_records = [
+        record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
-    _remove_id(draft_records)
+    _remove_id(gemeente_draft_records)
 
     form = PubliceerForm()
 
     if form.validate_on_submit():
         if form.submit.data:
             ckan.publish(
-                verkiezing, draft_records
+                verkiezing, gemeente_draft_records
             )
             flash('Stembureaus gepubliceerd')
 
-    publish_records = ckan.get_records(
+    all_publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
     )
-    publish_records = [
-        record for record in publish_records['records']
+    gemeente_publish_records = [
+        record for record in all_publish_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
-    _remove_id(publish_records)
+    _remove_id(gemeente_publish_records)
 
-    # Check whether draft_records differs from publish_records in order
-    # to disable or enable the 'Publiceer' button
+    # Check whether gemeente_draft_records differs from
+    # gemeente_publish_records in order to disable or enable the 'Publiceer'
+    # button
     show_form = False
-    if draft_records != publish_records:
+    if gemeente_draft_records != gemeente_publish_records:
         show_form = True
+
+    # Pagination
+    posts_per_page = app.config['POSTS_PER_PAGE']
+    page = request.args.get('page', 1, type=int)
+
+    # Use page 1 if a page lower than 1 is requested
+    if page < 1:
+        page = 1
+
+    # If the user requests a page larger than the largest page for which
+    # we have records to show, use that page instead of the requested
+    # one
+    if page > ceil(len(gemeente_draft_records) / posts_per_page):
+        page = ceil(len(gemeente_draft_records) / posts_per_page)
+
+    start_record = (page - 1) * posts_per_page
+    end_record = page * posts_per_page
+    if end_record > len(gemeente_draft_records):
+        end_record = len(gemeente_draft_records)
+    paged_draft_records = gemeente_draft_records[start_record:end_record]
+
+    previous_url = None
+    if page > 1:
+        previous_url = url_for(
+            'gemeente_stemlokalen_overzicht',
+            verkiezing=verkiezing,
+            page=page - 1
+        )
+    next_url = None
+    if len(gemeente_draft_records) > page * posts_per_page:
+        next_url = url_for(
+            'gemeente_stemlokalen_overzicht',
+            verkiezing=verkiezing,
+            page=page + 1
+        )
 
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing=verkiezing,
-        draft_records=draft_records,
+        draft_records=paged_draft_records,
         field_order=field_order,
         form=form,
         show_form=show_form,
-        new_primary_key=largest_primary_key + 1
+        new_primary_key=largest_primary_key + 1,
+        page=page,
+        start_record=start_record + 1,
+        end_record=end_record,
+        total_records=len(gemeente_draft_records),
+        previous_url=previous_url,
+        next_url=next_url
     )
 
 
@@ -203,18 +246,18 @@ def gemeente_stemlokalen_overzicht(verkiezing):
 )
 @login_required
 def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
-    draft_records = ckan.get_records(
+    all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
 
-    draft_records = [
-        record for record in draft_records['records']
+    gemeente_draft_records = [
+        record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
     # Initialize the form with the data already available in the draft
     init_record = {}
-    for record in draft_records:
+    for record in gemeente_draft_records:
         if record['primary_key'] == int(stemlokaal_id):
             init_record = {
                 'nummer_stembureau': record['Nummer stembureau'],

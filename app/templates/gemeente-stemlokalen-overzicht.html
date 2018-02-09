@@ -60,6 +60,14 @@
       </tr>
     {% endfor %}
   </table>
+  Pagina {{ page }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
+  <br>
+  {% if previous_url %}
+  <a href="{{ previous_url }}">Vorige pagina</a>
+  {% endif %}
+  {% if next_url %}
+  <a href="{{ next_url }}">Volgende pagina</a>
+  {% endif %}
 
 {% endblock %}
 {% block scripts %}

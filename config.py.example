@@ -40,3 +40,5 @@ class Config(object):
     MAIL_PASSWORD = ''
     FROM = ''
     ADMINS = ['']
+
+    POSTS_PER_PAGE = 20
