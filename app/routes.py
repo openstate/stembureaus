@@ -136,19 +136,6 @@ def gemeente_stemlokalen_dashboard(verkiezing):
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
-    return render_template(
-        'gemeente-stemlokalen-dashboard.html',
-        verkiezing=verkiezing,
-        total_publish_records=len(gemeente_publish_records),
-        total_draft_records=len(gemeente_draft_records)
-    )
-
-
-@app.route(
-    "/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST']
-)
-@login_required
-def gemeente_stemlokalen_overzicht(verkiezing):
     result = None
     form = FileUploadForm()
 
@@ -165,6 +152,22 @@ def gemeente_stemlokalen_overzicht(verkiezing):
             validator = Validator()
             result = validator.validate(headers, records)
 
+
+    return render_template(
+        'gemeente-stemlokalen-dashboard.html',
+        verkiezing=verkiezing,
+        total_publish_records=len(gemeente_publish_records),
+        total_draft_records=len(gemeente_draft_records),
+        form=form,
+        result=result
+    )
+
+
+@app.route(
+    "/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST']
+)
+@login_required
+def gemeente_stemlokalen_overzicht(verkiezing):
     all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
@@ -256,8 +259,8 @@ def gemeente_stemlokalen_overzicht(verkiezing):
         total_records=len(gemeente_draft_records),
         previous_url=previous_url,
         next_url=next_url,
-        form=form,
-        result=result)
+        form=form
+    )
 
 
 @app.route(

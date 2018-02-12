@@ -9,6 +9,25 @@
   U heeft voor de {{ verkiezing }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd. <a href="{{ url_for('gemeente_stemlokalen_overzicht', verkiezing=verkiezing) }}">[bewerk]</a>
   <br>
   <br>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  <br>
+  <br>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.data_file }}
+    {{ form.submit }}
+  </form>
+  <div>{{ result }}</div>
+  <br>
+  <br>
   Dashboardpagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen.
 {% endblock %}
 {% block scripts %}
