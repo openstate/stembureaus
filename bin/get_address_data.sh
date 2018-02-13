@@ -5,14 +5,29 @@ mkdir -p data/adressen
 cd data/adressen
 
 # first get the BAG
-wget -nd 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'
-unzip -a bag-adressen-full-laatst.csv.zip
-rm -f bag-adressen-full-laatst.csv.zip
+if [ -s bag-adressen-full-laatst.csv.zip ];
+then
+  echo "Have BAG data"
+else
+  wget -nd 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'
+  unzip -a -o bag-adressen-full-laatst.csv.zip
+fi
+#rm -f bag-adressen-full-laatst.csv.zip
 
 # now get the wijken en buurten
-wget -nd 'https://www.cbs.nl/-/media/_pdf/2017/36/buurt_2017.zip'
-unzip -a buurt_2017.zip
-rm -f buurt_2017.zip
+if [ -s buurt_2017.zip ];
+then
+  echo "Has buurt shapes"
+else
+  wget -nd 'https://www.cbs.nl/-/media/_pdf/2017/36/buurt_2017.zip'
+  unzip -a -o buurt_2017.zip
+fi
+#rm -f buurt_2017.zip
+
+for t in gem buurt wijk;
+do
+  ogr2ogr -f "ESRI Shapefile" "${t}_2017_recoded" "${t}_2017.shp" -s_srs EPSG:28992 -t_srs EPSG:4326
+done
 
 # TODO: match ....
 
