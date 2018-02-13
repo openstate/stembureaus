@@ -68,7 +68,13 @@ def main():
     writer = UnicodeWriter(sys.stdout)
     header = reader.__next__()
     shapes = get_shapes(sys.argv[1])
-
+    shapes_by_muni = {}
+    for s, p in shapes:
+        gm_code = p[u'GM_CODE']
+        try:
+            shapes_by_muni[gm_code] += [(s, p,)]
+        except Exception:
+            shapes_by_muni[gm_code] = [(s, p,)]
     out_header = deepcopy(header)
     out_header += [
         'buurt_code', 'buurt_naam', 'wijk_code', 'wijk_naam', 'gem_code',
@@ -91,7 +97,12 @@ def main():
             lon = data[lon_fb_field]
         if (lat != u'-') and (lon != u'-'):
             point = shapely.geometry.Point(float(lat), float(lon))
-            for shape, props in shapes:
+            gm_code = 'GM%s' % (data['object_id'][0:4])
+            if gm_code in shapes_by_muni:
+                gm_shapes = shapes_by_muni[gm_code]
+            else:
+                gm_shapes = []
+            for shape, props in gm_shapes:
                 if shape.contains(point):
                     for fld in [
                         u'BU_CODE', u'BU_NAAM', u'BU_CODE', u'BU_NAAM',
