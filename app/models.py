@@ -110,7 +110,6 @@ class Record(object):
         }
 
 
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gemeente_naam = db.Column(db.String(120), index=True, unique=True)
