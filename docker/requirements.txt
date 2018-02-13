@@ -10,6 +10,8 @@ pytz==2017.3
 uWSGI==2.0.15
 ckanapi==4.1
 xlrd==1.1.0
+Fiona==1.7.11.post1
+Shapely==1.6.4.post1
 
 # Dependencies installed by the packages above
 Babel==2.5.3
