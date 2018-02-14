@@ -52,7 +52,7 @@ class UnicodeWriter:
 
 def get_shapes(shape_file):
     shapes = []
-    with fiona.open(sys.argv[1]) as shape_records:
+    with fiona.open(shape_file) as shape_records:
         shapes = [
             (shapely.geometry.asShape(s['geometry']), s['properties'],)
             for s in shape_records]
