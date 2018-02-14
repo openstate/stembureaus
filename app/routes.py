@@ -85,7 +85,7 @@ def gemeente_reset_wachtwoord(token):
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():
     if current_user.is_authenticated:
-        return redirect(url_for('gemeente_verkiezing_overzicht'))
+        return redirect(url_for('gemeente_stemlokalen_dashboard'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -94,7 +94,7 @@ def gemeente_login():
             flash('Fout e-mailadres of wachtwoord')
             return(redirect(url_for('gemeente_login')))
         login_user(user)
-        return redirect(url_for('gemeente_verkiezing_overzicht'))
+        return redirect(url_for('gemeente_stemlokalen_dashboard'))
     return render_template('gemeente-login.html', form=form)
 
 
@@ -105,21 +105,20 @@ def gemeente_logout():
     return redirect(url_for('index'))
 
 
-@app.route("/gemeente-verkiezing-overzicht")
-@login_required
-def gemeente_verkiezing_overzicht():
-    return render_template(
-        'gemeente-verkiezing-overzicht.html',
-        elections=ckan.elections
-    )
-
-
 @app.route(
-    "/gemeente-stemlokalen-dashboard/<verkiezing>",
+    "/gemeente-stemlokalen-dashboard",
     methods=['GET', 'POST']
 )
 @login_required
-def gemeente_stemlokalen_dashboard(verkiezing):
+def gemeente_stemlokalen_dashboard():
+    elections = current_user.elections.all()
+
+    # Pick the first election. In the case of multiple elections we only
+    # retrieve the stembureaus of the first election as the records for
+    # both elections are the same (at least the GR2018 + referendum
+    # elections on March 21st 2018).
+    verkiezing = elections[0].verkiezing
+
     all_publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
     )
@@ -154,7 +153,7 @@ def gemeente_stemlokalen_dashboard(verkiezing):
 
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
-        verkiezing=verkiezing,
+        verkiezingen=[x.verkiezing for x in elections],
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
@@ -162,11 +161,17 @@ def gemeente_stemlokalen_dashboard(verkiezing):
     )
 
 
-@app.route(
-    "/gemeente-stemlokalen-overzicht/<verkiezing>", methods=['GET', 'POST']
-)
+@app.route("/gemeente-stemlokalen-overzicht/", methods=['GET', 'POST'])
 @login_required
-def gemeente_stemlokalen_overzicht(verkiezing):
+def gemeente_stemlokalen_overzicht():
+    elections = current_user.elections.all()
+
+    # Pick the first election. In the case of multiple elections we only
+    # retrieve the stembureaus of the first election as the records for
+    # both elections are the same (at least the GR2018 + referendum
+    # elections on March 21st 2018).
+    verkiezing = elections[0].verkiezing
+
     all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
@@ -185,13 +190,13 @@ def gemeente_stemlokalen_overzicht(verkiezing):
 
     _remove_id(gemeente_draft_records)
 
-    form = PubliceerForm()
+    publish_form = PubliceerForm()
 
-    if form.validate_on_submit():
-        if form.submit.data:
-            ckan.publish(
-                verkiezing, gemeente_draft_records
-            )
+    if publish_form.validate_on_submit():
+        if publish_form.submit.data:
+            # Publish stembureaus to all elections
+            for election in [x.verkiezing for x in elections]:
+                ckan.publish(election, gemeente_draft_records)
             flash('Stembureaus gepubliceerd')
 
     all_publish_records = ckan.get_records(
@@ -206,9 +211,9 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     # Check whether gemeente_draft_records differs from
     # gemeente_publish_records in order to disable or enable the 'Publiceer'
     # button
-    show_form = False
+    disable_publish_form = True
     if gemeente_draft_records != gemeente_publish_records:
-        show_form = True
+        disable_publish_form = False
 
     # Pagination
     posts_per_page = app.config['POSTS_PER_PAGE']
@@ -234,40 +239,46 @@ def gemeente_stemlokalen_overzicht(verkiezing):
     if page > 1:
         previous_url = url_for(
             'gemeente_stemlokalen_overzicht',
-            verkiezing=verkiezing,
             page=page - 1
         )
     next_url = None
     if len(gemeente_draft_records) > page * posts_per_page:
         next_url = url_for(
             'gemeente_stemlokalen_overzicht',
-            verkiezing=verkiezing,
             page=page + 1
         )
 
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
-        verkiezing=verkiezing,
+        verkiezingen=[x.verkiezing for x in elections],
         draft_records=paged_draft_records,
         field_order=field_order,
-        show_form=show_form,
+        publish_form=publish_form,
+        disable_publish_form=disable_publish_form,
         new_primary_key=largest_primary_key + 1,
         page=page,
         start_record=start_record + 1,
         end_record=end_record,
         total_records=len(gemeente_draft_records),
         previous_url=previous_url,
-        next_url=next_url,
-        form=form
+        next_url=next_url
     )
 
 
 @app.route(
-    "/gemeente-stemlokalen-edit/<verkiezing>/<stemlokaal_id>",
+    "/gemeente-stemlokalen-edit/<stemlokaal_id>",
     methods=['GET', 'POST']
 )
 @login_required
-def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
+def gemeente_stemlokalen_edit(stemlokaal_id):
+    elections = current_user.elections.all()
+
+    # Pick the first election. In the case of multiple elections we only
+    # retrieve the stembureaus of the first election as the records for
+    # both elections are the same (at least the GR2018 + referendum
+    # elections on March 21st 2018).
+    verkiezing = elections[0].verkiezing
+
     all_draft_records = ckan.get_records(
         ckan.elections[verkiezing]['draft_resource']
     )
@@ -292,18 +303,18 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
         flash('Bewerking geannuleerd')
         return redirect(
             url_for(
-                'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing
+                'gemeente_stemlokalen_overzicht'
             )
         )
 
     # When the user clicked the 'Verwijderen' button delete the
-    # stembureau from the draft_resource
+    # stembureau from the draft_resources of each election
     if form.submit_verwijderen.data:
-        ckan.delete_records(
-            ckan.elections[verkiezing]['draft_resource'],
-            {'primary_key': stemlokaal_id}
-        )
+        for election in [x.verkiezing for x in elections]:
+            ckan.delete_records(
+                ckan.elections[election]['draft_resource'],
+                {'primary_key': stemlokaal_id}
+            )
         flash('Stembureau verwijderd')
         return redirect(
             url_for(
@@ -312,23 +323,24 @@ def gemeente_stemlokalen_edit(verkiezing, stemlokaal_id):
             )
         )
 
+    # When the user clicked the 'Opslaan' button save the stembureau
+    # to the draft_resources of each election
     if form.validate_on_submit():
         record = _create_record(form, stemlokaal_id, current_user)
-        ckan.save_records(
-            ckan.elections[verkiezing]['draft_resource'],
-            records=[record]
-        )
+        for election in [x.verkiezing for x in elections]:
+            ckan.save_records(
+                ckan.elections[election]['draft_resource'],
+                records=[record]
+            )
         flash('Stembureau opgeslagen')
         return redirect(
             url_for(
-                'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing
+                'gemeente_stemlokalen_overzicht'
             )
         )
 
     return render_template(
         'gemeente-stemlokalen-edit.html',
-        verkiezing=verkiezing,
         form=form
     )
 

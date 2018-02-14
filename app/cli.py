@@ -1,9 +1,9 @@
 from app import app, db
-from app.models import User, ckan
+from app.models import User, ckan, Election
 from app.email import send_invite
 from pprint import pprint
 import click
-import csv
+import json
 import os
 
 
@@ -235,26 +235,30 @@ def gemeenten():
 @gemeenten.command()
 def toon_alle_gemeenten():
     """
-    Toon alle gemeenten in de database
+    Toon alle gemeenten en bijbehorende verkiezingen in de database
     """
     for user in User.query.all():
         print(
-            '"%s","%s","%s"' % (
-                user.gemeente_naam, user.gemeente_code, user.email
+            '"%s","%s","%s",["%s"]' % (
+                user.gemeente_naam,
+                user.gemeente_code,
+                user.email,
+                ", ".join([x.verkiezing for x in user.elections.all()])
             )
         )
 
 
 @gemeenten.command()
-def verwijder_alle_gemeenten():
+def verwijder_alle_gemeenten_en_verkiezingen():
     """
     Gebruik dit enkel in development. Deze command verwijdert alle
-    gemeenten uit te database.
+    gemeenten en verkiezingen uit te SQLite database.
     """
     if not app.debug:
         result = input(
             'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten wilt verwijderen uit de database? (y/N): '
+            'alle gemeenten en verkiezingen wilt verwijderen uit de SQLite '
+            'database? (y/N): '
         )
         # Print empty line for better readability
         print()
@@ -268,37 +272,47 @@ def verwijder_alle_gemeenten():
 
 
 @gemeenten.command()
-def eenmalig_gemeenten_aanmaken():
+def eenmalig_gemeenten_en_verkiezingen_aanmaken():
     """
-    Gebruik deze command slechts eenmaal(!) om alle gemeenten in de
-    database aan te maken op basis van 'app/data/gemeenten.csv'
+    Gebruik deze command slechts eenmaal(!) om alle gemeenten en
+    verkiezingen in de database aan te maken op basis van
+    'app/data/gemeenten.json'
     """
     if not app.debug:
         result = input(
             'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten wilt aanmaken in de database? (y/N): '
+            'alle gemeenten en verkiezingen wilt aanmaken in de SQLite '
+            'database? (y/N): '
         )
         # Print empty line for better readability
         print()
         if not result.lower() == 'y':
-            print('Geen gemeenten aangemaakt')
+            print('Geen gemeenten en verkiezingen aangemaakt')
             return
 
-    with open('app/data/gemeenten.csv', newline='') as IN:
-        reader = csv.DictReader(IN)
+    with open('app/data/gemeenten.json', newline='') as IN:
+        data = json.load(IN)
         total_created = 0
-        for row in reader:
+        for item in data:
             user = User(
-                gemeente_naam=row['gemeente_naam'],
-                gemeente_code=row['gemeente_code'],
-                email=row['email']
+                gemeente_naam=item['gemeente_naam'],
+                gemeente_code=item['gemeente_code'],
+                email=item['email']
             )
             user.set_password(os.urandom(24))
             db.session.add(user)
+
+            for verkiezing in item['verkiezingen']:
+                election = Election(verkiezing=verkiezing, gemeente=user)
+
             total_created += 1
         # Only commit if all users are successfully added
         db.session.commit()
-        print('%d gemeenten aangemaakt' % (total_created))
+        print(
+            '%d gemeenten (en bijbehorende verkiezingen) aangemaakt' % (
+                total_created
+            )
+        )
 
 
 @gemeenten.command()

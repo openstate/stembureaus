@@ -110,12 +110,14 @@ class Record(object):
         }
 
 
+# The users are gemeenten
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gemeente_naam = db.Column(db.String(120), index=True, unique=True)
     gemeente_code = db.Column(db.String(6), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    elections = db.relationship('Election', backref='gemeente', lazy='dynamic')
 
     def set_password(self, password):
         if len(password) < 12:
@@ -151,6 +153,12 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
+
+
+class Election(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    verkiezing = db.Column(db.String(250), index=True)
+    user_id = db.Column(db.String(6), db.ForeignKey("user.id"))
 
 
 # Create the 'User' table above if it doesn't exist
