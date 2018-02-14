@@ -32,8 +32,13 @@ services:
       - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
     networks:
       - stm
+    volumes:
+      - stm-mysql-volume:/var/lib/mysql
+      - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
 networks:
   stm:
   nginx-load-balancer:
     external:
       name: docker_nginx-load-balancer
+volumes:
+  stm-mysql-volume:
