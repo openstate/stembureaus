@@ -77,7 +77,7 @@ def main():
             shapes_by_muni[gm_code] = [(s, p,)]
     out_header = deepcopy(header)
     out_header += [
-        'buurt_code', 'buurt_naam', 'wijk_code', 'wijk_naam', 'gem_code',
+        'buurt_code', 'buurt_naam', 'wijk_code', 'gem_code',
         'gem_naam']
     writer.writerow(out_header)
 
@@ -105,7 +105,7 @@ def main():
             for shape, props in gm_shapes:
                 if shape.contains(point):
                     for fld in [
-                        u'BU_CODE', u'BU_NAAM', u'WK_CODE', u'WK_NAAM',
+                        u'BU_CODE', u'BU_NAAM', u'WK_CODE',
                         u'GM_CODE', u'GM_NAAM'
                     ]:
                         out_row.append(props[fld])
