@@ -8,6 +8,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config(object):
     SECRET_KEY = False
     SERVER_NAME = 'waarismijnstemlokaal.nl'
@@ -27,6 +28,8 @@ class Config(object):
     # public, while the 'draft_resource' contains the IDS of
     # resources where drafts of the stemlokalen data will be saved while
     # the gemeenten input all the information.
+    # NOTE: Use the exact same '<name of election>' values in
+    # the 'verkiezingen' field in 'app/data/gemeenten.json'
     CKAN_CURRENT_ELECTIONS = {
         '<name of election>': {
             'publish_resource': '<ID_of_resource>',
