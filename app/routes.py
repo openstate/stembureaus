@@ -152,7 +152,6 @@ def gemeente_stemlokalen_dashboard(verkiezing):
             validator = Validator()
             result = validator.validate(headers, records)
 
-
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing=verkiezing,

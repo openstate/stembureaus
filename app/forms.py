@@ -1,10 +1,14 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import DataRequired, Email, EqualTo, Length, URL
+from wtforms.validators import (
+    ValidationError, DataRequired, Email, EqualTo, Length, URL, NumberRange,
+    AnyOf, Regexp
+)
 from wtforms import (
     BooleanField, StringField, IntegerField, FloatField, PasswordField,
     SubmitField, FormField, FieldList
 )
+import re
 
 
 class ResetPasswordRequestForm(FlaskForm):
@@ -35,15 +39,38 @@ class LoginForm(FlaskForm):
 
 
 class FileUploadForm(FlaskForm):
-    data_file = FileField('Bestand', validators=[
-        FileRequired(), FileAllowed(
-            ['json', 'csv', 'xls', 'xlsx', 'ods'],
-            'Alleen Excel of Open Office bestanden zijn toegestaan.')])
+    data_file = FileField(
+        'Bestand',
+        validators=[
+            FileRequired(),
+            FileAllowed(
+                ['json', 'csv', 'xls', 'xlsx', 'ods'],
+                (
+                    'Alleen Excel (.xls, .xslx) of OpenDocument (.ods) '
+                    'spreadsheets zijn toegestaan.'
+                )
+            )
+        ]
+    )
     submit = SubmitField('Uploaden')
 
 
 class PubliceerForm(FlaskForm):
     submit = SubmitField('Publiceer')
+
+
+def title(form, field):
+    # Make sure the first character is upper case (this conversion will
+    # be saved)
+    field.data = field.data.title()
+
+
+# Require at least four decimals
+def min_four_decimals(form, field):
+    if not re.match('^\d+\.\d{4,}', str(field.data)):
+        raise ValidationError(
+            'Latitude en Longitude moeten minimaal 4 decimalen hebben.'
+        )
 
 
 class EditForm(FlaskForm):
@@ -54,7 +81,8 @@ class EditForm(FlaskForm):
     nummer_stembureau = IntegerField(
         'Nummer stembureau',
         validators=[
-            DataRequired()
+            DataRequired(),
+            NumberRange(min=1)
         ]
     )
     naam_stembureau = StringField(
@@ -63,10 +91,20 @@ class EditForm(FlaskForm):
             DataRequired()
         ]
     )
+    # The order of validators is important, 'title' needs to be listed
+    # before 'AnyOf'
     gebruikersdoel_het_gebouw = StringField(
         'Gebruikersdoel het gebouw',
         validators=[
-            DataRequired()
+            DataRequired(),
+            title,
+            AnyOf(
+                [
+                    'Wonen', 'Bijeenkomst', 'Winkel', 'Gezondheidszorg',
+                    'Kantoor', 'Logies', 'Industrie', 'Onderwijs', 'Sport',
+                    'Cel', 'Overig'
+                ]
+            )
         ]
     )
     website_locatie = StringField(
@@ -78,7 +116,16 @@ class EditForm(FlaskForm):
     bag_referentienummer = StringField(
         'BAG referentienummer',
         validators=[
-            DataRequired()
+            DataRequired(),
+            Length(
+                min=16,
+                max=16,
+                message="Dit veld moet precies 16 cijfers bevatten."
+            ),
+            Regexp(
+                '^[0-9]+$',
+                message='Elk karakter moet een nummer tussen 0 en 9 zijn.'
+            )
         ]
     )
     extra_adresaanduiding = StringField(
@@ -88,13 +135,15 @@ class EditForm(FlaskForm):
     longitude = FloatField(
         'Longitude',
         validators=[
-            DataRequired()
+            DataRequired(),
+            min_four_decimals
         ]
     )
     latitude = FloatField(
         'Latitude',
         validators=[
-            DataRequired()
+            DataRequired(),
+            min_four_decimals
         ]
     )
     districtcode = StringField(
@@ -104,7 +153,17 @@ class EditForm(FlaskForm):
     openingstijden = StringField(
         'Openingstijden',
         validators=[
-            DataRequired()
+            DataRequired(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2017-03-21T07:30:00 tot 2017-03-21T21:00:00".'
+                )
+            )
         ]
     )
     mindervaliden_toegankelijk = BooleanField(
