@@ -105,7 +105,7 @@ def main():
             for shape, props in gm_shapes:
                 if shape.contains(point):
                     for fld in [
-                        u'BU_CODE', u'BU_NAAM', u'BU_CODE', u'BU_NAAM',
+                        u'BU_CODE', u'BU_NAAM', u'WK_CODE', u'WK_NAAM',
                         u'GM_CODE', u'GM_NAAM'
                     ]:
                         out_row.append(props[fld])
