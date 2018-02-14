@@ -3,4 +3,4 @@
 config.py
 app.db
 logs/*
-app/data/gemeenten.csv
+app/data/gemeenten.json

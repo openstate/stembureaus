@@ -9,7 +9,7 @@
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
   <br>
-  Overzicht van de stembureaus voor: {{ verkiezing }}
+  Overzicht van de stembureaus voor: {{ verkiezingen }}
   <br>
   <br>
   <br>
@@ -24,17 +24,14 @@
   {% endwith %}
   <br>
   <br>
-  <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit', verkiezing=verkiezing, stemlokaal_id=new_primary_key) }}">Voeg nieuw stembureau toe</a>
+  <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=new_primary_key) }}">Voeg nieuw stembureau toe</a>
   <form method="POST" action="">
-    {{ form.csrf_token }}
-  {% if show_form %}
-    {{ form.submit }} (de (aangepaste) stembureaus in dit overzicht zijn nog niet gepubliceerd)
+    {{ publish_form.csrf_token }}
+  {% if disable_publish_form %}
+    {{ publish_form.submit(disabled=True) }} (de stembureaus zijn gepubliceerd)
   {% else %}
-    {{ form.submit(disabled=True) }} (de stembureaus zijn gepubliceerd)
+    {{ publish_form.submit }} (de (aangepaste) stembureaus in dit overzicht zijn nog niet gepubliceerd)
   {% endif %}
-  </form>
-  <form method="POST" action="">
-    {{ form.csrf_token }}
   </form>
   <br>
   <table>
@@ -50,7 +47,7 @@
     {% for record in draft_records %}
       <tr>
         <td>
-          <a href="{{ url_for('gemeente_stemlokalen_edit', verkiezing=verkiezing, stemlokaal_id=record['primary_key']) }}">[bewerk]</a>
+          <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['primary_key']) }}">[bewerk]</a>
         </td>
         {% for field in field_order %}
           <td>

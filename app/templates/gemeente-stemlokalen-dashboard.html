@@ -6,7 +6,7 @@
   Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
   <br>
   <br>
-  U heeft voor de {{ verkiezing }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd. <a href="{{ url_for('gemeente_stemlokalen_overzicht', verkiezing=verkiezing) }}">[bewerk]</a>
+  U heeft voor de {{ verkiezingen }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd. <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">[bewerk]</a>
   <br>
   <br>
   {% with messages = get_flashed_messages() %}
