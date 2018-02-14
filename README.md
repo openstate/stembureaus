@@ -7,7 +7,15 @@ Collecting and presenting stembureaus
 
 ## Run
 - Clone or download this project from GitHub:
-- Copy `app/config.py.example` to `app/config.py` and create a SECRET_KEY as per the instructions in the file
+- Copy `app/config.py.example` to `app/config.py` and edit it
+   - Create a SECRET_KEY as per the instructions in the file
+   - Fill in your CKAN API key
+   - Specify the name(s) of the election(s) and its corresponding CKAN draft and publish resource IDs
+      - NOTE: Use the exact same '<name of election>' values in the 'verkiezingen' field in 'app/data/gemeenten.json'
+   - Specify email related information in order for the application to send emails
+- Copy `app/data/gemeenten.json.example` to `app/data/gemeenten.json` and edit it
+   - Fill in the email addresses of the gemeenten
+   - Add the name(s) of the election(s) for each gemeenten in which it participates. NOTE: make sure that these names are exactly the same as the name(s) of the election(s) in `app/config.py`
 - Production
    - First time use
       - `cd docker`
