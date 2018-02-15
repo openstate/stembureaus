@@ -29,6 +29,7 @@ do
   ogr2ogr -f "ESRI Shapefile" "${t}_2017_recoded" "${t}_2017.shp" -s_srs EPSG:28992 -t_srs EPSG:4326
 done
 
-cat bagadres-full.csv  |/opt/stm/bin/find_neighbor_hoods.py buurt_2017_recoded/buurt_2017.shp lat lon >bagadres-full-wijk.csv
+cp bagadres-full.csv ../../docker/docker-entrypoint-initdb.d
 
 /opt/stm/bin/shape-props-to-json.py wijk_2017_recoded/wijk_2017.shp >data/adressen/wijken.json
+/opt/stm/bin/shape-props-to-json.py buurt_2017_recoded/buurt_2017.shp >data/adressen/buurten.json

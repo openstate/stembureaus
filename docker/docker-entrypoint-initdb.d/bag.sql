@@ -1,19 +1,33 @@
 CREATE DATABASE IF NOT EXISTS `stembureaus`;
 CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
-  `object_id` VARCHAR(14) PRIMARY KEY,
-  `gem_code` VARCHAR(6),
-  `gem_naam` VARCHAR(255),
-  `wijk_code` VARCHAR(8),
-  `wijk_naam` VARCHAR(255),
-  `buurt_code` VARCHAR(10),
-  `buurt_naam` VARCHAR(255),
-  `huisnummer` VARCHAR(10),
-  `huisletter` VARCHAR(10),
-  `huisnummertoevoeging` VARCHAR(10),
-  `postcode` VARCHAR(6),
-  `woonplaats` VARCHAR(255),
-  INDEX `gem_naam_FI_1` (`gem_naam`),
-  INDEX `wijk_naam_FI_1` (`wijk_naam`),
-  INDEX `buurt_naam_FI_1` (`buurt_naam`),
-  INDEX `postcode_FI_1` (`postcode`)
+  openbareruimte VARCHAR(255),
+  huisnummer varchar(5),
+  huisletter varchar(5),
+  huisnummertoevoeging varchar(5),
+  postcode varchar(6),
+  woonplaats varchar(255),
+  gemeente varchar(255),
+  provincie varchar(255),
+  nummeraanduiding varchar(24) primary key,
+  verblijfsobjectgebruiksdoel varchar(255),
+  oppervlakteverblijfsobject varchar(10),
+  verblijfsobjectstatus varchar(255),
+  object_id varchar(24),
+  object_type varchar(10),
+  nevenadres varchar(1),
+  pandid varchar(24),
+  pandstatus varchar(255),
+  pandbouwjaar varchar(20),
+  x DECIMAL(10,3),
+  y DECIMAL(10,3),
+  lon decimal(20, 13),
+  lat decimal(20, 13)
 ) CHARACTER SET=utf8;
+
+LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/bagadres-full.csv"
+INTO TABLE `stembureaus`.`bag`
+COLUMNS TERMINATED BY ';'
+OPTIONALLY ENCLOSED BY '"'
+ESCAPED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;

@@ -4,3 +4,4 @@ config.py
 app.db
 logs/*
 app/data/gemeenten.json
+docker/docker-entrypoint-initdb.d/bagadres-full.csv
