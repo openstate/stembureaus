@@ -11,6 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile-app-dev
     restart: "no"
+  mysql:
+    restart: "no"
 networks:
   stm:
   nginx-load-balancer:

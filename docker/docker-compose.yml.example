@@ -21,20 +21,19 @@ services:
       - stm
     restart: always
   mysql:
-    image: mysql
+    image: mysql:5.7.21
     # This root password will be overwritten with the password used in
     # the backup that will be restored from a .sql file in the
-    # docker-entrypoint-initdb.d directory. When starting a totally new
-    # instance look in `docker-compose logs` for the line with
-    # 'GENERATED ROOT PASSWORD:' to find the password and use it in
-    # 'ETHERPAD_DB_PASSWORD' above and in backup.sh.
+    # docker-entrypoint-initdb.d directory.
     environment:
-      - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+      - MYSQL_DATABASE=stembureaus
+      - MYSQL_ROOT_PASSWORD=<DB_PASSWORD>
     networks:
       - stm
     volumes:
       - stm-mysql-volume:/var/lib/mysql
       - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    restart: always
 networks:
   stm:
   nginx-load-balancer:

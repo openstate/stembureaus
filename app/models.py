@@ -158,7 +158,7 @@ class User(UserMixin, db.Model):
 class Election(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     verkiezing = db.Column(db.String(250), index=True)
-    user_id = db.Column(db.String(6), db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 
 # Create the 'User' table above if it doesn't exist

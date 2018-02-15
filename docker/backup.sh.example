@@ -1,0 +1,8 @@
+#!/bin/bash
+MYSQL_CONTAINER="stm_mysql_1"
+DB_PASSWORD="<DB_PASSWORD>"
+NETWORK="stm_stm"
+CMD="mysqldump -h $MYSQL_CONTAINER -u root --password=$DB_PASSWORD --all-databases --ignore-table=mysql.event | gzip > /docker-entrypoint-initdb.d/latest-mysqldump-daily.sql.gz ; \ 
+cp -p /docker-entrypoint-initdb.d/latest-mysqldump-daily.sql.gz /docker-entrypoint-initdb.d/`(date +%A)`-mysqldump-daily.sql.gz"
+
+docker run --rm --network $NETWORK -v `pwd`/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw mysql bash -c "$CMD"

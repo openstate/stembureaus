@@ -12,6 +12,7 @@ ckanapi==4.1
 xlrd==1.1.0
 Fiona==1.7.11.post1
 Shapely==1.6.4.post1
+PyMySQL==0.8.0
 
 # Dependencies installed by the packages above
 Babel==2.5.3

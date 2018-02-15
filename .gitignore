@@ -1,6 +1,7 @@
 *.swp
 *.pyc
-config.py
-app.db
 logs/*
+config.py
+docker/docker-compose.yml
 app/data/gemeenten.json
+backup.sh
