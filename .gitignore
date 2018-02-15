@@ -5,3 +5,4 @@ config.py
 docker/docker-compose.yml
 app/data/gemeenten.json
 backup.sh
+docker/docker-entrypoint-initdb.d/bagadres-full.csv

@@ -81,6 +81,7 @@ class Record(object):
     def __init__(self, *args, **kwargs):
         self.record = {}
         self.populate(kwargs)
+        self.expand()
 
     def populate(self, record):
         try:
@@ -108,6 +109,9 @@ class Record(object):
             'contactgegevens': record['contactgegevens'],
             'beschikbaarheid': record['beschikbaarheid']
         }
+
+    def expand(self):
+        pass
 
 
 # The users are gemeenten
@@ -160,6 +164,32 @@ class Election(db.Model):
     verkiezing = db.Column(db.String(250), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
+
+class BAG(db.Model):
+    __tablename__ = 'bag'
+
+    openbareruimte = db.Column(db.String(250))
+    huisnummer = db.Column(db.String(5))
+    huisletter = db.Column(db.String(5))
+    huisnummertoevoeging = db.Column(db.String(5))
+    postcode = db.Column(db.String(6))
+    woonplaats = db.Column(db.String(255))
+    gemeente = db.Column(db.String(255))
+    provincie = db.Column(db.String(255))
+    nummeraanduiding = db.Column(db.String(24), primary_key=True)
+    verblijfsobjectgebruiksdoel = db.Column(db.String(255))
+    oppervlakteverblijfsobject = db.Column(db.String(10))
+    verblijfsobjectstatus = db.Column(db.String(255))
+    object_id = db.Column(db.String(24))
+    object_type = db.Column(db.String(10))
+    nevenadres = db.Column(db.String(1))
+    pandid = db.Column(db.String(24))
+    pandstatus = db.Column(db.String(255))
+    pandbouwjaar = db.Column(db.String(20))
+    x = db.Column(db.Numeric(precision=25, scale=9))
+    y = db.Column(db.Numeric(precision=25, scale=9))
+    lon = db.Column(db.Numeric(precision=24, scale=16))
+    lat = db.Column(db.Numeric(precision=24, scale=16))
 
 # Create the 'User' table above if it doesn't exist
 db.create_all()
