@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
   pandid varchar(24),
   pandstatus varchar(255),
   pandbouwjaar varchar(20),
-  x DECIMAL(10,3),
-  y DECIMAL(10,3),
-  lon decimal(20, 13),
-  lat decimal(20, 13)
+  x DECIMAL(25,9),
+  y DECIMAL(25,9),
+  lon decimal(24, 16),
+  lat decimal(24, 16)
 ) CHARACTER SET=utf8;
 
 LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/bagadres-full.csv"
