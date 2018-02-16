@@ -34,6 +34,16 @@ services:
       - stm-mysql-volume:/var/lib/mysql
       - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     restart: always
+  nodejs:
+    image: node:5.4.1
+    working_dir: /opt/stm
+    volumes:
+      - ../app:/opt/stm
+    networks:
+      - stm
+    # Use this to keep the container running
+    tty: true
+    restart: always
 networks:
   stm:
   nginx-load-balancer:

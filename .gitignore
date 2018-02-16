@@ -1,6 +1,9 @@
 *.swp
 *.pyc
 logs/*
+app/static/*
+app/node_modules/*
+app/bower_components/*
 config.py
 docker/docker-compose.yml
 app/data/gemeenten.json

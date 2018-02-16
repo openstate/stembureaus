@@ -1,0 +1,44 @@
+footer {
+  background-color: $light-grey;
+  padding: 15px 0;
+
+  h2 {
+    font-size: 18px;
+    line-height: 36px;
+    font-family: $font-family-title;
+    margin-top: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 5px;
+  }
+  ul.dashed {
+    list-style-type: none;
+  }
+  ul.dashed > li {
+    text-indent: -5px;
+  }
+  ul.dashed > li:before {
+    content: "- ";
+  }
+
+  .osf-logo {
+    width: 115px;
+    padding-right: 15px;
+  }
+}
+
+.footer-logo {
+  a {
+    display: inline-block;
+  }
+
+  img {
+    width: 140px;
+  }
+}
+
+.footer-item {
+  padding: 15px;
+}

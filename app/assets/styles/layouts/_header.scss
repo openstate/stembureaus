@@ -1,0 +1,45 @@
+nav {
+  background-color: $white;
+  border-bottom: 4px solid $light-grey !important;
+  font-size: 18px;
+  line-height: 36px;
+  font-family: $font-family-title;
+
+  button {
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 7px 20px !important;
+    color: $black !important;
+  }
+}
+
+.navbar-brand {
+  padding: 7px 15px;
+}
+
+.lead {
+  background-color: $light-grey;
+  padding: 70px 0 20px 0;
+  margin-bottom: 0;
+}
+
+.header-logo {
+  a {
+    display: inline-block;
+  }
+
+  img {
+    width: 220px;
+  }
+}
+
+.brand-header {
+  color: transparent;
+  font: 0 / 0 a;
+  display: inline;
+}
+
+.lead-text {
+  font-size: 24px;
+  line-height: 28px;
+}

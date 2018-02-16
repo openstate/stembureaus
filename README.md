@@ -24,6 +24,7 @@ Collecting and presenting stembureaus
       - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d' if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
       - `cd docker`
       - `sudo docker-compose up -d`
+      - Compile the assets, see the section below
       - Set up backups
          - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
             - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
@@ -35,6 +36,7 @@ Collecting and presenting stembureaus
 - Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
+   - Compile the assets, see the section below
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Remove and rebuild everything
@@ -42,6 +44,22 @@ Collecting and presenting stembureaus
       - Development: `docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Reload Nginx: `sudo docker exec stm_nginx_1 nginx -s reload`
    - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `sudo touch app/uwsgi-touch-reload`
+
+## Compile assets
+Run the following commands once after a new install:
+- `sudo docker exec -it stm_nodejs_1 bash`
+- `npm install -g gulp bower`
+- `npm install`
+- `bower install --allow-root`
+
+To compile the assets in production:
+- `gulp --production`
+
+To compile the assets in development (this generates map files):
+- `gulp`
+
+To compile the assets in development on any file changes:
+- `gulp watch`
 
 ## To enter the MySQL database
    - `sudo docker run -it --rm --network stm_stm mysql bash`

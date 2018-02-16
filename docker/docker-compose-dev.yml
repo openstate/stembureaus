@@ -13,6 +13,8 @@ services:
     restart: "no"
   mysql:
     restart: "no"
+  nodejs:
+    restart: "no"
 networks:
   stm:
   nginx-load-balancer:
