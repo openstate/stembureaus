@@ -4,36 +4,40 @@
 {% endblock %}
 {% block content %}
   <h1>Nieuw Wachtwoord</h1>
+
+  <br>
+  <br>
+
   Voer een nieuw wachtwoord van minimaal 12 karakters in.
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
+  <br>
+  <br>
 
-  <form method="POST" action="">
-    {{ form.csrf_token }}
-    <div>
-      {{ form.Wachtwoord.label }} {{ form.Wachtwoord(size=32) }}
-      {% for error in form.Wachtwoord.errors %}
-        <span style="color: red;">{{ error }}</span>
-      {% endfor %}
-    </div>
-    <div>
-      {{ form.Wachtwoord2.label }} {{ form.Wachtwoord2(size=32) }}
-      {% for error in form.Wachtwoord2.errors %}
-        <span style="color: red;">{{ error }}</span>
-      {% endfor %}
-    </div>
-    <div>
-    {{ form.submit }}
-    </div>
-  </form>
+  <div class="edit-form">
+    <form method="POST" action="">
+      {{ form.csrf_token }}
+
+      <div class="login-forms top-form">
+        {{ form.Wachtwoord.label }} {{ form.Wachtwoord }}
+        {% for error in form.Wachtwoord.errors %}
+          <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+      </div>
+
+      <div class="login-forms">
+        {{ form.Wachtwoord2.label }} {{ form.Wachtwoord2 }}
+        {% for error in form.Wachtwoord2.errors %}
+          <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+      </div>
+
+      <br>
+
+      <div>
+        {{ form.submit }}
+      </div>
+    </form>
+  </div>
 {% endblock %}
 {% block scripts %}
   {{ super() }}

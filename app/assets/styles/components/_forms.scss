@@ -1,0 +1,31 @@
+.edit-form input:not([type="submit"]) {
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 7px;
+}
+
+.edit-form input[type="checkbox"] {
+  padding: 5px;
+  margin: 7px;
+}
+
+@media(max-width:767px) {
+  .login-forms input {
+    width: 100%;
+  }
+
+  .top-form {
+    padding-bottom: 20px;
+  }
+}
+
+.width-max input {
+  width: 100%;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+}

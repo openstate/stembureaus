@@ -4,30 +4,33 @@
 {% endblock %}
 {% block content %}
   <h1>Wachtwoord veranderen</h1>
+
+  <br>
+  <br>
+
   Voer je e-mailadres in en ontvang een e-mail waarmee je je wachtwoord kunt veranderen.
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
+  <br>
+  <br>
 
-  <form method="POST" action="">
-    {{ form.csrf_token }}
-    <div>
-      {{ form.email.label }} {{ form.email(size=64) }}
-      {% for error in form.email.errors %}
-        <span style="color: red;">{{ error }}</span>
-      {% endfor %}
-    </div>
-    <div>
-    {{ form.submit }}
-    </div>
-  </form>
+  <div class="edit-form">
+    <form method="POST" action="">
+      {{ form.csrf_token }}
+
+      <div class="login-forms">
+        {{ form.email.label }} {{ form.email }}
+        {% for error in form.email.errors %}
+          <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+      </div>
+
+      <br>
+
+      <div>
+        {{ form.submit }}
+      </div>
+    </form>
+  </div>
 {% endblock %}
 {% block scripts %}
   {{ super() }}

@@ -11,10 +11,12 @@ $black:                 #000;
 $brand-primary:         $black;
 $dark-grey:             #3D4A4C;
 $light-grey:            #F2F2F2;
+$lighter-grey:          #F7F7F7;
+$light-blue:            #31A8DF;
 
 // Typography
 //## Font, line-height, and color for body text, headings, and more.
 $font-family-title:       'Montserrat', sans-serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   'Source Code Pro', monospace !default;
-$font-family-base:        $font-family-monospace !default;
+$font-family-base:        $font-family-title !default;

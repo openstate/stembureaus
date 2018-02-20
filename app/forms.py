@@ -13,7 +13,12 @@ import re
 
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
-    submit = SubmitField('Bevestig')
+    submit = SubmitField(
+        'Bevestig',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 
 class ResetPasswordForm(FlaskForm):
@@ -29,13 +34,23 @@ class ResetPasswordForm(FlaskForm):
         'Herhaal wachtwoord',
         validators=[DataRequired(), EqualTo('Wachtwoord')]
     )
-    submit = SubmitField('Bevestig')
+    submit = SubmitField(
+        'Bevestig',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 
 class LoginForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
-    submit = SubmitField('Inloggen')
+    submit = SubmitField(
+        'Inloggen',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 
 class FileUploadForm(FlaskForm):
@@ -50,13 +65,28 @@ class FileUploadForm(FlaskForm):
                     'spreadsheets zijn toegestaan.'
                 )
             )
-        ]
+        ],
+        render_kw={
+            'class': 'filestyle',
+            'data-classButton': 'btn btn-primary',
+            'data-buttonText': 'Your label here'
+        }
     )
-    submit = SubmitField('Uploaden')
+    submit = SubmitField(
+        'Uploaden',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 
 class PubliceerForm(FlaskForm):
-    submit = SubmitField('Publiceer')
+    submit = SubmitField(
+        'Publiceer',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 
 def title(form, field):
@@ -74,9 +104,24 @@ def min_four_decimals(form, field):
 
 
 class EditForm(FlaskForm):
-    submit = SubmitField('Opslaan')
-    submit_annuleren = SubmitField('Annuleren')
-    submit_verwijderen = SubmitField('Verwijderen')
+    submit = SubmitField(
+        'Opslaan',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
+    submit_annuleren = SubmitField(
+        'Annuleren',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
+    submit_verwijderen = SubmitField(
+        'Verwijderen',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
     nummer_stembureau = IntegerField(
         'Nummer stembureau',

@@ -1,34 +1,50 @@
 {% extends "base.html" %}
-{% block menu %}
-  <li><a href="/gemeente-logout">Uitloggen</a></li>
-{% endblock %}
 {% block content %}
-  Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
+  <div>
+    > Dashboard
+  </div>
+
+  <h1 class="title-pad">{{ current_user.gemeente_naam }}</h1>
+
+  <br>
+
+  <div class="action-bar block-padding">
+    U heeft voor {{ verkiezing_string }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd.
+    {% if show_publish_note %}
+    <span class="text-red">Let op: er zijn wijzigingen in het stembureausoverzicht die u nog niet gepubliceerd heeft.</span>
+    {% endif %}
+
+    <br>
+    <br>
+
+    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureausoverzicht</a>
+  </div>
+
   <br>
   <br>
-  U heeft voor de {{ verkiezingen }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd. <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">[bewerk]</a>
-  <br>
-  <br>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
-  <br>
-  <br>
-  <form method="POST" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.data_file }}
-    {{ form.submit }}
-  </form>
-  <div>{{ result }}</div>
-  <br>
-  <br>
-  Dashboardpagina voor ingelogde gemeenten met keuzes om nieuwe stemlokalen toe te voegen.
+
+  <div class="row">
+    <div class="col-md-8 background-lighter-grey block-padding">
+      <h2>Bewerk een oude lijst of maak een nieuwe aan</h2>
+    </div>
+
+    <div class="col-md-4 background-light-blue block-padding upload-block">
+      <h2 class="text-white">Upload stembureaus</h2>
+
+      <br>
+
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.data_file }}
+        <br>
+        {{ form.submit }}
+      </form>
+
+      <br>
+
+      <div>{{ result }}</div>
+    </div>
+  </div>
 {% endblock %}
 {% block scripts %}
   {{ super() }}

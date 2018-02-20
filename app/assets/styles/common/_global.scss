@@ -8,7 +8,49 @@ article {
   padding: 20px;
 }
 
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+}
 
-.text-grey{
-  color:grey;
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.background-lighter-grey {
+  background-color: $lighter-grey;
+}
+
+.background-light-blue {
+  background-color: $light-blue;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-grey {
+  color: grey;
+}
+
+.title-pad {
+  padding: 0 30px;
+}
+
+.action-bar {
+  border: 1px $light-blue solid !important;
+}
+
+.block-padding {
+  padding: 20px 40px;
+  border: 15px white solid;
+}
+
+.upload-block {
+  color: $light-grey;
 }

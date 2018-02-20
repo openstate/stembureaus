@@ -34,8 +34,12 @@
             <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('over_deze_website') }}">Over deze website</a></li>
             <li><a href="{{ url_for('dataset') }}">Dataset</a></li>
-            {% block menu %}
-            {% endblock %}
+            {% if current_user.is_authenticated %}
+              <li><a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a></li>
+              <li><a href="{{ url_for('gemeente_logout') }}">Uitloggen</a></li>
+            {% else %}
+              <li><a href="{{ url_for('gemeente_login') }}">Inloggen</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -48,7 +52,6 @@
             <a href="/">
               <img class="img-responsive" src="/static/dist/images/logo.svg" alt="logo">
             </a>
-            <h1 class="brand-header"><a href="/">Waar is mijn stemlokaal</a></h1>
           </div>
           <div class="col-xs-12 col-sm-9 col-lg-6">
             <p class="lead-text">Een stemlokaal bij jou in de buurt, zo gevonden</p>
@@ -59,6 +62,7 @@
   </header>
 
   <article>
+  {% include 'flashed-messages.html' %}
     <div class="container">
       {% block content %}
       {% endblock %}

@@ -1,70 +1,81 @@
 {% extends "base.html" %}
-{% block menu %}
-  <li><a href="/gemeente-logout">Uitloggen</a></li>
-{% endblock %}
 {% block head %}
   {{ super() }}
 {% endblock %}
 {% block content %}
-  Hallo, gemeente <b>{{ current_user.gemeente_naam }}</b>!
+  <div>
+    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureausoverzicht
+  </div>
+
+  <h1 class="title-pad">Stembureausoverzicht</h1>
+
+  <br>
+
+  Overzicht van de stembureaus van de gemeente {{ current_user.gemeente_naam }} voor {{ verkiezing_string }}.
+
   <br>
   <br>
-  Overzicht van de stembureaus voor: {{ verkiezingen }}
-  <br>
-  <br>
-  <br>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
-  <br>
-  <br>
+
   <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=new_primary_key) }}">Voeg nieuw stembureau toe</a>
+
+  <br>
+  <br>
+
   <form method="POST" action="">
     {{ publish_form.csrf_token }}
   {% if disable_publish_form %}
-    {{ publish_form.submit(disabled=True) }} (de stembureaus zijn gepubliceerd)
+    {{ publish_form.submit(disabled=True) }} [de stembureaus zijn gepubliceerd]
   {% else %}
-    {{ publish_form.submit }} (de (aangepaste) stembureaus in dit overzicht zijn nog niet gepubliceerd)
+    {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit stembureausoverzicht die u nog niet heeft gepubliceerd</span>]
   {% endif %}
   </form>
+
   <br>
-  <table>
-    <tr>
-        <th>
-        </th>
-      {% for field in field_order %}
-        <th>
-          {{ field }}
-        </th>
-      {% endfor %}
-    </tr>
-    {% for record in draft_records %}
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed">
       <tr>
-        <td>
-          <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['primary_key']) }}">[bewerk]</a>
-        </td>
+          <th>
+          </th>
         {% for field in field_order %}
-          <td>
-            {{ record[field] }}
-          </td>
+          <th>
+            {{ field }}
+          </th>
         {% endfor %}
       </tr>
-    {% endfor %}
-  </table>
-  Pagina {{ page }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
+      {% for record in draft_records %}
+        <tr>
+          <td>
+            <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['primary_key']) }}">[bewerk]</a>
+          </td>
+          {% for field in field_order %}
+            <td>
+              {{ record[field] }}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
   <br>
+
   {% if previous_url %}
   <a href="{{ previous_url }}">Vorige pagina</a>
+  {% else %}
+  Vorige pagina
   {% endif %}
+  &nbsp;|&nbsp;
   {% if next_url %}
   <a href="{{ next_url }}">Volgende pagina</a>
+  {% else %}
+  Volgende pagina
   {% endif %}
+
+  <br>
+  <br>
+
+  Pagina {{ page }} van {{ total_pages }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
 
 {% endblock %}
 {% block scripts %}

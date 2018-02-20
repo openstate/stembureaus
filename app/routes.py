@@ -135,6 +135,13 @@ def gemeente_stemlokalen_dashboard():
         if record['CBS gemeentecode'] == current_user.gemeente_code
     ]
 
+    _remove_id(gemeente_publish_records)
+    _remove_id(gemeente_draft_records)
+
+    show_publish_note = False
+    if gemeente_draft_records != gemeente_publish_records:
+        show_publish_note = True
+
     result = None
     form = FileUploadForm()
 
@@ -153,11 +160,12 @@ def gemeente_stemlokalen_dashboard():
 
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
-        verkiezingen=[x.verkiezing for x in elections],
+        verkiezing_string=_format_verkiezingen_string(elections),
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
-        result=result
+        result=result,
+        show_publish_note=show_publish_note
     )
 
 
@@ -250,7 +258,7 @@ def gemeente_stemlokalen_overzicht():
 
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
-        verkiezingen=[x.verkiezing for x in elections],
+        verkiezing_string=_format_verkiezingen_string(elections),
         draft_records=paged_draft_records,
         field_order=field_order,
         publish_form=publish_form,
@@ -260,6 +268,7 @@ def gemeente_stemlokalen_overzicht():
         start_record=start_record + 1,
         end_record=end_record,
         total_records=len(gemeente_draft_records),
+        total_pages=int(len(gemeente_draft_records)/posts_per_page),
         previous_url=previous_url,
         next_url=next_url
     )
@@ -343,6 +352,19 @@ def gemeente_stemlokalen_edit(stemlokaal_id):
         'gemeente-stemlokalen-edit.html',
         form=form
     )
+
+
+# Format string containing the verkiezingen
+def _format_verkiezingen_string(elections):
+    verkiezing_string = ''
+    verkiezingen = [x.verkiezing for x in elections]
+    if len(verkiezingen) > 1:
+        verkiezing_string = ', '.join(verkiezingen[:-1])
+        verkiezing_string += ' en %s' % (verkiezingen[-1])
+    else:
+        verkiezing_string = verkiezingen[0]
+
+    return verkiezing_string
 
 
 def _create_record(form, stemlokaal_id, current_user):
