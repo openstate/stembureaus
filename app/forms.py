@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import (
-    ValidationError, DataRequired, Email, EqualTo, Length, URL, NumberRange,
-    AnyOf, Regexp
+    ValidationError, DataRequired, Optional, Email, EqualTo, Length, URL,
+    NumberRange, AnyOf, Regexp
 )
 from wtforms import (
     BooleanField, StringField, IntegerField, FloatField, PasswordField,
@@ -125,21 +125,70 @@ class EditForm(FlaskForm):
 
     nummer_stembureau = IntegerField(
         'Nummer stembureau',
+        description=(
+            'Een stembureau is gevestigd in een stemlokaal en elk stembureau '
+            'heeft een eigen nummer. Sommige stemlokalen hebben meerdere '
+            'stembureaus.'
+            '<br>'
+            '<br>'
+            'Elk stembureau moet apart ingevoerd worden ook al is de '
+            'locatie (het stemlokaal) hetzelfde aangezien elk stembureau een '
+            'ander nummer heeft.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> cijfers'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 517'
+        ),
         validators=[
             DataRequired(),
             NumberRange(min=1)
         ]
     )
+
     naam_stembureau = StringField(
         'Naam stembureau',
+        description=(
+            'De naam van het stembureau.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Stadhuis'
+        ),
         validators=[
             DataRequired()
         ]
     )
+
     # The order of validators is important, 'title' needs to be listed
     # before 'AnyOf'
     gebruikersdoel_het_gebouw = StringField(
         'Gebruikersdoel het gebouw',
+        description=(
+            'Gebruiksdoel volgens de BAG.'
+            '<br>'
+            '<br>'
+            'Voor uitgebreidere beschrijving van gebruiksdoelen '
+            '<a href="https://www.amsterdam.nl/stelselpedia/bag-index'
+            '/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" '
+            'target=_"blank">zie deze pagina</a>.'
+            '<br>'
+            '<br>'
+            'Gebruiksdoel van elk gebouw is te vinden door het adres op '
+            '<a href="https://bagviewer.kadaster.nl/" target="_blank">'
+            'bagviewer.kadaster.nl</a> in te voeren en rechts onder het kopje '
+            '"Verblijfsobject" te kijken. Als gebouwen hebben meerdere '
+            'gebruiksdoelen hebben scheidt deze dan met een komma.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> keuze uit: "Wonen", "Bijeenkomst", "Winkel", "Gezondheidszorg", "Kantoor", "Logies", "Industrie", "Onderwijs", "Sport", "Overig", "Cel"'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Bijeenkomst, Onderwijs'
+        ),
         validators=[
             DataRequired(),
             title,
@@ -152,14 +201,47 @@ class EditForm(FlaskForm):
             )
         ]
     )
+
     website_locatie = StringField(
         'Website locatie',
+        description=(
+            'Website van de locatie van het stembureau, indien aanwezig.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> URL'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
+            '/bestuur-en-organisatie/contact-met-de-gemeente'
+            '/stadhuis-den-haag.htm'
+        ),
         validators=[
+            Optional(),
             URL()
         ]
     )
+
     bag_referentienummer = StringField(
         'BAG referentienummer',
+        description=(
+            'BAG Nummeraanduiding ID, vindbaar door het adres van het '
+            'stembureau op <a href="https://bagviewer.kadaster.nl/" '
+            'target="_blank">bagviewer.kadaster.nl</a> in te voeren en rechts '
+            'onder het kopje "Nummeraanduiding" te kijken.'
+            '<br>'
+            '<br>'
+            'Vermeld voor mobiele stembureaus het dichtstbijzijnde BAG '
+            'Nummeraanduiding ID en gebruik eventueel het '
+            '"Extra adresaanduiding"-veld om de locatie van stembureau te '
+            'beschrijven. NB: de precieze locatie geeft u aan met de '
+            '"Latitude" en "Longitude"-velden.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> cijfers'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 0518200000747446'
+        ),
         validators=[
             DataRequired(),
             Length(
@@ -173,30 +255,83 @@ class EditForm(FlaskForm):
             )
         ]
     )
+
     extra_adresaanduiding = StringField(
         'Extra adresaanduiding',
-        validators=[]
+        description=(
+            'Eventuele extra informatie over de locatie van het stembureau. '
+            'Bv. "Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
+            'midden van het plein".'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Ingang aan achterkant gebouw'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
+
     longitude = FloatField(
         'Longitude',
+        description=(
+            'Lengtegraad met minimaal 4 decimalen.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> graden in DD.dddd notatie'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 4.3166395'
+        ),
         validators=[
             DataRequired(),
             min_four_decimals
         ]
     )
+
     latitude = FloatField(
         'Latitude',
+        description=(
+            'Breedtegraad met minimaal 4 decimalen.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> graden in DD.dddd notatie'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 52.0775912'
+        ),
         validators=[
             DataRequired(),
             min_four_decimals
         ]
     )
+
     districtcode = StringField(
         'Districtcode',
-        validators=[]
+        description='Districtcode',
+        validators=[
+            Optional(),
+        ]
     )
     openingstijden = StringField(
         'Openingstijden',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan.'
+            '<br>'
+            '<br>'
+            'Voor mobiele stembureaus moet voor elke locatie een nieuw '
+            '"stembureau" aangemaakt worden (zodat de locatie en '
+            'openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2018-03-21T07:30:00 tot 2018-03-21T21:00:00'
+        ),
         validators=[
             DataRequired(),
             Regexp(
@@ -206,43 +341,115 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2017-03-21T07:30:00 tot 2017-03-21T21:00:00".'
+                    '"2018-03-21T07:30:00 tot 2018-03-21T21:00:00".'
                 )
             )
         ]
     )
     mindervaliden_toegankelijk = BooleanField(
         'Mindervaliden toegankelijk',
-        validators=[]
+        description=(
+            'Bij de bepaling van de toegankelijkheid is het niet voldoende '
+            'als het gebouw toegankelijk is. Er moet ook minstens 1 stemhokje '
+            'goed toegankelijk zijn (en bereikbaar).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> vinkje'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
     invalidenparkeerplaatsen = BooleanField(
         'Invalidenparkeerplaatsen',
-        validators=[]
+        description=(
+            '<b>Format:</b> vinkje'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
     akoestiek = BooleanField(
         'Akoestiek',
-        validators=[]
+        description=(
+            '<b>Format:</b> vinkje'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
     mindervalide_toilet_aanwezig = BooleanField(
         'Mindervalide toilet aanwezig',
-        validators=[]
+        description=(
+            '<b>Format:</b> vinkje'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
     kieskring_id = StringField(
         'Kieskring ID',
-        validators=[]
+        description=(
+            'Afhankelijk van het type verkiezing (zie hieronder) vul je hier '
+            'het nummer of de naam van de kieskring in:<br>'
+            '- Tweede Kamerverkiezing: kieskringnummer<br>'
+            '- Raadgevend referendum: kieskringnummer<br>'
+            '- Provinciale statenverkiezingen: kieskring is provincienaam of gemeentenaam als de provincie uit meerdere kieskringen bestaat<br>'
+            '- Gemeenteraadsverkiezingen: kieskring is gemeentenaam<br>'
+            '- Eilandsraadsverkiezingen: kieskring is eilandnaam<br>'
+            '- Europees Parlementsverkiezing: kieskring is "Nederland"<br>'
+            '- Waterschapsverkiezingen: kieskring is waterschapsnaam'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> cijfer(s) of tekst'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> \'s-Gravenhage'
+        ),
+        validators=[
+            Optional(),
+        ]
     )
     hoofdstembureau = StringField(
         'Hoofdstembureau',
-        validators=[]
+        description='Hoofdstembureau',
+        validators=[
+            Optional(),
+        ]
     )
     contactgegevens = StringField(
         'Contactgegevens',
+        description=(
+            '&lt;afdeling/functie&gt;: De afdeling of specifieke functie '
+            'binnen de gemeente die zich bezig houdt met de stembureaus; ivm '
+            'verduurzaming bij voorkeur dus niet de naam/contactgegevens van '
+            'een persoon.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> &lt;afdeling/functie&gt;, &lt;e-mailadres en/of '
+            'telefoonnummer en/of postadres&gt;'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Unit Verkiezingen, verkiezingen@denhaag.nl '
+            '070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen '
+            'Postbus 84008 2508 AA Den Haag'
+        ),
         validators=[
             DataRequired()
         ]
     )
     beschikbaarheid = StringField(
         'Beschikbaarheid',
+        description=(
+            'URL van de gemeentewebsite met data of informatie over de '
+            'stembureaus (of verkiezing).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> URL'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> https://www.stembureausindenhaag.nl/'
+        ),
         validators=[
             DataRequired(),
             URL()

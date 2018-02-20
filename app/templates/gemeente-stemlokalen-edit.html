@@ -17,18 +17,40 @@
       {% for f in form %}
         {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
           <div>
-            {{ f(size=20) }} {{ f.label }}
+            {{ f(size=20) }}
+
+            <i class="fa fa-question-circle" data-toggle="popover" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
+
+            {{ f.label }}
+
+            {% if f.flags.required %}
+              <span class="required">*</span>
+            {% endif %}
+
             {% for error in f.errors %}
               <span style="color: red;">{{ error }}</span>
             {% endfor %}
            </div>
         {% endif %}
       {% endfor %}
+
       <br>
+
+      <span class="required">*</span> = vereist veld
+
+      <br>
+      <br>
+
       {{ form.submit }} {{ form.submit_annuleren }} {{ form.submit_verwijderen }}
     </form>
   </div>
 {% endblock %}
 {% block scripts %}
   {{ super() }}
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-toggle="popover"]').popover();
+    })
+  </script>
 {% endblock %}

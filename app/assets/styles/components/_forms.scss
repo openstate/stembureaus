@@ -25,7 +25,15 @@
   width: 100%;
 }
 
-label {
+.login-forms label {
   display: inline-block;
   width: 100px;
+}
+
+label {
+  font-weight: normal;
+}
+
+.required {
+  font-size: 18px;
 }
