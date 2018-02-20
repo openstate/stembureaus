@@ -2278,5 +2278,23 @@
       "verkiezingen": [],
       "email": "",
       "gemeente_naam": "Zwolle"
+   },
+   {
+      "gemeente_code": "GM9001",
+      "verkiezingen": [],
+      "email": "",
+      "gemeente_naam": "Bonaire"
+   },
+   {
+      "gemeente_code": "GM9002",
+      "verkiezingen": [],
+      "email": "",
+      "gemeente_naam": "Sint Eustatius"
+   },
+   {
+      "gemeente_code": "GM9003",
+      "verkiezingen": [],
+      "email": "",
+      "gemeente_naam": "Saba"
    }
 ]
