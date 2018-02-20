@@ -33,7 +33,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('over_deze_website') }}">Over deze website</a></li>
-            <li><a href="{{ url_for('dataset') }}">Dataset</a></li>
+            <li><a href="{{ url_for('data') }}">Data</a></li>
             {% if current_user.is_authenticated %}
               <li><a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a></li>
               <li><a href="{{ url_for('gemeente_logout') }}">Uitloggen</a></li>

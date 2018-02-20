@@ -48,9 +48,9 @@ def over_deze_website():
     return render_template('over-deze-website.html')
 
 
-@app.route("/dataset")
-def dataset():
-    return render_template('dataset.html')
+@app.route("/data")
+def data():
+    return render_template('data.html')
 
 
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
