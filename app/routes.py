@@ -12,7 +12,7 @@ from app.forms import (
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import User, ckan, Record
+from app.models import User, ckan, Record, BAG
 from math import ceil
 
 
@@ -377,6 +377,22 @@ def _create_record(form, stemlokaal_id, current_user):
     for f in form:
         if f.type != 'SubmitField' and f.type != 'CSRFTokenField':
             record[f.label.text] = f.data
+
+    bag_nummer = record['BAG referentienummer']
+    bag_record = BAG.query.get(bag_nummer)
+
+    if bag_record is not None:
+        bag_conversions = {
+            'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+            'openbareruimte': 'Straatnaam',
+            'huisnummer': 'Huisnummer',
+            'huisnummertoevoeging': 'Huisnummertoevoeging',
+            'postcode': 'Postcode',
+            'woonplaats': 'Plaats',
+        }
+
+        for bag_field, record_field in bag_conversions.items():
+            record[record_field] = getattr(bag_record, bag_field, None)
 
     return record
 
