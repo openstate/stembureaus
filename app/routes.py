@@ -13,6 +13,7 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import User, ckan, Record, BAG
+from app.utils import find_buurt_and_wijk
 from math import ceil
 
 
@@ -393,6 +394,12 @@ def _create_record(form, stemlokaal_id, current_user):
 
         for bag_field, record_field in bag_conversions.items():
             record[record_field] = getattr(bag_record, bag_field, None)
+        wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
+            current_user.gemeente_code, bag_record.lat, bag_record.lon)
+        record['Wijknaam'] = wk_naam
+        record['CBS wijknummer'] = wk_code
+        record['Buurtnaam'] = bu_naam
+        record['CBS buurtnummer'] = bu_code
 
     return record
 
