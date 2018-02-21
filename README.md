@@ -29,6 +29,7 @@ Collecting and presenting stembureaus
       - `cd docker`
       - `sudo docker-compose up -d`
       - Compile the assets, see the section below
+      - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
       - Set up backups
          - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
             - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
@@ -41,6 +42,7 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Compile the assets, see the section below
+   - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Remove and rebuild everything
