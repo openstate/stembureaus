@@ -30,6 +30,38 @@
   width: 100px;
 }
 
+.edit-form {
+  label {
+    display: inline-block;
+    width: 210px;
+    text-align: right;
+  }
+
+  input[type="submit"] {
+    margin-right: 10px;
+  }
+}
+
+@media(max-width:767px) {
+  .edit-form {
+    input:not([type="checkbox"]) {
+      width: 80%;
+    }
+
+    input[type="submit"] {
+      margin-bottom: 20px;
+    }
+
+    label {
+      text-align: left;
+    }
+
+    .edit-entry {
+      padding-bottom: 20px;
+    }
+  }
+}
+
 label {
   font-weight: normal;
 }

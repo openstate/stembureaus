@@ -16,12 +16,12 @@
       {{ form.csrf_token }}
       {% for f in form %}
         {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
-          <div>
+          <div class="edit-entry">
+            {{ f.label }}
+
             {{ f(size=20) }}
 
-            <i class="fa fa-question-circle" data-toggle="popover" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
-
-            {{ f.label }}
+            <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
 
             {% if f.flags.required %}
               <span class="required">*</span>

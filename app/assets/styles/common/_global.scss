@@ -11,11 +11,22 @@ article {
 h1 {
   font-size: 40px;
   font-weight: bold;
+  word-break: break-all;
 }
 
 h2 {
   font-size: 22px;
   font-weight: bold;
+}
+
+@media(max-width:767px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
 }
 
 .background-lighter-grey {

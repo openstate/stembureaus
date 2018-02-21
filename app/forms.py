@@ -448,7 +448,7 @@ class EditForm(FlaskForm):
             '<b>Format:</b> URL'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> https://www.stembureausindenhaag.nl/'
+            '<b>Voorbeeld:</b> https://www.stembureaus<br>indenhaag.nl/'
         ),
         validators=[
             DataRequired(),
