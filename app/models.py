@@ -77,41 +77,6 @@ class CKAN():
 ckan = CKAN()
 
 
-class Record(object):
-    def __init__(self, *args, **kwargs):
-        self.record = {}
-        self.populate(kwargs)
-        self.expand()
-
-    def populate(self, record):
-        try:
-            bag_ref = record['bag referentienummer']
-        except KeyError:
-            bag_ref = record['bag referentie nummer']
-        self.record = {
-            'nummer_stembureau': record['nummer stembureau'],
-            'naam_stembureau': record['naam stembureau'],
-            'gebruikersdoel_het_gebouw': record['gebruikersdoel het gebouw'],
-            'website_locatie': record['website locatie'],
-            'bag_referentienummer': bag_ref,
-            'extra_adresaanduiding': record['extra adresaanduiding'],
-            'longitude': record['longitude'],
-            'latitude': record['latitude'],
-            'districtcode': record['districtcode'],
-            'openingstijden': record['openingstijden'],
-            'mindervaliden_toegankelijk': record['mindervaliden toegankelijk'],
-            'invalidenparkeerplaatsen': record['invalidenparkeerplaatsen'],
-            'akoestiek': record['akoestiek'],
-            'mindervalide_toilet_aanwezig': record[
-                'mindervalide toilet aanwezig'],
-            'kieskring_id': record['kieskring id'],
-            'hoofdstembureau': record['hoofdstembureau'],
-            'contactgegevens': record['contactgegevens'],
-            'beschikbaarheid': record['beschikbaarheid']
-        }
-
-    def expand(self):
-        pass
 
 
 # The users are gemeenten
@@ -190,6 +155,60 @@ class BAG(db.Model):
     y = db.Column(db.Numeric(precision=25, scale=9))
     lon = db.Column(db.Numeric(precision=24, scale=16))
     lat = db.Column(db.Numeric(precision=24, scale=16))
+
+
+class Record(object):
+    def __init__(self, *args, **kwargs):
+        self.record = {}
+        self.populate(kwargs)
+        self.expand()
+
+    def populate(self, record):
+        try:
+            bag_ref = record['bag referentienummer']
+        except KeyError:
+            bag_ref = record['bag referentie nummer']
+        self.record = {
+            'nummer_stembureau': record['nummer stembureau'],
+            'naam_stembureau': record['naam stembureau'],
+            'gebruikersdoel_het_gebouw': record['gebruikersdoel het gebouw'],
+            'website_locatie': record['website locatie'],
+            'bag_referentienummer': bag_ref,
+            'extra_adresaanduiding': record['extra adresaanduiding'],
+            'longitude': record['longitude'],
+            'latitude': record['latitude'],
+            'districtcode': record['districtcode'],
+            'openingstijden': record['openingstijden'],
+            'mindervaliden_toegankelijk': record['mindervaliden toegankelijk'],
+            'invalidenparkeerplaatsen': record['invalidenparkeerplaatsen'],
+            'akoestiek': record['akoestiek'],
+            'mindervalide_toilet_aanwezig': record[
+                'mindervalide toilet aanwezig'],
+            'kieskring_id': record['kieskring id'],
+            'hoofdstembureau': record['hoofdstembureau'],
+            'contactgegevens': record['contactgegevens'],
+            'beschikbaarheid': record['beschikbaarheid']
+        }
+
+    def expand(self):
+        record = BAG.query.get(self.record['bag_referentienummer'])
+
+        for fld in [
+            'gemeente',
+            'straatnaam',
+            'huisnummer',
+            'huisnummetoevoeging',
+            'postcode',
+            'plaats',
+            # wijknaam
+            # cbs wijknummer
+            # buurtnaam
+            # cbs buurtnummer
+            # x
+            # y
+        ]:
+            # TODO: we need to know if these are the righ fields for in CKAN.
+            self.record[fld] = getattr(record, fld, None)
 
 # Create the 'User' table above if it doesn't exist
 db.create_all()

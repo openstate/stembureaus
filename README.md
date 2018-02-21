@@ -19,6 +19,10 @@ Collecting and presenting stembureaus
 - Copy `app/data/gemeenten.json.example` to `app/data/gemeenten.json` and edit it
    - Fill in the email addresses of the gemeenten
    - Add the name(s) of the election(s) for each gemeenten in which it participates. NOTE: make sure that these names are exactly the same as the name(s) of the election(s) in `app/config.py`
+- Downloading the BAG
+   - `cd docker/docker-entrypoint-initdb.d/`
+   - `wget -nd 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'`
+   - `unzip bag-adressen-full-laatst.csv.zip`
 - Production
    - First time set up
       - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d' if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
