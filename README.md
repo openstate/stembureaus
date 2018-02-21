@@ -58,8 +58,15 @@ To compile the assets in production:
 To compile the assets in development (this generates map files):
 - `gulp`
 
-To compile the assets in development on any file changes:
+To automatically compile the assets in development on any file changes:
 - `gulp watch`
+
+## CLI
+To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`. Here are some CLI commands:
+
+- `flask ckan maak_nieuwe_datastore <ID_of_resource>` creates a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource
+- `flask gemeenten eenmalig_gemeenten_en_verkiezingen_aanmaken` creates the gemeenten and verkiezingen tables in the MySQL database
+- `flask gemeenten eenmalig_gemeenten_uitnodigen` sends an email to each municipality inviting them to create an account
 
 ## To enter the MySQL database
    - `sudo docker run -it --rm --network stm_stm mysql bash`
