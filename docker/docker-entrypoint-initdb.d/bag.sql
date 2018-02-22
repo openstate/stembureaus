@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
   x DECIMAL(25,9),
   y DECIMAL(25,9),
   lon decimal(24, 16),
-  lat decimal(24, 16)
+  lat decimal(24, 16),
+  index qidx (openbareruimte, huisnummer, huisnummertoevoeging, woonplaats)
 ) CHARACTER SET=utf8;
 
 LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/bagadres-full.csv"

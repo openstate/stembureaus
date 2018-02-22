@@ -28,17 +28,29 @@ class WijkenBuurtenData:
         if os.path.exists('data/adressen/wijk_2017_recoded/wijk_2017.shp'):
             self.wijken = get_shapes(
                 'data/adressen/wijk_2017_recoded/wijk_2017.shp')
+            self.wijken_for_muni = {}
+            for g, p in self.wijken:
+                try:
+                    self.wijken_for_muni[p['GM_CODE']].append((g, p,))
+                except KeyError:
+                    self.wijken_for_muni[p['GM_CODE']] = [(g, p,)]
+
         if os.path.exists('data/adressen/buurt_2017_recoded/buurt_2017.shp'):
             self.buurten = get_shapes(
                 'data/adressen/buurt_2017_recoded/buurt_2017.shp')
+            self.buurten_for_wijk = {}
+            for g, p in self.buurten:
+                try:
+                    self.buurten_for_wijk[p['WK_CODE']].append((g, p,))
+                except KeyError:
+                    self.buurten_for_wijk[p['WK_CODE']] = [(g, p,)]
 
     def get_wijken_for(self, code):
         self._load()
-        return [(w, p,) for w, p in self.wijken if p['GM_CODE'] == code]
+        return self.wijken_for_muni[code]
 
     def get_buurten_for(self, code):
-        self._load()
-        return [(w, p,) for w, p in self.buurten if p['WK_CODE'] == code]
+        return self.buurten_for_wijk[code]
 
 _wijken_buurten = WijkenBuurtenData()
 
@@ -52,7 +64,6 @@ def find_shape(lat, lon, shapes):
 
 def find_buurt_and_wijk(muni_code, lon, lat):
     wijken = _wijken_buurten.get_wijken_for(muni_code)
-    print("Found %s wijken ..." % (len(wijken),))
     wijk_props = find_shape(float(lon), float(lat), wijken)
     buurten = _wijken_buurten.get_buurten_for(wijk_props['WK_CODE'])
     buurt_props = find_shape(float(lon), float(lat), buurten)
