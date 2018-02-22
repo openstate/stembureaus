@@ -395,7 +395,7 @@ def _create_record(form, stemlokaal_id, current_user):
         for bag_field, record_field in bag_conversions.items():
             record[record_field] = getattr(bag_record, bag_field, None)
         wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
-            current_user.gemeente_code, bag_record.lat, bag_record.lon)
+            current_user.gemeente_code, bag_record.lon, bag_record.lat)
         record['Wijknaam'] = wk_naam
         record['CBS wijknummer'] = wk_code
         record['Buurtnaam'] = bu_naam
