@@ -31,8 +31,6 @@ field_order = [
     'Invalidenparkeerplaatsen',
     'Akoestiek',
     'Mindervalide toilet aanwezig',
-    'Kieskring ID',
-    'Hoofdstembureau',
     'Contactgegevens',
     'Beschikbaarheid'
 ]

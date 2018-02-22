@@ -77,8 +77,6 @@ class CKAN():
 ckan = CKAN()
 
 
-
-
 # The users are gemeenten
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -184,8 +182,6 @@ class Record(object):
             'akoestiek': record['akoestiek'],
             'mindervalide_toilet_aanwezig': record[
                 'mindervalide toilet aanwezig'],
-            'kieskring_id': record['kieskring id'],
-            'hoofdstembureau': record['hoofdstembureau'],
             'contactgegevens': record['contactgegevens'],
             'beschikbaarheid': record['beschikbaarheid']
         }

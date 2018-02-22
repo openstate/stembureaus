@@ -184,7 +184,9 @@ class EditForm(FlaskForm):
             'gebruiksdoelen hebben scheidt deze dan met een komma.'
             '<br>'
             '<br>'
-            '<b>Format:</b> keuze uit: "Wonen", "Bijeenkomst", "Winkel", "Gezondheidszorg", "Kantoor", "Logies", "Industrie", "Onderwijs", "Sport", "Overig", "Cel"'
+            '<b>Format:</b> keuze uit: "Wonen", "Bijeenkomst", "Winkel", '
+            '"Gezondheidszorg", "Kantoor", "Logies", "Industrie", '
+            '"Onderwijs", "Sport", "Overig", "Cel"'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> Bijeenkomst, Onderwijs'
@@ -315,6 +317,7 @@ class EditForm(FlaskForm):
             Optional(),
         ]
     )
+
     openingstijden = StringField(
         'Openingstijden',
         description=(
@@ -346,6 +349,7 @@ class EditForm(FlaskForm):
             )
         ]
     )
+
     mindervaliden_toegankelijk = BooleanField(
         'Mindervaliden toegankelijk',
         description=(
@@ -360,6 +364,7 @@ class EditForm(FlaskForm):
             Optional(),
         ]
     )
+
     invalidenparkeerplaatsen = BooleanField(
         'Invalidenparkeerplaatsen',
         description=(
@@ -369,6 +374,7 @@ class EditForm(FlaskForm):
             Optional(),
         ]
     )
+
     akoestiek = BooleanField(
         'Akoestiek',
         description=(
@@ -381,6 +387,7 @@ class EditForm(FlaskForm):
             Optional(),
         ]
     )
+
     mindervalide_toilet_aanwezig = BooleanField(
         'Mindervalide toilet aanwezig',
         description=(
@@ -390,36 +397,7 @@ class EditForm(FlaskForm):
             Optional(),
         ]
     )
-    kieskring_id = StringField(
-        'Kieskring ID',
-        description=(
-            'Afhankelijk van het type verkiezing (zie hieronder) vul je hier '
-            'het nummer of de naam van de kieskring in:<br>'
-            '- Tweede Kamerverkiezing: kieskringnummer<br>'
-            '- Raadgevend referendum: kieskringnummer<br>'
-            '- Provinciale statenverkiezingen: kieskring is provincienaam of gemeentenaam als de provincie uit meerdere kieskringen bestaat<br>'
-            '- Gemeenteraadsverkiezingen: kieskring is gemeentenaam<br>'
-            '- Eilandsraadsverkiezingen: kieskring is eilandnaam<br>'
-            '- Europees Parlementsverkiezing: kieskring is "Nederland"<br>'
-            '- Waterschapsverkiezingen: kieskring is waterschapsnaam'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> cijfer(s) of tekst'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> \'s-Gravenhage'
-        ),
-        validators=[
-            Optional(),
-        ]
-    )
-    hoofdstembureau = StringField(
-        'Hoofdstembureau',
-        description='Hoofdstembureau',
-        validators=[
-            Optional(),
-        ]
-    )
+
     contactgegevens = StringField(
         'Contactgegevens',
         description=(
@@ -441,6 +419,7 @@ class EditForm(FlaskForm):
             DataRequired()
         ]
     )
+
     beschikbaarheid = StringField(
         'Beschikbaarheid',
         description=(
