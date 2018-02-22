@@ -17,6 +17,7 @@ from app.utils import find_buurt_and_wijk
 from math import ceil
 
 
+# Used to set the order of the fields in the stembureaus overzicht
 field_order = [
     'Nummer stembureau',
     'Naam stembureau',
@@ -353,10 +354,10 @@ def gemeente_stemlokalen_edit(stemlokaal_id):
     )
 
 
-@app.route("/instructies")
+@app.route("/gemeente-instructies")
 @login_required
-def instructies():
-    return render_template('instructies.html')
+def gemeente_instructies():
+    return render_template('gemeente-instructies.html')
 
 
 # Format string containing the verkiezingen
