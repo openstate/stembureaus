@@ -163,47 +163,6 @@ class EditForm(FlaskForm):
         ]
     )
 
-    # The order of validators is important, 'title' needs to be listed
-    # before 'AnyOf'
-    gebruikersdoel_het_gebouw = StringField(
-        'Gebruikersdoel het gebouw',
-        description=(
-            'Gebruiksdoel volgens de BAG.'
-            '<br>'
-            '<br>'
-            'Voor uitgebreidere beschrijving van gebruiksdoelen '
-            '<a href="https://www.amsterdam.nl/stelselpedia/bag-index'
-            '/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" '
-            'target=_"blank">zie deze pagina</a>.'
-            '<br>'
-            '<br>'
-            'Gebruiksdoel van elk gebouw is te vinden door het adres op '
-            '<a href="https://bagviewer.kadaster.nl/" target="_blank">'
-            'bagviewer.kadaster.nl</a> in te voeren en rechts onder het kopje '
-            '"Verblijfsobject" te kijken. Als gebouwen hebben meerdere '
-            'gebruiksdoelen hebben scheidt deze dan met een komma.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> keuze uit: "Wonen", "Bijeenkomst", "Winkel", '
-            '"Gezondheidszorg", "Kantoor", "Logies", "Industrie", '
-            '"Onderwijs", "Sport", "Overig", "Cel"'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Bijeenkomst, Onderwijs'
-        ),
-        validators=[
-            DataRequired(),
-            title,
-            AnyOf(
-                [
-                    'Wonen', 'Bijeenkomst', 'Winkel', 'Gezondheidszorg',
-                    'Kantoor', 'Logies', 'Industrie', 'Onderwijs', 'Sport',
-                    'Cel', 'Overig'
-                ]
-            )
-        ]
-    )
-
     website_locatie = StringField(
         'Website locatie',
         description=(
