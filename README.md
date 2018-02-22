@@ -29,6 +29,7 @@ Collecting and presenting stembureaus
       - `cd docker`
       - `sudo docker-compose up -d`
       - Compile the assets, see the section below
+      - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
       - Set up backups
          - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
             - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
@@ -41,6 +42,7 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Compile the assets, see the section below
+   - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Remove and rebuild everything
@@ -62,8 +64,15 @@ To compile the assets in production:
 To compile the assets in development (this generates map files):
 - `gulp`
 
-To compile the assets in development on any file changes:
+To automatically compile the assets in development on any file changes:
 - `gulp watch`
+
+## CLI
+To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`. Here are some CLI commands:
+
+- `flask ckan maak_nieuwe_datastore <ID_of_resource>` creates a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource
+- `flask gemeenten eenmalig_gemeenten_en_verkiezingen_aanmaken` creates the gemeenten and verkiezingen tables in the MySQL database
+- `flask gemeenten eenmalig_gemeenten_uitnodigen` sends an email to each municipality inviting them to create an account
 
 ## To enter the MySQL database
    - `sudo docker run -it --rm --network stm_stm mysql bash`

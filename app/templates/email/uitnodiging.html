@@ -1,14 +1,34 @@
-<p>Beste medewerker van de gemeente {{ user.gemeente_naam }},</p>
-<p>
-<p>
-<p>Bij dezen nodigen wij u graag uit om deel te nemem.... etc. etc. etc.</p>
-<p>
-<p>Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een <a href="{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}">wachtwoord aan te maken voor uw account</a>.
-<p>
-<p>U kunt ook de volgende pagina bezoeken:</p>
-<p>{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}</p>
-<p>
-<p>Deze pagina komt over 24 uur te vervallen. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een <a href="{{ url_for('gemeente_reset_wachtwoord_verzoek', _external=True) }}">nieuw verzoek indienen</a>.</p>
-<p>
-<p>Met vriendelijke groet,</p>
-<p>Open State Foundation namens waarismijnstemlokaal.nl</p>
+Beste medewerker van de gemeente {{ user.gemeente_naam }},
+<br>
+<br>
+<br>
+Bij dezen nodigen wij u graag uit om deel te nemen aan het platform 'Waar is mijn Stemlokaal'. Dit is het platform waar gemeenten voor de gemeenteraadsverkiezingen en het referendum over de Wet op de inlichtingen- en veiligheidsdiensten hun lijsten met stembureaus kunnen uploaden. Eerder heeft u hier via de nieuwsbrief van het ministerie van Binnenlandse Zaken informatie over ontvangen.
+<br>
+<br>
+<b>Hoe kan ik inloggen?</b>
+<br>
+Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een <a href="{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}">wachtwoord aan te maken voor uw account</a>.
+<br>
+<br>
+U kunt ook de volgende pagina bezoeken:
+<br>
+{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}
+<br>
+<br>
+Deze pagina komt over 24 uur te vervallen. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een <a href="{{ url_for('gemeente_reset_wachtwoord_verzoek', _external=True) }}">nieuw verzoek indienen</a>.
+<br>
+<br>
+<b>Over 'Waar is mijn Stemlokaal'</b>
+<br>
+Op 21 maart gaat Nederland naar de stembus voor de gemeenteraadsverkiezingen en het referendum over de Wet op de inlichtingen- en veiligheidsdiensten. Het ministerie van BZK, de gemeenten en Open State Foundation willen met open data mogelijk maken dat kiezers eenvoudig hun dichtstbijzijnde stembureau kunnen opzoeken. Hiervoor kunnen gemeenten via het platform van Open State Foundation hun lijsten met stembureaus invoeren.
+<br>
+<br>
+<b>Vragen of contact?</b>
+<br>
+Heeft u vragen? Neem dan contact op met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a> van Open State Foundation of met Aernoud Aekse van het het ministerie van BZK (<a href="mailto:Aernoud.Akse@minbzk.nl">Aernoud.Akse@minbzk.nl</a>).
+<br>
+<br>
+<br>
+Met vriendelijke groet,
+<br>
+Open State Foundation namens waarismijnstemlokaal.nl

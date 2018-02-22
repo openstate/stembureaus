@@ -1,17 +1,14 @@
 {% extends "base.html" %}
-{% block head %}
-  {{ super() }}
-{% endblock %}
 {% block content %}
   <div>
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureausoverzicht
+    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
   </div>
 
-  <h1 class="title-pad">Stembureausoverzicht</h1>
+  <h1 class="title-pad">Stembureaus</h1>
 
   <br>
 
-  Overzicht van de stembureaus van de gemeente {{ current_user.gemeente_naam }} voor {{ verkiezing_string }}.
+  Overzicht van de stembureaus van de gemeente {{ current_user.gemeente_naam }} voor {{ verkiezing_string | safe }}.
 
   <br>
   <br>
@@ -26,7 +23,7 @@
   {% if disable_publish_form %}
     {{ publish_form.submit(disabled=True) }} [de stembureaus zijn gepubliceerd]
   {% else %}
-    {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit stembureausoverzicht die u nog niet heeft gepubliceerd</span>]
+    {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
   {% endif %}
   </form>
 
@@ -77,7 +74,4 @@
 
   Pagina {{ page }} van {{ total_pages }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
 
-{% endblock %}
-{% block scripts %}
-  {{ super() }}
 {% endblock %}

@@ -32,8 +32,6 @@ field_order = [
     'Invalidenparkeerplaatsen',
     'Akoestiek',
     'Mindervalide toilet aanwezig',
-    'Kieskring ID',
-    'Hoofdstembureau',
     'Contactgegevens',
     'Beschikbaarheid'
 ]
@@ -355,10 +353,16 @@ def gemeente_stemlokalen_edit(stemlokaal_id):
     )
 
 
+@app.route("/instructies")
+@login_required
+def instructies():
+    return render_template('instructies.html')
+
+
 # Format string containing the verkiezingen
 def _format_verkiezingen_string(elections):
     verkiezing_string = ''
-    verkiezingen = [x.verkiezing for x in elections]
+    verkiezingen = ['<b>' + x.verkiezing + '</b>' for x in elections]
     if len(verkiezingen) > 1:
         verkiezing_string = ', '.join(verkiezingen[:-1])
         verkiezing_string += ' en %s' % (verkiezingen[-1])
