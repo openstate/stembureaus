@@ -124,6 +124,11 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.email)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 class Election(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     verkiezing = db.Column(db.String(250), index=True)
@@ -212,8 +217,3 @@ class Record(object):
 
 # Create the 'User' table above if it doesn't exist
 db.create_all()
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
