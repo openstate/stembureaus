@@ -1,6 +1,6 @@
 import os
 
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, Markup
 from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user)
 from werkzeug.utils import secure_filename
@@ -15,6 +15,7 @@ from app.email import send_password_reset_email
 from app.models import User, ckan, Record, BAG
 from app.utils import find_buurt_and_wijk
 from math import ceil
+from time import sleep
 
 
 # Used to set the order of the fields in the stembureaus overzicht
@@ -141,21 +142,91 @@ def gemeente_stemlokalen_dashboard():
     if gemeente_draft_records != gemeente_publish_records:
         show_publish_note = True
 
-    result = None
     form = FileUploadForm()
 
+    # Save, parse and validate an uploaded spreadsheet and save the
+    # stembureaus
     if form.validate_on_submit():
-            f = form.data_file.data
-            filename = secure_filename(f.filename)
-            file_path = os.path.join(
-                os.path.abspath(
-                    os.path.join(app.instance_path, '../data-files')),
-                filename)
-            f.save(file_path)
-            parser = UploadFileParser()
-            headers, records = parser.parse(file_path)
-            validator = Validator()
-            result = validator.validate(headers, records)
+        f = form.data_file.data
+        filename = secure_filename(f.filename)
+        file_path = os.path.join(
+            os.path.abspath(
+                os.path.join(app.instance_path, '../upload')),
+            filename)
+        f.save(file_path)
+        parser = UploadFileParser()
+        headers, records = parser.parse(file_path)
+        validator = Validator()
+        results = validator.validate(headers, records)
+
+        # If the spreadsheet did not validate then return the errors as
+        # flash messages
+        if results[0] == False:
+            flash(
+                Markup(
+                    'Uploaden mislukt. Los de hieronder getoonde '
+                    'foutmeldingen op en upload de spreadsheet opnieuw.'
+                    '<br><br>'
+                )
+            )
+            for column_number, col_result in sorted(results[1].items()):
+                if col_result['errors']:
+                    error_flash = (
+                        '<b>Foutmelding(en) in <span class="text-red">kolom '
+                        '%s</span></b>:' % (column_number)
+                    )
+                    error_flash += '<ul>'
+                    for column_name, error in col_result['errors'].items():
+                        error_flash += '<li>%s: %s</li>' % (
+                            column_name, error[0]
+                        )
+                    error_flash += '</ul><br>'
+                    flash(Markup(error_flash))
+        # If the spreadsheet did validate then first delete all current
+        # stembureaus from the draft_resource and then save the newly
+        # uploaded stembureaus to the draft_resources of each election
+        # and finally redirect to the overzicht
+        else:
+            # Delete all stembureaus of current gemeente
+            for election in [x.verkiezing for x in elections]:
+                ckan.delete_records(
+                    ckan.elections[election]['draft_resource'],
+                    {
+                        'CBS gemeentecode': gemeente_draft_records[0][
+                            'CBS gemeentecode'
+                        ]
+                    }
+                )
+
+            # Create and save records
+            stemlokaal_id = _get_new_primary_key()
+            records = []
+            for result in results[1]:
+                records.append(
+                    _create_record(
+                        results[1][result]['form'],
+                        stemlokaal_id,
+                        current_user
+                    )
+                )
+                stemlokaal_id += 1
+            for election in [x.verkiezing for x in elections]:
+                ckan.save_records(
+                    ckan.elections[election]['draft_resource'],
+                    records=records
+                )
+
+            flash(
+                'Het uploaden van stembureaus is gelukt! Controleer in het '
+                'overzicht hieronder of alles klopt en voer eventuele '
+                'wijzigingen door. Klik vervolgens op de "Publiceer"-knop als '
+                'alles klopt.'
+            )
+            return redirect(
+                url_for(
+                    'gemeente_stemlokalen_overzicht'
+                )
+            )
 
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
@@ -163,12 +234,11 @@ def gemeente_stemlokalen_dashboard():
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
-        result=result,
         show_publish_note=show_publish_note
     )
 
 
-@app.route("/gemeente-stemlokalen-overzicht/", methods=['GET', 'POST'])
+@app.route("/gemeente-stemlokalen-overzicht", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_overzicht():
     elections = current_user.elections.all()
@@ -183,13 +253,6 @@ def gemeente_stemlokalen_overzicht():
         ckan.elections[verkiezing]['draft_resource']
     )
 
-    # Find the current largest primary_key value in order to create a
-    # new primary_key value when the user wants to add a new stembureau
-    largest_primary_key = 0
-    for record in all_draft_records['records']:
-        if record['primary_key'] > largest_primary_key:
-            largest_primary_key = record['primary_key']
-
     gemeente_draft_records = [
         record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_user.gemeente_code
@@ -199,12 +262,16 @@ def gemeente_stemlokalen_overzicht():
 
     publish_form = PubliceerForm()
 
+    # Publiceren
     if publish_form.validate_on_submit():
         if publish_form.submit.data:
             # Publish stembureaus to all elections
             for election in [x.verkiezing for x in elections]:
                 ckan.publish(election, gemeente_draft_records)
             flash('Stembureaus gepubliceerd')
+            # Sleep to make sure that the data is saved before it is
+            # requested again in the lines right below here
+            sleep(1)
 
     all_publish_records = ckan.get_records(
         ckan.elections[verkiezing]['publish_resource']
@@ -262,7 +329,6 @@ def gemeente_stemlokalen_overzicht():
         field_order=field_order,
         publish_form=publish_form,
         disable_publish_form=disable_publish_form,
-        new_primary_key=largest_primary_key + 1,
         page=page,
         start_record=start_record + 1,
         end_record=end_record,
@@ -274,11 +340,15 @@ def gemeente_stemlokalen_overzicht():
 
 
 @app.route(
+    "/gemeente-stemlokalen-edit",
+    methods=['GET', 'POST']
+)
+@app.route(
     "/gemeente-stemlokalen-edit/<stemlokaal_id>",
     methods=['GET', 'POST']
 )
 @login_required
-def gemeente_stemlokalen_edit(stemlokaal_id):
+def gemeente_stemlokalen_edit(stemlokaal_id=None):
     elections = current_user.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
@@ -298,10 +368,11 @@ def gemeente_stemlokalen_edit(stemlokaal_id):
 
     # Initialize the form with the data already available in the draft
     init_record = {}
-    for record in gemeente_draft_records:
-        if record['primary_key'] == int(stemlokaal_id):
-            init_record = Record(
-                **{k.lower(): v for k, v in record.items()}).record
+    if stemlokaal_id:
+        for record in gemeente_draft_records:
+            if record['primary_key'] == int(stemlokaal_id):
+                init_record = Record(
+                    **{k.lower(): v for k, v in record.items()}).record
 
     form = EditForm(**init_record)
 
@@ -318,22 +389,23 @@ def gemeente_stemlokalen_edit(stemlokaal_id):
     # When the user clicked the 'Verwijderen' button delete the
     # stembureau from the draft_resources of each election
     if form.submit_verwijderen.data:
-        for election in [x.verkiezing for x in elections]:
-            ckan.delete_records(
-                ckan.elections[election]['draft_resource'],
-                {'primary_key': stemlokaal_id}
-            )
+        if stemlokaal_id:
+            for election in [x.verkiezing for x in elections]:
+                ckan.delete_records(
+                    ckan.elections[election]['draft_resource'],
+                    {'primary_key': stemlokaal_id}
+                )
         flash('Stembureau verwijderd')
         return redirect(
             url_for(
-                'gemeente_stemlokalen_overzicht',
-                verkiezing=verkiezing
+                'gemeente_stemlokalen_overzicht'
             )
         )
-
     # When the user clicked the 'Opslaan' button save the stembureau
     # to the draft_resources of each election
     if form.validate_on_submit():
+        if not stemlokaal_id:
+            stemlokaal_id = _get_new_primary_key()
         record = _create_record(form, stemlokaal_id, current_user)
         for election in [x.verkiezing for x in elections]:
             ckan.save_records(
@@ -370,6 +442,29 @@ def _format_verkiezingen_string(elections):
         verkiezing_string = verkiezingen[0]
 
     return verkiezing_string
+
+
+# Find the current largest primary_key value in order to create a
+# new primary_key value when the user adds a new stembureau
+def _get_new_primary_key():
+    elections = current_user.elections.all()
+
+    # Pick the first election. In the case of multiple elections we only
+    # retrieve the stembureaus of the first election as the records for
+    # both elections are the same (at least the GR2018 + referendum
+    # elections on March 21st 2018).
+    verkiezing = elections[0].verkiezing
+
+    all_draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
+
+    largest_primary_key = 0
+    for record in all_draft_records['records']:
+        if record['primary_key'] > largest_primary_key:
+            largest_primary_key = record['primary_key']
+
+    return largest_primary_key + 1
 
 
 def _create_record(form, stemlokaal_id, current_user):

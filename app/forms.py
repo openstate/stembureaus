@@ -89,17 +89,13 @@ class PubliceerForm(FlaskForm):
     )
 
 
-def title(form, field):
-    # Make sure the first character is upper case (this conversion will
-    # be saved)
-    field.data = field.data.title()
-
-
-# Require at least four decimals
+# Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
     if not re.match('^\d+\.\d{4,}', str(field.data)):
         raise ValidationError(
-            'Latitude en Longitude moeten minimaal 4 decimalen hebben.'
+            'De cijfer in de Latitude en Longitude velden moeten met een punt '
+            'gescheiden worden (geen komma) en moeten minimaal 4 decimalen '
+            'achter de punt hebben.'
         )
 
 
@@ -143,7 +139,7 @@ class EditForm(FlaskForm):
         ),
         validators=[
             DataRequired(),
-            NumberRange(min=1)
+            NumberRange(min=1, max=2000000000)
         ]
     )
 
