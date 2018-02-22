@@ -174,7 +174,6 @@ class Record(object):
         self.record = {
             'nummer_stembureau': record['nummer stembureau'],
             'naam_stembureau': record['naam stembureau'],
-            'gebruikersdoel_het_gebouw': record['gebruikersdoel het gebouw'],
             'website_locatie': record['website locatie'],
             'bag_referentienummer': bag_ref,
             'extra_adresaanduiding': record['extra adresaanduiding'],

@@ -21,7 +21,6 @@ from math import ceil
 field_order = [
     'Nummer stembureau',
     'Naam stembureau',
-    'Gebruikersdoel het gebouw',
     'Website locatie',
     'BAG referentienummer',
     'Extra adresaanduiding',
