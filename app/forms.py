@@ -372,6 +372,9 @@ class EditForm(FlaskForm):
     akoestiek = BooleanField(
         'Akoestiek',
         description=(
+            'Aanvinken als de akoestiek geschikt is voor slechthorenden.'
+            '<br>'
+            '<br>'
             '<b>Format:</b> vinkje'
         ),
         validators=[

@@ -19,6 +19,10 @@ h2 {
   font-weight: bold;
 }
 
+a {
+  color: $light-blue;
+}
+
 @media(max-width:767px) {
   h1 {
     font-size: 26px;

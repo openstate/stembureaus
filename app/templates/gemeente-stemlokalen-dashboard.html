@@ -8,16 +8,21 @@
 
   <br>
 
+  <a href="{{ url_for('instructies') }}">Klik hier voor instructies</a> over het toevoegen van stembureaus.
+
+  <br>
+  <br>
+
   <div class="action-bar block-padding">
-    U heeft voor {{ verkiezing_string }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd.
+    U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureau(s) opgeslagen en {{total_publish_records}} gepubliceerd.
     {% if show_publish_note %}
-    <span class="text-red">Let op: er zijn wijzigingen in het stembureausoverzicht die u nog niet gepubliceerd heeft.</span>
+    <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
     {% endif %}
 
     <br>
     <br>
 
-    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureausoverzicht</a>
+    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
   </div>
 
   <br>
@@ -25,11 +30,22 @@
 
   <div class="row">
     <div class="col-md-8 background-lighter-grey block-padding">
-      <h2>Bewerk een oude lijst of maak een nieuwe aan</h2>
+      <h2>Download 'leeg' of deels vooringevuld stembureau-spreadsheet</h2>
+      <br>
+      <br>
+      'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.ods"><b>.ods</b></a> of <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
+      <br>
+      <br>
+      Deels vooringevuld stembureau-spreadsheet met stembureaus van Tweede Kamerverkiezing 2017:
+      {% if tweede %}
+      .ods of .xlsx
+      {% else %}
+      <b>niet beschikbaar</b>
+      {% endif %}
     </div>
 
     <div class="col-md-4 background-light-blue block-padding upload-block">
-      <h2 class="text-white">Upload stembureaus</h2>
+      <h2 class="text-white">Upload stembureau-spreadsheet</h2>
 
       <br>
 
@@ -45,7 +61,4 @@
       <div>{{ result }}</div>
     </div>
   </div>
-{% endblock %}
-{% block scripts %}
-  {{ super() }}
 {% endblock %}

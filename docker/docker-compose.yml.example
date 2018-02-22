@@ -7,6 +7,7 @@ services:
     volumes:
       - ./nginx/:/etc/nginx/
       - ../app/static/:/usr/share/nginx/html/static/
+      - ../files/:/usr/share/nginx/html/files/
     networks:
       - nginx-load-balancer
       - stm
