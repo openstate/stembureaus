@@ -33,15 +33,34 @@ class Validator(object):
         """
         results = {}
         record_validator = RecordValidator()
-        line_no = 5
+        column_number = 5
         no_errors = True
+        found_any_record_with_values = False
         for record in records:
-            line_no += 1
-            validated, errors, form = record_validator.validate(headers, record)
-            if not validated:
-                no_errors = False
-            results[line_no] = {
+            column_number += 1
+
+            # Only validate records which have at least one field with a
+            # value
+            record_values = [str(x).replace('0', '') for x in record.values()]
+            if ''.join(record_values).strip() != '':
+                validated, errors, form = record_validator.validate(headers, record)
+                found_any_record_with_values = True
+                if not validated:
+                    no_errors = False
+            # Keep track of empty columns as well in order to provide
+            # the correct columns numbers in the user facing error
+            # messages when some columns are left empty in between
+            # filled columns
+            else:
+                errors = ''
+                form = ''
+
+            results[column_number] = {
                 'errors': errors,
                 'form': form
             }
-        return no_errors, results
+        return {
+            'no_errors': no_errors,
+            'found_any_record_with_values': found_any_record_with_values,
+            'results': results
+        }

@@ -59,7 +59,7 @@ class FileUploadForm(FlaskForm):
         validators=[
             FileRequired(),
             FileAllowed(
-                ['json', 'csv', 'xls', 'xlsx', 'ods'],
+                ['xls', 'xlsx', 'ods'],
                 (
                     'Alleen Excel (.xls, .xslx) of OpenDocument (.ods) '
                     'spreadsheets zijn toegestaan.'
@@ -68,7 +68,7 @@ class FileUploadForm(FlaskForm):
         ],
         render_kw={
             'class': 'filestyle',
-            'data-classButton': 'btn btn-primary',
+            'data-classButton': 'btn btn-info',
             'data-buttonText': 'Your label here'
         }
     )

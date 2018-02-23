@@ -161,7 +161,7 @@ def gemeente_stemlokalen_dashboard():
 
         # If the spreadsheet did not validate then return the errors as
         # flash messages
-        if results[0] == False:
+        if not results['no_errors']:
             flash(
                 Markup(
                     'Uploaden mislukt. Los de hieronder getoonde '
@@ -169,7 +169,7 @@ def gemeente_stemlokalen_dashboard():
                     '<br><br>'
                 )
             )
-            for column_number, col_result in sorted(results[1].items()):
+            for column_number, col_result in sorted(results['results'].items()):
                 if col_result['errors']:
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">kolom '
@@ -182,34 +182,40 @@ def gemeente_stemlokalen_dashboard():
                         )
                     error_flash += '</ul><br>'
                     flash(Markup(error_flash))
+        # If there not a single value in the results then state that we
+        # could not find any stembureaus
+        elif not results['found_any_record_with_values']:
+            flash('Uploaden mislukt. Er zijn geen stembureaus gevonden in de spreadsheet.')
         # If the spreadsheet did validate then first delete all current
         # stembureaus from the draft_resource and then save the newly
         # uploaded stembureaus to the draft_resources of each election
         # and finally redirect to the overzicht
         else:
             # Delete all stembureaus of current gemeente
-            for election in [x.verkiezing for x in elections]:
-                ckan.delete_records(
-                    ckan.elections[election]['draft_resource'],
-                    {
-                        'CBS gemeentecode': gemeente_draft_records[0][
-                            'CBS gemeentecode'
-                        ]
-                    }
-                )
+            if gemeente_draft_records:
+                for election in [x.verkiezing for x in elections]:
+                    ckan.delete_records(
+                        ckan.elections[election]['draft_resource'],
+                        {
+                            'CBS gemeentecode': gemeente_draft_records[0][
+                                'CBS gemeentecode'
+                            ]
+                        }
+                    )
 
             # Create and save records
             stemlokaal_id = _get_new_primary_key()
             records = []
-            for result in results[1]:
-                records.append(
-                    _create_record(
-                        results[1][result]['form'],
-                        stemlokaal_id,
-                        current_user
+            for columns_number, result in results['results'].items():
+                if result['form']:
+                    records.append(
+                        _create_record(
+                            result['form'],
+                            stemlokaal_id,
+                            current_user
+                        )
                     )
-                )
-                stemlokaal_id += 1
+                    stemlokaal_id += 1
             for election in [x.verkiezing for x in elections]:
                 ckan.save_records(
                     ckan.elections[election]['draft_resource'],

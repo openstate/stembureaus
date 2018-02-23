@@ -5,42 +5,13 @@ import os
 import json
 import re
 
+from pyexcel_ods3 import get_data
 from xlrd import open_workbook
 
 
 class BaseParser(object):
     def __init__(self, *args, **kwargs):
         pass
-
-    def parse(self, path):
-        """
-        Parses a file (Assumes). Returns a tuple of a list of headers and
-        a list of records.
-        """
-        raise NotImplementedError
-
-
-class JSONParser(BaseParser):
-    def parse(self, path):
-        headers = []
-        records = []
-        if not os.path.exists(path):
-            return [], []
-
-        with open(path) as in_file:
-            records = json.load(in_file)
-
-        return headers, records
-
-
-class ExcelParser(BaseParser):
-    def _has_correct_sheet_count(self, wb):
-        return (wb.nsheets == 3) or (wb.nsheets == 1)
-
-    # Retrieve field names, lowercase them and replace spaces with
-    # underscores
-    def _get_headers(self, sh):
-        return [x.lower().replace(' ', '_') for x in sh.col_values(0)[1:]]
 
     # Rename columnnames which use different spellings
     def _clean_headers(self, headers):
@@ -69,6 +40,67 @@ class ExcelParser(BaseParser):
         return records
 
     def parse(self, path):
+        """
+        Parses a file (Assumes). Returns a tuple of a list of headers and
+        a list of records.
+        """
+        raise NotImplementedError
+
+
+class ODSParser(BaseParser):
+    # Retrieve field names, lowercase them and replace spaces with
+    # underscores
+    def _get_headers(self, sh):
+        return [x[0].lower().replace(' ', '_') for x in sh[1:] if x]
+
+    def _get_records(self, sh, clean_headers):
+        records = []
+        for col_num in range(5, len(sh[0])):
+            values = []
+            for row in sh[1:]:
+                if row:
+                    try:
+                        values.append(row[col_num])
+                    except IndexError:
+                        values.append('')
+            records.append(dict(zip(clean_headers, values)))
+
+        return records
+
+    def parse(self, path):
+        headers = []
+        if not os.path.exists(path):
+            return [], []
+
+        wb = get_data(path)
+        sh = wb['Attributen']
+
+        headers = self._get_headers(sh)
+        clean_headers = self._clean_headers(headers)
+
+        records = self._get_records(sh, clean_headers)
+        clean_records = self._clean_records(records)
+
+        return clean_headers, clean_records
+
+
+class ExcelParser(BaseParser):
+    def _has_correct_sheet_count(self, wb):
+        return (wb.nsheets == 3) or (wb.nsheets == 1)
+
+    # Retrieve field names, lowercase them and replace spaces with
+    # underscores
+    def _get_headers(self, sh):
+        return [x.lower().replace(' ', '_') for x in sh.col_values(0)[1:]]
+
+    def _get_records(self, sh, clean_headers):
+        records = []
+        for col_num in range(5, sh.ncols):
+            records.append(dict(zip(clean_headers, sh.col_values(col_num)[1:])))
+
+        return records
+
+    def parse(self, path):
         headers = []
         if not os.path.exists(path):
             return [], []
@@ -91,29 +123,17 @@ class ExcelParser(BaseParser):
         headers = self._get_headers(sh)
         clean_headers = self._clean_headers(headers)
 
-        records = []
-        for col_num in range(5, sh.ncols):
-            records.append(dict(zip(clean_headers, sh.col_values(col_num)[1:])))
-
-        # Only save records which have at least one field with a value
-        records = [
-            r for r in records if ''.join(
-                [str(x).replace('0', '') for x in r.values()]
-            ).strip() != ''
-        ]
-
+        records = self._get_records(sh, clean_headers)
         clean_records = self._clean_records(records)
 
         return clean_headers, clean_records
 
-class CSVParser(BaseParser):
-    pass
-
 
 class UploadFileParser(BaseParser):
     PARSERS = {
-        '.json': JSONParser,
-        '.xlsx': ExcelParser
+        '.ods': ODSParser,
+        '.xlsx': ExcelParser,
+        '.xls': ExcelParser
     }
 
     def parse(self, path):
