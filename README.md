@@ -9,7 +9,7 @@ Collecting and presenting stembureaus
 - Clone or download this project from GitHub:
 - Copy `docker/docker-compose.yml.example` to `docker/docker-compose.yml` and edit it
    - Fill in a password at `<DB_PASSWORD>`
-- Copy `app/config.py.example` to `app/config.py` and edit it
+- Copy `config.py.example` to `config.py` and edit it
    - Create a SECRET_KEY as per the instructions in the file
    - Fill in your CKAN URL and CKAN API key
    - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
@@ -19,12 +19,12 @@ Collecting and presenting stembureaus
 - Copy `app/data/gemeenten.json.example` to `app/data/gemeenten.json` and edit it
    - Fill in the email addresses of the gemeenten
    - Add the name(s) of the election(s) for each gemeenten in which it participates. NOTE: make sure that these names are exactly the same as the name(s) of the election(s) in `app/config.py`
-- Downloading the BAG
+- Download the most recent BAG
    - `cd docker/docker-entrypoint-initdb.d/`
    - `wget -nd 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'`
    - `unzip bag-adressen-full-laatst.csv.zip`
 - Production
-   - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d' if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
+   - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
    - `sudo docker-compose up -d`
    - Compile the assets, see the section below
