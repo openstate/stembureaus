@@ -149,10 +149,13 @@ def gemeente_stemlokalen_dashboard():
     if form.validate_on_submit():
         f = form.data_file.data
         filename = secure_filename(f.filename)
+        filename = '%s__%s' % (current_user.gemeente_code, filename)
         file_path = os.path.join(
             os.path.abspath(
-                os.path.join(app.instance_path, '../upload')),
-            filename)
+                os.path.join(app.instance_path, '../upload')
+            ),
+            filename
+        )
         f.save(file_path)
         parser = UploadFileParser()
         headers, records = parser.parse(file_path)
