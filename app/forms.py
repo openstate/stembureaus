@@ -68,8 +68,10 @@ class FileUploadForm(FlaskForm):
         ],
         render_kw={
             'class': 'filestyle',
-            'data-classButton': 'btn btn-info',
-            'data-buttonText': 'Your label here'
+            'data-buttonName': 'btn-info',
+            'data-buttonText': 'Voeg bestand toe',
+            'data-icon': 'false',
+            'data-buttonBefore': 'true'
         }
     )
     submit = SubmitField(
