@@ -338,6 +338,6 @@ def eenmalig_gemeenten_uitnodigen():
 
     total_mailed = 0
     for user in User.query.all():
-        send_invite(user)
+        send_invite(user, 349725)
         total_mailed += 1
     print('%d gemeenten ge-e-maild' % (total_mailed))
