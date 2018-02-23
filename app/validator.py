@@ -11,18 +11,15 @@ class RecordValidator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, line_no, headers=[], record={}):
+    def validate(self, headers=[], record={}):
         """
         Validates a single record. Gets a line number and a list of headers as
         well as a dict. Returns a list of issues found, which can be empty.
         """
-        old_val = app.app.config.get('WTF_CSRF_ENABLED', True)
-        app.app.config['WTF_CSRF_ENABLED'] = False
-        form = EditForm(MultiDict(record))
+        form = EditForm(MultiDict(record), csrf_enabled=False)
         result = form.validate()
         errors = form.errors
-        app.app.config['WTF_CSRF_ENABLED'] = old_val
-        return result, errors
+        return result, errors, form
 
 
 class Validator(object):
@@ -34,13 +31,36 @@ class Validator(object):
         Validates input, which consists of a list of headers with a series of
         records. Returns a tuple consisting of a bool and a list of issues.
         """
-        results = []
+        results = {}
         record_validator = RecordValidator()
-        line_no = 0
+        column_number = 5
+        no_errors = True
+        found_any_record_with_values = False
         for record in records:
-            line_no += 1
-            validated, errors = record_validator.validate(
-                line_no, headers, record)
-            if not validated:
-                results += [errors]
-        return (len(results) == 0), results
+            column_number += 1
+
+            # Only validate records which have at least one field with a
+            # value
+            record_values = [str(x).replace('0', '') for x in record.values()]
+            if ''.join(record_values).strip() != '':
+                validated, errors, form = record_validator.validate(headers, record)
+                found_any_record_with_values = True
+                if not validated:
+                    no_errors = False
+            # Keep track of empty columns as well in order to provide
+            # the correct columns numbers in the user facing error
+            # messages when some columns are left empty in between
+            # filled columns
+            else:
+                errors = ''
+                form = ''
+
+            results[column_number] = {
+                'errors': errors,
+                'form': form
+            }
+        return {
+            'no_errors': no_errors,
+            'found_any_record_with_values': found_any_record_with_values,
+            'results': results
+        }

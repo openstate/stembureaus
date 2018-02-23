@@ -33,14 +33,14 @@
       <h2>Download 'leeg' of deels vooringevuld stembureau-spreadsheet</h2>
       <br>
       <br>
-      'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.ods"><b>.ods</b></a> of <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
+      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.ods"><b>.ods</b></a> of <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
       <br>
       <br>
-      Deels vooringevuld stembureau-spreadsheet met stembureaus van Tweede Kamerverkiezing 2017:
-      {% if tweede %}
+      - Deels vooringevuld stembureau-spreadsheet met stembureaus van Tweede Kamerverkiezing 2017:
+      {% if tk2017file %}
       .ods of .xlsx
       {% else %}
-      <b>niet beschikbaar</b>
+      <b>binnenkort voor de meeste gemeenten beschikbaar</b>
       {% endif %}
     </div>
 
@@ -53,12 +53,10 @@
         {{ form.csrf_token }}
         {{ form.data_file }}
         <br>
+        Let op: uploaden verwijdert alle stembureaus die u eerder heeft toegevoegd!
+        <br>
         {{ form.submit }}
       </form>
-
-      <br>
-
-      <div>{{ result }}</div>
     </div>
   </div>
 {% endblock %}

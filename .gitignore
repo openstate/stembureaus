@@ -1,6 +1,7 @@
 *.swp
 *.pyc
 logs/*
+upload/*
 app/static/*
 app/node_modules/*
 app/bower_components/*

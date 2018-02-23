@@ -59,7 +59,7 @@ class FileUploadForm(FlaskForm):
         validators=[
             FileRequired(),
             FileAllowed(
-                ['json', 'csv', 'xls', 'xlsx', 'ods'],
+                ['xls', 'xlsx', 'ods'],
                 (
                     'Alleen Excel (.xls, .xslx) of OpenDocument (.ods) '
                     'spreadsheets zijn toegestaan.'
@@ -68,8 +68,10 @@ class FileUploadForm(FlaskForm):
         ],
         render_kw={
             'class': 'filestyle',
-            'data-classButton': 'btn btn-primary',
-            'data-buttonText': 'Your label here'
+            'data-buttonName': 'btn-info',
+            'data-buttonText': 'Voeg bestand toe',
+            'data-icon': 'false',
+            'data-buttonBefore': 'true'
         }
     )
     submit = SubmitField(
@@ -89,17 +91,13 @@ class PubliceerForm(FlaskForm):
     )
 
 
-def title(form, field):
-    # Make sure the first character is upper case (this conversion will
-    # be saved)
-    field.data = field.data.title()
-
-
-# Require at least four decimals
+# Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
     if not re.match('^\d+\.\d{4,}', str(field.data)):
         raise ValidationError(
-            'Latitude en Longitude moeten minimaal 4 decimalen hebben.'
+            'De cijfer in de Latitude en Longitude velden moeten met een punt '
+            'gescheiden worden (geen komma) en moeten minimaal 4 decimalen '
+            'achter de punt hebben.'
         )
 
 
@@ -143,7 +141,7 @@ class EditForm(FlaskForm):
         ),
         validators=[
             DataRequired(),
-            NumberRange(min=1)
+            NumberRange(min=1, max=2000000000)
         ]
     )
 
@@ -309,7 +307,7 @@ class EditForm(FlaskForm):
         ]
     )
 
-    mindervaliden_toegankelijk = BooleanField(
+    mindervaliden_toegankelijk = StringField(
         'Mindervaliden toegankelijk',
         description=(
             'Bij de bepaling van de toegankelijkheid is het niet voldoende '
@@ -317,43 +315,79 @@ class EditForm(FlaskForm):
             'goed toegankelijk zijn (en bereikbaar).'
             '<br>'
             '<br>'
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als het stembureau mindervaliden toegankelijk is. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    invalidenparkeerplaatsen = BooleanField(
+    invalidenparkeerplaatsen = StringField(
         'Invalidenparkeerplaatsen',
         description=(
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als het stembureau invalidenparkeerplaatsen heeft. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    akoestiek = BooleanField(
+    akoestiek = StringField(
         'Akoestiek',
         description=(
             'Aanvinken als de akoestiek geschikt is voor slechthorenden.'
             '<br>'
             '<br>'
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als de akoestiek in het stembureau geschikt is voor slechthorenden. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    mindervalide_toilet_aanwezig = BooleanField(
+    mindervalide_toilet_aanwezig = StringField(
         'Mindervalide toilet aanwezig',
         description=(
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als de er een mindervalide toilet aanwezig is in het stembureau. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 

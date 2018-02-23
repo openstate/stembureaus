@@ -129,19 +129,19 @@ def maak_nieuwe_datastore(resource_id):
         },
         {
             "id": "Mindervaliden toegankelijk",
-            "type": "bool"
+            "type": "text"
         },
         {
             "id": "Invalidenparkeerplaatsen",
-            "type": "bool"
+            "type": "text"
         },
         {
             "id": "Akoestiek",
-            "type": "bool"
+            "type": "text"
         },
         {
             "id": "Mindervalide toilet aanwezig",
-            "type": "bool"
+            "type": "text"
         },
         {
             "id": "Kieskring ID",
@@ -170,9 +170,10 @@ def maak_nieuwe_datastore(resource_id):
 
 @CKAN.command()
 @click.argument('resource_id')
-def upsert_datastore(resource_id):
+def test_upsert_datastore(resource_id):
     """
-    Insert or update data in de datastore tabel in een resource
+    Insert of update data in de datastore tabel in een resource met 1
+    voorbeeld record als test
     """
     record = {
         "primary_key": 1,
@@ -201,10 +202,10 @@ def upsert_datastore(resource_id):
         "Longitude": 4.3166395,
         "Latitude": 52.0775912,
         "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
-        "Mindervaliden toegankelijk": True,
-        "Invalidenparkeerplaatsen": False,
-        "Akoestiek": True,
-        "Mindervalide toilet aanwezig": True,
+        "Mindervaliden toegankelijk": 'Y',
+        "Invalidenparkeerplaatsen": 'N',
+        "Akoestiek": 'Y',
+        "Mindervalide toilet aanwezig": 'N',
         "Kieskring ID": "'s-Gravenhage",
         "Contactgegevens": "persoonx@denhaag.nl",
         "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
