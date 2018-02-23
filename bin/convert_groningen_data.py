@@ -34,15 +34,34 @@ def find_bag_record(data):
         woonplaats=data['Plaats']
     ).first()
 
+def find_bag_record_by_huisletter(data):
+    return BAG.query.filter_by(
+        openbareruimte=data['Straat'],
+        huisnummer=data['Huisnummer'],
+        huisletter=data['Toevoeging'],
+        woonplaats=data['Plaats']
+    ).first()
 
 def main():
     reader = UnicodeReader(sys.stdin, delimiter=',')
     header = reader.__next__()
     for row in reader:
         data = dict(zip(header, row))
-        print(data)
         bag = find_bag_record(data)
-        print(bag)
+        if bag is None:
+            # print("Could not find bag data for:")
+            # print(data)
+            bag = find_bag_record_by_huisletter(data)
+        tijd_open, tijd_sluit = data['Openingsti'].split(' - ')
+        record = {
+            'BAG referentienummer': bag.nummeraanduiding,
+            'Naam stembureau': data['Naam'],
+            'Openingstijden': '2018-03-21T%s:00 tot 2018-03-21T%s:00' % (
+                tijd_open, tijd_sluit),
+            'Longitude': float(bag.lon),
+            'Latitude': float(bag.lat)
+        }
+        print(record)
     return 0
 
 if __name__ == '__main__':
