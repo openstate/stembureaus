@@ -46,7 +46,7 @@ class CKAN():
         return resources_metadata
 
     def get_records(self, resource_id):
-        return self.ckanapi.datastore_search(resource_id=resource_id)
+        return self.ckanapi.datastore_search(resource_id=resource_id, limit=5000)
 
     def save_records(self, resource_id, records):
         self.ckanapi.datastore_upsert(

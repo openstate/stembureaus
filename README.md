@@ -51,7 +51,7 @@ Collecting and presenting stembureaus
       - Production: `docker-compose down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose up -d`
       - Development: `docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Reload Nginx: `sudo docker exec stm_nginx_1 nginx -s reload`
-   - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `sudo touch app/uwsgi-touch-reload`
+   - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `sudo touch uwsgi-touch-reload`
 
 ## Compile assets
 All the following commands have to be run in the `stm_nodejs_1` container, so first enter it using:
