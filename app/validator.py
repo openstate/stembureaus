@@ -7,6 +7,7 @@ from app.forms import EditForm
 import app
 
 
+# Use the validators that are also used in the EditForm
 class RecordValidator(object):
     def __init__(self, *args, **kwargs):
         pass

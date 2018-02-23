@@ -2,6 +2,8 @@
 *.pyc
 logs/*
 upload/*
+data/*
+docker/docker-entrypoint-initdb.d/*
 app/static/*
 app/node_modules/*
 app/bower_components/*
@@ -9,4 +11,3 @@ config.py
 docker/docker-compose.yml
 app/data/gemeenten.json
 backup.sh
-docker/docker-entrypoint-initdb.d/bagadres-full.csv

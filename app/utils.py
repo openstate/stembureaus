@@ -63,10 +63,13 @@ def find_shape(lat, lon, shapes):
 
 
 def find_buurt_and_wijk(muni_code, lon, lat):
-    wijken = _wijken_buurten.get_wijken_for(muni_code)
-    wijk_props = find_shape(float(lon), float(lat), wijken)
-    buurten = _wijken_buurten.get_buurten_for(wijk_props['WK_CODE'])
-    buurt_props = find_shape(float(lon), float(lat), buurten)
+    try:
+        wijken = _wijken_buurten.get_wijken_for(muni_code)
+        wijk_props = find_shape(float(lon), float(lat), wijken)
+        buurten = _wijken_buurten.get_buurten_for(wijk_props['WK_CODE'])
+        buurt_props = find_shape(float(lon), float(lat), buurten)
+    except TypeError:
+            return ('', '', '', '',)
     return (
         wijk_props['WK_CODE'], wijk_props['WK_NAAM'], buurt_props['BU_CODE'],
         buurt_props['BU_NAAM'],)

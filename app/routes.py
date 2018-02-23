@@ -1,3 +1,4 @@
+import csv
 import os
 
 from flask import render_template, request, redirect, url_for, flash, Markup
@@ -36,6 +37,12 @@ field_order = [
     'Contactgegevens',
     'Beschikbaarheid'
 ]
+
+
+kieskringen = []
+with open('app/data/kieskringen.csv') as IN:
+    reader = csv.reader(IN, delimiter=';')
+    kieskringen = list(reader)
 
 
 @app.route("/")
@@ -208,18 +215,19 @@ def gemeente_stemlokalen_dashboard():
 
             # Create and save records
             stemlokaal_id = _get_new_primary_key()
-            records = []
-            for columns_number, result in results['results'].items():
-                if result['form']:
-                    records.append(
-                        _create_record(
-                            result['form'],
-                            stemlokaal_id,
-                            current_user
-                        )
-                    )
-                    stemlokaal_id += 1
             for election in [x.verkiezing for x in elections]:
+                records = []
+                for _, result in results['results'].items():
+                    if result['form']:
+                        records.append(
+                            _create_record(
+                                result['form'],
+                                stemlokaal_id,
+                                current_user,
+                                election
+                            )
+                        )
+                        stemlokaal_id += 1
                 ckan.save_records(
                     ckan.elections[election]['draft_resource'],
                     records=records
@@ -276,7 +284,15 @@ def gemeente_stemlokalen_overzicht():
         if publish_form.submit.data:
             # Publish stembureaus to all elections
             for election in [x.verkiezing for x in elections]:
-                ckan.publish(election, gemeente_draft_records)
+                temp_all_draft_records = ckan.get_records(
+                    ckan.elections[election]['draft_resource']
+                )
+                temp_gemeente_draft_records = [
+                    record for record in temp_all_draft_records['records']
+                    if record['CBS gemeentecode'] == current_user.gemeente_code
+                ]
+                _remove_id(temp_gemeente_draft_records)
+                ckan.publish(election, temp_gemeente_draft_records)
             flash('Stembureaus gepubliceerd')
             # Sleep to make sure that the data is saved before it is
             # requested again in the lines right below here
@@ -415,8 +431,13 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     if form.validate_on_submit():
         if not stemlokaal_id:
             stemlokaal_id = _get_new_primary_key()
-        record = _create_record(form, stemlokaal_id, current_user)
         for election in [x.verkiezing for x in elections]:
+            record = _create_record(
+                form,
+                stemlokaal_id,
+                current_user,
+                election
+            )
             ckan.save_records(
                 ckan.elections[election]['draft_resource'],
                 records=[record]
@@ -476,11 +497,31 @@ def _get_new_primary_key():
     return largest_primary_key + 1
 
 
-def _create_record(form, stemlokaal_id, current_user):
+def _create_record(form, stemlokaal_id, current_user, election):
+    ID = 'NLODS%sstembureaus%s%s' % (
+        current_user.gemeente_code,
+        app.config['CKAN_CURRENT_ELECTIONS'][election]['election_date'],
+        app.config['CKAN_CURRENT_ELECTIONS'][election]['election_number']
+    )
+
+    kieskring_id = ''
+    hoofdstembureau = ''
+    if election.startswith('Gemeenteraadsverkiezingen'):
+        kieskring_id = current_user.gemeente_naam
+        hoofdstembureau = current_user.gemeente_naam
+    if election.startswith('Referendum'):
+        for row in kieskringen:
+            if row[2] == current_user.gemeente_naam:
+                kieskring_id = row[0]
+                hoofdstembureau = row[1]
+
     record = {
         'primary_key': stemlokaal_id,
         'Gemeente': current_user.gemeente_naam,
-        'CBS gemeentecode': current_user.gemeente_code
+        'CBS gemeentecode': current_user.gemeente_code,
+        'Kieskring ID': kieskring_id,
+        'Hoofdstembureau': hoofdstembureau,
+        'ID': ID
     }
 
     for f in form:
@@ -504,10 +545,14 @@ def _create_record(form, stemlokaal_id, current_user):
             record[record_field] = getattr(bag_record, bag_field, None)
         wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
             current_user.gemeente_code, bag_record.lon, bag_record.lat)
-        record['Wijknaam'] = wk_naam
-        record['CBS wijknummer'] = wk_code
-        record['Buurtnaam'] = bu_naam
-        record['CBS buurtnummer'] = bu_code
+        if wk_naam:
+            record['Wijknaam'] = wk_naam
+        if wk_code:
+            record['CBS wijknummer'] = wk_code
+        if bu_naam:
+            record['Buurtnaam'] = bu_naam
+        if bu_code:
+            record['CBS buurtnummer'] = bu_code
 
     return record
 

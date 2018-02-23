@@ -28,13 +28,20 @@ class Config(object):
     # of upcoming elections where the stemlokalen data will be made
     # public, while the 'draft_resource' contains the IDS of
     # resources where drafts of the stemlokalen data will be saved while
-    # the gemeenten input all the information.
+    # the gemeenten input all the information. For 'election_number'
+    # fill in a unique number of this election in the format '001',
+    # '002', etc. Check the 'election_number' of the previous
+    # election and increment it with 1 to get the election number of
+    # this election. For 'election_date' fill in the date of the
+    # election in 'YYYYMMDD' format, e.g. '20180321'.
     # NOTE: Use the exact same '<name of election>' values in
     # the 'verkiezingen' field in 'app/data/gemeenten.json'
     CKAN_CURRENT_ELECTIONS = {
         '<name of election>': {
             'publish_resource': '<ID_of_resource>',
             'draft_resource': '<ID_of_resource>',
+            'election_number': '<unique_number_for_this_election>',
+            'election_date': '<date_of_this_election>'
         }
     }
 
