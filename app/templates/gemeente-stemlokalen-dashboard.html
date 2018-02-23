@@ -33,12 +33,12 @@
       <h2>Download 'leeg' of deels vooringevuld stembureau-spreadsheet</h2>
       <br>
       <br>
-      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.ods"><b>.ods</b></a> of <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
+      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
       <br>
       <br>
       - Deels vooringevuld stembureau-spreadsheet met stembureaus van Tweede Kamerverkiezing 2017:
       {% if tk2017file %}
-      .ods of .xlsx
+      .xlsx
       {% else %}
       <b>binnenkort voor de meeste gemeenten beschikbaar</b>
       {% endif %}
@@ -53,11 +53,13 @@
         {{ form.csrf_token }}
         {{ form.data_file }}
         <br>
-        Let op: uploaden verwijdert alle stembureaus die u eerder heeft toegevoegd!
+        <b>Let op</b>: uploaden verwijdert alle stembureaus die u eerder heeft toegevoegd!
         <br>
         {{ form.submit }}
         <br>
-        NB: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
+        <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
+        <br>
+        <b>NB</b>: De ondersteuning voor .ods bestanden werkt enkel tot 35 stembureaus. Mocht u meer stembureaus willen uploaden gebruik dan het .xsl(x) formaat.
       </form>
     </div>
   </div>

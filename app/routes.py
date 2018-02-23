@@ -358,7 +358,7 @@ def gemeente_stemlokalen_overzicht():
         start_record=start_record + 1,
         end_record=end_record,
         total_records=len(gemeente_draft_records),
-        total_pages=int(len(gemeente_draft_records)/posts_per_page),
+        total_pages=ceil(len(gemeente_draft_records)/posts_per_page),
         previous_url=previous_url,
         next_url=next_url
     )
