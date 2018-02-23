@@ -5,6 +5,7 @@ import sys
 import csv
 
 from openpyxl import load_workbook
+from pyexcel_ods3 import get_data, save_data
 
 sys.path.insert(0, '.')
 
@@ -78,6 +79,7 @@ def main():
             points_per_muni[data['Gemeente']] = [record]
 
     for muni, points in points_per_muni.items():
+        # first Excel
         path = "data/%s-2018-03-21.xlsx" % (muni,)
         os.system("cp waarismijnstemlokaal.nl_invulformulier.xlsx \"%s\"" % (
             path,))
@@ -95,6 +97,22 @@ def main():
             worksheet.cell(row=11, column=col, value=point['Openingstijden'])
             col += 1
         workbook.save(path)
+
+        # now openoffice
+        path = "data/%s-2018-03-21.ods" % (muni,)
+        os.system("cp waarismijnstemlokaal.nl_invulformulier.ods \"%s\"" % (
+            path,))
+        data = get_data(path)
+        for point in points:
+            data['Attributen'][2].append(point['Naam stembureau'])
+            if 'BAG referentienummer' in point:
+                data['Attributen'][5].append(point['BAG referentienummer'])
+            if 'Longitude' in point:
+                data['Attributen'][7].append(point['Longitude'])
+            if 'Latitude' in point:
+                data['Attributen'][8].append(point['Latitude'])
+            data['Attributen'][10].append(point['Openingstijden'])
+            save_data(path, data)
     return 0
 
 if __name__ == '__main__':
