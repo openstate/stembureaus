@@ -253,12 +253,12 @@ def toon_alle_gemeenten():
 def verwijder_alle_gemeenten_en_verkiezingen():
     """
     Gebruik dit enkel in development. Deze command verwijdert alle
-    gemeenten en verkiezingen uit te SQLite database.
+    gemeenten en verkiezingen uit de MySQL database.
     """
     if not app.debug:
         result = input(
             'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten en verkiezingen wilt verwijderen uit de SQLite '
+            'alle gemeenten en verkiezingen wilt verwijderen uit de MySQL '
             'database? (y/N): '
         )
         # Print empty line for better readability
@@ -282,7 +282,7 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken():
     if not app.debug:
         result = input(
             'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten en verkiezingen wilt aanmaken in de SQLite '
+            'alle gemeenten en verkiezingen wilt aanmaken in de MySQL '
             'database? (y/N): '
         )
         # Print empty line for better readability
@@ -332,7 +332,7 @@ def eenmalig_gemeenten_uitnodigen():
         )
         # Print empty line for better readability
         print()
-        if result.lower() == 'y':
+        if not result.lower() == 'y':
             print('Geen gemeenten ge-e-maild')
             return
 
