@@ -22,20 +22,20 @@ class BaseParser(object):
         return headers
 
     def _clean_records(self, records):
-        # Convert variations of 'Y' and 'N' to true and false
+        # Convert variations of 'Y' and 'N' to 'Y' and 'N'
         for record in records:
-            boolean_fields = [
+            yes_no_empty_fields = [
                 'mindervaliden_toegankelijk',
                 'invalidenparkeerplaatsen',
                 'akoestiek',
                 'mindervalide_toilet_aanwezig'
             ]
 
-            for boolean_field in boolean_fields:
-                if re.match('^[YyJj]$', str(record[boolean_field])):
-                    record[boolean_field] = 'true'
-                if re.match('^[Nn]$', str(record[boolean_field])):
-                    record[boolean_field] = 'false'
+            for yes_no_empty_field in yes_no_empty_fields:
+                if re.match('^[YyJj]$', str(record[yes_no_empty_field])):
+                    record[yes_no_empty_field] = 'Y'
+                if re.match('^[Nn]$', str(record[yes_no_empty_field])):
+                    record[yes_no_empty_field] = 'N'
 
         return records
 

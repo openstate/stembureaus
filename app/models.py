@@ -12,7 +12,7 @@ class CKAN():
             'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
         )
         self.ckanapi = RemoteCKAN(
-            'https://acc-ckan.dataplatform.nl',
+            app.config['CKAN_URL'],
             apikey=app.config['CKAN_API_KEY'],
             user_agent=self.ua
         ).action

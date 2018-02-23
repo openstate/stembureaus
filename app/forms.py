@@ -307,7 +307,7 @@ class EditForm(FlaskForm):
         ]
     )
 
-    mindervaliden_toegankelijk = BooleanField(
+    mindervaliden_toegankelijk = StringField(
         'Mindervaliden toegankelijk',
         description=(
             'Bij de bepaling van de toegankelijkheid is het niet voldoende '
@@ -315,43 +315,79 @@ class EditForm(FlaskForm):
             'goed toegankelijk zijn (en bereikbaar).'
             '<br>'
             '<br>'
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als het stembureau mindervaliden toegankelijk is. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    invalidenparkeerplaatsen = BooleanField(
+    invalidenparkeerplaatsen = StringField(
         'Invalidenparkeerplaatsen',
         description=(
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als het stembureau invalidenparkeerplaatsen heeft. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    akoestiek = BooleanField(
+    akoestiek = StringField(
         'Akoestiek',
         description=(
             'Aanvinken als de akoestiek geschikt is voor slechthorenden.'
             '<br>'
             '<br>'
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als de akoestiek in het stembureau geschikt is voor slechthorenden. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
-    mindervalide_toilet_aanwezig = BooleanField(
+    mindervalide_toilet_aanwezig = StringField(
         'Mindervalide toilet aanwezig',
         description=(
-            '<b>Format:</b> vinkje'
+            '<b>Format:</b> Vul "Y" in als de er een mindervalide toilet aanwezig is in het stembureau. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
         ),
         validators=[
             Optional(),
+            Regexp(
+                '[YN]',
+                message=(
+                    'Laat het veld leeg, vul "Y" in of vul "N" in.'
+                )
+            )
         ]
     )
 
