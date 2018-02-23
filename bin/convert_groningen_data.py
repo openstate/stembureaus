@@ -4,6 +4,8 @@ import os
 import sys
 import csv
 
+from openpyxl import load_workbook
+
 sys.path.insert(0, '.')
 
 from app.utils import find_buurt_and_wijk
@@ -74,12 +76,25 @@ def main():
             points_per_muni[data['Gemeente']].append(record)
         except KeyError:
             points_per_muni[data['Gemeente']] = [record]
-    print(points_per_muni)
 
     for muni, points in points_per_muni.items():
         path = "data/%s-2018-03-21.xlsx" % (muni,)
         os.system("cp waarismijnstemlokaal.nl_invulformulier.xlsx \"%s\"" % (
             path,))
+        workbook = load_workbook(path)
+        worksheet = workbook['Attributen']
+        col = 5
+        for point in points:
+            worksheet.cell(row=2, column=col, value=point['Naam stembureau'])
+            if 'BAG referentienummer' in point:
+                worksheet.cell(row=6, column=col, value=point['BAG referentienummer'])
+            if 'Longitude' in point:
+                worksheet.cell(row=8, column=col, value=point['Longitude'])
+            if 'Latitude' in point:
+                worksheet.cell(row=9, column=col, value=point['Latitude'])
+            worksheet.cell(row=11, column=col, value=point['Openingstijden'])
+            col += 1
+        workbook.save(path)
     return 0
 
 if __name__ == '__main__':
