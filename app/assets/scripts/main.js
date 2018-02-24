@@ -19,14 +19,6 @@
     'common': {
       init: function() {
         // JavaScript to be fired on all pages
-        $(window).on("scroll", function() {
-          if ($(this).scrollTop() > 105) {
-            $('#large-brand').removeClass('hidden');
-          }
-          else {
-            $('#large-brand').addClass('hidden');
-          }
-         });
       },
       finalize: function() {
         // JavaScript to be fired on all pages, after page specific JS is fired
