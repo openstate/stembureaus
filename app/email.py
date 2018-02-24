@@ -47,3 +47,19 @@ def send_invite(user, expires_in=349725):
             token=token
         )
     )
+
+
+def send_mailcorrectie(user):
+    send_email(
+        '[Correctie] Uitnodiging deelname waarismijnstemlokaal.nl',
+        sender=app.config['FROM'],
+        recipients=[user.email],
+        text_body=render_template(
+            'email/update.txt',
+            user=user
+        ),
+        html_body=render_template(
+            'email/update.html',
+            user=user
+        )
+    )

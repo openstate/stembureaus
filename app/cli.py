@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import User, ckan, Election
-from app.email import send_invite
+from app.email import send_invite, send_mailcorrectie
 from pprint import pprint
 import click
 import json
@@ -339,5 +339,26 @@ def eenmalig_gemeenten_uitnodigen():
     total_mailed = 0
     for user in User.query.all():
         send_invite(user, 349725)
+        total_mailed += 1
+    print('%d gemeenten ge-e-maild' % (total_mailed))
+
+
+@gemeenten.command()
+def eenmalig_gemeenten_mailcorrectie():
+    if not app.debug:
+        result = input(
+            'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
+            'alle gemeenten wilt uitnodigen voor waarismijnstemlokaal.nl en '
+            'vragen om een wachtwoord aan te maken? (y/N): '
+        )
+        # Print empty line for better readability
+        print()
+        if not result.lower() == 'y':
+            print('Geen gemeenten ge-e-maild')
+            return
+
+    total_mailed = 0
+    for user in User.query.all():
+        send_mailcorrectie(user)
         total_mailed += 1
     print('%d gemeenten ge-e-maild' % (total_mailed))
