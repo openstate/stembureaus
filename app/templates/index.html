@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6">
-    ...
+   ...
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="nlmaps-holder"></div>
@@ -13,6 +13,7 @@
 <script src="https://rawgit.com/kadaster/nlmaps/master/dist/nlmaps.iife.js"></script>
 <script>
 
+    var stembureaus = {{ records.records |tojson |safe }};
     var nlMapsHolder = document.getElementById('nlmaps-holder');
     nlMapsHolder.style.height = '300px'; // Change to required height
 

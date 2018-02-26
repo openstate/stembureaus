@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 
 from flask import render_template, request, redirect, url_for, flash, Markup
 from flask_login import (
@@ -47,7 +48,9 @@ with open('app/data/kieskringen.csv') as IN:
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    records = ckan.get_records(
+        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'])
+    return render_template('index.html', records=records)
 
 
 @app.route("/over-deze-website")
