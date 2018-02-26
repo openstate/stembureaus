@@ -30,5 +30,13 @@
         zoom: 18
     };
     var map = nlmaps.createMap(opts);
+
+    for(var i=0; i < stembureaus.length; i++) {
+      console.log(i);
+      map.addOverlay(nlmaps.openlayers.markerLayer({
+        latitude: stembureaus[i].Latitude,
+        longitude: stembureaus[i].Longitude
+      }));
+    }
 </script>
 {% endblock %}
