@@ -165,9 +165,10 @@ def gemeente_stemlokalen_dashboard():
         )
         f.save(file_path)
         parser = UploadFileParser()
+        app.logger.info('Processing uploaded file for %s' % (current_user.gemeente_naam))
         try:
             headers, records = parser.parse(file_path)
-        except AttributeError:
+        except ValueError:
             flash(
                 Markup(
                     'Uploaden mislukt. Het lijkt er op dat u geen gebruik '

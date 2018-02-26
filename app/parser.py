@@ -5,13 +5,42 @@ import os
 import json
 import re
 
+from app import app
 from pyexcel_ods3 import get_data
 from xlrd import open_workbook
+
+
+valid_headers = [
+    'Nummer stembureau',
+    'Naam stembureau',
+    'Website locatie',
+    'BAG referentie nummer',
+    'Extra adresaanduiding',
+    'Longitude',
+    'Latitude',
+    'Districtcode',
+    'Openingstijden',
+    'Mindervaliden toegankelijk',
+    'Invalidenparkeerplaatsen',
+    'Akoestiek',
+    'Mindervalide toilet aanwezig',
+    'Contactgegevens',
+    'Beschikbaarheid'
+]
 
 
 class BaseParser(object):
     def __init__(self, *args, **kwargs):
         pass
+
+    def _header_valid(self, header):
+        if isinstance(header, str):
+            if header in valid_headers:
+                return True
+            else:
+                return False
+        else:
+            return False
 
     # Rename columnnames which use different spellings
     def _clean_headers(self, headers):
@@ -51,7 +80,17 @@ class ODSParser(BaseParser):
     # Retrieve field names, lowercase them and replace spaces with
     # underscores
     def _get_headers(self, sh):
-        return [x[0].lower().replace(' ', '_') for x in sh[1:] if x]
+        headers = []
+        found_valid_headers = False
+        for header in sh[1:]:
+            if header:
+                if self._header_valid(header[0]):
+                    found_valid_headers = True
+                headers.append(str(header[0]).lower().replace(' ', '_'))
+        if not found_valid_headers:
+            app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            raise ValueError()
+        return headers
 
     def _get_records(self, sh, clean_headers):
         records = []
@@ -91,7 +130,16 @@ class ExcelParser(BaseParser):
     # Retrieve field names, lowercase them and replace spaces with
     # underscores
     def _get_headers(self, sh):
-        return [x.lower().replace(' ', '_') for x in sh.col_values(0)[1:]]
+        headers = []
+        found_valid_headers = False
+        for header in sh.col_values(0)[1:]:
+            if self._header_valid(header):
+                found_valid_headers = True
+            headers.append(str(header).lower().replace(' ', '_'))
+        if not found_valid_headers:
+            app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            raise ValueError()
+        return headers
 
     def _get_records(self, sh, clean_headers):
         records = []
