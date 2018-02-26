@@ -165,7 +165,28 @@ def gemeente_stemlokalen_dashboard():
         )
         f.save(file_path)
         parser = UploadFileParser()
-        headers, records = parser.parse(file_path)
+        try:
+            headers, records = parser.parse(file_path)
+        except AttributeError:
+            flash(
+                Markup(
+                    'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
+                    'maakt van de stembureau-spreadsheet. Download de '
+                    '<a href="/files/waarismijnstemlokaal.nl_invulformulier'
+                    '.xlsx"><b>stembureaus-spreadsheet</b></a> en vul de '
+                    'gegevens volgens de instructies in de spreadsheet in om '
+                    'deze vervolgens op deze pagina te uploaden.'
+                )
+            )
+            return render_template(
+                'gemeente-stemlokalen-dashboard.html',
+                verkiezing_string=_format_verkiezingen_string(elections),
+                total_publish_records=len(gemeente_publish_records),
+                total_draft_records=len(gemeente_draft_records),
+                form=form,
+                show_publish_note=show_publish_note
+            )
+
         validator = Validator()
         results = validator.validate(headers, records)
 
