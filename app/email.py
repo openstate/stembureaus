@@ -30,8 +30,8 @@ def send_password_reset_email(user):
 
 
 # Sends an invite to all participating gemeenten (to be only used once!)
-def send_invite(user):
-    token = user.get_reset_password_token()
+def send_invite(user, expires_in=349725):
+    token = user.get_reset_password_token(expires_in)
     send_email(
         'Uitnodiging deelname waarismijnstemlokaal.nl',
         sender=app.config['FROM'],
@@ -45,5 +45,21 @@ def send_invite(user):
             'email/uitnodiging.html',
             user=user,
             token=token
+        )
+    )
+
+
+def send_mailcorrectie(user):
+    send_email(
+        '[Correctie] Uitnodiging deelname waarismijnstemlokaal.nl',
+        sender=app.config['FROM'],
+        recipients=[user.email],
+        text_body=render_template(
+            'email/update.txt',
+            user=user
+        ),
+        html_body=render_template(
+            'email/update.html',
+            user=user
         )
     )

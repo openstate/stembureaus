@@ -37,14 +37,16 @@ class CKAN():
         resources_metadata = {}
         for election_key, election_value in self.elections.items():
             resources_metadata[election_key] = {}
-            for resource_key, resource_value in election_value.items():
-                resources_metadata[election_key][resource_key] = (
-                    self.ckanapi.resource_show(id=resource_value)
-                )
+            resources_metadata[election_key]['publish_resource'] = (
+                self.ckanapi.resource_show(id=election_value['publish_resource'])
+            )
+            resources_metadata[election_key]['draft_resource'] = (
+                self.ckanapi.resource_show(id=election_value['draft_resource'])
+            )
         return resources_metadata
 
     def get_records(self, resource_id):
-        return self.ckanapi.datastore_search(resource_id=resource_id)
+        return self.ckanapi.datastore_search(resource_id=resource_id, limit=5000)
 
     def save_records(self, resource_id, records):
         self.ckanapi.datastore_upsert(

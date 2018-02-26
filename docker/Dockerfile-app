@@ -20,4 +20,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 ENV FLASK_APP=website.py
-CMD uwsgi --socket 0.0.0.0:5000 --touch-reload=uwsgi-touch-reload -w website:app
+CMD uwsgi --socket 0.0.0.0:5000 --touch-reload=uwsgi-touch-reload --processes 8 -w website:app
