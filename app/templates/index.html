@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-  Binnenkort vindt u hier een overzicht van alle stemlokalen van Nederland.
-  <br>
-  <br>
-  Gemeenten kunnen vanaf nu hun lijst met stembureaus via deze website beschikbaar stellen. Heeft uw gemeente nog geen inloggegevens neem dan contact op met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>. Meer informatie over dit project is te vinden via deze <a href="https://www.da2020.nl/ondersteuningsmiddelen/platform-waar-mijn-stemlokaal" target="_blank">website van de Vereniging Nederlandse Gemeenten</a>.
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    ...
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div id="nlmaps-holder"></div>
+  </div>
+</div>
+
+<script src="https://openlayers.org/en/v4.1.0/build/ol.js"></script>
+<script src="https://rawgit.com/kadaster/nlmaps/master/dist/nlmaps.iife.js"></script>
+<script>
+
+    var nlMapsHolder = document.getElementById('nlmaps-holder');
+    nlMapsHolder.style.height = '300px'; // Change to required height
+
+    var opts = {
+        style: 'standaard',
+        target: 'nlmaps-holder',
+        center: {
+            longitude: 4.916836,
+            latitude: 52.361530
+        },
+        overlay: 'false',
+        marker: false,
+        search: true,
+        zoom: 18
+    };
+    var map = nlmaps.createMap(opts);
+</script>
 {% endblock %}
