@@ -2,7 +2,27 @@
 {% block content %}
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6">
-   ...
+    <div class="row">
+      <div class="col-xs-12">
+        <form action="" method="get" class="form-inline">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label>
+              Zoek <i class="fa fa-search" aria-hidden="true"></i>
+              </label>
+              <input type="text" class="form-control" name="query" value="" placeholder="Amsterdam">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <a href="#" id ="btn-location">
+          <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+        </a>
+      </div>
+    </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="map" style="height: 300px;"></div>
@@ -22,7 +42,9 @@
       stembureaus_markers.push(
         L.marker(
           [stembureaus[i].Latitude, stembureaus[i].Longitude]
-        ).bindPopup(stembureaus[i]['Naam stembureau'])
+        ).bindPopup(
+          "<a href=\"/s/" + stembureaus[i]['ID'] + "\">" + stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + stembureaus[i]['Openingstijden'] + "</p>"
+        )
       );
     }
 
@@ -31,7 +53,7 @@
       'Stembureaus': L.layerGroup(stembureaus_markers)
     };
     var map = L.map('map', {'layers': layers['Stembureaus']}).setView([52.2, 5.592], 6);
-    L.control.layers(layers).addTo(map);
+
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
