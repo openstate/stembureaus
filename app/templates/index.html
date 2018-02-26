@@ -53,6 +53,8 @@
       'Stembureaus': L.layerGroup(stembureaus_markers)
     };
     var map = L.map('map', {'layers': layers['Stembureaus']}).setView([52.2, 5.592], 6);
+    var group = L.featureGroup(stembureaus_markers);
+    map.fitBounds(group.getBounds());
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
