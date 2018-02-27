@@ -44,7 +44,9 @@ class Validator(object):
             # value
             record_values = [str(x).replace('0', '') for x in record.values()]
             if ''.join(record_values).strip() != '':
-                validated, errors, form = record_validator.validate(headers, record)
+                validated, errors, form = record_validator.validate(
+                    headers, record
+                )
                 found_any_record_with_values = True
                 if not validated:
                     no_errors = False

@@ -175,7 +175,9 @@ def gemeente_stemlokalen_dashboard():
         )
         f.save(file_path)
         parser = UploadFileParser()
-        app.logger.info('Processing uploaded file for %s' % (current_user.gemeente_naam))
+        app.logger.info(
+            'Processing uploaded file for %s' % (current_user.gemeente_naam)
+        )
         try:
             headers, records = parser.parse(file_path)
         except ValueError:
@@ -212,7 +214,8 @@ def gemeente_stemlokalen_dashboard():
                     '<br><br>'
                 )
             )
-            for column_number, col_result in sorted(results['results'].items()):
+            for column_number, col_result in sorted(
+                    results['results'].items()):
                 if col_result['errors']:
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">kolom '
@@ -231,7 +234,10 @@ def gemeente_stemlokalen_dashboard():
         # If there not a single value in the results then state that we
         # could not find any stembureaus
         elif not results['found_any_record_with_values']:
-            flash('Uploaden mislukt. Er zijn geen stembureaus gevonden in de spreadsheet.')
+            flash(
+                'Uploaden mislukt. Er zijn geen stembureaus gevonden in de '
+                'spreadsheet.'
+            )
         # If the spreadsheet did validate then first delete all current
         # stembureaus from the draft_resource and then save the newly
         # uploaded stembureaus to the draft_resources of each election
