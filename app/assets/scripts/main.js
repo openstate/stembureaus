@@ -84,7 +84,9 @@ StembureausApp.show = function (matches) {
     var opinfo = matches[i]['Openingstijden'].split(' tot ');
     var weelchair_labels = {
       'Y': 'Rolstoeltoegankelijk',
-      'N': ''
+      'N': '',
+      '': '',
+      undefined: ''
     }
     $('#results-search').append($(
       '<div class="result">' +
