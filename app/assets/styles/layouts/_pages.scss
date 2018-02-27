@@ -1,0 +1,21 @@
+#results-search {
+  .result {
+    h2 {
+      a {
+        color: inherit;
+      }
+    }
+    border-top: 1px solid #888;
+    margin-bottom: 20px;
+    h5 {
+      clear: both;
+      color: #888;
+    }
+    .pull-right {
+      margin-top: 20px;
+    }
+    p {
+      color: #888;
+    }
+  }
+}
