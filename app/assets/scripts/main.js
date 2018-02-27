@@ -76,11 +76,51 @@
 
 })(jQuery); // Fully reference jQuery after this point.
 
-var StembureausApp = window.stembureausApp || {};
+var StembureausApp = window.StembureausApp || {};
 
-SteambureausApp.search = function (query) {
-  console.log('should be searching for : [' + $(this).val() + '] now ...');
+StembureausApp.show = function (matches) {
+  $('#results-search').empty();
+  for(var i=0; i < matches.length; i++) {
+    var opinfo = matches[i]['Openingstijden'].split(' tot ');
+    $('#results-search').append($(
+      '<div class="result">' +
+      '<h2>' + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</h2>' +
+      '<h5>' + matches[i]['Plaats'] + '</h5>' +
+      opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) +
+      '</div>'
+    ))
+  }
+};
 
+StembureausApp.search = function (query) {
+  console.log('should be searching for : [' + query + '] now ...');
+
+  var stembureau_matches = [];
+
+  for(var i=0; i< stembureaus.length; i++) {
+    var fields = ['Gemeente', 'Plaats', 'Straatnaam', 'Naam stembureau'];
+
+    for(var fld in fields) {
+      var val = stembureaus[i][fields[fld]];
+      if ((typeof(val) !== 'undefined') && (typeof(val) !== "object") && val.toLowerCase().indexOf(query) >= 0) {
+        stembureau_matches.push(stembureaus[i]);
+      }
+
+      if (stembureau_matches.length >= 5) {
+        break;
+      }
+    }
+
+    if (stembureau_matches.length >= 5) {
+      break;
+    }
+
+  }
+
+  console.log('matches:');
+  console.dir(stembureau_matches);
+
+  StembureausApp.show(stembureau_matches);
 };
 
 StembureausApp.init = function() {
