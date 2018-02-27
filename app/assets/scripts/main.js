@@ -133,6 +133,10 @@ StembureausApp.init = function() {
     StembureausApp.search($(this).val());
   });
 
+  $('#btn-location').click(function (e) {
+    map.locate({setView : true});
+    return false;
+  });
 };
 
 
