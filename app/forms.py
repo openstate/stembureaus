@@ -167,7 +167,7 @@ class EditForm(FlaskForm):
             'Website van de locatie van het stembureau, indien aanwezig.'
             '<br>'
             '<br>'
-            '<b>Format:</b> URL'
+            '<b>Format:</b> Volledige URL (dit begint met "http")'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
@@ -176,7 +176,11 @@ class EditForm(FlaskForm):
         ),
         validators=[
             Optional(),
-            URL()
+            URL(
+                message='Ongeldige URL. Begint uw URL wel met "http" of '
+                '"https"? Correct is bv. "https://www.stembureausindenhaag.nl"'
+                ' en niet "www.stembureausindenhaag.nl".'
+            )
         ]
     )
 
@@ -315,7 +319,9 @@ class EditForm(FlaskForm):
             'goed toegankelijk zijn (en bereikbaar).'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "Y" in als het stembureau mindervaliden toegankelijk is. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<b>Format:</b> Vul "Y" in als het stembureau mindervaliden '
+            'toegankelijk is. Vul "N" in als dat niet zo is. Laat het veld '
+            'leeg als het onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> Y'
@@ -334,7 +340,9 @@ class EditForm(FlaskForm):
     invalidenparkeerplaatsen = StringField(
         'Invalidenparkeerplaatsen',
         description=(
-            '<b>Format:</b> Vul "Y" in als het stembureau invalidenparkeerplaatsen heeft. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<b>Format:</b> Vul "Y" in als het stembureau '
+            'invalidenparkeerplaatsen heeft. Vul "N" in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> Y'
@@ -356,7 +364,9 @@ class EditForm(FlaskForm):
             'Aanvinken als de akoestiek geschikt is voor slechthorenden.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "Y" in als de akoestiek in het stembureau geschikt is voor slechthorenden. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<b>Format:</b> Vul "Y" in als de akoestiek in het stembureau '
+            'geschikt is voor slechthorenden. Vul "N" in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> Y'
@@ -375,7 +385,9 @@ class EditForm(FlaskForm):
     mindervalide_toilet_aanwezig = StringField(
         'Mindervalide toilet aanwezig',
         description=(
-            '<b>Format:</b> Vul "Y" in als de er een mindervalide toilet aanwezig is in het stembureau. Vul "N" in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<b>Format:</b> Vul "Y" in als de er een mindervalide toilet '
+            'aanwezig is in het stembureau. Vul "N" in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> Y'
@@ -420,13 +432,17 @@ class EditForm(FlaskForm):
             'stembureaus (of verkiezing).'
             '<br>'
             '<br>'
-            '<b>Format:</b> URL'
+            '<b>Format:</b> Volledige URL (dit begint met "http")'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> https://www.stembureaus<br>indenhaag.nl/'
         ),
         validators=[
             DataRequired(),
-            URL()
+            URL(
+                message='Ongeldige URL. Begint uw URL wel met "http" of '
+                '"https"? Correct is bv. "https://www.stembureausindenhaag.nl"'
+                ' en niet "www.stembureausindenhaag.nl".'
+            )
         ]
     )

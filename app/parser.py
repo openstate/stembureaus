@@ -68,6 +68,30 @@ class BaseParser(object):
 
         return records
 
+    def _clean_bag_referentienummer(self, record):
+        # Some spreadsheets fill in this field as float, so convert
+        #it via int back to str
+        if type(record['bag_referentienummer']) == float:
+            record['bag_referentienummer'] = str(
+                int(record['bag_referentienummer'])
+            )
+
+        # Left pad this field with max 3 zeroes
+        if len(record['bag_referentienummer']) == 15:
+            record['bag_referentienummer'] = '0' + record[
+                'bag_referentienummer'
+            ]
+        if len(record['bag_referentienummer']) == 14:
+            record['bag_referentienummer'] = '00' + record[
+                'bag_referentienummer'
+            ]
+        if len(record['bag_referentienummer']) == 13:
+            record['bag_referentienummer'] = '000' + record[
+                'bag_referentienummer'
+            ]
+
+        return record
+
     def parse(self, path):
         """
         Parses a file (Assumes). Returns a tuple of a list of headers and
@@ -102,7 +126,9 @@ class ODSParser(BaseParser):
                         values.append(row[col_num])
                     except IndexError:
                         values.append('')
-            records.append(dict(zip(clean_headers, values)))
+            record = dict(zip(clean_headers, values))
+            record = self._clean_bag_referentienummer(record)
+            records.append(record)
 
         return records
 
@@ -124,9 +150,6 @@ class ODSParser(BaseParser):
 
 
 class ExcelParser(BaseParser):
-    def _has_correct_sheet_count(self, wb):
-        return (wb.nsheets == 3) or (wb.nsheets == 1)
-
     # Retrieve field names, lowercase them and replace spaces with
     # underscores
     def _get_headers(self, sh):
@@ -144,7 +167,9 @@ class ExcelParser(BaseParser):
     def _get_records(self, sh, clean_headers):
         records = []
         for col_num in range(5, sh.ncols):
-            records.append(dict(zip(clean_headers, sh.col_values(col_num)[1:])))
+            record = dict(zip(clean_headers, sh.col_values(col_num)[1:]))
+            record = self._clean_bag_referentienummer(record)
+            records.append(record)
 
         return records
 
@@ -154,12 +179,6 @@ class ExcelParser(BaseParser):
             return [], []
 
         wb = open_workbook(path)
-
-        # moet 1 of 3 sheets hebben anders is het niet goed
-        if not self._has_correct_sheet_count(wb):
-            return [], []
-
-        # TODO: checken of alle tabs er in staan
 
         # als we 1 tab hebben dan de eerste, anders de tweede
         if wb.nsheets == 1:

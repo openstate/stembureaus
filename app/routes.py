@@ -152,6 +152,16 @@ def gemeente_stemlokalen_dashboard():
     if gemeente_draft_records != gemeente_publish_records:
         show_publish_note = True
 
+    vooringevuld = ''
+    vooringevuld_fn = (
+        'files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_'
+        'deels_vooringevuld.xlsx' % (
+            current_user.gemeente_naam
+        )
+    )
+    if os.path.exists(vooringevuld_fn):
+        vooringevuld = vooringevuld_fn
+
     form = FileUploadForm()
 
     # Save, parse and validate an uploaded spreadsheet and save the
@@ -168,7 +178,9 @@ def gemeente_stemlokalen_dashboard():
         )
         f.save(file_path)
         parser = UploadFileParser()
-        app.logger.info('Processing uploaded file for %s' % (current_user.gemeente_naam))
+        app.logger.info(
+            'Processing uploaded file for %s' % (current_user.gemeente_naam)
+        )
         try:
             headers, records = parser.parse(file_path)
         except ValueError:
@@ -188,7 +200,8 @@ def gemeente_stemlokalen_dashboard():
                 total_publish_records=len(gemeente_publish_records),
                 total_draft_records=len(gemeente_draft_records),
                 form=form,
-                show_publish_note=show_publish_note
+                show_publish_note=show_publish_note,
+                vooringevuld=vooringevuld
             )
 
         validator = Validator()
@@ -204,11 +217,15 @@ def gemeente_stemlokalen_dashboard():
                     '<br><br>'
                 )
             )
-            for column_number, col_result in sorted(results['results'].items()):
+            for column_number, col_result in sorted(
+                    results['results'].items()):
                 if col_result['errors']:
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">kolom '
-                        '%s</span></b>:' % (column_number)
+                        '"%s" (oftwel de %se kolom)</span></b>:' % (
+                            _colnum2string(column_number),
+                            column_number
+                        )
                     )
                     error_flash += '<ul>'
                     for column_name, error in col_result['errors'].items():
@@ -220,7 +237,10 @@ def gemeente_stemlokalen_dashboard():
         # If there not a single value in the results then state that we
         # could not find any stembureaus
         elif not results['found_any_record_with_values']:
-            flash('Uploaden mislukt. Er zijn geen stembureaus gevonden in de spreadsheet.')
+            flash(
+                'Uploaden mislukt. Er zijn geen stembureaus gevonden in de '
+                'spreadsheet.'
+            )
         # If the spreadsheet did validate then first delete all current
         # stembureaus from the draft_resource and then save the newly
         # uploaded stembureaus to the draft_resources of each election
@@ -276,7 +296,8 @@ def gemeente_stemlokalen_dashboard():
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
-        show_publish_note=show_publish_note
+        show_publish_note=show_publish_note,
+        vooringevuld=vooringevuld
     )
 
 
@@ -589,6 +610,16 @@ def _create_record(form, stemlokaal_id, current_user, election):
 def _remove_id(records):
     for record in records:
         del record['_id']
+
+
+# Converts a column number to a spreadsheet column string, e.g. 6 to F
+# and 124 to DT
+def _colnum2string(n):
+    string = ""
+    while n > 0:
+        n, remainder = divmod(n - 1, 26)
+        string = chr(65 + remainder) + string
+    return string
 
 
 if __name__ == "__main__":
