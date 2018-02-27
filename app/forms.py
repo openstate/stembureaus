@@ -178,8 +178,8 @@ class EditForm(FlaskForm):
             Optional(),
             URL(
                 message='Ongeldige URL. Begint uw URL wel met "http" of '
-                '"https"? Correct is bv. "https://www.stembureausindenhaag.nl"'
-                ' en niet "www.stembureausindenhaag.nl".'
+                '"https"? Correct is bv. "https://www.voorbeeld.nl"'
+                ' en niet "www.voorbeeld.nl".'
             )
         ]
     )

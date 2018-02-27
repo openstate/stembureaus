@@ -180,7 +180,8 @@ def gemeente_stemlokalen_dashboard():
         )
         try:
             headers, records = parser.parse(file_path)
-        except ValueError:
+        except ValueError as e:
+            app.logger.warning('Uploaden mislukt: %s' % e)
             flash(
                 Markup(
                     'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
@@ -218,10 +219,10 @@ def gemeente_stemlokalen_dashboard():
                     results['results'].items()):
                 if col_result['errors']:
                     error_flash = (
-                        '<b>Foutmelding(en) in <span class="text-red">kolom '
-                        '"%s" (oftwel de %se kolom)</span></b>:' % (
-                            _colnum2string(column_number),
-                            column_number
+                        '<b>Foutmelding(en) in <span class="text-red">'
+                        'invulveld %s (oftewel kolom "%s")</span></b>:' % (
+                            column_number,
+                            _colnum2string(column_number)
                         )
                     )
                     error_flash += '<ul>'
