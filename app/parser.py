@@ -68,6 +68,30 @@ class BaseParser(object):
 
         return records
 
+    def _clean_bag_referentienummer(self, record):
+        # Some spreadsheets fill in this field as float, so convert
+        #it via int back to str
+        if type(record['bag_referentienummer']) == float:
+            record['bag_referentienummer'] = str(
+                int(record['bag_referentienummer'])
+            )
+
+        # Left pad this field with max 3 zeroes
+        if len(record['bag_referentienummer']) == 15:
+            record['bag_referentienummer'] = '0' + record[
+                'bag_referentienummer'
+            ]
+        if len(record['bag_referentienummer']) == 14:
+            record['bag_referentienummer'] = '00' + record[
+                'bag_referentienummer'
+            ]
+        if len(record['bag_referentienummer']) == 13:
+            record['bag_referentienummer'] = '000' + record[
+                'bag_referentienummer'
+            ]
+
+        return record
+
     def parse(self, path):
         """
         Parses a file (Assumes). Returns a tuple of a list of headers and
@@ -102,7 +126,9 @@ class ODSParser(BaseParser):
                         values.append(row[col_num])
                     except IndexError:
                         values.append('')
-            records.append(dict(zip(clean_headers, values)))
+            record = dict(zip(clean_headers, values))
+            record = self._clean_bag_referentienummer(record)
+            records.append(record)
 
         return records
 
@@ -145,28 +171,7 @@ class ExcelParser(BaseParser):
         records = []
         for col_num in range(5, sh.ncols):
             record = dict(zip(clean_headers, sh.col_values(col_num)[1:]))
-
-            # Some spreadsheets fill in this field as float, so convert
-            #it via int back to str
-            if type(record['bag_referentienummer']) == float:
-                record['bag_referentienummer'] = str(
-                    int(record['bag_referentienummer'])
-                )
-
-            # Left pad this field with max 3 zeroes
-            if len(record['bag_referentienummer']) == 15:
-                record['bag_referentienummer'] = '0' + record[
-                    'bag_referentienummer'
-                ]
-            if len(record['bag_referentienummer']) == 14:
-                record['bag_referentienummer'] = '00' + record[
-                    'bag_referentienummer'
-                ]
-            if len(record['bag_referentienummer']) == 13:
-                record['bag_referentienummer'] = '000' + record[
-                    'bag_referentienummer'
-                ]
-
+            record = self._clean_bag_referentienummer(record)
             records.append(record)
 
         return records
