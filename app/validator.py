@@ -3,8 +3,8 @@
 
 from werkzeug.datastructures import MultiDict
 
+from app import app
 from app.forms import EditForm
-import app
 
 
 # Use the validators that are also used in the EditForm

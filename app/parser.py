@@ -150,9 +150,6 @@ class ODSParser(BaseParser):
 
 
 class ExcelParser(BaseParser):
-    def _has_correct_sheet_count(self, wb):
-        return (wb.nsheets == 3) or (wb.nsheets == 1)
-
     # Retrieve field names, lowercase them and replace spaces with
     # underscores
     def _get_headers(self, sh):
@@ -182,12 +179,6 @@ class ExcelParser(BaseParser):
             return [], []
 
         wb = open_workbook(path)
-
-        # moet 1 of 3 sheets hebben anders is het niet goed
-        if not self._has_correct_sheet_count(wb):
-            return [], []
-
-        # TODO: checken of alle tabs er in staan
 
         # als we 1 tab hebben dan de eerste, anders de tweede
         if wb.nsheets == 1:
