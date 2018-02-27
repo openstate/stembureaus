@@ -144,7 +144,30 @@ class ExcelParser(BaseParser):
     def _get_records(self, sh, clean_headers):
         records = []
         for col_num in range(5, sh.ncols):
-            records.append(dict(zip(clean_headers, sh.col_values(col_num)[1:])))
+            record = dict(zip(clean_headers, sh.col_values(col_num)[1:]))
+
+            # Some spreadsheets fill in this field as float, so convert
+            #it via int back to str
+            if type(record['bag_referentienummer']) == float:
+                record['bag_referentienummer'] = str(
+                    int(record['bag_referentienummer'])
+                )
+
+            # Left pad this field with max 3 zeroes
+            if len(record['bag_referentienummer']) == 15:
+                record['bag_referentienummer'] = '0' + record[
+                    'bag_referentienummer'
+                ]
+            if len(record['bag_referentienummer']) == 14:
+                record['bag_referentienummer'] = '00' + record[
+                    'bag_referentienummer'
+                ]
+            if len(record['bag_referentienummer']) == 13:
+                record['bag_referentienummer'] = '000' + record[
+                    'bag_referentienummer'
+                ]
+
+            records.append(record)
 
         return records
 

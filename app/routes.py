@@ -149,6 +149,16 @@ def gemeente_stemlokalen_dashboard():
     if gemeente_draft_records != gemeente_publish_records:
         show_publish_note = True
 
+    vooringevuld = ''
+    vooringevuld_fn = (
+        'files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_'
+        'deels_vooringevuld.xlsx' % (
+            current_user.gemeente_naam
+        )
+    )
+    if os.path.exists(vooringevuld_fn):
+        vooringevuld = vooringevuld_fn
+
     form = FileUploadForm()
 
     # Save, parse and validate an uploaded spreadsheet and save the
@@ -185,7 +195,8 @@ def gemeente_stemlokalen_dashboard():
                 total_publish_records=len(gemeente_publish_records),
                 total_draft_records=len(gemeente_draft_records),
                 form=form,
-                show_publish_note=show_publish_note
+                show_publish_note=show_publish_note,
+                vooringevuld=vooringevuld
             )
 
         validator = Validator()
@@ -205,7 +216,10 @@ def gemeente_stemlokalen_dashboard():
                 if col_result['errors']:
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">kolom '
-                        '%s</span></b>:' % (column_number)
+                        '"%s" (oftwel de %se kolom)</span></b>:' % (
+                            _colnum2string(column_number),
+                            column_number
+                        )
                     )
                     error_flash += '<ul>'
                     for column_name, error in col_result['errors'].items():
@@ -266,16 +280,6 @@ def gemeente_stemlokalen_dashboard():
                     'gemeente_stemlokalen_overzicht'
                 )
             )
-
-    vooringevuld = ''
-    vooringevuld_fn = (
-        'files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_'
-        'deels_vooringevuld.xlsx' % (
-            current_user.gemeente_naam
-        )
-    )
-    if os.path.exists(vooringevuld_fn):
-        vooringevuld = vooringevuld_fn
 
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
@@ -597,6 +601,16 @@ def _create_record(form, stemlokaal_id, current_user, election):
 def _remove_id(records):
     for record in records:
         del record['_id']
+
+
+# Converts a column number to a spreadsheet column string, e.g. 6 to F
+# and 124 to DT
+def _colnum2string(n):
+    string = ""
+    while n > 0:
+        n, remainder = divmod(n - 1, 26)
+        string = chr(65 + remainder) + string
+    return string
 
 
 if __name__ == "__main__":
