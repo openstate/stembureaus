@@ -19,3 +19,18 @@
     }
   }
 }
+
+#form-search {
+  color: #c21889;
+  line-height: 30px;
+  .form-group {
+    width: 100%;
+    border-bottom: 1px solid #c21889;
+  }
+
+  input {
+    border: 0;
+    box-shadow: none;
+    width: 80%;
+  }
+}
