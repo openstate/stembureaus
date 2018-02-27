@@ -267,13 +267,24 @@ def gemeente_stemlokalen_dashboard():
                 )
             )
 
+    vooringevuld = ''
+    vooringevuld_fn = (
+        'files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_'
+        'deels_vooringevuld.xlsx' % (
+            current_user.gemeente_naam
+        )
+    )
+    if os.path.exists(vooringevuld_fn):
+        vooringevuld = vooringevuld_fn
+
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing_string=_format_verkiezingen_string(elections),
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
-        show_publish_note=show_publish_note
+        show_publish_note=show_publish_note,
+        vooringevuld=vooringevuld
     )
 
 
