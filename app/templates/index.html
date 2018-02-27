@@ -47,7 +47,7 @@
         L.marker(
           [stembureaus[i].Latitude, stembureaus[i].Longitude]
         ).bindPopup(
-          "<a href=\"/s/" + stembureaus[i]['ID'] + "\">" + stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + stembureaus[i]['Openingstijden'] + "</p>"
+          "<a href=\"/s/" + stembureaus[i]['Gemeente'] + '/' + stembureaus[i]['primary_key'] + "\">" + stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + stembureaus[i]['Openingstijden'] + "</p>"
         )
       );
     }

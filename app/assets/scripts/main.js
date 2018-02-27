@@ -84,7 +84,7 @@ StembureausApp.show = function (matches) {
     var opinfo = matches[i]['Openingstijden'].split(' tot ');
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2>' + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</h2>' +
+      '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['primary_key'] + "\">" + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</a></h2>' +
       '<h5>' + matches[i]['Plaats'] + '</h5>' +
       opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) +
       '</div>'
@@ -104,9 +104,6 @@ StembureausApp.search = function (query) {
       var val = stembureaus[i][fields[fld]];
       if ((typeof(val) !== 'undefined') && (typeof(val) !== "object") && val.toLowerCase().indexOf(query) >= 0) {
         stembureau_matches.push(stembureaus[i]);
-      }
-
-      if (stembureau_matches.length >= 5) {
         break;
       }
     }
