@@ -75,3 +75,30 @@
   $(document).ready(UTIL.loadEvents);
 
 })(jQuery); // Fully reference jQuery after this point.
+
+var StembureausApp = window.stembureausApp || {};
+
+SteambureausApp.search = function (query) {
+  console.log('should be searching for : [' + $(this).val() + '] now ...');
+
+};
+
+StembureausApp.init = function() {
+  console.log('init!');
+  console.log('one more test ....');
+
+  $('#form-search').submit(function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  $('#form-search input[type="text"]').keyup(function (e) {
+    StembureausApp.search($(this).val());
+  });
+
+};
+
+
+$(document).ready(function () {
+  StembureausApp.init();
+});
