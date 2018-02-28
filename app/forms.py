@@ -93,11 +93,41 @@ class PubliceerForm(FlaskForm):
 
 # Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
-    if not re.match('^\d+\.\d{4,}', str(field.data)):
+    if not re.match('^-?\d+\.\d{4,}', str(field.data)):
         raise ValidationError(
-            'De cijfer in de Latitude en Longitude velden moeten met een punt '
-            'gescheiden worden (geen komma) en moeten minimaal 4 decimalen '
-            'achter de punt hebben.'
+            'De cijfers in de Latitude en Longitude velden moeten met een '
+            'punt gescheiden worden (geen komma) en moeten minimaal 4 '
+            'decimalen achter de punt hebben.'
+        )
+
+
+def longitude_range(form, field):
+    if field.data > 3 and field.data < 8:
+        return
+    if field.data > -68.5 and field.data < -68:
+        return
+    if field.data > -63.3 and field.data < -62.9:
+        return
+    else:
+        raise ValidationError(
+            'De longitude moet tussen 3 en 8 (Europees Nederland), -68.5 en '
+            '-68 (Bonaire) of -63.3 en -62.9 (Saba en Sint Eustatius) liggen '
+            'anders ligt uw stembureau niet in Nederland.'
+        )
+
+
+def latitude_range(form, field):
+    if field.data > 50 and field.data < 54:
+        return
+    if field.data > 12 and field.data < 12.4:
+        return
+    if field.data > 17.4 and field.data < 17.7:
+        return
+    else:
+        raise ValidationError(
+            'De latitude moet tussen 50 en 54 (Europees Nederland), 12 en '
+            '12.4 (Bonaire) of 17.4 en 17.7 (Saba en Sint Eustatius) liggen '
+            'anders ligt uw stembureau niet in Nederland.'
         )
 
 
@@ -178,8 +208,8 @@ class EditForm(FlaskForm):
             Optional(),
             URL(
                 message='Ongeldige URL. Begint uw URL wel met "http" of '
-                '"https"? Correct is bv. "https://www.stembureausindenhaag.nl"'
-                ' en niet "www.stembureausindenhaag.nl".'
+                '"https"? Correct is bv. "https://www.voorbeeld.nl"'
+                ' en niet "www.voorbeeld.nl".'
             )
         ]
     )
@@ -250,7 +280,8 @@ class EditForm(FlaskForm):
         ),
         validators=[
             DataRequired(),
-            min_four_decimals
+            min_four_decimals,
+            longitude_range
         ]
     )
 
@@ -267,7 +298,8 @@ class EditForm(FlaskForm):
         ),
         validators=[
             DataRequired(),
-            min_four_decimals
+            min_four_decimals,
+            latitude_range
         ]
     )
 

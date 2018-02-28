@@ -61,21 +61,15 @@ class BaseParser(object):
             ]
 
             for yes_no_empty_field in yes_no_empty_fields:
-                if re.match('^[YyJj]$', str(record[yes_no_empty_field])):
-                    record[yes_no_empty_field] = 'Y'
-                if re.match('^[Nn]$', str(record[yes_no_empty_field])):
-                    record[yes_no_empty_field] = 'N'
+                if yes_no_empty_field in record:
+                    if re.match('^[YyJj]$', str(record[yes_no_empty_field])):
+                        record[yes_no_empty_field] = 'Y'
+                    if re.match('^[Nn]$', str(record[yes_no_empty_field])):
+                        record[yes_no_empty_field] = 'N'
 
         return records
 
     def _clean_bag_referentienummer(self, record):
-        # Some spreadsheets fill in this field as float, so convert
-        #it via int back to str
-        if type(record['bag_referentienummer']) == float:
-            record['bag_referentienummer'] = str(
-                int(record['bag_referentienummer'])
-            )
-
         # Left pad this field with max 3 zeroes
         if len(record['bag_referentienummer']) == 15:
             record['bag_referentienummer'] = '0' + record[
@@ -119,15 +113,33 @@ class ODSParser(BaseParser):
     def _get_records(self, sh, clean_headers):
         records = []
         for col_num in range(5, len(sh[0])):
-            values = []
-            for row in sh[1:]:
+            record = {}
+            for idx, row in enumerate(sh[1:len(clean_headers)+1]):
                 if row:
+                    # No values left
+                    if len(row) - 1 < col_num or len(row) <= 5:
+                        continue
+                    value = row[col_num]
                     try:
-                        values.append(row[col_num])
+                        # Convert all to str except for bag_referentienummer
+                        # as this field is interpreted as float by Excel so
+                        # first cast it to int and then to str
+                        if clean_headers[idx] == 'bag_referentienummer':
+                            if type(value) == float or type(value) == int:
+                                record[clean_headers[idx]] = str(
+                                    int(value)
+                                ).strip()
+                            else:
+                                record[clean_headers[idx]] = value.strip()
+                        elif clean_headers[idx] == 'nummer_stembureau':
+                            record[clean_headers[idx]] = value
+                        else:
+                            record[clean_headers[idx]] = str(value).strip()
                     except IndexError:
-                        values.append('')
-            record = dict(zip(clean_headers, values))
-            record = self._clean_bag_referentienummer(record)
+                        record[clean_headers[idx]] = ''
+
+            if 'bag_referentienummer' in record:
+                record = self._clean_bag_referentienummer(record)
             records.append(record)
 
         return records
@@ -167,7 +179,24 @@ class ExcelParser(BaseParser):
     def _get_records(self, sh, clean_headers):
         records = []
         for col_num in range(5, sh.ncols):
-            record = dict(zip(clean_headers, sh.col_values(col_num)[1:]))
+            record = {}
+            for idx, value in enumerate(
+                    sh.col_values(col_num)[1:len(clean_headers)+1]):
+                # Convert all to str except for bag_referentienummer
+                # as this field is interpreted as float by Excel so
+                # first cast it to int and then to str
+                if clean_headers[idx] == 'bag_referentienummer':
+                    if type(value) == float or type(value) == int:
+                        record[clean_headers[idx]] = str(
+                            int(value)
+                        ).strip()
+                    else:
+                        record[clean_headers[idx]] = value.strip()
+                elif clean_headers[idx] == 'nummer_stembureau':
+                    record[clean_headers[idx]] = value
+                else:
+                    record[clean_headers[idx]] = str(value).strip()
+
             record = self._clean_bag_referentienummer(record)
             records.append(record)
 
