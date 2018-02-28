@@ -102,35 +102,7 @@ StembureausApp.show = function (matches) {
 StembureausApp.search = function (query) {
   console.log('should be searching for : [' + query + '] now ...');
   console.log(query.split(/\s+/));
-  var stembureau_matches = [];
-  var stembureaus_matches_pks = [];
-
-  var fields = ['Gemeente', 'Plaats', 'Straatnaam', 'Naam stembureau'];
-  var words = query.split(/\s+/);
-
-  words.forEach(function (w) {
-    for(var fld in fields) {
-      for(var i=0; i< stembureaus.length; i++) {
-        var val = stembureaus[i][fields[fld]];
-        if ((typeof(val) !== 'undefined') && (typeof(val) !== "object") && val.toLowerCase().indexOf(w) >= 0) {
-          if (stembureaus_matches_pks.indexOf(stembureaus[i]['primary_key']) < 0) {
-            stembureaus_matches_pks.push(stembureaus[i]['primary_key']);
-            console.log(stembureaus_matches_pks);
-            stembureau_matches.push(stembureaus[i]);
-            if (stembureau_matches.length >= 5) {
-              break;
-            }
-          }
-        }
-      }
-
-      if (stembureau_matches.length >= 5) {
-        break;
-      }
-
-    }
-  });
-
+  var stembureau_matches = StembureausApp.fuse.search(query);
   console.log('matches:');
   console.dir(stembureau_matches);
 
@@ -140,6 +112,23 @@ StembureausApp.search = function (query) {
 StembureausApp.init = function() {
   console.log('init!');
   console.log('one more test ....');
+
+  var options = {
+  shouldSort: true,
+  tokenize: true,
+  threshold: 0.25,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    "Gemeente",
+    "Plaats",
+    "Straatnaam",
+    "Naam stembureau"
+  ]
+  };
+  StembureausApp.fuse = new Fuse(stembureaus, options);
 
   $('#form-search').submit(function (e) {
     e.preventDefault();
