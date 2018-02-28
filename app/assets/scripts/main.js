@@ -76,7 +76,7 @@
 
 })(jQuery); // Fully reference jQuery after this point.
 
-var StembureausApp = window.StembureausApp || {};
+var StembureausApp = window.StembureausApp || {stembureaus: []};
 
 StembureausApp.show = function (matches) {
   $('#results-search').empty();
@@ -128,7 +128,7 @@ StembureausApp.init = function() {
     "Naam stembureau"
   ]
   };
-  StembureausApp.fuse = new Fuse(stembureaus, options);
+  StembureausApp.fuse = new Fuse(StembureausApp.stembureaus, options);
 
   $('#form-search').submit(function (e) {
     e.preventDefault();
@@ -140,7 +140,7 @@ StembureausApp.init = function() {
   });
 
   $('#btn-location').click(function (e) {
-    map.locate({setView : true});
+    StembureausApp.map.locate({setView : true});
     return false;
   });
 };

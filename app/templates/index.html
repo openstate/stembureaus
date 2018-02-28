@@ -37,30 +37,32 @@
   crossorigin=""></script>
 <script>
 
-    var stembureaus = {{ records.records |tojson |safe }};
-    var stembureaus_markers = [];
+    var StembureausApp = window.StembureausApp || {};
 
-    for(var i=0; i < stembureaus.length; i++) {
-      stembureaus_markers.push(
+    StembureausApp.stembureaus = {{ records.records |tojson |safe }};
+    StembureausApp.stembureaus_markers = [];
+
+    for(var i=0; i < StembureausApp.stembureaus.length; i++) {
+      StembureausApp.stembureaus_markers.push(
         L.marker(
-          [stembureaus[i].Latitude, stembureaus[i].Longitude]
+          [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
         ).bindPopup(
-          "<a href=\"/s/" + stembureaus[i]['Gemeente'] + '/' + stembureaus[i]['primary_key'] + "\">" + stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + stembureaus[i]['Openingstijden'] + "</p>"
+          "<a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['primary_key'] + "\">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + StembureausApp.stembureaus[i]['Openingstijden'] + "</p>"
         )
       );
     }
 
 
-    var layers = {
-      'Stembureaus': L.layerGroup(stembureaus_markers)
+    StembureausApp.layers = {
+      'Stembureaus': L.layerGroup(StembureausApp.stembureaus_markers)
     };
-    var map = L.map('map', {'layers': layers['Stembureaus']}).setView([52.2, 5.592], 6);
-    var group = L.featureGroup(stembureaus_markers);
-    map.fitBounds(group.getBounds());
+    StembureausApp.map = L.map('map', {'layers': StembureausApp.layers['Stembureaus']}).setView([52.2, 5.592], 6);
+    StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers);
+    StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(StembureausApp.map);
 
 </script>
 {% endblock %}
