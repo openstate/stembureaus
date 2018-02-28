@@ -37,7 +37,7 @@
   crossorigin=""></script>
 <script>
 
-    var StembureausApp = window.StembureausApp || {};
+    var StembureausApp = window.StembureausApp || {stembureaus: []};
 
     StembureausApp.stembureaus = {{ records.records |tojson |safe }};
     StembureausApp.stembureaus_markers = [];
