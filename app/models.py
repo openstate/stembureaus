@@ -49,7 +49,12 @@ class CKAN():
 
     def get_records(self, resource_id):
         return self.ckanapi.datastore_search(
-            resource_id=resource_id, limit=5000
+            resource_id=resource_id, limit=10000
+        )
+
+    def filter_records(self, resource_id, datastore_filters={}):
+        return self.ckanapi.datastore_search(
+            resource_id=resource_id, filters=datastore_filters, limit=10000
         )
 
     def save_records(self, resource_id, records):

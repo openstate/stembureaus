@@ -63,6 +63,14 @@ def data():
     return render_template('data.html')
 
 
+@app.route("/s/<gemeente>/<primary_key>")
+def show_stembureau(gemeente, primary_key):
+    records = ckan.filter_records(
+        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'],
+        {'Gemeente': gemeente, 'primary_key': primary_key})
+    return render_template('show_stembureau.html', records=records)
+
+
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
 def gemeente_reset_wachtwoord_verzoek():
     form = ResetPasswordRequestForm()
