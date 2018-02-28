@@ -101,25 +101,33 @@ StembureausApp.show = function (matches) {
 
 StembureausApp.search = function (query) {
   console.log('should be searching for : [' + query + '] now ...');
-
+  console.log(query.split(/\s+/));
   var stembureau_matches = [];
+  var stembureaus_matches_pks = [];
 
-  for(var i=0; i< stembureaus.length; i++) {
-    var fields = ['Gemeente', 'Plaats', 'Straatnaam', 'Naam stembureau'];
+  var fields = ['Gemeente', 'Plaats', 'Straatnaam', 'Naam stembureau'];
+  var words = query.split(/\s+/);
 
+  words.forEach(function (w) {
     for(var fld in fields) {
-      var val = stembureaus[i][fields[fld]];
-      if ((typeof(val) !== 'undefined') && (typeof(val) !== "object") && val.toLowerCase().indexOf(query) >= 0) {
-        stembureau_matches.push(stembureaus[i]);
+      for(var i=0; i< stembureaus.length; i++) {
+        var val = stembureaus[i][fields[fld]];
+        if ((typeof(val) !== 'undefined') && (typeof(val) !== "object") && val.toLowerCase().indexOf(w) >= 0) {
+          if (stembureaus_matches_pks.indexOf(stembureaus[i]['primary_key']) < 0) {
+            stembureaus_matches_pks.push(stembureaus[i]['primary_key']);
+            console.log(stembureaus_matches_pks);
+            stembureau_matches.push(stembureaus[i]);
+            break;
+          }
+        }
+      }
+
+      if (stembureau_matches.length >= 5) {
         break;
       }
-    }
 
-    if (stembureau_matches.length >= 5) {
-      break;
     }
-
-  }
+  });
 
   console.log('matches:');
   console.dir(stembureau_matches);
