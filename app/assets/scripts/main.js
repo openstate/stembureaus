@@ -117,7 +117,9 @@ StembureausApp.search = function (query) {
             stembureaus_matches_pks.push(stembureaus[i]['primary_key']);
             console.log(stembureaus_matches_pks);
             stembureau_matches.push(stembureaus[i]);
-            break;
+            if (stembureau_matches.length >= 5) {
+              break;
+            }
           }
         }
       }
