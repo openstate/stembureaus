@@ -1,6 +1,7 @@
 from app import app, db
 from app.models import User, ckan, Election
 from app.email import send_invite, send_mailcorrectie
+from flask import url_for
 from pprint import pprint
 import click
 import json
@@ -341,6 +342,29 @@ def eenmalig_gemeenten_uitnodigen():
         send_invite(user, 349725)
         total_mailed += 1
     print('%d gemeenten ge-e-maild' % (total_mailed))
+
+
+@gemeenten.command()
+@click.argument('gemeente_code')
+def gemeente_invite_link_maken(gemeente_code):
+    """
+    Maak een reset wachtwoord link aan voor een gemeente. Handig om via een
+    ander kanaal een gemeente haar wachtwoord te laten resetten. Geef de CBS
+    gemeentecode mee als parameter (bv. GM1680).
+    """
+    user = User.query.filter_by(gemeente_code=gemeente_code).first()
+    if not user:
+        print('Gemeentecode "%s" staat niet in de database' % (gemeente_code))
+        return
+    token = user.get_reset_password_token()
+    print(
+        'Password reset link voor %s van gemeente %s (%s): %s' % (
+            user.email,
+            user.gemeente_code,
+            user.gemeente_naam,
+            url_for('gemeente_reset_wachtwoord', token=token, _external=True)
+        )
+    )
 
 
 @gemeenten.command()
