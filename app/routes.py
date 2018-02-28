@@ -68,8 +68,17 @@ def show_stembureau(gemeente, primary_key):
     records = ckan.filter_records(
         ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'],
         {'Gemeente': gemeente, 'primary_key': primary_key})
-    return render_template('show_stembureau.html', records=records)
+    return render_template(
+        'show_stembureau.html', records=records, gemeente=gemeente)
 
+
+@app.route("/s/<gemeente>")
+def show_gemeente(gemeente):
+    records = ckan.filter_records(
+        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'],
+        {'Gemeente': gemeente})
+    return render_template(
+        'show_gemeente.html', records=records, gemeente=gemeente)
 
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
 def gemeente_reset_wachtwoord_verzoek():
