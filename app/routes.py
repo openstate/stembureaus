@@ -182,7 +182,7 @@ def gemeente_stemlokalen_dashboard():
         try:
             headers, records = parser.parse(file_path)
         except ValueError as e:
-            app.logger.warning('Uploaden mislukt: %s' % e)
+            app.logger.warning('Upload failed: %s' % e)
             flash(
                 Markup(
                     'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
@@ -222,7 +222,7 @@ def gemeente_stemlokalen_dashboard():
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">'
                         'invulveld %s (oftewel kolom "%s")</span></b>:' % (
-                            column_number,
+                            column_number - 5,
                             _colnum2string(column_number)
                         )
                     )
@@ -251,9 +251,7 @@ def gemeente_stemlokalen_dashboard():
                     ckan.delete_records(
                         ckan.elections[election]['draft_resource'],
                         {
-                            'CBS gemeentecode': gemeente_draft_records[0][
-                                'CBS gemeentecode'
-                            ]
+                            'CBS gemeentecode': current_user.gemeente_code
                         }
                     )
 
