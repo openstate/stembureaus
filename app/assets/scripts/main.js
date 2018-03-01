@@ -90,7 +90,7 @@ StembureausApp.show = function (matches) {
     }
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['primary_key'] + "\">" + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</a></h2>' +
+      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\">" + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
       '<h5>' + matches[i]['Plaats'] + '</h5>' +
       '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +

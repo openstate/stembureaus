@@ -46,11 +46,28 @@ with open('app/data/kieskringen.csv') as IN:
     kieskringen = list(reader)
 
 
+def get_stembureaus(elections, filters=None):
+    merge_field = 'UUID'
+    results = {}
+    for election in elections.keys():
+        records = ckan.filter_records(
+            ckan.elections[election]['publish_resource'],
+            filters)
+        for record in records['records']:
+            if record[merge_field] not in results:
+                results[record[merge_field]] = record
+            try:
+                results[record[merge_field]]['elections'].append(election)
+            except LookupError:
+                results[record[merge_field]]['elections'] = [election]
+
+    return results.values()
+
+
 @app.route("/")
 def index():
-    records = ckan.get_records(
-        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'])
-    return render_template('index.html', records=records)
+    records = get_stembureaus(ckan.elections)
+    return render_template('index.html', records=[r for r in records])
 
 
 @app.route("/over-deze-website")
@@ -65,20 +82,17 @@ def data():
 
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
-    records = ckan.filter_records(
-        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'],
-        {'Gemeente': gemeente, 'primary_key': primary_key})
+    records = get_stembureaus(
+        ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
     return render_template(
-        'show_stembureau.html', records=records, gemeente=gemeente)
+        'show_stembureau.html', records=[r for r in records], gemeente=gemeente)
 
 
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
-    records = ckan.filter_records(
-        ckan.elections['Gemeenteraadsverkiezingen 2018']['publish_resource'],
-        {'Gemeente': gemeente})
+    records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
-        'show_gemeente.html', records=records, gemeente=gemeente)
+        'show_gemeente.html', records=[r for r in records], gemeente=gemeente)
 
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
 def gemeente_reset_wachtwoord_verzoek():

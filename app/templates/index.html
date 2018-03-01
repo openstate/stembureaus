@@ -39,7 +39,7 @@
 
     var StembureausApp = window.StembureausApp || {stembureaus: []};
 
-    StembureausApp.stembureaus = {{ records.records |tojson |safe }};
+    StembureausApp.stembureaus = {{ records |tojson |safe }};
     StembureausApp.stembureaus_markers = [];
 
     for(var i=0; i < StembureausApp.stembureaus.length; i++) {
@@ -47,7 +47,7 @@
         L.marker(
           [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
         ).bindPopup(
-          "<a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['primary_key'] + "\">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + StembureausApp.stembureaus[i]['Openingstijden'] + "</p>"
+          "<a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + StembureausApp.stembureaus[i]['Openingstijden'] + "</p>"
         )
       );
     }
