@@ -3,6 +3,7 @@
 logs/*
 upload/*
 data/*
+exports/*
 docker/docker-entrypoint-initdb.d/*
 app/static/*
 app/node_modules/*

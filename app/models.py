@@ -24,7 +24,12 @@ class CKAN():
             resource_id=resource_id,
             force=True,
             fields=fields,
-            primary_key=['primary_key']
+            primary_key=['UUID']
+        )
+
+    def resource_show(self, resource_id):
+        return self.ckanapi.resource_show(
+            id=resource_id
         )
 
     def delete_datastore(self, resource_id):
@@ -49,7 +54,7 @@ class CKAN():
 
     def get_records(self, resource_id):
         return self.ckanapi.datastore_search(
-            resource_id=resource_id, limit=5000
+            resource_id=resource_id, limit=10000
         )
 
     def save_records(self, resource_id, records):
@@ -60,7 +65,7 @@ class CKAN():
             method='upsert'
         )
 
-    def delete_records(self, resource_id, filters):
+    def delete_records(self, resource_id, filters=None):
         self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,

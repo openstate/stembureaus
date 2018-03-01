@@ -6,6 +6,8 @@ from werkzeug.datastructures import MultiDict
 from app import app
 from app.forms import EditForm
 
+import uuid
+
 
 # Use the validators that are also used in the EditForm
 class RecordValidator(object):
@@ -60,7 +62,8 @@ class Validator(object):
 
             results[column_number] = {
                 'errors': errors,
-                'form': form
+                'form': form,
+                'uuid': uuid.uuid4().hex
             }
         return {
             'no_errors': no_errors,
