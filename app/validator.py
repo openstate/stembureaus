@@ -19,7 +19,7 @@ class RecordValidator(object):
         Validates a single record. Gets a line number and a list of headers as
         well as a dict. Returns a list of issues found, which can be empty.
         """
-        form = EditForm(MultiDict(record), csrf_enabled=False)
+        form = EditForm(MultiDict(record), meta={'csrf': False})
         result = form.validate()
         errors = form.errors
         return result, errors, form
