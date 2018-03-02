@@ -9,13 +9,23 @@
     StembureausApp.stembureaus = {{ records |tojson |safe }};
     StembureausApp.stembureaus_markers = [];
 
+    StembureausApp.getPopup = function(s) {
+      var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
+      output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
+      output += "" + StembureausApp.stembureaus[i]['Straatnaam'] + ' ' + StembureausApp.stembureaus[i]['Huisnummer'] + StembureausApp.stembureaus[i]['Huisnummertoevoeging'] + "<br />";
+      output += '<strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br />';
+      if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
+        output += '<i class="fa fa-wheelchair" aria-hidden="true"></i>';
+      }
+      output += '</p>';
+      return output;
+    };
+
     for(var i=0; i < StembureausApp.stembureaus.length; i++) {
       StembureausApp.stembureaus_markers.push(
         L.marker(
           [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
-        ).bindPopup(
-          "<a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><p><b>Openingstijden:</b>" + StembureausApp.stembureaus[i]['Openingstijden'] + "</p>"
-        )
+        ).bindPopup(StembureausApp.getPopup(StembureausApp.stembureaus[i]))
       );
     }
 
