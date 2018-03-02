@@ -18,6 +18,7 @@ from app.models import User, ckan, Record, BAG
 from app.utils import find_buurt_and_wijk
 from math import ceil
 from time import sleep
+import uuid
 
 
 # Used to set the order of the fields in the stembureaus overzicht
@@ -215,7 +216,7 @@ def gemeente_stemlokalen_dashboard():
         try:
             headers, records = parser.parse(file_path)
         except ValueError as e:
-            app.logger.warning('Uploaden mislukt: %s' % e)
+            app.logger.warning('Upload failed: %s' % e)
             flash(
                 Markup(
                     'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
@@ -255,7 +256,7 @@ def gemeente_stemlokalen_dashboard():
                     error_flash = (
                         '<b>Foutmelding(en) in <span class="text-red">'
                         'invulveld %s (oftewel kolom "%s")</span></b>:' % (
-                            column_number,
+                            column_number - 5,
                             _colnum2string(column_number)
                         )
                     )
@@ -284,14 +285,11 @@ def gemeente_stemlokalen_dashboard():
                     ckan.delete_records(
                         ckan.elections[election]['draft_resource'],
                         {
-                            'CBS gemeentecode': gemeente_draft_records[0][
-                                'CBS gemeentecode'
-                            ]
+                            'CBS gemeentecode': current_user.gemeente_code
                         }
                     )
 
             # Create and save records
-            stemlokaal_id = _get_new_primary_key()
             for election in [x.verkiezing for x in elections]:
                 records = []
                 for _, result in results['results'].items():
@@ -299,12 +297,11 @@ def gemeente_stemlokalen_dashboard():
                         records.append(
                             _create_record(
                                 result['form'],
-                                stemlokaal_id,
+                                result['uuid'],
                                 current_user,
                                 election
                             )
                         )
-                        stemlokaal_id += 1
                 ckan.save_records(
                     ckan.elections[election]['draft_resource'],
                     records=records
@@ -473,7 +470,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     init_record = {}
     if stemlokaal_id:
         for record in gemeente_draft_records:
-            if record['primary_key'] == int(stemlokaal_id):
+            if record['UUID'] == stemlokaal_id:
                 init_record = Record(
                     **{k.lower(): v for k, v in record.items()}).record
 
@@ -496,7 +493,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
             for election in [x.verkiezing for x in elections]:
                 ckan.delete_records(
                     ckan.elections[election]['draft_resource'],
-                    {'primary_key': stemlokaal_id}
+                    {'UUID': stemlokaal_id}
                 )
         flash('Stembureau verwijderd')
         return redirect(
@@ -508,7 +505,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # to the draft_resources of each election
     if form.validate_on_submit():
         if not stemlokaal_id:
-            stemlokaal_id = _get_new_primary_key()
+            stemlokaal_id = uuid.uuid4().hex
         for election in [x.verkiezing for x in elections]:
             record = _create_record(
                 form,
@@ -552,29 +549,6 @@ def _format_verkiezingen_string(elections):
     return verkiezing_string
 
 
-# Find the current largest primary_key value in order to create a
-# new primary_key value when the user adds a new stembureau
-def _get_new_primary_key():
-    elections = current_user.elections.all()
-
-    # Pick the first election. In the case of multiple elections we only
-    # retrieve the stembureaus of the first election as the records for
-    # both elections are the same (at least the GR2018 + referendum
-    # elections on March 21st 2018).
-    verkiezing = elections[0].verkiezing
-
-    all_draft_records = ckan.get_records(
-        ckan.elections[verkiezing]['draft_resource']
-    )
-
-    largest_primary_key = 0
-    for record in all_draft_records['records']:
-        if record['primary_key'] > largest_primary_key:
-            largest_primary_key = record['primary_key']
-
-    return largest_primary_key + 1
-
-
 def _create_record(form, stemlokaal_id, current_user, election):
     ID = 'NLODS%sstembureaus%s%s' % (
         current_user.gemeente_code,
@@ -594,7 +568,7 @@ def _create_record(form, stemlokaal_id, current_user, election):
                 hoofdstembureau = row[1]
 
     record = {
-        'primary_key': stemlokaal_id,
+        'UUID': stemlokaal_id,
         'Gemeente': current_user.gemeente_naam,
         'CBS gemeentecode': current_user.gemeente_code,
         'Kieskring ID': kieskring_id,

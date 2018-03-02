@@ -43,7 +43,7 @@
       {% for record in draft_records %}
         <tr>
           <td>
-            <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['primary_key']) }}">[bewerk]</a>
+            <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
           </td>
           {% for field in field_order %}
             <td>
