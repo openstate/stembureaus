@@ -9,7 +9,7 @@
       "gemeente_code": "GM0738",
       "gemeente_naam": "Aalburg",
       "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
    },
    {
       "gemeente_code": "GM0358",
@@ -153,7 +153,7 @@
       "gemeente_code": "GM0005",
       "gemeente_naam": "Bedum",
       "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
    },
    {
       "verkiezingen": [],
@@ -711,7 +711,7 @@
       "gemeente_code": "GM0015",
       "gemeente_naam": "Grootegast",
       "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
    },
    {
       "email": "",
