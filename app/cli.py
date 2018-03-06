@@ -503,7 +503,8 @@ def verwijder_alle_gemeenten_en_verkiezingen():
 
 
 @gemeenten.command()
-def eenmalig_gemeenten_en_verkiezingen_aanmaken():
+@click.option('--json_file', default='app/data/gemeenten.json')
+def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
     """
     Gebruik deze command slechts eenmaal(!) om alle gemeenten en
     verkiezingen in de database aan te maken op basis van
@@ -521,10 +522,16 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken():
             print('Geen gemeenten en verkiezingen aangemaakt')
             return
 
-    with open('app/data/gemeenten.json', newline='') as IN:
+    print("Opening %s" % (json_file,))
+    with open(json_file, newline='') as IN:
         data = json.load(IN)
         total_created = 0
         for item in data:
+            existing = User.query.filter_by(email=item['email']).first()
+            if existing:
+                print("Already have: %s" % (item['email'],))
+                continue
+
             user = User(
                 gemeente_naam=item['gemeente_naam'],
                 gemeente_code=item['gemeente_code'],
@@ -537,6 +544,7 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken():
                 election = Election(verkiezing=verkiezing, gemeente=user)
 
             total_created += 1
+
         # Only commit if all users are successfully added
         db.session.commit()
         print(

@@ -118,17 +118,17 @@ def main():
             new_gemeente_naam = re.sub(
                 '^gemeente ', '', row[2].strip(), flags=re.IGNORECASE)
             if new_gemeente_naam not in gemeente_namen:
-                print('Could not find gemeente from excel: %s' % (
-                    new_gemeente_naam,))
+                # print('Could not find gemeente from excel: %s' % (
+                #     new_gemeente_naam,))
                 # TODO: send email
                 continue
-            print('Found gemeente: %s' % (new_gemeente_naam))
+            # print('Found gemeente: %s' % (new_gemeente_naam))
             json_gemeente = [
                 g for g in gemeente_json
                 if g['gemeente_naam'] == new_gemeente_naam]
             if len(json_gemeente) <= 0:
-                print("Could not find gemeente in local JSON: %s" % (
-                    new_gemeente_naam,))
+                # print("Could not find gemeente in local JSON: %s" % (
+                #     new_gemeente_naam,))
                 # TODO: send email
                 continue
             json_gemeente[0]['email'] = row[3]
@@ -136,7 +136,7 @@ def main():
                 json_gemeente[0]['verkiezingen'] = [
                     e for e in ckan.elections.keys()]
             output.append(json_gemeente[0])
-        pprint(output)
+        print(json.dumps(output))
 
 
 if __name__ == '__main__':
