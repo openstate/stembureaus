@@ -528,9 +528,9 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
         total_created = 0
         for item in data:
             user_email = item['email']
-            existing = User.query.filter_by(email=user_email).first()
+            existing = User.query.filter_by(gemeente_code=item['gemeente_code']).first()
             if existing:
-                print("Already have: %s" % (user_email,))
+                print("Already have: %s" % (item['gemeente_code'],))
                 continue
 
             user = User(
