@@ -31,6 +31,8 @@ APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
 sys.path.insert(0, '.')
 from app.models import ckan
+from app.email import send_email
+from app import app, mail
 
 
 def get_credentials():
@@ -118,18 +120,28 @@ def main():
             new_gemeente_naam = re.sub(
                 '^gemeente ', '', row[2].strip(), flags=re.IGNORECASE)
             if new_gemeente_naam not in gemeente_namen:
-                # print('Could not find gemeente from excel: %s' % (
-                #     new_gemeente_naam,))
-                # TODO: send email
+                with app.app_context():
+                    send_email(
+                        '[waarismijnstemlokaal.nl] Gemeente niet in gemeente_namen.txt',
+                        sender=app.config['FROM'],
+                        recipients=[app.config['FROM']],
+                        text_body='Kon %s niet vinden in gemeente_namen.txt' % (new_gemeente_naam,),
+                        html_body='<p>Kon %s niet vinden in gemeente_namen.txt</p>' % (new_gemeente_naam,),
+                    )
                 continue
             # print('Found gemeente: %s' % (new_gemeente_naam))
             json_gemeente = [
                 g for g in gemeente_json
                 if g['gemeente_naam'] == new_gemeente_naam]
             if len(json_gemeente) <= 0:
-                # print("Could not find gemeente in local JSON: %s" % (
-                #     new_gemeente_naam,))
-                # TODO: send email
+                with app.app_context():
+                    send_email(
+                        '[waarismijnstemlokaal.nl] Gemeente niet in gemeenten.json.example',
+                        sender=app.config['FROM'],
+                        recipients=[app.config['FROM']],
+                        text_body='Kon %s niet vinden in gemeenten.json.example' % (new_gemeente_naam,),
+                        html_body='<p>Kon %s niet vinden in gemeenten.json.example</p>' % (new_gemeente_naam,),
+                    )
                 continue
             json_gemeente[0]['email'] = row[3]
             if json_gemeente[0]['verkiezingen'] == []:
