@@ -9,7 +9,7 @@
       "gemeente_code": "GM0738",
       "gemeente_naam": "Aalburg",
       "email": "",
-      "verkiezingen": []
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
    },
    {
       "gemeente_code": "GM0358",
@@ -153,7 +153,7 @@
       "gemeente_code": "GM0005",
       "gemeente_naam": "Bedum",
       "email": "",
-      "verkiezingen": []
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
    },
    {
       "verkiezingen": [],
@@ -242,7 +242,7 @@
    {
       "gemeente_code": "GM0585",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Binnenmaas"
    },
    {
@@ -277,7 +277,7 @@
    },
    {
       "gemeente_naam": "Ten Boer",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_code": "GM0009"
    },
@@ -386,7 +386,7 @@
    {
       "gemeente_naam": "Cromstrijen",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0611"
    },
    {
@@ -469,7 +469,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Dongeradeel",
       "gemeente_code": "GM0058"
    },
@@ -518,7 +518,7 @@
    {
       "gemeente_naam": "Edam-Volendam",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0385"
    },
    {
@@ -536,7 +536,7 @@
    {
       "gemeente_code": "GM1651",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Eemsmond"
    },
    {
@@ -600,7 +600,7 @@
       "gemeente_code": "GM0777"
    },
    {
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Ferwerderadiel",
       "gemeente_code": "GM1722"
@@ -620,7 +620,7 @@
    {
       "gemeente_code": "GM0236",
       "gemeente_naam": "Geldermalsen",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": ""
    },
    {
@@ -644,7 +644,7 @@
    {
       "gemeente_code": "GM0689",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Giessenlanden"
    },
    {
@@ -703,7 +703,7 @@
    },
    {
       "gemeente_naam": "Groningen",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_code": "GM0014"
    },
@@ -711,7 +711,7 @@
       "gemeente_code": "GM0015",
       "gemeente_naam": "Grootegast",
       "email": "",
-      "verkiezingen": []
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
    },
    {
       "email": "",
@@ -726,7 +726,7 @@
       "gemeente_code": "GM0158"
    },
    {
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Haaren",
       "gemeente_code": "GM0788"
@@ -740,12 +740,12 @@
    {
       "gemeente_code": "GM0393",
       "gemeente_naam": "Haarlemmerliede en Spaarnwoude",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": ""
    },
    {
       "gemeente_naam": "Haarlemmermeer",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_code": "GM0394"
    },
@@ -1004,12 +1004,12 @@
    {
       "gemeente_code": "GM0079",
       "gemeente_naam": "Kollumerland en Nieuwkruisland",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": ""
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Korendijk",
       "gemeente_code": "GM0588"
    },
@@ -1069,20 +1069,20 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Leek",
       "gemeente_code": "GM0022"
    },
    {
       "gemeente_naam": "Leerdam",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0545"
    },
    {
       "gemeente_code": "GM0080",
       "gemeente_naam": "Leeuwarden",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": ""
    },
    {
@@ -1123,7 +1123,7 @@
    },
    {
       "gemeente_code": "GM0733",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Lingewaal"
    },
@@ -1196,13 +1196,13 @@
    {
       "gemeente_code": "GM1663",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "De Marne"
    },
    {
       "gemeente_naam": "Marum",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0025"
    },
    {
@@ -1219,7 +1219,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Meierijstad",
       "gemeente_code": "GM1948"
    },
@@ -1249,7 +1249,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Midden-Groningen",
       "gemeente_code": "GM1952"
    },
@@ -1268,7 +1268,7 @@
    {
       "gemeente_naam": "Molenwaard",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM1927"
    },
    {
@@ -1303,7 +1303,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Neerijnen",
       "gemeente_code": "GM0304"
    },
@@ -1357,13 +1357,13 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Noordwijk",
       "gemeente_code": "GM0575"
    },
    {
       "gemeente_code": "GM0576",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Noordwijkerhout"
    },
@@ -1381,7 +1381,7 @@
    },
    {
       "gemeente_code": "GM0951",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Nuth"
    },
@@ -1435,7 +1435,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Onderbanken",
       "gemeente_code": "GM0881"
    },
@@ -1484,7 +1484,7 @@
    {
       "gemeente_code": "GM0584",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Oud-Beijerland"
    },
    {
@@ -1674,7 +1674,7 @@
       "gemeente_code": "GM0088"
    },
    {
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Schinnen",
       "gemeente_code": "GM0962"
@@ -1790,7 +1790,7 @@
    {
       "gemeente_naam": "Strijen",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0617"
    },
    {
@@ -1964,7 +1964,7 @@
    {
       "gemeente_naam": "Vianen",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0620"
    },
    {
@@ -2011,7 +2011,7 @@
    },
    {
       "gemeente_code": "GM1949",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Waadhoeke"
    },
@@ -2066,7 +2066,7 @@
    {
       "gemeente_code": "GM0870",
       "gemeente_naam": "Werkendam",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": ""
    },
    {
@@ -2090,7 +2090,7 @@
    {
       "gemeente_naam": "Westerwolde",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM1950"
    },
    {
@@ -2136,7 +2136,7 @@
       "gemeente_code": "GM0352"
    },
    {
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Winsum",
       "gemeente_code": "GM0053"
@@ -2179,7 +2179,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Woudrichem",
       "gemeente_code": "GM0874"
    },
@@ -2204,7 +2204,7 @@
    {
       "gemeente_naam": "Zederik",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_code": "GM0707"
    },
    {
@@ -2222,7 +2222,7 @@
    {
       "gemeente_code": "GM0299",
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Zevenaar"
    },
    {
@@ -2239,7 +2239,7 @@
    },
    {
       "gemeente_code": "GM0056",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Zuidhorn"
    },
