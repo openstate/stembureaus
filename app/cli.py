@@ -531,23 +531,29 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
             existing = User.query.filter_by(gemeente_code=item['gemeente_code']).first()
             if existing:
                 print("Already have: %s" % (item['gemeente_code'],))
-                continue
+                user = existing
+            else:
+                user = User(
+                    gemeente_naam=item['gemeente_naam'],
+                    gemeente_code=item['gemeente_code'],
+                    email=user_email
+                )
+                user.set_password(os.urandom(24))
+                db.session.add(user)
 
-            user = User(
-                gemeente_naam=item['gemeente_naam'],
-                gemeente_code=item['gemeente_code'],
-                email=user_email
-            )
-            user.set_password(os.urandom(24))
-            db.session.add(user)
+                # Only commit if all users are successfully added
+                db.session.commit()
 
-            # Only commit if all users are successfully added
-            db.session.commit()
+                send_invite(user, 349725)
 
-            send_invite(user, 349725)
+            elections = user.elections.all()
+            if (len(elections)) <= 0:
+                for verkiezing in item['verkiezingen']:
+                    election = Election(verkiezing=verkiezing, gemeente=user)
+                    db.session.add(election)
 
-            for verkiezing in item['verkiezingen']:
-                election = Election(verkiezing=verkiezing, gemeente=user)
+                # Only commit if all users are successfully added
+                db.session.commit()
 
             total_created += 1
 
