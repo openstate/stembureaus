@@ -544,6 +544,8 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
                 # Only commit if all users are successfully added
                 db.session.commit()
 
+                total_created += 1
+
                 send_invite(user, 349725)
 
             elections = user.elections.all()
@@ -555,7 +557,6 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
                 # Only commit if all users are successfully added
                 db.session.commit()
 
-            total_created += 1
 
         print(
             '%d gemeenten (en bijbehorende verkiezingen) aangemaakt' % (
