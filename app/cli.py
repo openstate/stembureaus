@@ -510,17 +510,17 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
     verkiezingen in de database aan te maken op basis van
     'app/data/gemeenten.json'
     """
-    if not app.debug:
-        result = input(
-            'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten en verkiezingen wilt aanmaken in de MySQL '
-            'database? (y/N): '
-        )
-        # Print empty line for better readability
-        print()
-        if not result.lower() == 'y':
-            print('Geen gemeenten en verkiezingen aangemaakt')
-            return
+    # if not app.debug:
+    #     result = input(
+    #         'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
+    #         'alle gemeenten en verkiezingen wilt aanmaken in de MySQL '
+    #         'database? (y/N): '
+    #     )
+    #     # Print empty line for better readability
+    #     print()
+    #     if not result.lower() == 'y':
+    #         print('Geen gemeenten en verkiezingen aangemaakt')
+    #         return
 
     print("Opening %s" % (json_file,))
     with open(json_file, newline='') as IN:
