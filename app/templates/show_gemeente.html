@@ -36,11 +36,38 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="map" style="height: 300px;"></div>
+    <p class="pull-right" style="margin-top: 10px;">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+        Insluiten
+      </button>
+    </p>
   </div>
 </div>
 
 
 {% include "map.html" %}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Insluiten</h4>
+      </div>
+      <div class="modal-body">
+        <p>Om de kaart in te sluiten in een andere pagina dient U de onderstaande code to kopie&euml;ren en te plakken in uw CMS.</p>
+        <form>
+          <textarea style="width: 100%; height: 80px;" id="form-embed-text">
+            &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True) }}" width="300" height="300" /&gt;
+          </textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}
 
@@ -48,6 +75,12 @@
 <script>
 $(document).ready(function() {
   StembureausApp.show(StembureausApp.stembureaus);
+
+  $('#model-embed').on('shown.bs.modal', function () {
+    $('#form-embed-text').focus();
+
+    document.getElementById('form-embed-text').select();
+  })
 });
 </script>
 {% endblock %}
