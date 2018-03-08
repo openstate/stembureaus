@@ -1,0 +1,52 @@
+{% extends "embed.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="row">
+      <div class="col-xs-12">
+        <ol class="breadcrumb">
+          <li><a href="/">Nederland</a></li>
+          <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
+          <li class="active">{{ records[0]['Naam stembureau'] }}</li>
+        </ol>
+        {% for record in records %}
+        <h2>{{ record['Naam stembureau'] }}</h2>
+        <p>
+          {{ record['Straatnaam'] }} {{ record['Huisnummer'] }}{{ record['Huisnummertoevoeging'] }}
+        </p>
+        <p>{{ record['Extra adresaanduiding'] }}</p>
+        <p>
+          {{ record['Postcode'] }} {{ record['Plaats'] }}
+        </p>
+        {% if record['Openingstijden'] %}
+        <dl class="dl-horizontal">
+          <dt style="text-align: left;">open:</dt>
+          <dd>{{ record['Openingstijden'].split(' tot ', 1)[0].split('T')[1][0:5] }}</dd>
+          <dt style="text-align: left;">gesloten:</dt>
+          <dd>{{ record['Openingstijden'].split(' tot ', 1)[1].split('T')[1][0:5] }}</dd>
+        </dl>
+        {% endif %}
+        <p>Bijzonderheden:</p>
+        <ul>
+        {% if record['Mindervaliden toegankelijk'] == 'Y' %}
+        <li>Rolstoeltoegankelijk</li>
+        {% endif %}
+        {% if record['Invalidenparkeerplaatsen'] == 'Y' %}
+        <li>Parkeerplaatsen voor invaliden</li>
+        {% endif %}
+        {% if record['Mindervalide toilet aanwezig'] == 'Y' %}
+        <li>Toilet voor Mindervaliden aanwezig</li>
+        {% endif %}
+        </ul>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div id="map" style="height: 300px;"></div>
+  </div>
+</div>
+
+{% include "map.html" %}
+
+{% endblock %}

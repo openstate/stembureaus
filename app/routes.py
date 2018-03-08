@@ -95,6 +95,22 @@ def show_gemeente(gemeente):
     return render_template(
         'show_gemeente.html', records=[r for r in records], gemeente=gemeente)
 
+
+@app.route("/e/<gemeente>/<primary_key>")
+def embed_stembureau(gemeente, primary_key):
+    records = get_stembureaus(
+        ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
+    return render_template(
+        'embed_stembureau.html', records=[r for r in records], gemeente=gemeente)
+
+
+@app.route("/e/<gemeente>")
+def embed_gemeente(gemeente):
+    records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+    return render_template(
+        'embed_gemeente.html', records=[r for r in records], gemeente=gemeente)
+
+
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
 def gemeente_reset_wachtwoord_verzoek():
     form = ResetPasswordRequestForm()

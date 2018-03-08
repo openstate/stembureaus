@@ -1,0 +1,53 @@
+{% extends "embed.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="row">
+      <div class="col-xs-12">
+        <ol class="breadcrumb">
+          <li><a href="/">Nederland</a></li>
+          <li class="active">{{ gemeente }}</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <form action="" method="get" class="form-inline" id="form-search">
+            <div class="form-group">
+              <label>
+              Zoek <i class="fa fa-search" aria-hidden="true"></i>
+              </label>
+              <input type="text" class="form-control" name="query" value="" placeholder="Amsterdam">
+            </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
+        <a href="#" id ="btn-location">
+          <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" id="results-search">
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div id="map" style="height: 300px;"></div>
+  </div>
+</div>
+
+
+{% include "map.html" %}
+
+{% endblock %}
+
+{% block scripts_additional %}
+<script>
+$(document).ready(function() {
+  StembureausApp.show(StembureausApp.stembureaus);
+});
+</script>
+{% endblock %}
