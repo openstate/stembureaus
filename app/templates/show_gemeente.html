@@ -87,11 +87,11 @@ $(document).ready(function() {
   $('#model-embed').on('shown.bs.modal', function () {
     $('#form-embed-text').focus();
 
-    document.getElementById('form-embed-text').select();
+    $('textarea:visible').select();
   });
 
   $('#form-embed-search-checkbox').on('click', function (e) {
-    e.preventDefault();
+    //e.preventDefault();
     $('#form-embed-search').toggle();
     $('#form-embed-no-search').toggle();
     return false;
