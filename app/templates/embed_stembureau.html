@@ -5,8 +5,8 @@
     <div class="row">
       <div class="col-xs-12">
         <ol class="breadcrumb">
-          <li><a href="/">Nederland</a></li>
-          <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
+          <li><a href="/" target="_blank">Nederland</a></li>
+          <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank">{{ gemeente }}</a></li>
           <li class="active">{{ records[0]['Naam stembureau'] }}</li>
         </ol>
         {% for record in records %}

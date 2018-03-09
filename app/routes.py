@@ -101,14 +101,17 @@ def embed_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
     return render_template(
-        'embed_stembureau.html', records=[r for r in records], gemeente=gemeente)
+        'embed_stembureau.html', records=[r for r in records],
+        gemeente=gemeente)
 
 
 @app.route("/e/<gemeente>")
 def embed_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+    show_search = (request.args.get('search', 1, type=int) == 1)
     return render_template(
-        'embed_gemeente.html', records=[r for r in records], gemeente=gemeente)
+        'embed_gemeente.html', records=[r for r in records], gemeente=gemeente,
+        show_search=show_search)
 
 
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
