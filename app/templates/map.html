@@ -4,11 +4,10 @@
   crossorigin=""></script>
 <script>
 
-    var StembureausApp = window.StembureausApp || {stembureaus: []};
+    var StembureausApp = window.StembureausApp || {stembureaus: [],links_external: false};
 
     StembureausApp.stembureaus = {{ records |tojson |safe }};
     StembureausApp.stembureaus_markers = [];
-    StembureausApp.links_external = false;
 
     StembureausApp.getPopup = function(s) {
       var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
