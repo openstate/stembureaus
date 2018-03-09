@@ -88,11 +88,14 @@ StembureausApp.show = function (matches) {
       '': '',
       undefined: ''
     }
+    var plaats_naam =  matches[i]['Plaats'] || '<i>' + matches[i]['Geemeente'] + '</i>';
+    var adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'];
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\">" + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</a></h2>' +
+      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\">" +  matches[i]['Naam stembureau'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
-      '<h5><a href="/s/' + matches[i]['Gemeente'] + '">' + matches[i]['Plaats'] + '</a></h5>' +
+      '<h5>' + adres + '</h5>';
+      '<h5><a href="/s/' + matches[i]['Gemeente'] + '">' + plaats_naam + '</a></h5>' +
       '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
       '</div>'
     ))
