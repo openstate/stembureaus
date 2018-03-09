@@ -76,7 +76,7 @@
 
 })(jQuery); // Fully reference jQuery after this point.
 
-var StembureausApp = window.StembureausApp || {stembureaus: []};
+var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
 
 StembureausApp.show = function (matches) {
   $('#results-search').empty();
@@ -93,12 +93,13 @@ StembureausApp.show = function (matches) {
     if (typeof(matches[i]['Straatnaam']) !== "object") {
       adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'];
     }
+    var target = StembureausApp.links_external ? ' target="_blank"' : '';
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\">" +  matches[i]['Naam stembureau'] + '</a></h2>' +
+      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" +  matches[i]['Naam stembureau'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
       '<h5>' + adres + '</h5>' +
-      '<h5><a href="/s/' + matches[i]['Gemeente'] + '">' + plaats_naam + '</a></h5>' +
+      '<h5><a href="/s/' + matches[i]['Gemeente'] + '"' + target + '>' + plaats_naam + '</a></h5>' +
       '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
       '</div>'
     ))
