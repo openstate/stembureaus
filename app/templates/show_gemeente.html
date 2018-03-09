@@ -91,6 +91,7 @@ $(document).ready(function() {
   $('#form-embed-search-checkbox').on('click', function (e) {
     $('#form-embed-search').toggle();
     $('#form-embed-no-search').toggle();
+    $('textarea:visible').select().focus();
   });
 });
 </script>
