@@ -92,7 +92,7 @@ StembureausApp.show = function (matches) {
       '<div class="result">' +
       '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\">" + matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
-      '<h5>' + matches[i]['Plaats'] + '</h5>' +
+      '<h5><a href="/s/' + matches[i]['Gemeente'] + '">' + matches[i]['Plaats'] + '</a></h5>' +
       '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
       '</div>'
     ))
