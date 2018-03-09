@@ -85,9 +85,7 @@ $(document).ready(function() {
   StembureausApp.show(StembureausApp.stembureaus);
 
   $('#model-embed').on('shown.bs.modal', function () {
-    $('#form-embed-text').focus();
-
-    $('textarea:visible').select();
+    $('textarea:visible').select().focus();
   });
 
   $('#form-embed-search-checkbox').on('click', function (e) {
