@@ -9,6 +9,8 @@
     StembureausApp.stembureaus = {{ records |tojson |safe }};
     StembureausApp.stembureaus_markers = [];
 
+    console.log(StembureausApp.links_external ? 'external links for markers' : 'internal links for markers');
+
     StembureausApp.getPopup = function(s) {
       var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
       var target = StembureausApp.links_external ? ' target="_blank"' : '';
