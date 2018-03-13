@@ -222,7 +222,11 @@ class Record(object):
             # y
         ]:
             # TODO: we need to know if these are the righ fields for in CKAN.
-            self.record[fld] = getattr(record, fld, None)
+            fld_val = getattr(record, fld, None)
+            if fld_val is not None:
+                self.record[fld] = fld_val.encode('latin1').decode()
+            else:
+                self.record[fld] = None
 
 # Create the 'User' table above if it doesn't exist
 db.create_all()
