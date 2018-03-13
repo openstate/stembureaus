@@ -62,13 +62,10 @@ Run the following commands once after a new install:
 - `npm install`
 - `bower install --allow-root`
 
-To compile the assets in production:
-- `gulp --production`
-
-To compile the assets in development (this generates map files):
+To compile the assets:
 - `gulp`
 
-To automatically compile the assets in development on any file changes:
+To automatically compile the assets in development on any file changes (always run `gulp` first to compile any changes up till now):
 - `gulp watch`
 
 ## CLI
@@ -79,6 +76,6 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 - `flask gemeenten eenmalig_gemeenten_uitnodigen` sends an email to each municipality inviting them to create an account
 
 ## To enter the MySQL database
-   - `sudo docker run -it --rm --network stm_stm mysql bash`
-   - `mysql -h stm_mysql_1 -u root -p`
+   - `sudo docker exec -it stm_mysql_1 bash`
+   - `mysql -p`
    - Retrieve database password from `docker/docker-compose.yml` and enter it in the prompt

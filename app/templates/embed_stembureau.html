@@ -12,7 +12,7 @@
         {% for record in records %}
         <h2>{{ record['Naam stembureau'] }}</h2>
         <p>
-          {{ record['Straatnaam'] }} {{ record['Huisnummer'] }}{{ record['Huisnummertoevoeging'] }}
+          {{ record['Straatnaam'] }} {{ record['Huisnummer'] }}{% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
         </p>
         <p>{{ record['Extra adresaanduiding'] }}</p>
         <p>
