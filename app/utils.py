@@ -62,9 +62,16 @@ def find_shape(lat, lon, shapes):
             return props
 
 
-def find_buurt_and_wijk(muni_code, lon, lat):
+def find_buurt_and_wijk(bag_nummer, muni_code, lon, lat):
     try:
         wijken = _wijken_buurten.get_wijken_for(muni_code)
+    except KeyError:
+        wijken = []
+
+    if len(wijken) <= 0:
+        wijken = _wijken_buurten.wijken
+
+    try:
         wijk_props = find_shape(float(lon), float(lat), wijken)
         buurten = _wijken_buurten.get_buurten_for(wijk_props['WK_CODE'])
         buurt_props = find_shape(float(lon), float(lat), buurten)

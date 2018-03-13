@@ -1,9 +1,10 @@
 from app import app, db
-from app.models import User, ckan, Election
+from app.models import User, ckan, Election, BAG
 from app.email import send_invite, send_mailcorrectie
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record
+from app.utils import find_buurt_and_wijk
 from datetime import datetime
 from flask import url_for
 from pprint import pprint
@@ -28,6 +29,82 @@ def toon_verkiezingen():
     resources
     """
     pprint(ckan.elections)
+
+
+def _get_bag(r):
+    bag = BAG.query.get(r['BAG referentienummer'])
+    if bag is not None:
+        return bag, 'ref'
+
+    bag = BAG.query.filter_by(object_id=r['BAG referentienummer']).first()
+    if bag is not None:
+        return bag, 'obj'
+
+    bag = BAG.query.filter_by(pandid=r['BAG referentienummer']).first()
+    if bag is not None:
+        return bag, 'pand'
+    return None, 'nf'
+
+@CKAN.command()
+@click.option('--what', default='draft')
+def fix_bag_addresses(what):
+    for name, election in ckan.elections.items():
+        total = 0
+        bag_found = 0
+        with_no_street = 0
+        no_bag_but_street = 0
+        bag_nr_is_object_id = 0
+        bag_nr_is_pand = 0
+        bag_counts = {'ref': 0, 'obj': 0, 'pand': 0, 'nf': 0}
+        error_counts = {}
+        resource_id = election['%s_resource' % (what,)]
+        print('%s: %s' % (name, resource_id,))
+        records = ckan.get_records(resource_id)
+        errors = {}
+        for r in records['records']:
+            #pprint(r)
+            if r['Straatnaam'] == '':
+                with_no_street += 1
+            wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
+                r['BAG referentienummer'], r['CBS gemeentecode'],
+                r['Longitude'], r['Latitude'])
+            #pprint(x)
+
+            bag, bag_type = _get_bag(r)
+            bag_counts[bag_type] += 1
+            if bag is not None:
+                bag_found += 1
+
+                if ((r['Postcode'] is not None) and (r['Postcode'] != bag.postcode)):
+                    pass
+                    # print(
+                    #     "Record says: %s, BAG says: %s, found via %s (%s/%s)" % (
+                    #         r['Postcode'], bag.postcode, bag_type, r['Gemeente'], bag.gemeente,))
+                    # try:
+                    #     error_counts[r['Gemeente']] += 1
+                    # except Exception as e:
+                    #     error_counts[r['Gemeente']] = 1
+                    #pprint(r)
+                    #pprint(bag.__dict__)
+            else:
+                if r['Straatnaam'] is not None:
+                    no_bag_but_street += 1
+                    #pprint(r)
+                #print("ERROR: %s (%s)" %(r['BAG referentienummer'], r['Gemeente'],))
+                errors[r['BAG referentienummer']] = r['Gemeente']
+                try:
+                    error_counts[r['Gemeente']] += 1
+                except Exception as e:
+                    error_counts[r['Gemeente']] = 1
+            total += 1
+        for ref_nr, gem in errors.items():
+            print("%s,%s" % (ref_nr, gem,))
+        # print("%s records, %s with BAG found. %s had no street info before." % (total, bag_found, with_no_street,))
+        # print("%s record with no BAG, but with street info" % (no_bag_but_street,))
+        # pprint(bag_counts)
+        # pprint([(k, error_counts[k]) for k in sorted(error_counts, key=error_counts.get, reverse=True)])
+        #print("%s record where bag ref nr is in fact bag object id" % (bag_nr_is_object_id,))
+        #print("%s record where bag ref nr is in fact bag pand id" % (bag_nr_is_pand,))
 
 
 @CKAN.command()
