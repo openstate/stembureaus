@@ -91,7 +91,10 @@ StembureausApp.show = function (matches) {
     var plaats_naam =  matches[i]['Plaats'] || '<i>' + matches[i]['Geemeente'] + '</i>';
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
-      adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'] + matches[i]['Huisnummertoevoeging'];
+      adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'];
+      if (matches[i]['Huisnummertoevoeging']) {
+        adres += '-' + matches[i]['Huisnummertoevoeging'];
+      }
     }
     var target = StembureausApp.links_external ? ' target="_blank"' : '';
     $('#results-search').append($(
