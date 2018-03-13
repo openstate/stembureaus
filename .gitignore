@@ -4,7 +4,7 @@ logs/*
 upload/*
 data/*
 exports/*
-docker/docker-entrypoint-initdb.d/*
+docker/docker-entrypoint-initdb.d/*.csv
 app/static/*
 app/node_modules/*
 app/bower_components/*

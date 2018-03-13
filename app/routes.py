@@ -613,7 +613,11 @@ def _create_record(form, stemlokaal_id, current_user, election):
         }
 
         for bag_field, record_field in bag_conversions.items():
-            record[record_field] = getattr(bag_record, bag_field, None)
+            bag_field_value = getattr(bag_record, bag_field, None)
+            if bag_field_value is not None:
+                record[record_field] = bag_field_value.encode('latin1').decode()
+            else:
+                record[record_field] = None
         wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
             current_user.gemeente_code, bag_record.lon, bag_record.lat)
         if wk_naam:
