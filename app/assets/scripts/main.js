@@ -88,7 +88,7 @@ StembureausApp.show = function (matches) {
       '': '',
       undefined: ''
     }
-    var plaats_naam =  matches[i]['Plaats'] || '<i>' + matches[i]['Geemeente'] + '</i>';
+    var plaats_naam =  matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
       adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'];
