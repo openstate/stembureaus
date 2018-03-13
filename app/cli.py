@@ -62,15 +62,15 @@ def fix_bag_addresses(what):
             bag, bag_type = _get_bag(r)
             bag_counts[bag_type] += 1
 
-            if not bag:
+            if bag_type != 'ref' and bag_type != 'obj':
                 sys.stderr.write("ERROR: no bag for %s (%s)\n" % (
                     r['BAG referentienummer'], r['Gemeente'],))
-                continue
 
             bag_found += 1
-            r['BAG referentienummer'] = bag.nummeraanduiding
+            if bag_type == 'obj':
+                r['BAG referentienummer'] = bag.nummeraanduiding
 
-            if ((r['Postcode'] is not None) and (r['Postcode'] != bag.postcode)):
+            if ((bag is not None) and (r['Postcode'] is not None) and (r['Postcode'] != bag.postcode)):
                 sys.stderr.write(
                     "Record says: %s, BAG says: %s, found via %s (%s/%s)\n" % (
                         r['Postcode'], bag.postcode, bag_type, r['Gemeente'], bag.gemeente,))
@@ -80,21 +80,23 @@ def fix_bag_addresses(what):
                 r['BAG referentienummer'], r['CBS gemeentecode'],
                 r['Longitude'], r['Latitude'])
 
-            bag_conversions = {
-                'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
-                'openbareruimte': 'Straatnaam',
-                'huisnummer': 'Huisnummer',
-                'huisnummertoevoeging': 'Huisnummertoevoeging',
-                'postcode': 'Postcode',
-                'woonplaats': 'Plaats',
-            }
+            if bag is not None:
+                bag_conversions = {
+                    'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+                    'openbareruimte': 'Straatnaam',
+                    'huisnummer': 'Huisnummer',
+                    'huisnummertoevoeging': 'Huisnummertoevoeging',
+                    'postcode': 'Postcode',
+                    'woonplaats': 'Plaats',
+                }
 
-            for bag_field, record_field in bag_conversions.items():
-                bag_field_value = getattr(bag, bag_field, None)
-                if bag_field_value is not None:
-                    r[record_field] = bag_field_value.encode('latin1').decode()
-                else:
-                    r[record_field] = None
+                for bag_field, record_field in bag_conversions.items():
+                    bag_field_value = getattr(bag, bag_field, None)
+                    if bag_field_value is not None:
+                        r[record_field] = bag_field_value.encode('latin1').decode()
+                    else:
+                        r[record_field] = None
+
             r['Wijknaam'] = wk_naam or ''
             r['CBS wijknummer'] = wk_code or ''
             r['Buurtnaam'] = bu_naam or ''
