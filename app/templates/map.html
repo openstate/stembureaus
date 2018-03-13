@@ -15,7 +15,11 @@
       var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
       var target = StembureausApp.links_external ? ' target="_blank"' : '';
       output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
-      output += "" + StembureausApp.stembureaus[i]['Straatnaam'] + ' ' + StembureausApp.stembureaus[i]['Huisnummer'] + StembureausApp.stembureaus[i]['Huisnummertoevoeging'] + "<br />" + StembureausApp.stembureaus[i]['Plaats'] + "<br />";
+      output += "" + StembureausApp.stembureaus[i]['Straatnaam'] + ' ' + StembureausApp.stembureaus[i]['Huisnummer']
+      if (StembureausApp.stembureaus[i]['Huisnummertoevoeging']) {
+        output += '-' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
+      }
+      output += "<br />" + StembureausApp.stembureaus[i]['Plaats'] + "<br />";
       output += '<strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br />';
       if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
         output += '<i class="fa fa-wheelchair" aria-hidden="true"></i>';
