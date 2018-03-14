@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta property="og:url" content="{{ request.url }}" />
-  <meta property="og:image" content="/static/dist/images/logo-og.svg" />
+  <meta property="og:image" content="{{ url_for('static', filename='dist/images/logo-og.svg', _external=True) }}" />
 
   <link rel="apple-touch-icon" sizes="180x180" href="/static/dist/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/dist/images/favicon-32x32.png">
