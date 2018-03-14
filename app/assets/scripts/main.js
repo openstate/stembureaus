@@ -154,7 +154,7 @@ StembureausApp.init = function() {
   });
 
   $('#btn-location').click(function (e) {
-    StembureausApp.map.locate({setView : true});
+    StembureausApp.map.locate({setView : true, maxZoom: 16});
     return false;
   });
 };
