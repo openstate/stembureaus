@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+  <meta property="og:title" content="Waar is mijn stemlokaal - {{ gemeente }}" />
+  {{ super() }}
+{% endblock %}
+
 {% block content %}
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6">
