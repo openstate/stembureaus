@@ -199,6 +199,10 @@ def gemeente_stemlokalen_dashboard():
     _remove_id(gemeente_publish_records)
     _remove_id(gemeente_draft_records)
 
+    toon_stembureaus_pagina = False
+    if gemeente_publish_records:
+        toon_stembureaus_pagina = True
+
     show_publish_note = False
     if gemeente_draft_records != gemeente_publish_records:
         show_publish_note = True
@@ -253,7 +257,8 @@ def gemeente_stemlokalen_dashboard():
                 total_draft_records=len(gemeente_draft_records),
                 form=form,
                 show_publish_note=show_publish_note,
-                vooringevuld=vooringevuld
+                vooringevuld=vooringevuld,
+                toon_stembureaus_pagina=toon_stembureaus_pagina
             )
 
         validator = Validator()
@@ -345,7 +350,8 @@ def gemeente_stemlokalen_dashboard():
         total_draft_records=len(gemeente_draft_records),
         form=form,
         show_publish_note=show_publish_note,
-        vooringevuld=vooringevuld
+        vooringevuld=vooringevuld,
+        toon_stembureaus_pagina=toon_stembureaus_pagina
     )
 
 

@@ -23,6 +23,15 @@
     <br>
 
     <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
+
+    <br>
+    <br>
+
+    {% if toon_stembureaus_pagina %}
+      <a class="btn btn-info" role="button" href="/s/{{ current_user.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
+    {% else %}
+      <a class="btn btn-info" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
+    {% endif %}
   </div>
 
   <br>
