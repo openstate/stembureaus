@@ -53,7 +53,14 @@
       StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
     }
 
-    StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+    if (StembureausApp.clustermarkers.length > 50) {
+      StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+    } else {
+      StembureausApp.map.addLayer(L.layerGroup(StembureausApp.stembureaus_markers));
+    }
+
+    StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers);
+    StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank">Waar is mijn stemlokaal</a>'
