@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+  <meta property="og:title" content="Waar is mijn stemlokaal - Overzicht stembureaus" />
+  {{ super() }}
+{% endblock %}
+
 {% block content %}
   <div>
     > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
