@@ -6,15 +6,23 @@
 
 {% block content %}
 <div class="row">
+  <div class="col-xs-12">
+    <ol class="breadcrumb">
+      <li><a href="/">Nederland</a></li>
+      <li class="active">{{ gemeente }}</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6">
-    <div class="row">
-      <div class="col-xs-12">
-        <ol class="breadcrumb">
-          <li><a href="/">Nederland</a></li>
-          <li class="active">{{ gemeente }}</li>
-        </ol>
-      </div>
-    </div>
+    <div id="map" style="height: 300px;"></div>
+    <p class="pull-right" style="margin-top: 10px;">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+        Insluiten
+      </button>
+    </p>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-6">
     <div class="row">
       <div class="col-xs-12">
         <form action="" method="get" class="form-inline" id="form-search">
@@ -38,14 +46,6 @@
       <div class="col-xs-12" id="results-search">
       </div>
     </div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    <div id="map" style="height: 300px;"></div>
-    <p class="pull-right" style="margin-top: 10px;">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
-        Insluiten
-      </button>
-    </p>
   </div>
 </div>
 
