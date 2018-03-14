@@ -2,6 +2,7 @@
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
   crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js" crossorigin=""></script>
 <script>
 
     var StembureausApp = window.StembureausApp || {stembureaus: [],links_external: false};
@@ -45,11 +46,19 @@
       );
     }
 
+    StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
+    StembureausApp.map._layersMaxZoom = 19;
+    StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
+    for(var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
+      StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
+    }
 
-    StembureausApp.layers = {
-      'Stembureaus': L.layerGroup(StembureausApp.stembureaus_markers)
-    };
-    StembureausApp.map = L.map('map', {'layers': StembureausApp.layers['Stembureaus']}).setView([52.2, 5.592], 6);
+    if (StembureausApp.clustermarkers.length > 50) {
+      StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+    } else {
+      StembureausApp.map.addLayer(L.layerGroup(StembureausApp.stembureaus_markers));
+    }
+
     StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers);
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
 
