@@ -65,10 +65,28 @@ def get_stembureaus(elections, filters=None):
     return results.values()
 
 
+def _hydrate(r):
+    del r['Beschikbaarheid']
+    del r['Contactgegevens']
+    del r['Gebruikersdoel het gebouw']
+    del r['Website locatie']
+    del r['X']
+    del r['Y']
+    del r['ID']
+    del r['BAG referentienummer']
+    del r['Districtcode']
+    del r['Hoofdstembureau']
+    del r['Kieskring ID']
+    del r['Wijknaam']
+    del r['Buurtnaam']
+    return r
+
+
 @app.route("/")
 def index():
     records = get_stembureaus(ckan.elections)
-    return render_template('index.html', records=[r for r in records])
+    return render_template(
+        'index.html', records=[_hydrate(r) for r in records])
 
 
 @app.route("/over-deze-website")
@@ -86,14 +104,14 @@ def show_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
     return render_template(
-        'show_stembureau.html', records=[r for r in records], gemeente=gemeente)
+        'show_stembureau.html', records=[_hydrate(r) for r in records], gemeente=gemeente)
 
 
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
-        'show_gemeente.html', records=[r for r in records], gemeente=gemeente)
+        'show_gemeente.html', records=[_hydrate(r) for r in records], gemeente=gemeente)
 
 
 @app.route("/e/<gemeente>/<primary_key>")
@@ -101,7 +119,7 @@ def embed_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
     return render_template(
-        'embed_stembureau.html', records=[r for r in records],
+        'embed_stembureau.html', records=[_hydrate(r) for r in records],
         gemeente=gemeente)
 
 
@@ -110,7 +128,7 @@ def embed_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     show_search = (request.args.get('search', 1, type=int) == 1)
     return render_template(
-        'embed_gemeente.html', records=[r for r in records], gemeente=gemeente,
+        'embed_gemeente.html', records=[_hydrate(r) for r in records], gemeente=gemeente,
         show_search=show_search)
 
 
