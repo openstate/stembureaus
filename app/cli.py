@@ -3,12 +3,13 @@ from app.models import User, ckan, Election, BAG
 from app.email import send_invite, send_mailcorrectie
 from app.parser import UploadFileParser
 from app.validator import Validator
-from app.routes import _remove_id, _create_record
+from app.routes import _remove_id, _create_record, kieskringen
 from app.utils import find_buurt_and_wijk
 from datetime import datetime
 from flask import url_for
 from pprint import pprint
 import click
+import copy
 import json
 import os
 import sys
@@ -467,6 +468,141 @@ def import_resource(resource_id, file_path):
 
 
 @CKAN.command()
+@click.argument('gemeenten_info_file_path')
+@click.argument('excluded_gemeenten_file_path')
+@click.argument('rug_file_path')
+def import_rug(rug_file_path, excluded_gemeenten_file_path, gemeenten_info_file_path):
+    """
+    Import records coming from Geodienst from the Rijksuniversiteit Groningen.
+    These records don't contain all fields and these need to be filled. Based
+    on the gemeente in the record it will be saved to correct election(s)
+    resources (draft + publish).
+    """
+    # Retrieve information about gemeenten
+    with open(gemeenten_info_file_path) as IN:
+        gemeenten_info = json.load(IN)
+
+    # Retrieve file containing a list of names of gemeenten which
+    # uploaded stembureaus themselves and thus don't need to be
+    # retrieved from the RUG data
+    with open(excluded_gemeenten_file_path) as IN:
+        excluded_gemeenten = [line.strip() for line in IN]
+
+    with open(rug_file_path) as IN:
+        # Load RUG file
+        rug_records = json.load(IN)
+
+        resource_records = {}
+        # Prepopulate a dict with all CKAN resources
+        for election, values in app.config['CKAN_CURRENT_ELECTIONS'].items():
+            resource_records[values['draft_resource']] = []
+            resource_records[values['publish_resource']] = []
+
+        # Process each record
+        for rug_record in rug_records:
+            # Skip record if its gemeente is in the excluded list
+            if rug_record['Gemeente'] in excluded_gemeenten:
+                continue
+
+            # Retrieve the gemeente info for the gemeente of the
+            # current record
+            record_gemeente_info = {}
+            for gemeente_info in gemeenten_info:
+                if gemeente_info['gemeente_naam'] == rug_record['Gemeente']:
+                    record_gemeente_info = gemeente_info
+
+            rug_record['UUID'] = uuid.uuid4().hex
+            gemeente_code = record_gemeente_info['gemeente_code']
+            rug_record['CBS gemeentecode'] = gemeente_code
+
+            # Try to retrieve the record in the BAG
+            bag_result = BAG.query.filter_by(
+                openbareruimte=rug_record['Straatnaam'],
+                huisnummer=rug_record['Huisnummer'],
+                huisnummertoevoeging=rug_record['Huisnummertoevoeging'],
+                woonplaats=rug_record['Plaats']
+            )
+
+            # If the query above didn't work, try it again without
+            # huisnummertoevoeging
+            if bag_result.count() == 0:
+                bag_result = BAG.query.filter_by(
+                    openbareruimte=rug_record['Straatnaam'],
+                    huisnummer=rug_record['Huisnummer'],
+                    woonplaats=rug_record['Plaats']
+                )
+
+            # If there are multiple BAG matches, simply take the first
+            bag_object = bag_result.first()
+
+            # Retrieve gebruikersdoel, postcode and nummeraanduiding
+            # from BAG
+            if bag_object:
+                bag_conversions = {
+                    'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+                    'postcode': 'Postcode',
+                    'nummeraanduiding' :'BAG referentienummer'
+                }
+
+                for bag_field, record_field in bag_conversions.items():
+                    bag_field_value = getattr(bag_object, bag_field, None)
+                    if bag_field_value is not None:
+                        rug_record[record_field] = bag_field_value.encode('latin1').decode()
+                    else:
+                        rug_record[record_field] = None
+
+            # Retrieve wijk and buurt info
+            wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
+                '000',
+                rug_record['CBS gemeentecode'],
+                rug_record['Longitude'],
+                rug_record['Latitude']
+            )
+            if wk_naam:
+                rug_record['Wijknaam'] = wk_naam
+            if wk_code:
+                rug_record['CBS wijknummer'] = wk_code
+            if bu_naam:
+                rug_record['Buurtnaam'] = bu_naam
+            if bu_code:
+                rug_record['CBS buurtnummer'] = bu_code
+
+            # Loop over each election in which the current gemeente
+            # participates and create election specific fields
+            for verkiezing in record_gemeente_info['verkiezingen']:
+                record = copy.deepcopy(rug_record)
+
+                verkiezing_info = app.config['CKAN_CURRENT_ELECTIONS'][verkiezing]
+                record['ID'] = 'NLODS%sstembureaus%s%s' % (
+                    gemeente_code,
+                    verkiezing_info['election_date'],
+                    verkiezing_info['election_number']
+                )
+
+                kieskring_id = ''
+                hoofdstembureau = ''
+                if verkiezing.startswith('Gemeenteraadsverkiezingen'):
+                    kieskring_id = record['Gemeente']
+                    hoofdstembureau = record['Gemeente']
+                if verkiezing.startswith('Referendum'):
+                    for row in kieskringen:
+                        if row[2] == record['Gemeente']:
+                            kieskring_id = row[0]
+                            hoofdstembureau = row[1]
+
+                record['Kieskring ID'] = kieskring_id
+                record['Hoofdstembureau'] = hoofdstembureau
+
+                # Append the record for the draft and publish resource
+                # of this election
+                for resource in [verkiezing_info['draft_resource'], verkiezing_info['publish_resource']]:
+                    resource_records[resource].append(record)
+        for resource, res_records in resource_records.items():
+            print('%s: %s' % (resource, len(res_records)))
+            ckan.save_records(resource, res_records)
+
+
+@CKAN.command()
 @click.argument('resource_id')
 def resource_show(resource_id):
     """
@@ -531,6 +667,7 @@ def verwijder_datastore(resource_id):
     Verwijder een datastore tabel in een resource
     """
     ckan.delete_datastore(resource_id)
+
 
 def _get_user(gemeente_code):
     current_user = User.query.filter_by(gemeente_code=gemeente_code).first()
