@@ -276,7 +276,8 @@ def gemeente_stemlokalen_dashboard():
                 form=form,
                 show_publish_note=show_publish_note,
                 vooringevuld=vooringevuld,
-                toon_stembureaus_pagina=toon_stembureaus_pagina
+                toon_stembureaus_pagina=toon_stembureaus_pagina,
+                upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
             )
 
         validator = Validator()
@@ -369,7 +370,8 @@ def gemeente_stemlokalen_dashboard():
         form=form,
         show_publish_note=show_publish_note,
         vooringevuld=vooringevuld,
-        toon_stembureaus_pagina=toon_stembureaus_pagina
+        toon_stembureaus_pagina=toon_stembureaus_pagina,
+        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
     )
 
 
@@ -478,7 +480,8 @@ def gemeente_stemlokalen_overzicht():
         total_records=len(gemeente_draft_records),
         total_pages=ceil(len(gemeente_draft_records)/posts_per_page),
         previous_url=previous_url,
-        next_url=next_url
+        next_url=next_url,
+        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
     )
 
 
@@ -569,7 +572,8 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 
     return render_template(
         'gemeente-stemlokalen-edit.html',
-        form=form
+        form=form,
+        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
     )
 
 

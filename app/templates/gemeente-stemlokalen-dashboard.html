@@ -63,18 +63,23 @@
 
       <br>
 
-      <form method="POST" enctype="multipart/form-data">
-        {{ form.csrf_token }}
-        {{ form.data_file }}
-        <br>
-        <b>Let op</b>: uploaden verwijdert alle stembureaus die u eerder heeft toegevoegd!
-        <br>
-        {{ form.submit }}
-        <br>
-        <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
-        <br>
-        <b>NB</b>: De ondersteuning voor .ods bestanden werkt enkel tot 35 stembureaus. Mocht u meer stembureaus willen uploaden gebruik dan het .xsl(x) formaat.
-      </form>
+      {% if upload_deadline_passed %}
+        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" style="color: black;" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
+      {% else %}
+        <form method="POST" enctype="multipart/form-data">
+          {{ form.csrf_token }}
+          {{ form.data_file }}
+          <br>
+          <b>Let op</b>: uploaden verwijdert alle stembureaus die u eerder heeft toegevoegd!
+          <br>
+          {{ form.submit }}
+          <br>
+          <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
+          <br>
+          <b>NB</b>: De ondersteuning voor .ods bestanden werkt enkel tot 35 stembureaus. Mocht u meer stembureaus willen uploaden gebruik dan het .xsl(x) formaat.
+        </form>
+      {% endif %}
+
     </div>
   </div>
 {% endblock %}

@@ -18,19 +18,24 @@
   <br>
   <br>
 
-  <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
-
-  <br>
-  <br>
-
-  <form method="POST" action="">
-    {{ publish_form.csrf_token }}
-  {% if disable_publish_form %}
-    {{ publish_form.submit(disabled=True) }} [de stembureaus zijn gepubliceerd]
+  {% if upload_deadline_passed %}
+    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
+    <br>
   {% else %}
-    {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
+    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
+
+    <br>
+    <br>
+
+    <form method="POST" action="">
+      {{ publish_form.csrf_token }}
+    {% if disable_publish_form %}
+      {{ publish_form.submit(disabled=True) }} [de stembureaus zijn gepubliceerd]
+    {% else %}
+      {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
+    {% endif %}
+    </form>
   {% endif %}
-  </form>
 
   <br>
 
@@ -47,9 +52,11 @@
       </tr>
       {% for record in draft_records %}
         <tr>
-          <td>
-            <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-          </td>
+          {% if not upload_deadline_passed %}
+            <td>
+              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
+            </td>
+          {% endif %}
           {% for field in field_order %}
             <td>
               {{ record[field] }}

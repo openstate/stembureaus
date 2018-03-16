@@ -18,39 +18,43 @@
   <br>
   <br>
 
-  <span class="required">*</span> = vereist veld
+  {% if upload_deadline_passed %}
+    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
+  {% else %}
+    <span class="required">*</span> = vereist veld
 
-  <br>
+    <br>
 
-  <div class="edit-form">
-    <form method="POST" action="">
-      {{ form.csrf_token }}
-      {% for f in form %}
-        {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
-          <div class="edit-entry">
-            {{ f.label }}
+    <div class="edit-form">
+      <form method="POST" action="">
+        {{ form.csrf_token }}
+        {% for f in form %}
+          {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
+            <div class="edit-entry">
+              {{ f.label }}
 
-            {{ f(size=20) }}
+              {{ f(size=20) }}
 
-            <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
+              <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
 
-            {% if f.flags.required %}
-              <span class="required">*</span>
-            {% endif %}
+              {% if f.flags.required %}
+                <span class="required">*</span>
+              {% endif %}
 
-            {% for error in f.errors %}
-              <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-           </div>
-        {% endif %}
-      {% endfor %}
+              {% for error in f.errors %}
+                <span style="color: red;">{{ error }}</span>
+              {% endfor %}
+             </div>
+          {% endif %}
+        {% endfor %}
 
-      <br>
-      <br>
+        <br>
+        <br>
 
-      {{ form.submit }} {{ form.submit_annuleren }} {{ form.submit_verwijderen }}
-    </form>
-  </div>
+        {{ form.submit }} {{ form.submit_annuleren }} {{ form.submit_verwijderen }}
+      </form>
+    </div>
+  {% endif %}
 {% endblock %}
 {% block scripts %}
   {{ super() }}
