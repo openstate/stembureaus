@@ -59,7 +59,10 @@
       StembureausApp.map.addLayer(L.layerGroup(StembureausApp.stembureaus_markers));
     }
 
-    StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers);
+    StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers.filter(
+      function (s) {
+        return (s._latlng.lng > 0);
+      }));
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
