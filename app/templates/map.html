@@ -61,7 +61,7 @@
 
     StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers.filter(
       function (s) {
-        return (StembureausApp.stembureaus_markers.length > 50) && (s._latlng.lng > 0);
+        return (StembureausApp.stembureaus_markers.length <= 50) || (s._latlng.lng > 0);
       }));
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
 
