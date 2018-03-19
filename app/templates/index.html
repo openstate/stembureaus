@@ -19,10 +19,10 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <form action="" method="get" class="form-inline" id="form-search">
+        <form action="" method="get" class="form-inline" id="form-gemeente-search">
             <div class="form-group">
               <label>
-              Zoek <i class="fa fa-search" aria-hidden="true"></i>
+              Zoek uw gemeente <i class="fa fa-search" aria-hidden="true"></i>
               </label>
               <input type="text" class="form-control" name="query" value="" placeholder="Amsterdam">
             </div>
@@ -37,5 +37,7 @@
 </div>
 
 {% include "map.html" %}
+
+{% include "search_gemeenten.html" %}
 
 {% endblock %}

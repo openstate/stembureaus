@@ -46,6 +46,10 @@ with open('app/data/kieskringen.csv') as IN:
     reader = csv.reader(IN, delimiter=';')
     kieskringen = list(reader)
 
+# A list containing all gemeentenamen, used in the search box on the
+#homepage
+alle_gemeenten = [{'gemeente_naam': row[2]} for row in kieskringen]
+
 
 def get_stembureaus(elections, filters=None):
     merge_field = 'UUID'
@@ -86,7 +90,10 @@ def _hydrate(r):
 def index():
     records = get_stembureaus(ckan.elections)
     return render_template(
-        'index.html', records=[_hydrate(r) for r in records])
+        'index.html',
+        records=[_hydrate(r) for r in records],
+        alle_gemeenten=alle_gemeenten
+    )
 
 
 @app.route("/over-deze-website")

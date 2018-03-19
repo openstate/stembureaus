@@ -78,6 +78,22 @@
 
 var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
 
+StembureausApp.show_gemeenten = function (matches) {
+  $('#results-search').empty();
+  for(var i=0; i < matches.length; i++) {
+    var target = StembureausApp.links_external ? ' target="_blank"' : '';
+    $('#results-search').append($(
+      '<div class="result">' +
+      '<h2><a href="/s/' + matches[i]['gemeente_naam'] + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
+      '</div>'
+    ))
+  }
+
+  if (matches.length == 0) {
+    $('#results-search').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend? Wij gebruiken de officiële spelling van de gemeentenaam, bijvoorbeeld "\'s-Gravenhage" in plaats van "Den Haag".</p>'));
+  }
+};
+
 StembureausApp.show = function (matches) {
   $('#results-search').empty();
   for(var i=0; i < matches.length; i++) {
@@ -113,20 +129,22 @@ StembureausApp.show = function (matches) {
   }
 };
 
+StembureausApp.search_gemeenten = function (query) {
+  var gemeenten_matches = StembureausApp.fuse_gemeenten.search(query);
+  StembureausApp.show_gemeenten(gemeenten_matches);
+};
+
 StembureausApp.search = function (query) {
-  console.log('should be searching for : [' + query + '] now ...');
-  console.log(query.split(/\s+/));
+  //console.log('should be searching for : [' + query + '] now ...');
+  //console.log(query.split(/\s+/));
   var stembureau_matches = StembureausApp.fuse.search(query);
-  console.log('matches:');
-  console.dir(stembureau_matches);
+  //console.log('matches:');
+  //console.dir(stembureau_matches);
 
   StembureausApp.show(stembureau_matches);
 };
 
 StembureausApp.init = function() {
-  console.log('init!');
-  console.log('one more test ....');
-
   var options = {
   shouldSort: true,
   tokenize: true,
@@ -143,6 +161,29 @@ StembureausApp.init = function() {
   ]
   };
   StembureausApp.fuse = new Fuse(StembureausApp.stembureaus, options);
+
+  var gemeente_options = {
+  shouldSort: true,
+  tokenize: true,
+  threshold: 0.25,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    "gemeente_naam",
+  ]
+  };
+  StembureausApp.fuse_gemeenten = new Fuse(StembureausApp.alle_gemeenten, gemeente_options);
+
+  $('#form-gemeente-search').submit(function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  $('#form-gemeente-search input[type="text"]').keyup(function (e) {
+    StembureausApp.search_gemeenten($(this).val());
+  });
 
   $('#form-search').submit(function (e) {
     e.preventDefault();
