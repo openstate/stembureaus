@@ -6,7 +6,7 @@
 
 {% block content %}
   <h1>Data</h1>
-  De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken. De data is direct aangeleverd door gemeenten. Als gemeenten geen stembureaus hebben aangeleverd dan is deze informatie verkregen via de <a href="http://geodienst.xyz/verkiezingen/" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen.
+  De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken. De data is direct aangeleverd door gemeenten. Als gemeenten geen stembureaus hebben aangeleverd dan is deze informatie verkregen via de <a href="http://geodienst.xyz/verkiezingen/" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen. Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de veldbeschrijving hieronder).
 
   <br>
   <br>
@@ -16,4 +16,56 @@
 
     <li>Stembureaus gemeenteraadsverkiezingen 2018: [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-nederland-gemeenteraadsverkiezingen-2018" target="_blank">Metadata</a>], [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-nederland-gemeenteraadsverkiezingen-2018/resource/2fc13394-c2fc-4492-843c-cba07e4bf8f5" target="_blank">Data Explorer en API</a>] en [<a href="https://ckan.dataplatform.nl/datastore/dump/2fc13394-c2fc-4492-843c-cba07e4bf8f5">CSV</a>]</li>
   </ul>
+
+  <h2>Veldbeschrijving</h2>
+  <ul>
+    <li><b>_id</b>: een veld dat intern door CKAN gebruikt wordt. Gebruik het <b>UUID</b> veld als identifier van een stembureau.</li>
+    <li><b>Gemeente</b>: De officiële gemeentenaam zoals gebruikt door het CBS.</li>
+    <li><b>CBS gemeentecode *</b>: Unieke code voor de gemeente zoals gebruikt door het CBS.</li>
+    <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. Dit veld is niet altijd ingevuld.</li>
+    <li><b>Naam stembureau *</b>: De naam van het stembureau.</li>
+    <li><b>Gebruikersdoel het gebouw *</b>: Gebruiksdoel volgens de BAG. Voor uitgebreidere beschrijving van bovenstaande gebruiksdoelen <a href="https://www.amsterdam.nl/stelselpedia/bag-index/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" target="_blank">klik hier</a>.
+    <li><b>Website locatie</b>: Website van de locatie van het stembureau.</li>
+    <li><b>Wijknaam</b>: Naam van de wijk waar het stembureau in ligt.</li>
+    <li><b>CBS wijknummer</b>: Nummer van de wijk waar het stembureau in ligt zoals gebruikt door het CBS.</li>
+    <li><b>Buurtnaam</b>: Naam van de buurt waar het stembureau in ligt.</li>
+    <li><b>CBS buurtnummer</b>: Nummer van de buurt waar het stembureau in ligt zoals gebruikt door het CBS.</li>
+    <li><b>BAG referentie nummer *</b>: BAG Nummeraanduiding ID waarmee het adres van het stembureau op te halen is (o.a. via de <a href="https://bagviewer.kadaster.nl/" target="_blank">BAG viewer</a>). Voor mobiele stembureaus staat het dichtstbijzijnde BAG Nummeraanduiding ID vermeld en wordt eventueel het 'Extra adresaanduiding'-veld gebruikt om de locatie van stembureau te beschrijven. NB: de precieze locatie van het stembureau is beschikbaar via de 'Latitude' en 'Longitude'-velden. Dit veld is niet altijd ingevuld.</li>
+    <li><b>Straatnaam</b>: De naam van de straat waar het stembureau ligt.</li>
+    <li><b>Huisnummer</b>: Huisnummer van het stembureau.</li>
+    <li><b>Postcode</b>: Postcode van het stembureau.</li>
+    <li><b>Plaats</b>: Plaats waar het stembureau in ligt.</li>
+    <li><b>Extra adresaanduiding</b>: Eventuele extra informatie over de locatie van het stembureau. Bv. 'Ingang aan achterkant gebouw' of 'Mobiel stembureau op het midden van het plein'.</li>
+    <li><b>X</b>: Rijksdriehoekscoördinaat X van het stembureau in meters. Dit veld is bij deze verkiezingen nergens ingevuld, gebruik de 'Latitude' en 'Longitude' velden voor de locatie.</li>
+    <li><b>Y</b>: Rijksdriehoekscoördinaat Y van het stembureau in meters. Dit veld is bij deze verkiezingen nergens ingevuld, gebruik de 'Latitude' en 'Longitude' velden voor de locatie.</li>
+    <li><b>Longitude *</b>: Lengtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen</li>
+    <li><b>Latitude *</b>: Breedtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen</li>
+    <li><b>Districtcode</b>: </li>
+    <li><b>Openingstijden *</b>: Openingstijden van het stembureau. Als een stembureau meerdere openingstijden heeft (bijvoorbeeld in het geval van een mobiel stembureau) dan wordt het stembureau in meerdere rijen beschreven met elk een andere openingstijd.</li>
+    <li><b>Mindervaliden toegankelijk</b>: Het gebouw van het stembureau en minstens één stemhokje is goed toegankelijk en bereikbaar. Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg/'' als het onbekend is.</li>
+    <li><b>Invalidenparkeerplaatsen</b>: Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg/'' als het onbekend is.</li>
+    <li><b>Akoestiek</b>: Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg/'' als het onbekend is.</li>
+    <li><b>Mindervalide toilet aanwezig</b>: Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg/'' als het onbekend is.</li>
+    <li><b>Kieskring ID</b>: Afhankelijk van het type verkiezing het nummer of de naam van de kieskring waar het stembureau in valt:
+      <ul>
+        <li>Tweede Kamerverkiezing: kieskringnummer</li>
+        <li>Raadgevend referendum: kieskringnummer</li>
+        <li>Provinciale statenverkiezingen: kieskring is provincienaam of gemeentenaam als de provincie uit meerdere kieskringen bestaat</li>
+        <li>Gemeenteraadsverkiezingen: kieskring is gemeentenaam</li>
+        <li>Eilandsraadsverkiezingen: kieskring is eilandnaam</li>
+        <li>Europees Parlementsverkiezing: kieskring is 'Nederland'</li>
+        <li>Waterschapsverkiezingen: kieskring is waterschapsnaam</li>
+      </ul>
+    </li>
+    <li><b>Hoofdstembureau</b>: Hoofdstembureau van de kieskring</li>
+    <li><b>Contactgegevens *</b>: Contactgegevens van de afdeling of specifieke functie binnen de gemeente die zich bezig houdt met de stembureaus. Dit veld is niet altijd ingevuld.</li>
+    <li><b>Beschikbaarheid *</b>: URL van de gemeentewebsite met data of informatie over de stembureaus (of verkiezing). Dit veld is niet altijd ingevuld.</li>
+    <li><b>ID</b>: ID voor alle stembureaus van een gemeente voor een verkiezing.</li>
+    <li><b>UUID</b>: Unieke code voor deze rij (de beschrijven van een stembureau kan uit meerdere rijen bestaan, zie ook het 'Openingstijden'-veld en de 'Verdere toelichting'). Als het stembureau in zowel de gemeenteraadsverkiezingen als het referendum voorkomt dan is de code hetzelfde op beide plekken. </li>
+  </ul>
+
+  <b>*</b> = verplicht veld (doordat niet alle gemeenten de data zelf hebben aangeleverd is een verplicht veld echter niet altijd ingevuld).
+
+  <h2>Verdere toelichting</h2>
+  Sommige stembureaus komen meerdere keren in de data voor. Dit is het geval als een stembureau meerdere openingstijden en/of locaties heeft, zoals bij een mobiel stembureau het geval is. Een stembureau heeft voor elke locatie/openingstijd een nieuwe rij in de dataset.
 {% endblock %}
