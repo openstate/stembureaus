@@ -726,7 +726,7 @@
       "gemeente_code": "GM0158"
    },
    {
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "verkiezingen": [],
       "email": "",
       "gemeente_naam": "Haaren",
       "gemeente_code": "GM0788"
@@ -775,7 +775,7 @@
    },
    {
       "email": "",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "gemeente_naam": "Haren",
       "gemeente_code": "GM0017"
    },
@@ -1797,7 +1797,7 @@
       "gemeente_code": "GM1900",
       "gemeente_naam": "Súdwest-Fryslân",
       "email": "",
-      "verkiezingen": []
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
    },
    {
       "gemeente_naam": "Terneuzen",
@@ -2281,19 +2281,19 @@
    },
    {
       "gemeente_code": "GM9001",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Bonaire"
    },
    {
       "gemeente_code": "GM9002",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Sint Eustatius"
    },
    {
       "gemeente_code": "GM9003",
-      "verkiezingen": [],
+      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
       "email": "",
       "gemeente_naam": "Saba"
    }
