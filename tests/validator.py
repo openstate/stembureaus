@@ -47,9 +47,10 @@ class TestRecordValidator(unittest.TestCase):
 
     def test_parse(self):
         with app.app.test_request_context('/'):
-            validated, errors = self.record_validator.validate(
-                1, record=self.test_record.record)
-        self.assertEqual(validated, True)
+            result, errors, form = self.record_validator.validate(
+                record=self.test_record.record
+            )
+        self.assertEqual(result, True)
 
 
 class TestValidator(unittest.TestCase):
@@ -127,13 +128,14 @@ class TestValidator(unittest.TestCase):
             }]]
 
     def test_parse_empty(self):
-        validated, result = self.validator.validate()
-        self.assertEqual(validated, True)
-        self.assertEqual(result, [])
+        results = self.validator.validate()
+        self.assertEqual(results['no_errors'], True)
+        self.assertEqual(results['results'], {})
 
     def test_parse_one(self):
         with app.app.test_request_context('/'):
-            validated, result = self.validator.validate(
+            results = self.validator.validate(
                 records=self.test_records)
-        self.assertEqual(validated, True)
-        self.assertEqual(result, [])
+        self.assertEqual(results['no_errors'], True)
+        # TODO test results['results'] output
+        #self.assertEqual(results['results'], {})

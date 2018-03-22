@@ -158,7 +158,7 @@ class ODSParser(BaseParser):
         records = self._get_records(sh, clean_headers)
         clean_records = self._clean_records(records)
 
-        return clean_headers, clean_records
+        return clean_records
 
 
 class ExcelParser(BaseParser):
@@ -222,7 +222,7 @@ class ExcelParser(BaseParser):
         records = self._get_records(sh, clean_headers)
         clean_records = self._clean_records(records)
 
-        return clean_headers, clean_records
+        return clean_records
 
 
 class UploadFileParser(BaseParser):
@@ -241,5 +241,5 @@ class UploadFileParser(BaseParser):
         if extension in self.PARSERS.keys():
             klass = self.PARSERS[extension]
             parser = klass()
-            headers, records = parser.parse(path)
-        return headers, records
+            records = parser.parse(path)
+        return records

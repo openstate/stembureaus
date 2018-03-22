@@ -287,13 +287,13 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
         'Manually (CLI) uploading file for %s' % (current_user.gemeente_naam)
     )
     try:
-        headers, records = parser.parse(file_path)
+        records = parser.parse(file_path)
     except ValueError as e:
         app.logger.warning('Manual upload failed: %s' % e)
         return
 
     validator = Validator()
-    results = validator.validate(headers, records)
+    results = validator.validate(records)
 
     # If the spreadsheet did not validate then return the errors
     if not results['no_errors']:

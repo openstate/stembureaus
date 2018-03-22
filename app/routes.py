@@ -262,7 +262,7 @@ def gemeente_stemlokalen_dashboard():
             'Processing uploaded file for %s' % (current_user.gemeente_naam)
         )
         try:
-            headers, records = parser.parse(file_path)
+            records = parser.parse(file_path)
         except ValueError as e:
             app.logger.warning('Upload failed: %s' % e)
             flash(
@@ -288,7 +288,7 @@ def gemeente_stemlokalen_dashboard():
             )
 
         validator = Validator()
-        results = validator.validate(headers, records)
+        results = validator.validate(records)
 
         # If the spreadsheet did not validate then return the errors as
         # flash messages

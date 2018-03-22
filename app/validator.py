@@ -14,10 +14,10 @@ class RecordValidator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, headers=[], record={}):
+    def validate(self, record={}):
         """
-        Validates a single record. Gets a line number and a list of headers as
-        well as a dict. Returns a list of issues found, which can be empty.
+        Validates a single record.
+        Returns a list of issues found, which can be empty.
         """
         form = EditForm(MultiDict(record), meta={'csrf': False})
         result = form.validate()
@@ -29,10 +29,10 @@ class Validator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, headers=[], records=[]):
+    def validate(self, records=[]):
         """
-        Validates input, which consists of a list of headers with a series of
-        records. Returns a tuple consisting of a bool and a list of issues.
+        Validates input, which consists of a of a list of records.
+        Returns a tuple consisting of a bool and a list of issues.
         """
         results = {}
         record_validator = RecordValidator()
@@ -46,9 +46,7 @@ class Validator(object):
             # value
             record_values = [str(x).replace('0', '') for x in record.values()]
             if ''.join(record_values).strip() != '':
-                validated, errors, form = record_validator.validate(
-                    headers, record
-                )
+                validated, errors, form = record_validator.validate(record)
                 found_any_record_with_values = True
                 if not validated:
                     no_errors = False
