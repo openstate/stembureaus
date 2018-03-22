@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import User, ckan, Election, BAG
-from app.email import send_invite, send_mailcorrectie
+from app.email import send_invite
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
@@ -766,7 +766,7 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
 
                 total_created += 1
 
-                send_invite(user, 349725)
+                send_invite(user)
 
             elections = user.elections.all()
             if (len(elections)) <= 0:
@@ -807,7 +807,7 @@ def eenmalig_gemeenten_uitnodigen():
 
     total_mailed = 0
     for user in User.query.all():
-        send_invite(user, 349725)
+        send_invite(user)
         total_mailed += 1
     print('%d gemeenten ge-e-maild' % (total_mailed))
 
@@ -833,24 +833,3 @@ def gemeente_invite_link_maken(gemeente_code):
             url_for('gemeente_reset_wachtwoord', token=token, _external=True)
         )
     )
-
-
-@gemeenten.command()
-def eenmalig_gemeenten_mailcorrectie():
-    if not app.debug:
-        result = input(
-            'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
-            'alle gemeenten wilt uitnodigen voor waarismijnstemlokaal.nl en '
-            'vragen om een wachtwoord aan te maken? (y/N): '
-        )
-        # Print empty line for better readability
-        print()
-        if not result.lower() == 'y':
-            print('Geen gemeenten ge-e-maild')
-            return
-
-    total_mailed = 0
-    for user in User.query.all():
-        send_mailcorrectie(user)
-        total_mailed += 1
-    print('%d gemeenten ge-e-maild' % (total_mailed))
