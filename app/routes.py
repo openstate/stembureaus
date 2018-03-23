@@ -111,14 +111,20 @@ def show_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
     return render_template(
-        'show_stembureau.html', records=[_hydrate(r) for r in records], gemeente=gemeente)
+        'show_stembureau.html',
+        records=[_hydrate(r) for r in records],
+        gemeente=gemeente
+    )
 
 
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
-        'show_gemeente.html', records=[_hydrate(r) for r in records], gemeente=gemeente)
+        'show_gemeente.html',
+        records=[_hydrate(r) for r in records],
+        gemeente=gemeente
+    )
 
 
 @app.route("/e/<gemeente>/<primary_key>")
@@ -135,8 +141,11 @@ def embed_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     show_search = (request.args.get('search', 1, type=int) == 1)
     return render_template(
-        'embed_gemeente.html', records=[_hydrate(r) for r in records], gemeente=gemeente,
-        show_search=show_search)
+        'embed_gemeente.html',
+        records=[_hydrate(r) for r in records],
+        gemeente=gemeente,
+        show_search=show_search
+    )
 
 
 @app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
@@ -650,11 +659,17 @@ def _create_record(form, stemlokaal_id, current_user, election):
         for bag_field, record_field in bag_conversions.items():
             bag_field_value = getattr(bag_record, bag_field, None)
             if bag_field_value is not None:
-                record[record_field] = bag_field_value.encode('latin1').decode()
+                record[record_field] = bag_field_value.encode(
+                    'latin1'
+                ).decode()
             else:
                 record[record_field] = None
         wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
-            bag_nummer, current_user.gemeente_code, bag_record.lon, bag_record.lat)
+            bag_nummer,
+            current_user.gemeente_code,
+            bag_record.lon,
+            bag_record.lat
+        )
         if wk_naam:
             record['Wijknaam'] = wk_naam
         if wk_code:

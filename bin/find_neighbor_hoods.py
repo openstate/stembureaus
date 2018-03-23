@@ -13,8 +13,9 @@ import csv
 import codecs
 import io
 
-
-import csv, codecs, io
+import csv
+import codecs
+import io
 
 
 class UnicodeReader:
@@ -32,6 +33,7 @@ class UnicodeReader:
 
     def __iter__(self):
         return self
+
 
 class UnicodeWriter:
     """

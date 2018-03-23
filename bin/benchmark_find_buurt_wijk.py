@@ -5,7 +5,9 @@ sys.path.insert(0, '.')
 
 from app.utils import find_buurt_and_wijk
 
-import csv, codecs, io
+import csv
+import codecs
+import io
 
 
 class UnicodeReader:

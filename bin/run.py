@@ -69,7 +69,8 @@ def main():
 
     Creates a Sheets API service object and prints the names and majors of
     students in a sample spreadsheet:
-    https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+    https://docs.google.com
+    /spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
     """
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
@@ -122,11 +123,16 @@ def main():
             if new_gemeente_naam not in gemeente_namen:
                 with app.app_context():
                     send_email(
-                        '[waarismijnstemlokaal.nl] Gemeente niet in gemeente_namen.txt',
+                        '[waarismijnstemlokaal.nl] Gemeente niet in '
+                        'gemeente_namen.txt',
                         sender=app.config['FROM'],
                         recipients=[app.config['FROM']],
-                        text_body='Kon %s niet vinden in gemeente_namen.txt' % (new_gemeente_naam,),
-                        html_body='<p>Kon %s niet vinden in gemeente_namen.txt</p>' % (new_gemeente_naam,),
+                        text_body=(
+                            'Kon %s niet vinden in gemeente_namen.txt'
+                        ) % (new_gemeente_naam),
+                        html_body=(
+                            '<p>Kon %s niet vinden in gemeente_namen.txt</p>'
+                        ) % (new_gemeente_naam),
                     )
                 continue
             # print('Found gemeente: %s' % (new_gemeente_naam))
@@ -136,11 +142,17 @@ def main():
             if len(json_gemeente) <= 0:
                 with app.app_context():
                     send_email(
-                        '[waarismijnstemlokaal.nl] Gemeente niet in gemeenten.json.example',
+                        '[waarismijnstemlokaal.nl] Gemeente niet in '
+                        'gemeenten.json.example',
                         sender=app.config['FROM'],
                         recipients=[app.config['FROM']],
-                        text_body='Kon %s niet vinden in gemeenten.json.example' % (new_gemeente_naam,),
-                        html_body='<p>Kon %s niet vinden in gemeenten.json.example</p>' % (new_gemeente_naam,),
+                        text_body=(
+                            'Kon %s niet vinden in gemeenten.json.example'
+                        ) % (new_gemeente_naam),
+                        html_body=(
+                            '<p>Kon %s niet vinden in '
+                            'gemeenten.json.example</p>'
+                        ) % (new_gemeente_naam),
                     )
                 continue
             json_gemeente[0]['email'] = row[3]

@@ -6,6 +6,7 @@ from app.validator import Validator, RecordValidator
 import app
 from app.models import Record
 
+
 class TestRecordValidator(unittest.TestCase):
     def setUp(self):
         self.record_validator = RecordValidator()
@@ -79,7 +80,9 @@ class TestValidator(unittest.TestCase):
                 'longitude': 4.3166395,
                 'latitude': 52.0775912,
                 'districtcode': '',
-                'openingstijden': '2017-03-21T07:30:00 tot 2017-03-21T21:00:00',
+                'openingstijden': (
+                    '2017-03-21T07:30:00 tot 2017-03-21T21:00:00'
+                ),
                 'mindervaliden toegankelijk': 'Y',
                 'invalidenparkeerplaatsen': 'N',
                 'akoestiek': 'N',
@@ -113,7 +116,9 @@ class TestValidator(unittest.TestCase):
                 'longitude': 4.3166395,
                 'latitude': 52.0775912,
                 'districtcode': '',
-                'openingstijden': '2017-03-21T07:30:00 tot 2017-03-21T21:00:00',
+                'openingstijden': (
+                    '2017-03-21T07:30:00 tot 2017-03-21T21:00:00'
+                ),
                 'mindervaliden toegankelijk': 'Y',
                 'invalidenparkeerplaatsen': 'N',
                 'akoestiek': 'N',

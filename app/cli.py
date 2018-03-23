@@ -47,6 +47,7 @@ def _get_bag(r):
         return bag, 'pand'
     return None, 'nf'
 
+
 @CKAN.command()
 @click.option('--what', default='draft')
 def fix_bag_addresses(what):
@@ -71,10 +72,17 @@ def fix_bag_addresses(what):
             if bag_type == 'obj':
                 r['BAG referentienummer'] = bag.nummeraanduiding
 
-            if ((bag is not None) and (r['Postcode'] is not None) and (r['Postcode'] != bag.postcode)):
+            if ((bag is not None) and (r['Postcode'] is not None)
+                    and (r['Postcode'] != bag.postcode)):
                 sys.stderr.write(
                     "Record says: %s, BAG says: %s, found via %s (%s/%s)\n" % (
-                        r['Postcode'], bag.postcode, bag_type, r['Gemeente'], bag.gemeente,))
+                        r['Postcode'],
+                        bag.postcode,
+                        bag_type,
+                        r['Gemeente'],
+                        bag.gemeente
+                    )
+                )
                 # continue
 
             wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
@@ -94,7 +102,9 @@ def fix_bag_addresses(what):
                 for bag_field, record_field in bag_conversions.items():
                     bag_field_value = getattr(bag, bag_field, None)
                     if bag_field_value is not None:
-                        r[record_field] = bag_field_value.encode('latin1').decode()
+                        r[record_field] = bag_field_value.encode(
+                            'latin1'
+                        ).decode()
                     else:
                         r[record_field] = None
 
@@ -105,10 +115,16 @@ def fix_bag_addresses(what):
 
             total += 1
         sys.stderr.write(
-            "%s records, %s with BAG found. %s had no street info before.\n" % (
-                total, bag_found, with_no_street,))
-        sys.stderr.write("%s record with no BAG, but with street info'n" % (
-            no_bag_but_street,))
+            "%s records, %s with BAG found. %s had no street info"
+            "before.\n" % (
+                total, bag_found, with_no_street
+            )
+        )
+        sys.stderr.write(
+            "%s record with no BAG, but with street info'n" % (
+                no_bag_but_street
+            )
+        )
         sys.stderr.write("%s\n" % (bag_counts,))
         with open('exports/%s_bag_fix.json' % (resource_id,), 'w') as OUT:
             json.dump(records['records'], OUT, indent=4, sort_keys=True)
@@ -387,8 +403,9 @@ def publish_gemeente(gemeente_code):
 @click.option('--dest_id', '-di')
 @click.option('--dest_hoofdstembureau', '-dh')
 @click.option('--dest_kieskring_id', '-dk')
-def copy_gemeente_resource(gemeente_code, source_resource, dest_resource, dest_id=None,
-        dest_hoofdstembureau=None, dest_kieskring_id=None):
+def copy_gemeente_resource(gemeente_code, source_resource, dest_resource,
+                           dest_id=None, dest_hoofdstembureau=None,
+                           dest_kieskring_id=None):
     """
     Copies the records of a gemeente from one resource (source) to another
     (dest). Note: this removes all records for the gemeente in dest first.
@@ -416,7 +433,9 @@ def copy_gemeente_resource(gemeente_code, source_resource, dest_resource, dest_i
             dest_hoofdstembureau = gemeente_dest_resource_records[0][
                 'Hoofdstembureau'
             ]
-            dest_kieskring_id = gemeente_dest_resource_records[0]['Kieskring ID']
+            dest_kieskring_id = gemeente_dest_resource_records[0][
+                'Kieskring ID'
+            ]
 
     # If either of these is still not set, abort!
     if not dest_id or not dest_hoofdstembureau or not dest_kieskring_id:
@@ -471,7 +490,8 @@ def import_resource(resource_id, file_path):
 @click.argument('gemeenten_info_file_path')
 @click.argument('excluded_gemeenten_file_path')
 @click.argument('rug_file_path')
-def import_rug(rug_file_path, excluded_gemeenten_file_path, gemeenten_info_file_path):
+def import_rug(rug_file_path,
+               excluded_gemeenten_file_path, gemeenten_info_file_path):
     """
     Import records coming from Geodienst from the Rijksuniversiteit Groningen.
     These records don't contain all fields and these need to be filled. Based
@@ -541,13 +561,15 @@ def import_rug(rug_file_path, excluded_gemeenten_file_path, gemeenten_info_file_
                 bag_conversions = {
                     'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
                     'postcode': 'Postcode',
-                    'nummeraanduiding' :'BAG referentienummer'
+                    'nummeraanduiding': 'BAG referentienummer'
                 }
 
                 for bag_field, record_field in bag_conversions.items():
                     bag_field_value = getattr(bag_object, bag_field, None)
                     if bag_field_value is not None:
-                        rug_record[record_field] = bag_field_value.encode('latin1').decode()
+                        rug_record[record_field] = bag_field_value.encode(
+                            'latin1'
+                        ).decode()
                     else:
                         rug_record[record_field] = None
 
@@ -572,7 +594,9 @@ def import_rug(rug_file_path, excluded_gemeenten_file_path, gemeenten_info_file_
             for verkiezing in record_gemeente_info['verkiezingen']:
                 record = copy.deepcopy(rug_record)
 
-                verkiezing_info = app.config['CKAN_CURRENT_ELECTIONS'][verkiezing]
+                verkiezing_info = app.config['CKAN_CURRENT_ELECTIONS'][
+                    verkiezing
+                ]
                 record['ID'] = 'NLODS%sstembureaus%s%s' % (
                     gemeente_code,
                     verkiezing_info['election_date'],
@@ -595,7 +619,11 @@ def import_rug(rug_file_path, excluded_gemeenten_file_path, gemeenten_info_file_
 
                 # Append the record for the draft and publish resource
                 # of this election
-                for resource in [verkiezing_info['draft_resource'], verkiezing_info['publish_resource']]:
+                resources = [
+                    verkiezing_info['draft_resource'],
+                    verkiezing_info['publish_resource']
+                ]
+                for resource in resources:
                     resource_records[resource].append(record)
         for resource, res_records in resource_records.items():
             print('%s: %s' % (resource, len(res_records)))
@@ -748,7 +776,9 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
         total_created = 0
         for item in data:
             user_email = item['email']
-            existing = User.query.filter_by(gemeente_code=item['gemeente_code']).first()
+            existing = User.query.filter_by(
+                gemeente_code=item['gemeente_code']
+            ).first()
             if existing:
                 print("Already have: %s" % (item['gemeente_code'],))
                 user = existing
@@ -776,7 +806,6 @@ def eenmalig_gemeenten_en_verkiezingen_aanmaken(json_file):
 
                 # Only commit if all users are successfully added
                 db.session.commit()
-
 
         print(
             '%d gemeenten (en bijbehorende verkiezingen) aangemaakt' % (
