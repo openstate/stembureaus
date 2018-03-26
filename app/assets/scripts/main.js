@@ -78,7 +78,7 @@
 
 var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
 
-StembureausApp.show_gemeenten = function (matches) {
+StembureausApp.show_gemeenten = function (matches, query) {
   $('#results-search').empty();
   for(var i=0; i < matches.length; i++) {
     var target = StembureausApp.links_external ? ' target="_blank"' : '';
@@ -89,7 +89,7 @@ StembureausApp.show_gemeenten = function (matches) {
     ))
   }
 
-  if (matches.length == 0) {
+  if (matches.length == 0 && query.length > 1) {
     $('#results-search').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend? Wij gebruiken de officiële spelling van de gemeentenaam, bijvoorbeeld "\'s-Gravenhage" in plaats van "Den Haag".</p>'));
   }
 };
@@ -131,7 +131,7 @@ StembureausApp.show = function (matches) {
 
 StembureausApp.search_gemeenten = function (query) {
   var gemeenten_matches = StembureausApp.fuse_gemeenten.search(query);
-  StembureausApp.show_gemeenten(gemeenten_matches);
+  StembureausApp.show_gemeenten(gemeenten_matches, query);
 };
 
 StembureausApp.search = function (query) {
@@ -200,7 +200,67 @@ StembureausApp.init = function() {
   });
 };
 
-
 $(document).ready(function () {
   StembureausApp.init();
+
+  StembureausApp.stembureaus_markers = [];
+
+  //console.log(StembureausApp.links_external ? 'external links for markers' : 'internal links for markers');
+
+  StembureausApp.getPopup = function(s) {
+    var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
+    var target = StembureausApp.links_external ? ' target="_blank"' : '';
+    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
+    if (StembureausApp.stembureaus[i]['Straatnaam']) {
+      output += StembureausApp.stembureaus[i]['Straatnaam'];
+    }
+    if (StembureausApp.stembureaus[i]['Huisnummer']) {
+      output += ' ' + StembureausApp.stembureaus[i]['Huisnummer'];
+    }
+    if (StembureausApp.stembureaus[i]['Huisnummertoevoeging']) {
+      output += '-' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
+    }
+    if (StembureausApp.stembureaus[i]['Plaats']) {
+      output += "<br />" + StembureausApp.stembureaus[i]['Plaats'] + "<br />";
+    } else {
+      output += "<i>Gemeente " + StembureausApp.stembureaus[i]['Gemeente'] + "</i><br />";
+    }
+    output += '<strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br />';
+    if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
+      output += '<i class="fa fa-wheelchair" aria-hidden="true"></i>';
+    }
+    output += '</p>';
+    return output;
+  };
+
+  for(var i=0; i < StembureausApp.stembureaus.length; i++) {
+    StembureausApp.stembureaus_markers.push(
+      L.marker(
+        [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
+      ).bindPopup(StembureausApp.getPopup(StembureausApp.stembureaus[i]))
+    );
+  }
+
+  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
+  StembureausApp.map._layersMaxZoom = 19;
+  StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
+  for(var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
+    StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
+  }
+
+  if (StembureausApp.stembureaus_markers.length > 50) {
+    StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+  } else {
+    StembureausApp.map.addLayer(L.layerGroup(StembureausApp.stembureaus_markers));
+  }
+
+  StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers.filter(
+    function (s) {
+      return (StembureausApp.stembureaus_markers.length <= 50) || (s._latlng.lng > 0);
+    }));
+  StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank">Waar is mijn stemlokaal</a>'
+  }).addTo(StembureausApp.map);
 });
