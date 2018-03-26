@@ -40,16 +40,14 @@
     {% endif %}
   </div>
 </div>
-
-
-{% include "map.html" %}
-
 {% endblock %}
 
-{% block scripts_additional %}
+{% block scripts %}
+{{ super() }}
+{% include "map.html" %}
 <script>
-$(document).ready(function() {
-  StembureausApp.show(StembureausApp.stembureaus);
-});
+  $(document).ready(function() {
+    StembureausApp.show(StembureausApp.stembureaus);
+  });
 </script>
 {% endblock %}

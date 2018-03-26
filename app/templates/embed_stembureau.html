@@ -46,7 +46,9 @@
     <div id="map" style="height: 300px;"></div>
   </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+{{ super() }}
 {% include "map.html" %}
-
 {% endblock %}

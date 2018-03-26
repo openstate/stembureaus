@@ -49,9 +49,6 @@
   </div>
 </div>
 
-
-{% include "map.html" %}
-
 <div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -84,20 +81,22 @@
 
 {% endblock %}
 
-{% block scripts_additional %}
+{% block scripts %}
+{{ super() }}
+{% include "map.html" %}
 <script>
-$(document).ready(function() {
-  StembureausApp.show(StembureausApp.stembureaus);
+  $(document).ready(function() {
+    StembureausApp.show(StembureausApp.stembureaus);
 
-  $('#model-embed').on('shown.bs.modal', function () {
-    $('textarea:visible').select().focus();
-  });
+    $('#model-embed').on('shown.bs.modal', function () {
+      $('textarea:visible').select().focus();
+    });
 
-  $('#form-embed-search-checkbox').on('click', function (e) {
-    $('#form-embed-search').toggle();
-    $('#form-embed-no-search').toggle();
-    $('textarea:visible').select().focus();
+    $('#form-embed-search-checkbox').on('click', function (e) {
+      $('#form-embed-search').toggle();
+      $('#form-embed-no-search').toggle();
+      $('textarea:visible').select().focus();
+    });
   });
-});
 </script>
 {% endblock %}
