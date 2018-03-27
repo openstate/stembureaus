@@ -14,6 +14,12 @@
   </div>
 </div>
 <div class="row">
+  {% if not records %}
+  Geen stembureaus gevonden voor {{ gemeente }}.
+  <br>
+  <br>
+  Terug naar de <a href="/">homepage</a>.
+  {% else %}
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="map" style="height: 300px;"></div>
     <p class="pull-right" style="margin-top: 10px;">
@@ -47,6 +53,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
