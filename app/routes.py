@@ -109,11 +109,13 @@ def data():
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
     records = get_stembureaus(
-        ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key})
+        ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
+    )
     return render_template(
         'show_stembureau.html',
         records=[_hydrate(r) for r in records],
-        gemeente=gemeente
+        gemeente=gemeente,
+        primary_key=primary_key
     )
 
 

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block head %}
+  {% if not records %}
+  <meta property="og:title" content="Waar is mijn stemlokaal" />
+  {% else %}
   <meta property="og:title" content="Waar is mijn stemlokaal - {{ records[0]['Naam stembureau'] }}" />
+  {% endif %}
   {{ super() }}
 {% endblock %}
 
@@ -10,11 +14,21 @@
     <ol class="breadcrumb">
       <li><a href="/">Nederland</a></li>
       <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
+      {% if not records %}
+      <li class="active">Onbekend stembureau UUID</li>
+      {% else %}
       <li class="active">{{ records[0]['Naam stembureau'] }}</li>
+      {% endif %}
     </ol>
   </div>
 </div>
 <div class="row">
+  {% if not records %}
+  Kan stembureau met UUID "{{ primary_key }}" niet vinden.
+  <br>
+  <br>
+  Terug naar de <a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">stembureaupagina van gemeente {{ gemeente }}</a>.
+  {% else %}
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="map" style="height: 300px;"></div>
   </div>
@@ -54,6 +68,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 {% endblock %}
 
