@@ -1,14 +1,30 @@
 {% extends "embed.html" %}
 {% block content %}
 <div class="row">
+  <div class="col-xs-12">
+    <ol class="breadcrumb">
+      <li><a href="/" target="_blank">Nederland</a></li>
+      <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank">{{ gemeente }}</a></li>
+      {% if not records %}
+      <li class="active">Onbekend stembureau UUID</li>
+      {% else %}
+      <li class="active">{{ records[0]['Naam stembureau'] }}</li>
+      {% endif %}
+    </ol>
+  </div>
+</div>
+<div class="row">
+  {% if not records %}
+  Kan stembureau met UUID "{{ primary_key }}" niet vinden.
+  <br>
+  <br>
+  Terug naar de <a href="{{ url_for('embed_gemeente', gemeente=gemeente) }}">stembureaupagina van gemeente {{ gemeente }}</a>.
+  {% else %}
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div id="map" style="height: 300px;"></div>
+  </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div class="row">
-      <div class="col-xs-12">
-        <ol class="breadcrumb">
-          <li><a href="/" target="_blank">Nederland</a></li>
-          <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank">{{ gemeente }}</a></li>
-          <li class="active">{{ records[0]['Naam stembureau'] }}</li>
-        </ol>
         {% for record in records %}
         <h2>{{ record['Naam stembureau'] }}</h2>
         <p>
@@ -42,9 +58,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    <div id="map" style="height: 300px;"></div>
-  </div>
+  {% endif %}
 </div>
 {% endblock %}
 
