@@ -690,6 +690,21 @@ def test_upsert_datastore(resource_id):
 
 @CKAN.command()
 @click.argument('resource_id')
+@click.argument('record_id')
+def verwijder_record_via_id(resource_id, record_id):
+    """
+    Verwijder een record op basis van '_id' uit een resource
+    """
+    ckan.delete_records(
+        resource_id,
+        {
+            '_id': record_id
+        }
+    )
+
+
+@CKAN.command()
+@click.argument('resource_id')
 def verwijder_datastore(resource_id):
     """
     Verwijder een datastore tabel in een resource
