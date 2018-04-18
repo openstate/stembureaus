@@ -39,7 +39,7 @@ Collecting and presenting stembureaus
          - `46 3 * * * (cd <PATH_TO_stembureaus/docker> && sudo ./backup.sh)`
       - The resulting SQL backup files are saved in `docker/docker-entrypoint-initdb.d`
 - Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
-   - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d' if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
+   - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Compile the assets, see the section below
