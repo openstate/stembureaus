@@ -1,1 +1,141 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 200"><defs><style>.cls-1{isolation:isolate;}.cls-2{font-size:72px;fill:#3d4a4c;font-family:Montserrat-Bold, Montserrat;font-weight:700;letter-spacing:-0.04em;}.cls-3{letter-spacing:-0.01em;}.cls-4{letter-spacing:-0.01em;}.cls-5{letter-spacing:-0.01em;}.cls-6{letter-spacing:-0.02em;}.cls-7{letter-spacing:-0.01em;}.cls-8{fill:#e6e6e6;}.cls-10,.cls-11,.cls-9{fill:none;stroke-linejoin:bevel;stroke-width:16px;mix-blend-mode:multiply;}.cls-9{stroke:#ec117e;}.cls-10,.cls-9{opacity:0.9;}.cls-10{stroke:#31a8df;}.cls-11{stroke:#751c58;opacity:0.75;}</style></defs><title>wimsl logo</title><g class="cls-1"><g id="Layer_1" data-name="Layer 1"><text class="cls-2" transform="translate(216.09 92.65)">W<tspan class="cls-3" x="70.2" y="0">aar is mijn </tspan><tspan class="cls-4"><tspan x="0" y="72">s</tspan><tspan class="cls-5" x="36.43" y="72">temlo</tspan><tspan class="cls-6" x="247.53" y="72">k</tspan><tspan class="cls-7" x="288.64" y="72">aal?</tspan></tspan></text><circle class="cls-8" cx="29.36" cy="20" r="8"/><circle class="cls-8" cx="29.36" cy="100" r="8"/><circle class="cls-8" cx="29.36" cy="180" r="8"/><circle class="cls-8" cx="109.36" cy="20" r="8"/><circle class="cls-8" cx="109.36" cy="100" r="8"/><circle class="cls-8" cx="109.36" cy="180" r="8"/><circle class="cls-8" cx="189.36" cy="20" r="8"/><circle class="cls-8" cx="189.36" cy="100" r="8"/><circle class="cls-8" cx="189.36" cy="180" r="8"/><polygon class="cls-9" points="75.88 69.96 189.66 69.96 189.66 140.45 75.88 140.23 75.88 69.96"/><polygon class="cls-10" points="29.88 33.96 137.38 180.95 137.38 33.96 29.88 33.96"/><ellipse class="cls-11" cx="81.2" cy="116.27" rx="51.64" ry="46.32"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="100%"
+   height="100%"
+   viewBox="0 0 660 200"
+   id="svg2">
+  <title
+     id="title8">wimsl logo</title>
+  <metadata
+     id="metadata53">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>wimsl logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4">
+    <style
+       id="style6" />
+  </defs>
+  <g
+     id="g10">
+    <g
+       id="Layer_1">
+      <text
+         transform="translate(216.09,92.65)"
+         id="text13"
+         style="font-size:72px;font-weight:700;letter-spacing:-0.04em;fill:#3d4a4c;font-family:'Montserrat-Bold, Montserrat'">W<tspan
+   x="70.199997"
+   y="0"
+   id="tspan15"
+   style="letter-spacing:-0.01em">aar is mijn</tspan>
+<tspan
+   id="tspan17"
+   style="letter-spacing:-0.01em">
+  <tspan
+     x="0"
+     y="72"
+     id="tspan19">s</tspan>
+  <tspan
+     x="36.43"
+     y="72"
+     id="tspan21"
+     style="letter-spacing:-0.01em">temlo</tspan>
+  <tspan
+     x="247.53"
+     y="72"
+     id="tspan23"
+     style="letter-spacing:-0.02em">k</tspan>
+  <tspan
+     x="288.64001"
+     y="72"
+     id="tspan25"
+     style="letter-spacing:-0.01em">aal?</tspan>
+</tspan>
+</text>
+      <circle
+         cx="29.360001"
+         cy="20"
+         r="8"
+         id="circle27"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="29.360001"
+         cy="100"
+         r="8"
+         id="circle29"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="29.360001"
+         cy="180"
+         r="8"
+         id="circle31"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="109.36"
+         cy="20"
+         r="8"
+         id="circle33"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="109.36"
+         cy="100"
+         r="8"
+         id="circle35"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="109.36"
+         cy="180"
+         r="8"
+         id="circle37"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="189.36"
+         cy="20"
+         r="8"
+         id="circle39"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="189.36"
+         cy="100"
+         r="8"
+         id="circle41"
+         style="fill:#e6e6e6" />
+      <circle
+         cx="189.36"
+         cy="180"
+         r="8"
+         id="circle43"
+         style="fill:#e6e6e6" />
+      <polygon
+         points="189.66,69.96 189.66,140.45 75.88,140.23 75.88,69.96 75.88,69.96 "
+         id="polygon45"
+         style="opacity:0.9;fill:none;stroke:#ec117e;stroke-width:16px;stroke-linejoin:bevel" />
+      <polygon
+         points="137.38,180.95 137.38,33.96 29.88,33.96 29.88,33.96 "
+         id="polygon47"
+         style="opacity:0.9;fill:none;stroke:#31a8df;stroke-width:16px;stroke-linejoin:bevel" />
+      <ellipse
+         cx="81.199997"
+         cy="116.27"
+         rx="51.639999"
+         ry="46.32"
+         id="ellipse49"
+         style="opacity:0.75;fill:none;stroke:#751c58;stroke-width:16px;stroke-linejoin:bevel" />
+    </g>
+  </g>
+</svg>
