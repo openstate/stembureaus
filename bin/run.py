@@ -157,7 +157,7 @@ def main():
                         ) % (new_gemeente_naam),
                     )
                 continue
-            json_gemeente[0]['email'] = row[1]
+            json_gemeente[0]['email'].append(row[1])
             #if json_gemeente[0]['verkiezingen'] == []:
             #    json_gemeente[0]['verkiezingen'] = [
             #        e for e in ckan.elections.keys()]
