@@ -1,2150 +1,3582 @@
 [
-   {
-      "gemeente_code": "GM1680",
-      "gemeente_naam": "Aa en Hunze",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0358",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Aalsmeer"
-   },
-   {
-      "gemeente_code": "GM0197",
-      "gemeente_naam": "Aalten",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0059",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Achtkarspelen"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Alblasserdam",
-      "gemeente_code": "GM0482"
-   },
-   {
-      "gemeente_code": "GM0613",
-      "gemeente_naam": "Albrandswaard",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0361",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Alkmaar"
-   },
-   {
-      "gemeente_naam": "Almelo",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0141"
-   },
-   {
-      "gemeente_naam": "Almere",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0034"
-   },
-   {
-      "gemeente_naam": "Alphen aan den Rijn",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0484"
-   },
-   {
-      "gemeente_code": "GM1723",
-      "gemeente_naam": "Alphen-Chaam",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1959",
-      "gemeente_naam": "Altena",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Ameland",
-      "gemeente_code": "GM0060"
-   },
-   {
-      "gemeente_code": "GM0307",
-      "gemeente_naam": "Amersfoort",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Amstelveen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0362"
-   },
-   {
-      "gemeente_code": "GM0363",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Amsterdam"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Apeldoorn",
-      "gemeente_code": "GM0200"
-   },
-   {
-      "gemeente_naam": "Appingedam",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0003"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Arnhem",
-      "gemeente_code": "GM0202"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Assen",
-      "gemeente_code": "GM0106"
-   },
-   {
-      "gemeente_code": "GM0743",
-      "gemeente_naam": "Asten",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0744",
-      "gemeente_naam": "Baarle-Nassau",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0308",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Baarn"
-   },
-   {
-      "gemeente_code": "GM0489",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Barendrecht"
-   },
-   {
-      "gemeente_code": "GM0203",
-      "gemeente_naam": "Barneveld",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Beek (L.)",
-      "gemeente_code": "GM0888"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Beekdaelen",
-      "gemeente_code": "GM1954"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Beemster",
-      "gemeente_code": "GM0370"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Beesel",
-      "gemeente_code": "GM0889"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Berg en Dal",
-      "gemeente_code": "GM1945"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Bergeijk",
-      "gemeente_code": "GM1724"
-   },
-   {
-      "gemeente_code": "GM0893",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Bergen (L.)"
-   },
-   {
-      "gemeente_code": "GM0373",
-      "gemeente_naam": "Bergen (NH.)",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0748",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Bergen op Zoom"
-   },
-   {
-      "gemeente_code": "GM1859",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Berkelland"
-   },
-   {
-      "gemeente_naam": "Bernheze",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1721"
-   },
-   {
-      "gemeente_code": "GM0753",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Best"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Beuningen",
-      "gemeente_code": "GM0209"
-   },
-   {
-      "gemeente_code": "GM0375",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Beverwijk"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "De Bilt",
-      "gemeente_code": "GM0310"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Bladel",
-      "gemeente_code": "GM1728"
-   },
-   {
-      "gemeente_code": "GM0376",
-      "gemeente_naam": "Blaricum",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Bloemendaal",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0377"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Bodegraven-Reeuwijk",
-      "gemeente_code": "GM1901"
-   },
-   {
-      "gemeente_code": "GM0755",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Boekel"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Borger-Odoorn",
-      "gemeente_code": "GM1681"
-   },
-   {
-      "gemeente_naam": "Borne",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0147"
-   },
-   {
-      "gemeente_code": "GM0654",
-      "gemeente_naam": "Borsele",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0756",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Boxmeer"
-   },
-   {
-      "gemeente_code": "GM0757",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Boxtel"
-   },
-   {
-      "gemeente_code": "GM0758",
-      "gemeente_naam": "Breda",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Brielle",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0501"
-   },
-   {
-      "gemeente_code": "GM1876",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Bronckhorst"
-   },
-   {
-      "gemeente_code": "GM0213",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Brummen"
-   },
-   {
-      "gemeente_naam": "Brunssum",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0899"
-   },
-   {
-      "gemeente_naam": "Bunnik",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0312"
-   },
-   {
-      "gemeente_code": "GM0313",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Bunschoten"
-   },
-   {
-      "gemeente_naam": "Buren",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0214"
-   },
-   {
-      "gemeente_naam": "Capelle aan den IJssel",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0502"
-   },
-   {
-      "gemeente_code": "GM0383",
-      "gemeente_naam": "Castricum",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0109",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Coevorden"
-   },
-   {
-      "gemeente_code": "GM1706",
-      "gemeente_naam": "Cranendonck",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1684",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Cuijk"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Culemborg",
-      "gemeente_code": "GM0216"
-   },
-   {
-      "gemeente_code": "GM0148",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Dalfsen"
-   },
-   {
-      "gemeente_code": "GM1891",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Dantumadiel"
-   },
-   {
-      "gemeente_code": "GM0503",
-      "gemeente_naam": "Delft",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0010",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Delfzijl"
-   },
-   {
-      "gemeente_code": "GM0762",
-      "gemeente_naam": "Deurne",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0150",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Deventer"
-   },
-   {
-      "gemeente_naam": "Diemen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0384"
-   },
-   {
-      "gemeente_naam": "Dinkelland",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1774"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Doesburg",
-      "gemeente_code": "GM0221"
-   },
-   {
-      "gemeente_naam": "Doetinchem",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0222"
-   },
-   {
-      "gemeente_code": "GM0766",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Dongen"
-   },
-   {
-      "gemeente_code": "GM0505",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Dordrecht"
-   },
-   {
-      "gemeente_code": "GM0498",
-      "gemeente_naam": "Drechterland",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Drimmelen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1719"
-   },
-   {
-      "gemeente_code": "GM0303",
-      "gemeente_naam": "Dronten",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0225",
-      "gemeente_naam": "Druten",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Duiven",
-      "gemeente_code": "GM0226"
-   },
-   {
-      "gemeente_code": "GM1711",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Echt-Susteren"
-   },
-   {
-      "gemeente_naam": "Edam-Volendam",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0385"
-   },
-   {
-      "gemeente_code": "GM0228",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Ede"
-   },
-   {
-      "gemeente_code": "GM0317",
-      "gemeente_naam": "Eemnes",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0770",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Eersel"
-   },
-   {
-      "gemeente_code": "GM1903",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Eijsden-Margraten"
-   },
-   {
-      "gemeente_code": "GM0772",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Eindhoven"
-   },
-   {
-      "gemeente_code": "GM0230",
-      "gemeente_naam": "Elburg",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0114",
-      "gemeente_naam": "Emmen",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Enkhuizen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0388"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Enschede",
-      "gemeente_code": "GM0153"
-   },
-   {
-      "gemeente_code": "GM0232",
-      "gemeente_naam": "Epe",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Ermelo",
-      "gemeente_code": "GM0233"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Etten-Leur",
-      "gemeente_code": "GM0777"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "De Fryske Marren",
-      "gemeente_code": "GM1940"
-   },
-   {
-      "gemeente_code": "GM0779",
-      "gemeente_naam": "Geertruidenberg",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Geldrop-Mierlo",
-      "gemeente_code": "GM1771"
-   },
-   {
-      "gemeente_code": "GM1652",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Gemert-Bakel"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Gennep",
-      "gemeente_code": "GM0907"
-   },
-   {
-      "gemeente_code": "GM0784",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Gilze en Rijen"
-   },
-   {
-      "gemeente_naam": "Goeree-Overflakkee",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1924"
-   },
-   {
-      "gemeente_code": "GM0664",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Goes"
-   },
-   {
-      "gemeente_code": "GM0785",
-      "gemeente_naam": "Goirle",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1942",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Gooise Meren"
-   },
-   {
-      "gemeente_code": "GM0512",
-      "gemeente_naam": "Gorinchem",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0513",
-      "gemeente_naam": "Gouda",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Grave",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0786"
-   },
-   {
-      "gemeente_naam": "'s-Gravenhage",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0518"
-   },
-   {
-      "gemeente_naam": "Groningen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0014"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Gulpen-Wittem",
-      "gemeente_code": "GM1729"
-   },
-   {
-      "gemeente_naam": "Haaksbergen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0158"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Haaren",
-      "gemeente_code": "GM0788"
-   },
-   {
-      "gemeente_code": "GM0392",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Haarlem"
-   },
-   {
-      "gemeente_naam": "Haarlemmermeer",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0394"
-   },
-   {
-      "gemeente_code": "GM1655",
-      "gemeente_naam": "Halderberge",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Hardenberg",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0160"
-   },
-   {
-      "gemeente_code": "GM0243",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Harderwijk"
-   },
-   {
-      "gemeente_naam": "Hardinxveld-Giessendam",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0523"
-   },
-   {
-      "gemeente_code": "GM0072",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Harlingen"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Hattem",
-      "gemeente_code": "GM0244"
-   },
-   {
-      "gemeente_code": "GM0396",
-      "gemeente_naam": "Heemskerk",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0397",
-      "gemeente_naam": "Heemstede",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heerde",
-      "gemeente_code": "GM0246"
-   },
-   {
-      "gemeente_code": "GM0074",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heerenveen"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heerhugowaard",
-      "gemeente_code": "GM0398"
-   },
-   {
-      "gemeente_code": "GM0917",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heerlen"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Heeze-Leende",
-      "gemeente_code": "GM1658"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heiloo",
-      "gemeente_code": "GM0399"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Den Helder",
-      "gemeente_code": "GM0400"
-   },
-   {
-      "gemeente_code": "GM0163",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Hellendoorn"
-   },
-   {
-      "gemeente_code": "GM0530",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Hellevoetsluis"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Helmond",
-      "gemeente_code": "GM0794"
-   },
-   {
-      "gemeente_code": "GM0531",
-      "gemeente_naam": "Hendrik-Ido-Ambacht",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0164",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Hengelo (O.)"
-   },
-   {
-      "gemeente_naam": "'s-Hertogenbosch",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0796"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Het Hogeland",
-      "gemeente_code": "GM1966"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Heumen",
-      "gemeente_code": "GM0252"
-   },
-   {
-      "gemeente_naam": "Heusden",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0797"
-   },
-   {
-      "gemeente_code": "GM0534",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Hillegom"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Hilvarenbeek",
-      "gemeente_code": "GM0798"
-   },
-   {
-      "gemeente_code": "GM0402",
-      "gemeente_naam": "Hilversum",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1963",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Hoeksche Waard"
-   },
-   {
-      "gemeente_code": "GM1735",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Hof van Twente"
-   },
-   {
-      "gemeente_naam": "Hollands Kroon",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1911"
-   },
-   {
-      "gemeente_code": "GM0118",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Hoogeveen"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Hoorn",
-      "gemeente_code": "GM0405"
-   },
-   {
-      "gemeente_code": "GM1507",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Horst aan de Maas"
-   },
-   {
-      "gemeente_code": "GM0321",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Houten"
-   },
-   {
-      "gemeente_code": "GM0406",
-      "gemeente_naam": "Huizen",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0677",
-      "gemeente_naam": "Hulst",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "IJsselstein",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0353"
-   },
-   {
-      "gemeente_code": "GM1884",
-      "gemeente_naam": "Kaag en Braassem",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Kampen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0166"
-   },
-   {
-      "gemeente_naam": "Kapelle",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0678"
-   },
-   {
-      "gemeente_code": "GM0537",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Katwijk"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Kerkrade",
-      "gemeente_code": "GM0928"
-   },
-   {
-      "gemeente_code": "GM1598",
-      "gemeente_naam": "Koggenland",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0542",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Krimpen aan den IJssel"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Krimpenerwaard",
-      "gemeente_code": "GM1931"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Laarbeek",
-      "gemeente_code": "GM1659"
-   },
-   {
-      "gemeente_code": "GM1685",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Landerd"
-   },
-   {
-      "gemeente_code": "GM0882",
-      "gemeente_naam": "Landgraaf",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Landsmeer",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0415"
-   },
-   {
-      "gemeente_code": "GM0416",
-      "gemeente_naam": "Langedijk",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Lansingerland",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1621"
-   },
-   {
-      "gemeente_code": "GM0417",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Laren (NH.)"
-   },
-   {
-      "gemeente_code": "GM0080",
-      "gemeente_naam": "Leeuwarden",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0546",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Leiden"
-   },
-   {
-      "gemeente_naam": "Leiderdorp",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0547"
-   },
-   {
-      "gemeente_naam": "Leidschendam-Voorburg",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1916"
-   },
-   {
-      "gemeente_code": "GM0995",
-      "gemeente_naam": "Lelystad",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1640",
-      "gemeente_naam": "Leudal",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0327",
-      "gemeente_naam": "Leusden",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Lingewaard",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1705"
-   },
-   {
-      "gemeente_code": "GM0553",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Lisse"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Lochem",
-      "gemeente_code": "GM0262"
-   },
-   {
-      "gemeente_code": "GM0809",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Loon op Zand"
-   },
-   {
-      "gemeente_naam": "Lopik",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0331"
-   },
-   {
-      "gemeente_code": "GM0024",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Loppersum"
-   },
-   {
-      "gemeente_code": "GM0168",
-      "gemeente_naam": "Losser",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0263",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Maasdriel"
-   },
-   {
-      "gemeente_code": "GM1641",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Maasgouw"
-   },
-   {
-      "gemeente_code": "GM0556",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Maassluis"
-   },
-   {
-      "gemeente_code": "GM0935",
-      "gemeente_naam": "Maastricht",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0420",
-      "gemeente_naam": "Medemblik",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0938",
-      "gemeente_naam": "Meerssen",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Meierijstad",
-      "gemeente_code": "GM1948"
-   },
-   {
-      "gemeente_code": "GM0119",
-      "gemeente_naam": "Meppel",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Middelburg (Z.)",
-      "gemeente_code": "GM0687"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Midden-Delfland",
-      "gemeente_code": "GM1842"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Midden-Drenthe",
-      "gemeente_code": "GM1731"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Midden-Groningen",
-      "gemeente_code": "GM1952"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Mill en Sint Hubert",
-      "gemeente_code": "GM0815"
-   },
-   {
-      "gemeente_naam": "Moerdijk",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1709"
-   },
-   {
-      "gemeente_code": "GM1978",
-      "gemeente_naam": "Molenlanden",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1955",
-      "gemeente_naam": "Montferland",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Montfoort",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0335"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Mook en Middelaar",
-      "gemeente_code": "GM0944"
-   },
-   {
-      "gemeente_code": "GM1740",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Neder-Betuwe"
-   },
-   {
-      "gemeente_code": "GM0946",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Nederweert"
-   },
-   {
-      "gemeente_code": "GM0356",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Nieuwegein"
-   },
-   {
-      "gemeente_naam": "Nieuwkoop",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0569"
-   },
-   {
-      "gemeente_code": "GM0267",
-      "gemeente_naam": "Nijkerk",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0268",
-      "gemeente_naam": "Nijmegen",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1930",
-      "gemeente_naam": "Nissewaard",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1970",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Noardeast-Fryslân"
-   },
-   {
-      "gemeente_code": "GM1695",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Noord-Beveland"
-   },
-   {
-      "gemeente_code": "GM1699",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Noordenveld"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Noordoostpolder",
-      "gemeente_code": "GM0171"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Noordwijk",
-      "gemeente_code": "GM0575"
-   },
-   {
-      "gemeente_code": "GM0820",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Nuenen, Gerwen en Nederwetten"
-   },
-   {
-      "gemeente_naam": "Nunspeet",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0302"
-   },
-   {
-      "gemeente_naam": "Oegstgeest",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0579"
-   },
-   {
-      "gemeente_code": "GM0823",
-      "gemeente_naam": "Oirschot",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0824",
-      "gemeente_naam": "Oisterwijk",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1895",
-      "gemeente_naam": "Oldambt",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Oldebroek",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0269"
-   },
-   {
-      "gemeente_code": "GM0173",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Oldenzaal"
-   },
-   {
-      "gemeente_code": "GM1773",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Olst-Wijhe"
-   },
-   {
-      "gemeente_naam": "Ommen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0175"
-   },
-   {
-      "gemeente_naam": "Oost Gelre",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1586"
-   },
-   {
-      "gemeente_naam": "Oosterhout",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0826"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Ooststellingwerf",
-      "gemeente_code": "GM0085"
-   },
-   {
-      "gemeente_code": "GM0431",
-      "gemeente_naam": "Oostzaan",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0432",
-      "gemeente_naam": "Opmeer",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Opsterland",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0086"
-   },
-   {
-      "gemeente_code": "GM0828",
-      "gemeente_naam": "Oss",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Oude IJsselstreek",
-      "gemeente_code": "GM1509"
-   },
-   {
-      "gemeente_code": "GM0437",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Ouder-Amstel"
-   },
-   {
-      "gemeente_code": "GM0589",
-      "gemeente_naam": "Oudewater",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1734",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Overbetuwe"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Papendrecht",
-      "gemeente_code": "GM0590"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Peel en Maas",
-      "gemeente_code": "GM1894"
-   },
-   {
-      "gemeente_code": "GM0765",
-      "gemeente_naam": "Pekela",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Pijnacker-Nootdorp",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1926"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Purmerend",
-      "gemeente_code": "GM0439"
-   },
-   {
-      "gemeente_naam": "Putten",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0273"
-   },
-   {
-      "gemeente_code": "GM0177",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Raalte"
-   },
-   {
-      "gemeente_code": "GM0703",
-      "gemeente_naam": "Reimerswaal",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0274",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Renkum"
-   },
-   {
-      "gemeente_code": "GM0339",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Renswoude"
-   },
-   {
-      "gemeente_code": "GM1667",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Reusel-De Mierden"
-   },
-   {
-      "gemeente_naam": "Rheden",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0275"
-   },
-   {
-      "gemeente_code": "GM0340",
-      "gemeente_naam": "Rhenen",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0597",
-      "gemeente_naam": "Ridderkerk",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1742",
-      "gemeente_naam": "Rijssen-Holten",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0603",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Rijswijk (ZH.)"
-   },
-   {
-      "gemeente_code": "GM1669",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Roerdalen"
-   },
-   {
-      "gemeente_code": "GM0957",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Roermond"
-   },
-   {
-      "gemeente_naam": "De Ronde Venen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0736"
-   },
-   {
-      "gemeente_code": "GM1674",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Roosendaal"
-   },
-   {
-      "gemeente_naam": "Rotterdam",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0599"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Rozendaal",
-      "gemeente_code": "GM0277"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Rucphen",
-      "gemeente_code": "GM0840"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Schagen",
-      "gemeente_code": "GM0441"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Scherpenzeel",
-      "gemeente_code": "GM0279"
-   },
-   {
-      "gemeente_code": "GM0606",
-      "gemeente_naam": "Schiedam",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Schiermonnikoog",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0088"
-   },
-   {
-      "gemeente_code": "GM1676",
-      "gemeente_naam": "Schouwen-Duiveland",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0965",
-      "gemeente_naam": "Simpelveld",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Sint Anthonis",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1702"
-   },
-   {
-      "gemeente_naam": "Sint-Michielsgestel",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0845"
-   },
-   {
-      "gemeente_code": "GM1883",
-      "gemeente_naam": "Sittard-Geleen",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Sliedrecht",
-      "gemeente_code": "GM0610"
-   },
-   {
-      "gemeente_code": "GM1714",
-      "gemeente_naam": "Sluis",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0090",
-      "gemeente_naam": "Smallingerland",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0342",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Soest"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Someren",
-      "gemeente_code": "GM0847"
-   },
-   {
-      "gemeente_code": "GM0848",
-      "gemeente_naam": "Son en Breugel",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Stadskanaal",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0037"
-   },
-   {
-      "gemeente_code": "GM0180",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Staphorst"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Stede Broec",
-      "gemeente_code": "GM0532"
-   },
-   {
-      "gemeente_code": "GM0851",
-      "gemeente_naam": "Steenbergen",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM1708",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Steenwijkerland"
-   },
-   {
-      "gemeente_naam": "Stein (L.)",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0971"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Stichtse Vecht",
-      "gemeente_code": "GM1904"
-   },
-   {
-      "gemeente_code": "GM1900",
-      "gemeente_naam": "Súdwest-Fryslân",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Terneuzen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0715"
-   },
-   {
-      "gemeente_code": "GM0093",
-      "gemeente_naam": "Terschelling",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0448",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Texel"
-   },
-   {
-      "gemeente_naam": "Teylingen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1525"
-   },
-   {
-      "gemeente_naam": "Tholen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0716"
-   },
-   {
-      "gemeente_naam": "Tiel",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0281"
-   },
-   {
-      "gemeente_naam": "Tilburg",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0855"
-   },
-   {
-      "gemeente_naam": "Tubbergen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0183"
-   },
-   {
-      "gemeente_code": "GM1700",
-      "gemeente_naam": "Twenterand",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Tynaarlo",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM1730"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Tytsjerksteradiel",
-      "gemeente_code": "GM0737"
-   },
-   {
-      "gemeente_naam": "Uden",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0856"
-   },
-   {
-      "gemeente_naam": "Uitgeest",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0450"
-   },
-   {
-      "gemeente_code": "GM0451",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Uithoorn"
-   },
-   {
-      "gemeente_naam": "Urk",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0184"
-   },
-   {
-      "gemeente_naam": "Utrecht",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0344"
-   },
-   {
-      "gemeente_code": "GM1581",
-      "gemeente_naam": "Utrechtse Heuvelrug",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0981",
-      "gemeente_naam": "Vaals",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Valkenburg aan de Geul",
-      "gemeente_code": "GM0994"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Valkenswaard",
-      "gemeente_code": "GM0858"
-   },
-   {
-      "gemeente_code": "GM0047",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Veendam"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Veenendaal",
-      "gemeente_code": "GM0345"
-   },
-   {
-      "gemeente_code": "GM0717",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Veere"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Veldhoven",
-      "gemeente_code": "GM0861"
-   },
-   {
-      "gemeente_naam": "Velsen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0453"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Venlo",
-      "gemeente_code": "GM0983"
-   },
-   {
-      "gemeente_naam": "Venray",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0984"
-   },
-   {
-      "gemeente_naam": "Vijfheerenlanden",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1961"
-   },
-   {
-      "gemeente_code": "GM0622",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Vlaardingen"
-   },
-   {
-      "gemeente_naam": "Vlieland",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0096"
-   },
-   {
-      "gemeente_naam": "Vlissingen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0718"
-   },
-   {
-      "gemeente_code": "GM0986",
-      "gemeente_naam": "Voerendaal",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0626",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Voorschoten"
-   },
-   {
-      "gemeente_naam": "Voorst",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0285"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Vught",
-      "gemeente_code": "GM0865"
-   },
-   {
-      "gemeente_code": "GM1949",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Waadhoeke"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Waalre",
-      "gemeente_code": "GM0866"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Waalwijk",
-      "gemeente_code": "GM0867"
-   },
-   {
-      "gemeente_code": "GM0627",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Waddinxveen"
-   },
-   {
-      "gemeente_code": "GM0289",
-      "gemeente_naam": "Wageningen",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0629",
-      "gemeente_naam": "Wassenaar",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0852",
-      "gemeente_naam": "Waterland",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0988",
-      "gemeente_naam": "Weert",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Weesp",
-      "gemeente_code": "GM0457"
-   },
-   {
-      "gemeente_code": "GM1960",
-      "gemeente_naam": "West Betuwe",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0668",
-      "gemeente_naam": "West Maas en Waal",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Westerkwartier",
-      "gemeente_code": "GM1969"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Westerveld",
-      "gemeente_code": "GM1701"
-   },
-   {
-      "gemeente_code": "GM0293",
-      "gemeente_naam": "Westervoort",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_naam": "Westerwolde",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1950"
-   },
-   {
-      "gemeente_naam": "Westland",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1783"
-   },
-   {
-      "gemeente_naam": "Weststellingwerf",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0098"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Westvoorne",
-      "gemeente_code": "GM0614"
-   },
-   {
-      "gemeente_naam": "Wierden",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0189"
-   },
-   {
-      "gemeente_naam": "Wijchen",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0296"
-   },
-   {
-      "gemeente_code": "GM1696",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Wijdemeren"
-   },
-   {
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Wijk bij Duurstede",
-      "gemeente_code": "GM0352"
-   },
-   {
-      "gemeente_code": "GM0294",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Winterswijk"
-   },
-   {
-      "gemeente_code": "GM0873",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Woensdrecht"
-   },
-   {
-      "gemeente_naam": "Woerden",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_code": "GM0632"
-   },
-   {
-      "gemeente_naam": "De Wolden",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM1690"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Wormerland",
-      "gemeente_code": "GM0880"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Woudenberg",
-      "gemeente_code": "GM0351"
-   },
-   {
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Zaanstad",
-      "gemeente_code": "GM0479"
-   },
-   {
-      "gemeente_code": "GM0297",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zaltbommel"
-   },
-   {
-      "gemeente_code": "GM0473",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zandvoort"
-   },
-   {
-      "gemeente_code": "GM0050",
-      "gemeente_naam": "Zeewolde",
-      "verkiezingen": [],
-      "email": []
-   },
-   {
-      "gemeente_code": "GM0355",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Zeist"
-   },
-   {
-      "gemeente_code": "GM0299",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_naam": "Zevenaar"
-   },
-   {
-      "gemeente_naam": "Zoetermeer",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0637"
-   },
-   {
-      "gemeente_code": "GM0638",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zoeterwoude"
-   },
-   {
-      "gemeente_code": "GM1892",
-      "gemeente_naam": "Zuidplas",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM0879",
-      "gemeente_naam": "Zundert",
-      "email": [],
-      "verkiezingen": []
-   },
-   {
-      "gemeente_naam": "Zutphen",
-      "email": [],
-      "verkiezingen": [],
-      "gemeente_code": "GM0301"
-   },
-   {
-      "gemeente_code": "GM1896",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zwartewaterland"
-   },
-   {
-      "gemeente_code": "GM0642",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zwijndrecht"
-   },
-   {
-      "gemeente_code": "GM0193",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Zwolle"
-   },
-   {
-      "gemeente_code": "GM9001",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Bonaire"
-   },
-   {
-      "gemeente_code": "GM9002",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Sint Eustatius"
-   },
-   {
-      "gemeente_code": "GM9003",
-      "verkiezingen": [],
-      "email": [],
-      "gemeente_naam": "Saba"
-   }
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Aa en Hunze",
+    "gemeente_code": "GM1680",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Aalsmeer",
+    "gemeente_code": "GM0358",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Aalten",
+    "gemeente_code": "GM0197",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Achtkarspelen",
+    "gemeente_code": "GM0059",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Alblasserdam",
+    "gemeente_code": "GM0482",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Albrandswaard",
+    "gemeente_code": "GM0613",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Alkmaar",
+    "gemeente_code": "GM0361",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Almelo",
+    "gemeente_code": "GM0141",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Almere",
+    "gemeente_code": "GM0034",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Alphen aan den Rijn",
+    "gemeente_code": "GM0484",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Alphen-Chaam",
+    "gemeente_code": "GM1723",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Altena",
+    "gemeente_code": "GM1959",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ameland",
+    "gemeente_code": "GM0060",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Amersfoort",
+    "gemeente_code": "GM0307",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Amstelveen",
+    "gemeente_code": "GM0362",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Amsterdam",
+    "gemeente_code": "GM0363",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Apeldoorn",
+    "gemeente_code": "GM0200",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Appingedam",
+    "gemeente_code": "GM0003",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Arnhem",
+    "gemeente_code": "GM0202",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Assen",
+    "gemeente_code": "GM0106",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Asten",
+    "gemeente_code": "GM0743",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Baarle-Nassau",
+    "gemeente_code": "GM0744",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Baarn",
+    "gemeente_code": "GM0308",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Barendrecht",
+    "gemeente_code": "GM0489",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Barneveld",
+    "gemeente_code": "GM0203",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beek (L.)",
+    "gemeente_code": "GM0888",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beekdaelen",
+    "gemeente_code": "GM1954",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beemster",
+    "gemeente_code": "GM0370",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beesel",
+    "gemeente_code": "GM0889",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Berg en Dal",
+    "gemeente_code": "GM1945",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bergeijk",
+    "gemeente_code": "GM1724",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bergen (L.)",
+    "gemeente_code": "GM0893",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bergen (NH.)",
+    "gemeente_code": "GM0373",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bergen op Zoom",
+    "gemeente_code": "GM0748",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Berkelland",
+    "gemeente_code": "GM1859",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bernheze",
+    "gemeente_code": "GM1721",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Best",
+    "gemeente_code": "GM0753",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beuningen",
+    "gemeente_code": "GM0209",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Beverwijk",
+    "gemeente_code": "GM0375",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "De Bilt",
+    "gemeente_code": "GM0310",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bladel",
+    "gemeente_code": "GM1728",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Blaricum",
+    "gemeente_code": "GM0376",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bloemendaal",
+    "gemeente_code": "GM0377",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bodegraven-Reeuwijk",
+    "gemeente_code": "GM1901",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Boekel",
+    "gemeente_code": "GM0755",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Borger-Odoorn",
+    "gemeente_code": "GM1681",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Borne",
+    "gemeente_code": "GM0147",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Borsele",
+    "gemeente_code": "GM0654",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Boxmeer",
+    "gemeente_code": "GM0756",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Boxtel",
+    "gemeente_code": "GM0757",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Breda",
+    "gemeente_code": "GM0758",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Brielle",
+    "gemeente_code": "GM0501",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bronckhorst",
+    "gemeente_code": "GM1876",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Brummen",
+    "gemeente_code": "GM0213",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Brunssum",
+    "gemeente_code": "GM0899",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bunnik",
+    "gemeente_code": "GM0312",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bunschoten",
+    "gemeente_code": "GM0313",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Buren",
+    "gemeente_code": "GM0214",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Capelle aan den IJssel",
+    "gemeente_code": "GM0502",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Castricum",
+    "gemeente_code": "GM0383",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Coevorden",
+    "gemeente_code": "GM0109",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Cranendonck",
+    "gemeente_code": "GM1706",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Cuijk",
+    "gemeente_code": "GM1684",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Culemborg",
+    "gemeente_code": "GM0216",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dalfsen",
+    "gemeente_code": "GM0148",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dantumadiel",
+    "gemeente_code": "GM1891",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Delft",
+    "gemeente_code": "GM0503",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Delfzijl",
+    "gemeente_code": "GM0010",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Deurne",
+    "gemeente_code": "GM0762",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Deventer",
+    "gemeente_code": "GM0150",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Diemen",
+    "gemeente_code": "GM0384",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dinkelland",
+    "gemeente_code": "GM1774",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Doesburg",
+    "gemeente_code": "GM0221",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Doetinchem",
+    "gemeente_code": "GM0222",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dongen",
+    "gemeente_code": "GM0766",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dordrecht",
+    "gemeente_code": "GM0505",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Drechterland",
+    "gemeente_code": "GM0498",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Drimmelen",
+    "gemeente_code": "GM1719",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Dronten",
+    "gemeente_code": "GM0303",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Druten",
+    "gemeente_code": "GM0225",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Duiven",
+    "gemeente_code": "GM0226",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Echt-Susteren",
+    "gemeente_code": "GM1711",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Edam-Volendam",
+    "gemeente_code": "GM0385",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ede",
+    "gemeente_code": "GM0228",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Eemnes",
+    "gemeente_code": "GM0317",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Eersel",
+    "gemeente_code": "GM0770",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Eijsden-Margraten",
+    "gemeente_code": "GM1903",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Eindhoven",
+    "gemeente_code": "GM0772",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Elburg",
+    "gemeente_code": "GM0230",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Emmen",
+    "gemeente_code": "GM0114",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Enkhuizen",
+    "gemeente_code": "GM0388",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Enschede",
+    "gemeente_code": "GM0153",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Epe",
+    "gemeente_code": "GM0232",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ermelo",
+    "gemeente_code": "GM0233",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Etten-Leur",
+    "gemeente_code": "GM0777",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "De Fryske Marren",
+    "gemeente_code": "GM1940",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Geertruidenberg",
+    "gemeente_code": "GM0779",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Geldrop-Mierlo",
+    "gemeente_code": "GM1771",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gemert-Bakel",
+    "gemeente_code": "GM1652",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gennep",
+    "gemeente_code": "GM0907",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gilze en Rijen",
+    "gemeente_code": "GM0784",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Goeree-Overflakkee",
+    "gemeente_code": "GM1924",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Goes",
+    "gemeente_code": "GM0664",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Goirle",
+    "gemeente_code": "GM0785",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gooise Meren",
+    "gemeente_code": "GM1942",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gorinchem",
+    "gemeente_code": "GM0512",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gouda",
+    "gemeente_code": "GM0513",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Grave",
+    "gemeente_code": "GM0786",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "'s-Gravenhage",
+    "gemeente_code": "GM0518",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Groningen",
+    "gemeente_code": "GM0014",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Gulpen-Wittem",
+    "gemeente_code": "GM1729",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Haaksbergen",
+    "gemeente_code": "GM0158",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Haaren",
+    "gemeente_code": "GM0788",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Haarlem",
+    "gemeente_code": "GM0392",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Haarlemmermeer",
+    "gemeente_code": "GM0394",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Halderberge",
+    "gemeente_code": "GM1655",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hardenberg",
+    "gemeente_code": "GM0160",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Harderwijk",
+    "gemeente_code": "GM0243",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hardinxveld-Giessendam",
+    "gemeente_code": "GM0523",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Harlingen",
+    "gemeente_code": "GM0072",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hattem",
+    "gemeente_code": "GM0244",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heemskerk",
+    "gemeente_code": "GM0396",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heemstede",
+    "gemeente_code": "GM0397",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heerde",
+    "gemeente_code": "GM0246",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heerenveen",
+    "gemeente_code": "GM0074",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heerhugowaard",
+    "gemeente_code": "GM0398",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heerlen",
+    "gemeente_code": "GM0917",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heeze-Leende",
+    "gemeente_code": "GM1658",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heiloo",
+    "gemeente_code": "GM0399",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Den Helder",
+    "gemeente_code": "GM0400",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hellendoorn",
+    "gemeente_code": "GM0163",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hellevoetsluis",
+    "gemeente_code": "GM0530",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Helmond",
+    "gemeente_code": "GM0794",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hendrik-Ido-Ambacht",
+    "gemeente_code": "GM0531",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hengelo (O.)",
+    "gemeente_code": "GM0164",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "'s-Hertogenbosch",
+    "gemeente_code": "GM0796",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Het Hogeland",
+    "gemeente_code": "GM1966",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heumen",
+    "gemeente_code": "GM0252",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Heusden",
+    "gemeente_code": "GM0797",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hillegom",
+    "gemeente_code": "GM0534",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hilvarenbeek",
+    "gemeente_code": "GM0798",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hilversum",
+    "gemeente_code": "GM0402",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hoeksche Waard",
+    "gemeente_code": "GM1963",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hof van Twente",
+    "gemeente_code": "GM1735",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hollands Kroon",
+    "gemeente_code": "GM1911",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hoogeveen",
+    "gemeente_code": "GM0118",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hoorn",
+    "gemeente_code": "GM0405",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Horst aan de Maas",
+    "gemeente_code": "GM1507",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Houten",
+    "gemeente_code": "GM0321",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Huizen",
+    "gemeente_code": "GM0406",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Hulst",
+    "gemeente_code": "GM0677",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "IJsselstein",
+    "gemeente_code": "GM0353",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Kaag en Braassem",
+    "gemeente_code": "GM1884",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Kampen",
+    "gemeente_code": "GM0166",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Kapelle",
+    "gemeente_code": "GM0678",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Katwijk",
+    "gemeente_code": "GM0537",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Kerkrade",
+    "gemeente_code": "GM0928",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Koggenland",
+    "gemeente_code": "GM1598",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Krimpen aan den IJssel",
+    "gemeente_code": "GM0542",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Krimpenerwaard",
+    "gemeente_code": "GM1931",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Laarbeek",
+    "gemeente_code": "GM1659",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Landerd",
+    "gemeente_code": "GM1685",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Landgraaf",
+    "gemeente_code": "GM0882",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Landsmeer",
+    "gemeente_code": "GM0415",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Langedijk",
+    "gemeente_code": "GM0416",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lansingerland",
+    "gemeente_code": "GM1621",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Laren (NH.)",
+    "gemeente_code": "GM0417",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leeuwarden",
+    "gemeente_code": "GM0080",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leiden",
+    "gemeente_code": "GM0546",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leiderdorp",
+    "gemeente_code": "GM0547",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leidschendam-Voorburg",
+    "gemeente_code": "GM1916",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lelystad",
+    "gemeente_code": "GM0995",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leudal",
+    "gemeente_code": "GM1640",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Leusden",
+    "gemeente_code": "GM0327",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lingewaard",
+    "gemeente_code": "GM1705",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lisse",
+    "gemeente_code": "GM0553",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lochem",
+    "gemeente_code": "GM0262",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Loon op Zand",
+    "gemeente_code": "GM0809",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Lopik",
+    "gemeente_code": "GM0331",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Loppersum",
+    "gemeente_code": "GM0024",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Losser",
+    "gemeente_code": "GM0168",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Maasdriel",
+    "gemeente_code": "GM0263",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Maasgouw",
+    "gemeente_code": "GM1641",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Maassluis",
+    "gemeente_code": "GM0556",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Maastricht",
+    "gemeente_code": "GM0935",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Medemblik",
+    "gemeente_code": "GM0420",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Meerssen",
+    "gemeente_code": "GM0938",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Meierijstad",
+    "gemeente_code": "GM1948",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Meppel",
+    "gemeente_code": "GM0119",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Middelburg (Z.)",
+    "gemeente_code": "GM0687",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Midden-Delfland",
+    "gemeente_code": "GM1842",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Midden-Drenthe",
+    "gemeente_code": "GM1731",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Midden-Groningen",
+    "gemeente_code": "GM1952",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Mill en Sint Hubert",
+    "gemeente_code": "GM0815",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Moerdijk",
+    "gemeente_code": "GM1709",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Molenlanden",
+    "gemeente_code": "GM1978",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Montferland",
+    "gemeente_code": "GM1955",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Montfoort",
+    "gemeente_code": "GM0335",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Mook en Middelaar",
+    "gemeente_code": "GM0944",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Neder-Betuwe",
+    "gemeente_code": "GM1740",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nederweert",
+    "gemeente_code": "GM0946",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nieuwegein",
+    "gemeente_code": "GM0356",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nieuwkoop",
+    "gemeente_code": "GM0569",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nijkerk",
+    "gemeente_code": "GM0267",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nijmegen",
+    "gemeente_code": "GM0268",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nissewaard",
+    "gemeente_code": "GM1930",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Noardeast-Fryslân",
+    "gemeente_code": "GM1970",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Noord-Beveland",
+    "gemeente_code": "GM1695",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Noordenveld",
+    "gemeente_code": "GM1699",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Noordoostpolder",
+    "gemeente_code": "GM0171",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Noordwijk",
+    "gemeente_code": "GM0575",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nuenen, Gerwen en Nederwetten",
+    "gemeente_code": "GM0820",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Nunspeet",
+    "gemeente_code": "GM0302",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oegstgeest",
+    "gemeente_code": "GM0579",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oirschot",
+    "gemeente_code": "GM0823",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oisterwijk",
+    "gemeente_code": "GM0824",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oldambt",
+    "gemeente_code": "GM1895",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oldebroek",
+    "gemeente_code": "GM0269",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oldenzaal",
+    "gemeente_code": "GM0173",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Olst-Wijhe",
+    "gemeente_code": "GM1773",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ommen",
+    "gemeente_code": "GM0175",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oost Gelre",
+    "gemeente_code": "GM1586",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oosterhout",
+    "gemeente_code": "GM0826",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ooststellingwerf",
+    "gemeente_code": "GM0085",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oostzaan",
+    "gemeente_code": "GM0431",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Opmeer",
+    "gemeente_code": "GM0432",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Opsterland",
+    "gemeente_code": "GM0086",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oss",
+    "gemeente_code": "GM0828",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oude IJsselstreek",
+    "gemeente_code": "GM1509",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ouder-Amstel",
+    "gemeente_code": "GM0437",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Oudewater",
+    "gemeente_code": "GM0589",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Overbetuwe",
+    "gemeente_code": "GM1734",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Papendrecht",
+    "gemeente_code": "GM0590",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Peel en Maas",
+    "gemeente_code": "GM1894",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Pekela",
+    "gemeente_code": "GM0765",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Pijnacker-Nootdorp",
+    "gemeente_code": "GM1926",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Purmerend",
+    "gemeente_code": "GM0439",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Putten",
+    "gemeente_code": "GM0273",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Raalte",
+    "gemeente_code": "GM0177",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Reimerswaal",
+    "gemeente_code": "GM0703",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Renkum",
+    "gemeente_code": "GM0274",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Renswoude",
+    "gemeente_code": "GM0339",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Reusel-De Mierden",
+    "gemeente_code": "GM1667",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rheden",
+    "gemeente_code": "GM0275",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rhenen",
+    "gemeente_code": "GM0340",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Ridderkerk",
+    "gemeente_code": "GM0597",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rijssen-Holten",
+    "gemeente_code": "GM1742",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rijswijk (ZH.)",
+    "gemeente_code": "GM0603",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Roerdalen",
+    "gemeente_code": "GM1669",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Roermond",
+    "gemeente_code": "GM0957",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "De Ronde Venen",
+    "gemeente_code": "GM0736",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Roosendaal",
+    "gemeente_code": "GM1674",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rotterdam",
+    "gemeente_code": "GM0599",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rozendaal",
+    "gemeente_code": "GM0277",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Rucphen",
+    "gemeente_code": "GM0840",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Schagen",
+    "gemeente_code": "GM0441",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Scherpenzeel",
+    "gemeente_code": "GM0279",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Schiedam",
+    "gemeente_code": "GM0606",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Schiermonnikoog",
+    "gemeente_code": "GM0088",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Schouwen-Duiveland",
+    "gemeente_code": "GM1676",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Simpelveld",
+    "gemeente_code": "GM0965",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sint Anthonis",
+    "gemeente_code": "GM1702",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sint-Michielsgestel",
+    "gemeente_code": "GM0845",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sittard-Geleen",
+    "gemeente_code": "GM1883",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sliedrecht",
+    "gemeente_code": "GM0610",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sluis",
+    "gemeente_code": "GM1714",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Smallingerland",
+    "gemeente_code": "GM0090",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Soest",
+    "gemeente_code": "GM0342",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Someren",
+    "gemeente_code": "GM0847",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Son en Breugel",
+    "gemeente_code": "GM0848",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Stadskanaal",
+    "gemeente_code": "GM0037",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Staphorst",
+    "gemeente_code": "GM0180",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Stede Broec",
+    "gemeente_code": "GM0532",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Steenbergen",
+    "gemeente_code": "GM0851",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Steenwijkerland",
+    "gemeente_code": "GM1708",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Stein (L.)",
+    "gemeente_code": "GM0971",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Stichtse Vecht",
+    "gemeente_code": "GM1904",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Súdwest-Fryslân",
+    "gemeente_code": "GM1900",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Terneuzen",
+    "gemeente_code": "GM0715",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Terschelling",
+    "gemeente_code": "GM0093",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Texel",
+    "gemeente_code": "GM0448",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Teylingen",
+    "gemeente_code": "GM1525",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tholen",
+    "gemeente_code": "GM0716",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tiel",
+    "gemeente_code": "GM0281",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tilburg",
+    "gemeente_code": "GM0855",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tubbergen",
+    "gemeente_code": "GM0183",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Twenterand",
+    "gemeente_code": "GM1700",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tynaarlo",
+    "gemeente_code": "GM1730",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Tytsjerksteradiel",
+    "gemeente_code": "GM0737",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Uden",
+    "gemeente_code": "GM0856",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Uitgeest",
+    "gemeente_code": "GM0450",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Uithoorn",
+    "gemeente_code": "GM0451",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Urk",
+    "gemeente_code": "GM0184",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Utrecht",
+    "gemeente_code": "GM0344",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Utrechtse Heuvelrug",
+    "gemeente_code": "GM1581",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vaals",
+    "gemeente_code": "GM0981",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Valkenburg aan de Geul",
+    "gemeente_code": "GM0994",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Valkenswaard",
+    "gemeente_code": "GM0858",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Veendam",
+    "gemeente_code": "GM0047",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Veenendaal",
+    "gemeente_code": "GM0345",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Veere",
+    "gemeente_code": "GM0717",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Veldhoven",
+    "gemeente_code": "GM0861",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Velsen",
+    "gemeente_code": "GM0453",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Venlo",
+    "gemeente_code": "GM0983",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Venray",
+    "gemeente_code": "GM0984",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vijfheerenlanden",
+    "gemeente_code": "GM1961",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vlaardingen",
+    "gemeente_code": "GM0622",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vlieland",
+    "gemeente_code": "GM0096",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vlissingen",
+    "gemeente_code": "GM0718",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Voerendaal",
+    "gemeente_code": "GM0986",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Voorschoten",
+    "gemeente_code": "GM0626",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Voorst",
+    "gemeente_code": "GM0285",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Vught",
+    "gemeente_code": "GM0865",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Waadhoeke",
+    "gemeente_code": "GM1949",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Waalre",
+    "gemeente_code": "GM0866",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Waalwijk",
+    "gemeente_code": "GM0867",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Waddinxveen",
+    "gemeente_code": "GM0627",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wageningen",
+    "gemeente_code": "GM0289",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wassenaar",
+    "gemeente_code": "GM0629",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Waterland",
+    "gemeente_code": "GM0852",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Weert",
+    "gemeente_code": "GM0988",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Weesp",
+    "gemeente_code": "GM0457",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "West Betuwe",
+    "gemeente_code": "GM1960",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "West Maas en Waal",
+    "gemeente_code": "GM0668",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westerkwartier",
+    "gemeente_code": "GM1969",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westerveld",
+    "gemeente_code": "GM1701",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westervoort",
+    "gemeente_code": "GM0293",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westerwolde",
+    "gemeente_code": "GM1950",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westland",
+    "gemeente_code": "GM1783",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Weststellingwerf",
+    "gemeente_code": "GM0098",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Westvoorne",
+    "gemeente_code": "GM0614",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wierden",
+    "gemeente_code": "GM0189",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wijchen",
+    "gemeente_code": "GM0296",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wijdemeren",
+    "gemeente_code": "GM1696",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wijk bij Duurstede",
+    "gemeente_code": "GM0352",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Winterswijk",
+    "gemeente_code": "GM0294",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Woensdrecht",
+    "gemeente_code": "GM0873",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Woerden",
+    "gemeente_code": "GM0632",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "De Wolden",
+    "gemeente_code": "GM1690",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Wormerland",
+    "gemeente_code": "GM0880",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Woudenberg",
+    "gemeente_code": "GM0351",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zaanstad",
+    "gemeente_code": "GM0479",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zaltbommel",
+    "gemeente_code": "GM0297",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zandvoort",
+    "gemeente_code": "GM0473",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zeewolde",
+    "gemeente_code": "GM0050",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zeist",
+    "gemeente_code": "GM0355",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zevenaar",
+    "gemeente_code": "GM0299",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zoetermeer",
+    "gemeente_code": "GM0637",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zoeterwoude",
+    "gemeente_code": "GM0638",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zuidplas",
+    "gemeente_code": "GM1892",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zundert",
+    "gemeente_code": "GM0879",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zutphen",
+    "gemeente_code": "GM0301",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zwartewaterland",
+    "gemeente_code": "GM1896",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zwijndrecht",
+    "gemeente_code": "GM0642",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Provinciale Statenverkiezingen 2019",
+      "Waterschapsverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Zwolle",
+    "gemeente_code": "GM0193",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Eilandsraadsverkiezingen 2019",
+      "Kiescollegeverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Bonaire",
+    "gemeente_code": "GM9001",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Eilandsraadsverkiezingen 2019",
+      "Kiescollegeverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Sint Eustatius",
+    "gemeente_code": "GM9002",
+    "email": []
+  },
+  {
+    "verkiezingen": [
+      "Eilandsraadsverkiezingen 2019",
+      "Kiescollegeverkiezingen 2019",
+      "Europese Parlementsverkiezingen 2019"
+    ],
+    "gemeente_naam": "Saba",
+    "gemeente_code": "GM9003",
+    "email": []
+  }
 ]
