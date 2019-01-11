@@ -28,7 +28,7 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `sudo docker-compose up -d`
    - Compile the assets, see the section below
-   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take something like 10 minutes, so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take something like 1 hour on a server, so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Set up backups
       - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
@@ -52,7 +52,7 @@ Collecting and presenting stembureaus
       - Production: `docker-compose down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose up -d`
       - Development: `docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Reload Nginx: `sudo docker exec stm_nginx_1 nginx -s reload`
-   - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `sudo touch uwsgi-touch-reload`
+   - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `touch uwsgi-touch-reload`
 
 ## Compile assets
 All the following commands have to be run in the `stm_nodejs_1` container, so first enter it using:

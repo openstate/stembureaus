@@ -79,7 +79,7 @@ def main():
     service = discovery.build('sheets', 'v4', http=http,
                               discoveryServiceUrl=discoveryUrl)
 
-    spreadsheetId = '12DRs_BVxBkyQabjtH_THec7kj5K_irvF9H0uykmTU34'
+    spreadsheetId = '1AhN-cfJ3JYKFzsstKJ6njpVhbHTfWREEB8UUWozCNjc'
     rangeName = 'Form Responses 1!A2:D'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheetId, range=rangeName).execute()
@@ -97,19 +97,20 @@ def main():
             continue
         else:
             new_values = values[idx + 1:]
+            break
 
     if not new_values:
         print('No (new) data found.')
     else:
-        fields = ['date', 'naam', 'gemeente', 'email']
+        fields = ['date', 'email', 'gemeente', 'naam']
         records = [dict(zip(fields, v)) for v in new_values]
         # pprint(records)
 
         # Load all valid gemeente namen
-        gemeente_namen = []
-        with open('gemeente_namen.txt') as IN:
-            for row in IN.readlines():
-                gemeente_namen.append(row.strip())
+        #gemeente_namen = []
+        #with open('gemeente_namen.txt') as IN:
+        #    for row in IN.readlines():
+        #        gemeente_namen.append(row.strip())
 
         gemeente_json = []
         with open('app/data/gemeenten.json.example') as IN:
@@ -118,23 +119,24 @@ def main():
         # Process each new value
         output = []
         for row in new_values:
-            new_gemeente_naam = re.sub(
-                '^gemeente ', '', row[2].strip(), flags=re.IGNORECASE)
-            if new_gemeente_naam not in gemeente_namen:
-                with app.app_context():
-                    send_email(
-                        '[waarismijnstemlokaal.nl] Gemeente niet in '
-                        'gemeente_namen.txt',
-                        sender=app.config['FROM'],
-                        recipients=[app.config['FROM']],
-                        text_body=(
-                            'Kon %s niet vinden in gemeente_namen.txt'
-                        ) % (new_gemeente_naam),
-                        html_body=(
-                            '<p>Kon %s niet vinden in gemeente_namen.txt</p>'
-                        ) % (new_gemeente_naam),
-                    )
-                continue
+            new_gemeente_naam = row[2].strip()
+            #new_gemeente_naam = re.sub(
+            #    '^gemeente ', '', row[2].strip(), flags=re.IGNORECASE)
+            #if new_gemeente_naam not in gemeente_namen:
+            #    with app.app_context():
+            #        send_email(
+            #            '[waarismijnstemlokaal.nl] Gemeente niet in '
+            #            'gemeente_namen.txt',
+            #            sender=app.config['FROM'],
+            #            recipients=[app.config['FROM']],
+            #            text_body=(
+            #                'Kon %s niet vinden in gemeente_namen.txt'
+            #            ) % (new_gemeente_naam),
+            #            html_body=(
+            #                '<p>Kon %s niet vinden in gemeente_namen.txt</p>'
+            #            ) % (new_gemeente_naam),
+            #        )
+            #    continue
             # print('Found gemeente: %s' % (new_gemeente_naam))
             json_gemeente = [
                 g for g in gemeente_json
@@ -155,10 +157,10 @@ def main():
                         ) % (new_gemeente_naam),
                     )
                 continue
-            json_gemeente[0]['email'] = row[3]
-            if json_gemeente[0]['verkiezingen'] == []:
-                json_gemeente[0]['verkiezingen'] = [
-                    e for e in ckan.elections.keys()]
+            json_gemeente[0]['email'] = row[1]
+            #if json_gemeente[0]['verkiezingen'] == []:
+            #    json_gemeente[0]['verkiezingen'] = [
+            #        e for e in ckan.elections.keys()]
             output.append(json_gemeente[0])
         print(json.dumps(output))
 
