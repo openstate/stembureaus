@@ -26,10 +26,17 @@ class Config(object):
     # stembureaus after this deadline.
     UPLOAD_DEADLINE_PASSED = False
 
+    # URL of the form where new users can sign up
+    SIGNUP_FORM_URL = ''
+
     CKAN_URL = ''
     CKAN_API_KEY = ''
     # List the resource IDs of the elections which are allowed to be
-    # edited. 'publish_resource' contains the IDs of resources
+    # edited. The ID can be found in the CKAN URL of the resource, e.g.
+    # https://ckan.dataplatform.nl/dataset
+    # /stembureaus-nederland-gemeenteraadsverkiezingen-2018/resource
+    # /2fc13394-c2fc-4492-843c-cba07e4bf8f5.
+    # 'publish_resource' contains the IDs of resources
     # of upcoming elections where the stemlokalen data will be made
     # public, while the 'draft_resource' contains the IDS of
     # resources where drafts of the stemlokalen data will be saved while
@@ -58,4 +65,4 @@ class Config(object):
     FROM = ''
     ADMINS = ['']
 
-    POSTS_PER_PAGE = 20
+    POSTS_PER_PAGE = 10

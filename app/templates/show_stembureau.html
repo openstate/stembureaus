@@ -38,7 +38,7 @@
         {% for record in records %}
         <h2>{{ record['Naam stembureau'] }}</h2>
         <p>
-          {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %}{% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
+          {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %} {% if record['Huisletter'] %}{{ record['Huisletter'] }}{% endif %} {% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
         </p>
         <p>{{ record['Extra adresaanduiding'] }}</p>
         <p>
@@ -56,9 +56,6 @@
         <ul>
         {% if record['Mindervaliden toegankelijk'] == 'Y' %}
         <li>Rolstoeltoegankelijk</li>
-        {% endif %}
-        {% if record['Invalidenparkeerplaatsen'] == 'Y' %}
-        <li>Parkeerplaatsen voor invaliden</li>
         {% endif %}
         {% if record['Mindervalide toilet aanwezig'] == 'Y' %}
         <li>Toilet voor Mindervaliden aanwezig</li>

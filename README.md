@@ -47,6 +47,7 @@ Collecting and presenting stembureaus
    - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
+   - Run the tests: `sudo docker exec -it stm_app_1 nosetests`
    - Remove and rebuild everything (this also removes the MySQL volume containing all gemeente, verkiezingen and BAG data (this is required if you want to load the .sql files from `docker/docker-entrypoint-initdb.d` again), but not the stembureaus data stored in CKAN)
       - Production: `docker-compose down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose up -d`
       - Development: `docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
@@ -69,11 +70,14 @@ To automatically compile the assets in development on any file changes (always r
 - `gulp watch`
 
 ## CLI
-To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`. Here are some CLI commands:
+To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:
 
-- `flask ckan maak_nieuwe_datastore <ID_of_resource>` creates a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource
-- `flask gemeenten eenmalig_gemeenten_en_verkiezingen_aanmaken` creates the gemeenten and verkiezingen tables in the MySQL database
-- `flask gemeenten eenmalig_gemeenten_uitnodigen` sends an email to each municipality inviting them to create an account
+- `flask ckan add_new_datastore <ID_of_resource>` add a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource, see the 'Create new CKAN datasets and resources for new elections' section below
+- `flask mysql add_gemeenten_verkiezingen_users` add all gemeenten, verkiezingen and users specified in 'app/data/gemeenten.json' to the MySQL database and send new users an invitation email
+
+## Create new CKAN datasets and resources for new elections
+- If you want to add new elections, log in to https://ckan.dataplatform.nl/dashboard/datasets and click 'Dataset toevoegen'. Fill in the metadata (see earlier elections to see what to fill in). Make sure to create a 'concept' dataset besides the actual dataset. The concept dataset is used to store the stembureau data that isn't ready to be published yet.
+- After filling the dataset information, click 'Data toevoegen' in order to add a new resource/bron.
 
 ## To enter the MySQL database
    - `sudo docker exec -it stm_mysql_1 bash`

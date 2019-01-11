@@ -1,34 +1,24 @@
 kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 1;Groningen;Appingedam
-1;Groningen;Bedum
-1;Groningen;De Marne
 1;Groningen;Delfzijl
-1;Groningen;Eemsmond
 1;Groningen;Groningen
-1;Groningen;Grootegast
-1;Groningen;Haren
-1;Groningen;Leek
+1;Groningen;Het Hogeland
 1;Groningen;Loppersum
-1;Groningen;Marum
 1;Groningen;Midden-Groningen
 1;Groningen;Oldambt
 1;Groningen;Pekela
 1;Groningen;Stadskanaal
-1;Groningen;Ten Boer
 1;Groningen;Veendam
+1;Groningen;Westerkwartier
 1;Groningen;Westerwolde
-1;Groningen;Winsum
-1;Groningen;Zuidhorn
 2;Leeuwarden;Achtkarspelen
 2;Leeuwarden;Ameland
 2;Leeuwarden;Dantumadiel
-2;Leeuwarden;Dongeradeel
-2;Leeuwarden;Ferwerderadiel
 2;Leeuwarden;De Fryske Marren
 2;Leeuwarden;Harlingen
 2;Leeuwarden;Heerenveen
-2;Leeuwarden;Kollumerland en Nieuwkruisland
 2;Leeuwarden;Leeuwarden
+2;Leeuwarden;Noardeast-Fryslân
 2;Leeuwarden;Ooststellingwerf
 2;Leeuwarden;Opsterland
 2;Leeuwarden;Schiermonnikoog
@@ -86,15 +76,13 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 6;Nijmegen;Buren
 6;Nijmegen;Culemborg
 6;Nijmegen;Druten
-6;Nijmegen;Geldermalsen
 6;Nijmegen;Berg en Dal
 6;Nijmegen;Heumen
-6;Nijmegen;Lingewaal
 6;Nijmegen;Maasdriel
 6;Nijmegen;Neder-Betuwe
-6;Nijmegen;Neerijnen
 6;Nijmegen;Nijmegen
 6;Nijmegen;Tiel
+6;Nijmegen;West Betuwe
 6;Nijmegen;West Maas en Waal
 6;Nijmegen;Wijchen
 6;Nijmegen;Zaltbommel
@@ -156,7 +144,7 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 8;Utrecht;Utrecht
 8;Utrecht;Utrechtse Heuvelrug
 8;Utrecht;Veenendaal
-8;Utrecht;Vianen
+8;Utrecht;Vijfheerenlanden
 8;Utrecht;Wijk bij Duurstede
 8;Utrecht;Woerden
 8;Utrecht;Woudenberg
@@ -170,7 +158,6 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 10;Haarlem;Diemen
 10;Haarlem;Gooise Meren
 10;Haarlem;Haarlem
-10;Haarlem;Haarlemmerliede en Spaarnwoude
 10;Haarlem;Haarlemmermeer
 10;Haarlem;Heemskerk
 10;Haarlem;Heemstede
@@ -214,34 +201,27 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 14;Dordrecht;Alblasserdam
 14;Dordrecht;Albrandswaard
 14;Dordrecht;Barendrecht
-14;Dordrecht;Binnenmaas
 14;Dordrecht;Brielle
-14;Dordrecht;Cromstrijen
 14;Dordrecht;Delft
 14;Dordrecht;Dordrecht
-14;Dordrecht;Giessenlanden
 14;Dordrecht;Goeree-Overflakkee
 14;Dordrecht;Gorinchem
 14;Dordrecht;Hardinxveld-Giessendam
 14;Dordrecht;Hellevoetsluis
 14;Dordrecht;Hendrik-Ido-Ambacht
-14;Dordrecht;Korendijk
-14;Dordrecht;Leerdam
+14;Dordrecht;Hoeksche Waard
 14;Dordrecht;Maassluis
 14;Dordrecht;Midden-Delfland
-14;Dordrecht;Molenwaard
+14;Dordrecht;Molenlanden
 14;Dordrecht;Nissewaard
-14;Dordrecht;Oud-Beijerland
 14;Dordrecht;Papendrecht
 14;Dordrecht;Ridderkerk
 14;Dordrecht;Rijswijk (ZH.)
 14;Dordrecht;Schiedam
 14;Dordrecht;Sliedrecht
-14;Dordrecht;Strijen
 14;Dordrecht;Vlaardingen
 14;Dordrecht;Westland
 14;Dordrecht;Westvoorne
-14;Dordrecht;Zederik
 14;Dordrecht;Zwijndrecht
 15;Leiden;Alphen aan den Rijn
 15;Leiden;Bodegraven-Reeuwijk
@@ -259,7 +239,6 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 15;Leiden;Lisse
 15;Leiden;Nieuwkoop
 15;Leiden;Noordwijk
-15;Leiden;Noordwijkerhout
 15;Leiden;Oegstgeest
 15;Leiden;Pijnacker-Nootdorp
 15;Leiden;Teylingen
@@ -282,8 +261,8 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 16;Middelburg;Tholen
 16;Middelburg;Veere
 16;Middelburg;Vlissingen
-17;Tilburg;Aalburg
 17;Tilburg;Alphen-Chaam
+17;Tilburg;Altena
 17;Tilburg;Baarle-Nassau
 17;Tilburg;Bergen op Zoom
 17;Tilburg;Breda
@@ -304,9 +283,7 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 17;Tilburg;Steenbergen
 17;Tilburg;Tilburg
 17;Tilburg;Waalwijk
-17;Tilburg;Werkendam
 17;Tilburg;Woensdrecht
-17;Tilburg;Woudrichem
 17;Tilburg;Zundert
 18;'s-Hertogenbosch;Asten
 18;'s-Hertogenbosch;Bergeijk
@@ -364,12 +341,9 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 19;Maastricht;Meerssen
 19;Maastricht;Mook en Middelaar
 19;Maastricht;Nederweert
-19;Maastricht;Nuth
-19;Maastricht;Onderbanken
 19;Maastricht;Peel en Maas
 19;Maastricht;Roerdalen
 19;Maastricht;Roermond
-19;Maastricht;Schinnen
 19;Maastricht;Simpelveld
 19;Maastricht;Sittard-Geleen
 19;Maastricht;Stein (L.)

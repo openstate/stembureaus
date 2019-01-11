@@ -3,8 +3,8 @@
 <div class="row">
   <div class="col-xs-12">
     <ol class="breadcrumb">
-      <li><a href="/" target="_blank">Nederland</a></li>
-      <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank">{{ gemeente }}</a></li>
+      <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
+      <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank" rel="noopener">{{ gemeente }}</a></li>
       {% if not records %}
       <li class="active">Onbekend stembureau UUID</li>
       {% else %}
@@ -28,7 +28,7 @@
         {% for record in records %}
         <h2>{{ record['Naam stembureau'] }}</h2>
         <p>
-          {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %}{% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
+          {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %} {% if record['Huisletter'] %}{{ record['Huisletter'] }}{% endif %} {% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
         </p>
         <p>{{ record['Extra adresaanduiding'] }}</p>
         <p>
@@ -46,9 +46,6 @@
         <ul>
         {% if record['Mindervaliden toegankelijk'] == 'Y' %}
         <li>Rolstoeltoegankelijk</li>
-        {% endif %}
-        {% if record['Invalidenparkeerplaatsen'] == 'Y' %}
-        <li>Parkeerplaatsen voor invaliden</li>
         {% endif %}
         {% if record['Mindervalide toilet aanwezig'] == 'Y' %}
         <li>Toilet voor Mindervaliden aanwezig</li>

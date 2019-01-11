@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block head %}
+  <meta property="og:title" content="Waar is mijn stemlokaal - Gemeente selectie" />
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <h1>Selecteer gemeente</h1>
+
+  <br>
+  <br>
+
+  Met uw account heeft u toegang tot meerdere gemeenten. Selecteer de gemeente die u nu wilt bekijken:
+
+  <br>
+  <br>
+
+  <div>
+    <form method="POST" action="">
+      {{ gemeente_selection_form.csrf_token }}
+
+      <div>
+        {{ gemeente_selection_form.gemeente.label }} {{ gemeente_selection_form.gemeente }}
+        {% for error in gemeente_selection_form.gemeente.errors %}
+          <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+      </div>
+
+      <br>
+
+      <div>
+        {{ gemeente_selection_form.submit }}
+      </div>
+    </form>
+  </div>
+{% endblock %}

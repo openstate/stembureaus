@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile-nginx
     volumes:
       - ./nginx/:/etc/nginx/
+      # 'static' contains the 'dist' folder after compiling the assets.
+      # We don't mount 'dist' directly as this folder is recreated on
+      # compilation and will therefor be unmounted after running gulp.
       - ../app/static/:/usr/share/nginx/html/static/
       - ../files/:/usr/share/nginx/html/files/
     networks:

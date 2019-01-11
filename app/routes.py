@@ -1,8 +1,9 @@
 import csv
 import os
+import re
 import sys
 
-from flask import render_template, request, redirect, url_for, flash, Markup
+from flask import render_template, request, redirect, url_for, flash, Markup, session
 from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user)
 from werkzeug.utils import secure_filename
@@ -10,19 +11,19 @@ from werkzeug.utils import secure_filename
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    FileUploadForm, PubliceerForm)
+    FileUploadForm, PubliceerForm, GemeenteSelectionForm)
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import User, ckan, Record, BAG
-from app.utils import find_buurt_and_wijk
+from app.models import Gemeente, User, ckan, Record, BAG
+from app.utils import find_buurt_and_wijk, convert_xy_to_latlong, convert_latlong_to_xy
 from math import ceil
 from time import sleep
 import uuid
 
 
 # Used to set the order of the fields in the stembureaus overzicht
-field_order = [
+fields = [
     'Nummer stembureau',
     'Naam stembureau',
     'Website locatie',
@@ -30,16 +31,82 @@ field_order = [
     'Extra adresaanduiding',
     'Longitude',
     'Latitude',
-    'Districtcode',
+    'X',
+    'Y',
     'Openingstijden',
-    'Mindervaliden toegankelijk',
-    'Invalidenparkeerplaatsen',
-    'Akoestiek',
-    'Mindervalide toilet aanwezig',
     'Contactgegevens',
-    'Beschikbaarheid'
+    'Beschikbaarheid',
+    'Verkiezingen',
+    'Mindervaliden toegankelijk',
+    'Akoestiek',
+    'Mindervalide toilet aanwezig'
 ]
 
+checklist_fields = [
+    '1.1.a Aanduiding aanwezig',
+    '1.1.b Aanduiding duidelijk zichtbaar',
+    '1.1.c Aanduiding goed leesbaar',
+    '1.2.a GPA aanwezig',
+    '1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree',
+    '1.2.c Hoogteverschil tussen parkeren en trottoir',
+    '1.2.d Hoogteverschil',
+    '1.2.e Type overbrugging',
+    '1.2.f Overbrugging conform ITstandaard',
+    '1.3.a Vlak, verhard en vrij van obstakels',
+    '1.3.b Hoogteverschil',
+    '1.3.c Type overbrugging',
+    '1.3.d Overbrugging conform ITstandaard',
+    '1.3.e Obstakelvrije breedte van de route',
+    '1.3.f Obstakelvrije hoogte van de route',
+    '1.4.a Is er een route tussen gebouwentree en stemruimte',
+    '1.4.b Route duidelijk aangegeven',
+    '1.4.c Vlak en vrij van obstakels',
+    '1.4.d Hoogteverschil',
+    '1.4.e Type overbrugging',
+    '1.4.f Overbrugging conform ITstandaard',
+    '1.4.g Obstakelvrije breedte van de route',
+    '1.4.h Obstakelvrije hoogte van de route',
+    '1.4.i Deuren in route bedien- en bruikbaar',
+    '2.1.a Deurtype',
+    '2.1.b Opstelruimte aan beide zijden van de deur',
+    '2.1.c Bedieningskracht buitendeur',
+    '2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)',
+    '2.1.e Vrije doorgangsbreedte buitendeur',
+    '2.2.a Tussendeuren aanwezig in eventuele route',
+    '2.2.b Deurtype',
+    '2.2.c Opstelruimte aan beide zijden van de deur',
+    '2.2.d Bedieningskracht deuren',
+    '2.2.e Drempelhoogte (t.o.v. vloer niveau)',
+    '2.2.f Vrije doorgangsbreedte deur',
+    '2.3.a Deur aanwezig naar/van stemruimte',
+    '2.3.b Deurtype',
+    '2.3.c Opstelruimte aan beide zijden van de deur',
+    '2.3.d Bedieningskracht deur',
+    '2.3.e Drempelhoogte (t.o.v. vloer niveau)',
+    '2.3.f Vrije doorgangsbreedte deur',
+    '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
+    '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt',
+    '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
+    '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria',
+    '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
+    '3.1.a Obstakelvrije doorgangen',
+    '3.1.b Vrije draaicirkel / manoeuvreerruimte',
+    '3.1.c Idem voor stemtafel en stemhokje',
+    '3.1.d Opstelruimte voor/naast stembus',
+    '3.2.a Stoelen in stemruimte aanwezig',
+    '3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen',
+    '3.3.a Hoogte van het laagste schrijfblad',
+    '3.3.b Schrijfblad onderrijdbaar',
+    '3.4.a Hoogte inworpgleuf stembiljet',
+    '3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte',
+    '3.5.a Leesloep (zichtbaar) aanwezig',
+    '3.6.a Kandidatenlijst in stemlokaal aanwezig',
+    '3.6.b Opstelruimte voor de kandidatenlijst aanwezig'
+]
+
+field_order = fields + checklist_fields
 
 kieskringen = []
 with open('app/data/kieskringen.csv') as IN:
@@ -78,7 +145,6 @@ def _hydrate(r):
     del r['Y']
     del r['ID']
     del r['BAG referentienummer']
-    del r['Districtcode']
     del r['Hoofdstembureau']
     del r['Kieskring ID']
     del r['Wijknaam']
@@ -153,8 +219,8 @@ def embed_gemeente(gemeente):
     )
 
 
-@app.route("/gemeente-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
-def gemeente_reset_wachtwoord_verzoek():
+@app.route("/user-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
+def user_reset_wachtwoord_verzoek():
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -168,8 +234,8 @@ def gemeente_reset_wachtwoord_verzoek():
     return render_template('gemeente-reset-wachtwoord-verzoek.html', form=form)
 
 
-@app.route("/gemeente-reset-wachtwoord/<token>", methods=['GET', 'POST'])
-def gemeente_reset_wachtwoord(token):
+@app.route("/user-reset-wachtwoord/<token>", methods=['GET', 'POST'])
+def user_reset_wachtwoord(token):
     user = User.verify_reset_password_token(token)
     if not user:
         return redirect(url_for('index'))
@@ -185,7 +251,7 @@ def gemeente_reset_wachtwoord(token):
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():
     if current_user.is_authenticated:
-        return redirect(url_for('gemeente_stemlokalen_dashboard'))
+        return redirect(url_for('gemeente_selectie'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -194,15 +260,45 @@ def gemeente_login():
             flash('Fout e-mailadres of wachtwoord')
             return(redirect(url_for('gemeente_login')))
         login_user(user)
-        return redirect(url_for('gemeente_stemlokalen_dashboard'))
+        return redirect(url_for('gemeente_selectie'))
     return render_template('gemeente-login.html', form=form)
 
 
 @app.route("/gemeente-logout")
 @login_required
 def gemeente_logout():
+    session.pop('selected_gemeente_code', None)
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route(
+    "/gemeente-selectie",
+    methods=['GET', 'POST']
+)
+@login_required
+def gemeente_selectie():
+    if len(current_user.gemeenten) == 1:
+        session['selected_gemeente_code'] = current_user.gemeenten[0].gemeente_code
+        return redirect(url_for('gemeente_stemlokalen_dashboard'))
+
+    gemeente_selection_form = GemeenteSelectionForm()
+    gemeente_selection_form.gemeente.choices = [
+        (
+            gemeente.gemeente_code, gemeente.gemeente_naam
+        ) for gemeente in current_user.gemeenten
+    ]
+
+    # Process selected gemeente
+    if gemeente_selection_form.validate_on_submit():
+        if gemeente_selection_form.submit.data:
+            session['selected_gemeente_code'] = gemeente_selection_form.gemeente.data
+            return redirect(url_for('gemeente_stemlokalen_dashboard'))
+
+    return render_template(
+        'gemeente-selectie.html',
+        gemeente_selection_form=gemeente_selection_form
+    )
 
 
 @app.route(
@@ -211,7 +307,12 @@ def gemeente_logout():
 )
 @login_required
 def gemeente_stemlokalen_dashboard():
-    elections = current_user.elections.all()
+    # Select a gemeente if none is currently selected
+    if not session['selected_gemeente_code']:
+        return redirect(url_for('gemeente_selectie'))
+
+    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
@@ -228,11 +329,11 @@ def gemeente_stemlokalen_dashboard():
 
     gemeente_publish_records = [
         record for record in all_publish_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
     gemeente_draft_records = [
         record for record in all_draft_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
 
     _remove_id(gemeente_publish_records)
@@ -250,7 +351,7 @@ def gemeente_stemlokalen_dashboard():
     vooringevuld_fn = (
         'files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_'
         'deels_vooringevuld.xlsx' % (
-            current_user.gemeente_naam
+            gemeente.gemeente_naam
         )
     )
     if os.path.exists(vooringevuld_fn):
@@ -263,7 +364,7 @@ def gemeente_stemlokalen_dashboard():
     if form.validate_on_submit():
         f = form.data_file.data
         filename = secure_filename(f.filename)
-        filename = '%s__%s' % (current_user.gemeente_code, filename)
+        filename = '%s__%s' % (gemeente.gemeente_code, filename)
         file_path = os.path.join(
             os.path.abspath(
                 os.path.join(app.instance_path, '../upload')
@@ -273,7 +374,7 @@ def gemeente_stemlokalen_dashboard():
         f.save(file_path)
         parser = UploadFileParser()
         app.logger.info(
-            'Processing uploaded file for %s' % (current_user.gemeente_naam)
+            'Processing uploaded file for %s' % (gemeente.gemeente_naam)
         )
         try:
             records = parser.parse(file_path)
@@ -349,7 +450,7 @@ def gemeente_stemlokalen_dashboard():
                     ckan.delete_records(
                         ckan.elections[election]['draft_resource'],
                         {
-                            'CBS gemeentecode': current_user.gemeente_code
+                            'CBS gemeentecode': gemeente.gemeente_code
                         }
                     )
 
@@ -362,7 +463,7 @@ def gemeente_stemlokalen_dashboard():
                             _create_record(
                                 result['form'],
                                 result['uuid'],
-                                current_user,
+                                gemeente,
                                 election
                             )
                         )
@@ -386,6 +487,7 @@ def gemeente_stemlokalen_dashboard():
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing_string=_format_verkiezingen_string(elections),
+        gemeente=gemeente,
         total_publish_records=len(gemeente_publish_records),
         total_draft_records=len(gemeente_draft_records),
         form=form,
@@ -399,7 +501,12 @@ def gemeente_stemlokalen_dashboard():
 @app.route("/gemeente-stemlokalen-overzicht", methods=['GET', 'POST'])
 @login_required
 def gemeente_stemlokalen_overzicht():
-    elections = current_user.elections.all()
+    # Select a gemeente if none is currently selected
+    if not session['selected_gemeente_code']:
+        return redirect(url_for('gemeente_selectie'))
+
+    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
@@ -413,7 +520,7 @@ def gemeente_stemlokalen_overzicht():
 
     gemeente_draft_records = [
         record for record in all_draft_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
 
     _remove_id(gemeente_draft_records)
@@ -430,7 +537,7 @@ def gemeente_stemlokalen_overzicht():
                 )
                 temp_gemeente_draft_records = [
                     record for record in temp_all_draft_records['records']
-                    if record['CBS gemeentecode'] == current_user.gemeente_code
+                    if record['CBS gemeentecode'] == gemeente.gemeente_code
                 ]
                 _remove_id(temp_gemeente_draft_records)
                 ckan.publish(election, temp_gemeente_draft_records)
@@ -444,7 +551,7 @@ def gemeente_stemlokalen_overzicht():
     )
     gemeente_publish_records = [
         record for record in all_publish_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
     _remove_id(gemeente_publish_records)
 
@@ -473,7 +580,8 @@ def gemeente_stemlokalen_overzicht():
     end_record = page * posts_per_page
     if end_record > len(gemeente_draft_records):
         end_record = len(gemeente_draft_records)
-    paged_draft_records = gemeente_draft_records[start_record:end_record]
+    sorted_draft_records = sorted(gemeente_draft_records, key=lambda k: int(k['Nummer stembureau']))
+    paged_draft_records = sorted_draft_records[start_record:end_record]
 
     previous_url = None
     if page > 1:
@@ -491,6 +599,7 @@ def gemeente_stemlokalen_overzicht():
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing_string=_format_verkiezingen_string(elections),
+        gemeente=gemeente,
         draft_records=paged_draft_records,
         field_order=field_order,
         publish_form=publish_form,
@@ -516,7 +625,12 @@ def gemeente_stemlokalen_overzicht():
 )
 @login_required
 def gemeente_stemlokalen_edit(stemlokaal_id=None):
-    elections = current_user.elections.all()
+    # Select a gemeente if none is currently selected
+    if not session['selected_gemeente_code']:
+        return redirect(url_for('gemeente_selectie'))
+
+    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
@@ -530,7 +644,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 
     gemeente_draft_records = [
         record for record in all_draft_records['records']
-        if record['CBS gemeentecode'] == current_user.gemeente_code
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
 
     # Initialize the form with the data already available in the draft
@@ -538,8 +652,19 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     if stemlokaal_id:
         for record in gemeente_draft_records:
             if record['UUID'] == stemlokaal_id:
+                # Split the Verkiezingen attribute into a list
+                if record['Verkiezingen']:
+                    record['Verkiezingen'] = [x.strip() for x in record['Verkiezingen'].split(';')]
                 init_record = Record(
-                    **{k.lower(): v for k, v in record.items()}).record
+                    **{k.lower(): v for k, v in record.items()}
+                ).record
+
+            # Set show_checklist to 'Ja' if at least one of the
+            # checklist fields contains a value as we then want
+            # to show the user checklist
+            for checklist_field in checklist_fields:
+                if record[checklist_field[:63]]:
+                    init_record['show_checklist'] = 'Ja'
 
     form = EditForm(**init_record)
 
@@ -568,6 +693,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
                 'gemeente_stemlokalen_overzicht'
             )
         )
+
     # When the user clicked the 'Opslaan' button save the stembureau
     # to the draft_resources of each election
     if form.validate_on_submit():
@@ -577,7 +703,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
             record = _create_record(
                 form,
                 stemlokaal_id,
-                current_user,
+                gemeente,
                 election
             )
             ckan.save_records(
@@ -594,6 +720,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     return render_template(
         'gemeente-stemlokalen-edit.html',
         form=form,
+        gemeente=gemeente,
         upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
     )
 
@@ -601,7 +728,10 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 @app.route("/gemeente-instructies")
 @login_required
 def gemeente_instructies():
-    return render_template('gemeente-instructies.html')
+    return render_template(
+        'gemeente-instructies.html',
+        signup_form_url=app.config['SIGNUP_FORM_URL']
+    )
 
 
 # Format string containing the verkiezingen
@@ -614,39 +744,56 @@ def _format_verkiezingen_string(elections):
     else:
         verkiezing_string = verkiezingen[0]
 
+    # TODO, temporary addition for Europese Parlementsverkiezingen 2019
+    if 'Europese Parlementsverkiezingen 2019' in verkiezing_string:
+        verkiezing_string += ' <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Europese Parlementsverkiezingen 2019</b>" data-content="Uw stembureaus voor de verkiezingen van 20 maart worden automatisch ook toegevoegd voor de Europese Parlementsverkiezingen van 23 mei. Mochten die stembureaus echter verschillen dan kunt u deze na 20 maart aanpassen. Wij zullen u daar tegen die tijd nog een e-mail over sturen."></i>'
+
     return verkiezing_string
 
 
-def _create_record(form, stemlokaal_id, current_user, election):
+def _create_record(form, stemlokaal_id, gemeente, election):
     ID = 'NLODS%sstembureaus%s%s' % (
-        current_user.gemeente_code,
+        gemeente.gemeente_code,
         app.config['CKAN_CURRENT_ELECTIONS'][election]['election_date'],
         app.config['CKAN_CURRENT_ELECTIONS'][election]['election_number']
     )
 
     kieskring_id = ''
     hoofdstembureau = ''
-    if election.startswith('Gemeenteraadsverkiezingen'):
-        kieskring_id = current_user.gemeente_naam
-        hoofdstembureau = current_user.gemeente_naam
-    if election.startswith('Referendum'):
+    if election.startswith('Gemeenteraadsverkiezingen') or election.startswith('Eilandsraadsverkiezingen') or election.startswith('Kiescollegeverkiezingen'):
+        kieskring_id = gemeente.gemeente_naam
+        hoofdstembureau = gemeente.gemeente_naam
+    elif election.startswith('Referendum') or election.startswith('Provinciale Statenverkiezingen') or election.startswith('Tweede Kamerverkiezingen'):
         for row in kieskringen:
-            if row[2] == current_user.gemeente_naam:
+            if row[2] == gemeente.gemeente_naam:
                 kieskring_id = row[0]
                 hoofdstembureau = row[1]
+    elif election.startswith('Europese Parlementsverkiezingen'):
+        kieskring_id = 'Nederland'
+        hoofdstembureau = 'Nederland'
 
     record = {
         'UUID': stemlokaal_id,
-        'Gemeente': current_user.gemeente_naam,
-        'CBS gemeentecode': current_user.gemeente_code,
+        'Gemeente': gemeente.gemeente_naam,
+        'CBS gemeentecode': gemeente.gemeente_code,
         'Kieskring ID': kieskring_id,
         'Hoofdstembureau': hoofdstembureau,
         'ID': ID
     }
 
+    # Process the fields from the form
     for f in form:
-        if f.type != 'SubmitField' and f.type != 'CSRFTokenField':
-            record[f.label.text] = f.data
+        # Save the Verkiezingen by joining the list into a string
+        if f.label.text == 'Verkiezingen':
+            record[f.label.text] = ';'.join(f.data)
+        elif f.type != 'SubmitField' and f.type != 'CSRFTokenField' and f.type != 'RadioField':
+            record[f.label.text[:63]] = f.data
+
+    # TODO only valid for elections of March and May 2019,
+    # remove or change it for new elections or make it a config
+    # variable
+    if election.startswith('Europese Parlementsverkiezingen'):
+        record['Openingstijden'] = re.sub('2019-03-20', '2019-05-23', record['Openingstijden'])
 
     bag_nummer = record['BAG referentienummer']
     bag_record = BAG.query.get(bag_nummer)
@@ -656,6 +803,7 @@ def _create_record(form, stemlokaal_id, current_user, election):
             'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
             'openbareruimte': 'Straatnaam',
             'huisnummer': 'Huisnummer',
+            'huisletter': 'Huisletter',
             'huisnummertoevoeging': 'Huisnummertoevoeging',
             'postcode': 'Postcode',
             'woonplaats': 'Plaats',
@@ -669,20 +817,25 @@ def _create_record(form, stemlokaal_id, current_user, election):
                 ).decode()
             else:
                 record[record_field] = None
-        wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
-            bag_nummer,
-            current_user.gemeente_code,
-            bag_record.lon,
-            bag_record.lat
-        )
-        if wk_naam:
-            record['Wijknaam'] = wk_naam
-        if wk_code:
-            record['CBS wijknummer'] = wk_code
-        if bu_naam:
-            record['Buurtnaam'] = bu_naam
-        if bu_code:
-            record['CBS buurtnummer'] = bu_code
+
+        ## We stopped adding the wijk and buurt data as the data
+        ## supplied by CBS is not up to date enough as it is only
+        ## released once a year and many months after changes
+        ## have been made by the municipalities.
+        #wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
+        #    bag_nummer,
+        #    gemeente.gemeente_code,
+        #    bag_record.lon,
+        #    bag_record.lat
+        #)
+        #if wk_naam:
+        #    record['Wijknaam'] = wk_naam
+        #if wk_code:
+        #    record['CBS wijknummer'] = wk_code
+        #if bu_naam:
+        #    record['Buurtnaam'] = bu_naam
+        #if bu_code:
+        #    record['CBS buurtnummer'] = bu_code
 
     return record
 

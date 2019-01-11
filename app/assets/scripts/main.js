@@ -81,7 +81,7 @@ var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: 
 StembureausApp.show_gemeenten = function (matches, query) {
   $('#results-search').empty();
   for(var i=0; i < matches.length; i++) {
-    var target = StembureausApp.links_external ? ' target="_blank"' : '';
+    var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
       '<h2><a href="/s/' + matches[i]['gemeente_naam'] + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
@@ -108,11 +108,14 @@ StembureausApp.show = function (matches) {
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
       adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'];
+      if (matches[i]['Huisletter']) {
+        adres += ' ' + matches[i]['Huisletter'];
+      }
       if (matches[i]['Huisnummertoevoeging']) {
-        adres += '-' + matches[i]['Huisnummertoevoeging'];
+        adres += ' ' + matches[i]['Huisnummertoevoeging'];
       }
     }
-    var target = StembureausApp.links_external ? ' target="_blank"' : '';
+    var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
       '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" +  matches[i]['Naam stembureau'] + '</a></h2>' +
@@ -200,16 +203,37 @@ StembureausApp.init = function() {
   });
 };
 
+// Shows or hides the checklist part of the stembureau edit form
+show_or_hide_checklist = function() {
+  if($('input[name=show_checklist]:checked').val() == 'Ja') {
+    $('.checklist-div').show();
+  } else {
+    $('.checklist-div').hide();
+  }
+}
+
 $(document).ready(function () {
+  // Stick the header of the overzicht table to the top
+  $('.fixed-header').floatThead({
+    responsiveContainer: function($table){
+      return $table.closest('.table-responsive');
+    },
+    top: 54
+  });
+
+  show_or_hide_checklist();
+
+  $('.edit-form input[name=show_checklist]').on('change', function() {
+    show_or_hide_checklist();
+  });
+
   StembureausApp.init();
 
   StembureausApp.stembureaus_markers = [];
 
-  //console.log(StembureausApp.links_external ? 'external links for markers' : 'internal links for markers');
-
   StembureausApp.getPopup = function(s) {
     var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
-    var target = StembureausApp.links_external ? ' target="_blank"' : '';
+    var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
     if (StembureausApp.stembureaus[i]['Straatnaam']) {
       output += StembureausApp.stembureaus[i]['Straatnaam'];
@@ -217,8 +241,11 @@ $(document).ready(function () {
     if (StembureausApp.stembureaus[i]['Huisnummer']) {
       output += ' ' + StembureausApp.stembureaus[i]['Huisnummer'];
     }
+    if (StembureausApp.stembureaus[i]['Huisletter']) {
+      output += ' ' + StembureausApp.stembureaus[i]['Huisletter'];
+    }
     if (StembureausApp.stembureaus[i]['Huisnummertoevoeging']) {
-      output += '-' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
+      output += ' ' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
     }
     if (StembureausApp.stembureaus[i]['Plaats']) {
       output += "<br />" + StembureausApp.stembureaus[i]['Plaats'] + "<br />";
@@ -261,6 +288,6 @@ $(document).ready(function () {
   StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank">Waar is mijn stemlokaal</a>'
+      attribution: '&copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
   }).addTo(StembureausApp.map);
 });

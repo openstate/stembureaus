@@ -3,4 +3,4 @@
 cd /opt/stm
 
 ./bin/run.py >./app/data/nieuwe-gemeenten.json
- flask gemeenten eenmalig_gemeenten_en_verkiezingen_aanmaken --json_file=app/data/nieuwe-gemeenten.json >>logs/auto_email.log
+ flask mysql add_gemeenten_verkiezingen_users --json_file=app/data/nieuwe-gemeenten.json >>logs/auto_email.log

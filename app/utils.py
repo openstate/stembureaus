@@ -4,6 +4,7 @@ import os
 import fiona
 import shapely
 import shapely.geometry
+from pyproj import Proj, transform
 
 
 def get_shapes(shape_file):
@@ -80,3 +81,19 @@ def find_buurt_and_wijk(bag_nummer, muni_code, lon, lat):
     return (
         wijk_props['WK_CODE'], wijk_props['WK_NAAM'], buurt_props['BU_CODE'],
         buurt_props['BU_NAAM'],)
+
+
+# Converts rijksdriehoekstelsel to latitude and longitude, from
+# https://publicwiki.deltares.nl/display/OET/Python+convert+coordinates
+p1 = Proj("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs")
+p2 = Proj(proj='latlong', datum='WGS84')
+
+
+def convert_xy_to_latlong(x, y):
+    longitude, latitude, _ = transform(p1, p2, x, y, 0.0)
+    return (longitude, latitude)
+
+
+def convert_latlong_to_xy(longitude, latitude):
+    x, y, _ = transform(p2, p1, longitude, latitude, 0.0)
+    return (x, y)

@@ -6,20 +6,24 @@
 
 {% block content %}
   <div>
+    {% if current_user.gemeenten|length > 1 %}
+    > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
+    {% endif %}
     > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
+    <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
   </div>
 
   <h1 class="title-pad">Stembureaus</h1>
 
   <br>
 
-  Overzicht van de stembureaus van de gemeente {{ current_user.gemeente_naam }} voor {{ verkiezing_string | safe }}.
+  Overzicht van de stembureaus van de gemeente {{ gemeente.gemeente_naam }} voor {{ verkiezing_string | safe }}.
 
   <br>
   <br>
 
   {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
+    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank" rel="noopener">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
     <br>
   {% else %}
     <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
@@ -40,16 +44,19 @@
   <br>
 
   <div class="table-responsive">
-    <table class="table table-striped table-hover table-condensed">
-      <tr>
-          <th>
-          </th>
-        {% for field in field_order %}
-          <th>
-            {{ field }}
-          </th>
-        {% endfor %}
-      </tr>
+    <table class="table table-striped table-hover table-condensed table-bordered fixed-header fixed-first-column">
+      <thead>
+        <tr>
+            <th>
+            </th>
+          {% for field in field_order %}
+            <th>
+              {{ field }}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
       {% for record in draft_records %}
         <tr>
           {% if not upload_deadline_passed %}
@@ -59,11 +66,14 @@
           {% endif %}
           {% for field in field_order %}
             <td>
-              {{ record[field] }}
+              {% if record[field[:63]] != None %}
+              {{ record[field[:63]] }}
+              {% endif %}
             </td>
           {% endfor %}
         </tr>
       {% endfor %}
+      </tbody>
     </table>
   </div>
 
@@ -86,4 +96,13 @@
 
   Pagina {{ page }} van {{ total_pages }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
 
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-toggle="popover"]').popover();
+    })
+  </script>
 {% endblock %}

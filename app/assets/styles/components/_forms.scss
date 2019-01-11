@@ -1,3 +1,32 @@
+.btn-responsive {
+  white-space: normal !important;
+  word-wrap: break-word;
+}
+
+select {
+  margin: 7px;
+}
+
+input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select, .bootstrap-select {
+  width: 374px !important;
+}
+
+input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select {
+  padding: 6px 12px;
+}
+
+.bootstrap-select {
+  margin: 7px !important;
+}
+
+.dropdown-toggle {
+  border-color: black;
+}
+
+#data_file + .bootstrap-filestyle > input {
+  width: 100% !important;
+}
+
 .edit-form input:not([type="submit"]) {
   background-color: white;
   border: 1px black solid;
@@ -36,6 +65,11 @@
     width: 210px;
     text-align: right;
   }
+  label[for=show_checklist-0], label[for=show_checklist-1] {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+  }
 
   input[type="submit"] {
     margin-right: 10px;
@@ -43,9 +77,13 @@
 }
 
 @media(max-width:767px) {
+  select {
+    width: 80% !important;
+  }
+
   .edit-form {
-    input:not([type="checkbox"]) {
-      width: 80%;
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), select, .bootstrap-select {
+      width: 80% !important;
     }
 
     input[type="submit"] {
@@ -68,4 +106,8 @@ label {
 
 .required {
   font-size: 18px;
+}
+
+.margin30 {
+  margin-left: 30%;
 }

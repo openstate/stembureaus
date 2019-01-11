@@ -15,34 +15,72 @@
   <p>Gemeenten kunnen op twee manieren hun data toevoegen aan 'Waar is mijn stemlokaal':</p>
 
   <ol>
-    <li>Door een stembureau-spreadsheet te downloaden, alle stembureaus in te vullen en vervolgens de spreadsheet te uploaden;</li>
+    <li>Door een deels vooringevuld of leeg stembureau-spreadsheet te downloaden, alle stembureaus aan te passen/in te vullen en vervolgens de spreadsheet te uploaden;</li>
     <li>De stembureaus direct op deze website in te voeren.</li>
   </ol>
 
-  <p>De ingevulde stembureaus worden automatisch voor alle verkiezingen waar uw gemeente aan meedoet opgeslagen. Dus als uw gemeente meedoet aan zowel de gemeenteraadsverkiezingen en het referendum dan hoeft u de gegevens maar eenmaal in te voeren.</p>
+  <p>De ingevulde stembureaus worden automatisch voor alle verkiezingen die er in uw gemeente gehouden worden opgeslagen. Dus als er in uw gemeente zowel Provinciale Statenverkiezingen als waterschapsverkiezingen worden gehouden dan hoeft u de gegevens maar eenmaal in te voeren. Omdat de Europese Parlementsverkiezingen zo kort na de verkiezingen van 20 maart gehouden worden slaan we de stembureaus ook automatisch daarvoor op. Heeft uw gemeente afwijkende stembureaus voor de Europese Parlementsverkiezingen? Dan kunt u na 20 maart de wijzigingen doorgeven.</p>
 
-  <h3>1. Stembureau-spreadsheet downloaden en uploaden</h3>
-  <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> kunt u een <b>'leeg' stembureau-spreadsheet</b> downloaden (in .xlsx formaat) en daarin de stembureaus binnen uw eigen gemeente invullen. In de stembureau-spreadsheet wordt uitgelegd hoe u de stembureaus moet invullen.</p>
+  <h4>1. Stembureau-spreadsheet downloaden en uploaden</h4>
+  <p>Voor de meeste gemeenten bieden wij op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> een al <b>deels vooringevuld stembureau-spreadsheet</b> aan op basis van de informatie over de stembureaus van het raadgevend referendum van 2018 (dit is toen door uw gemeente zelf ingevuld, anders komt de informatie van de Geodienst van de Rijksuniversiteit Groningen). U kunt dit vooringevulde stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen. Als uw gemeente eind vorig jaar te maken heeft gehad met een herindeling dan zijn de stembureaus van de betreffende gemeenten ook samengevoegd. Waarschijnlijk zullen er daardoor meer veranderingen aan de stembureaus nodig zijn (zoals bv. het nummer van het stembureau).</p>
 
-  <p>Voor de meeste gemeenten bieden wij op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> ook een al <b>deels vooringevuld stembureau-spreadsheet</b> aan met informatie over de stembureaus van de Tweede Kamerverkiezingen 2017 (verzameld door Open State Foundation en Rijksuniversiteit Groningen). In plaats van een 'lege' stembureau-spreadsheet kunt u deze vooringevulde stembureau-spreadsheet dan downloaden en bewerken/aanvullen.</p>
+  <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> kunt u ook een <b>'leeg' stembureau-spreadsheet</b> downloaden (in .xlsx formaat) en daarin de stembureaus van uw eigen gemeente invullen. In de stembureau-spreadsheet wordt uitgelegd hoe u de stembureaus moet invullen.</p>
 
-  <p><b>Tip:</b>Als uw gemeente vele tientallen of honderden stembureaus heeft, vul dan eerst een paar stembureaus in de spreadsheet in (bv. 5 à 10 stembureaus) en upload de spreadsheet alvast als test. Als u bepaalde velden niet juist invult krijgt u meteen foutmeldingen te zien en bent u eerder op de hoogte van hoe u de spreadsheet moet invullen.
+  <p><b>Tip:</b> Als uw gemeente vele tientallen of honderden stembureaus heeft, vul dan eerst een paar stembureaus in de spreadsheet in (bv. 5 à 10 stembureaus) en upload de spreadsheet alvast als test. Als u bepaalde velden niet juist invult krijgt u meteen foutmeldingen te zien en bent u eerder op de hoogte van hoe u de spreadsheet moet invullen.
 
-  <p>De ingevulde stembureau-spreadsheet kan vervolgens op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> geüpload worden. De data wordt vervolgens gevalideerd. Als er velden niet goed ingevuld zijn dan krijgt u daar foutmeldingen van te zien. U moet dan de aanpassingen doorvoeren in de stembureau-spreadsheet en deze opnieuw uploaden. Als de data door de validatie heen komt krijgt u alle stembureaus in op een overzicht-pagina te zien. Hier kunt u alle stembureaus controleren en/of bewerken. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
+  <p>De ingevulde stembureau-spreadsheet kan vervolgens op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> geüpload worden. De data wordt dan gevalideerd. Als er velden niet goed ingevuld zijn dan krijgt u daar foutmeldingen van te zien. U moet dan de aanpassingen doorvoeren in de stembureau-spreadsheet en deze opnieuw uploaden. Als de data door de validatie heen komt krijgt u alle stembureaus op een overzichtspagina te zien. Hier kunt u alle stembureaus controleren en/of bewerken. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
 
-  <h3>2. Invoeren via de website</h3>
+  <h4>2. Invoeren via de website</h4>
   <p>U kunt ook direct stembureaus invoeren via de website. Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> klikt u op de blauwe 'Stembureaus'-knop om naar het overzicht van de de stembureaus te gaan. Daar klikt u op de blauwe 'Voeg nieuw stembureau toe'-knop waarna u een pagina ziet waar u één stembureau kunt toevoegen. Herhaal deze stap voor alle stembureaus in uw gemeente. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
 
   <h2>Correcties</h2>
   <p>Mocht u na het publiceren van uw stembureaus nog iets willen aanpassen dan kan dat nog tot 4 dagen voor de verkiezingen. Ga naar de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> en klik op de blauwe 'Stembureaus'-knop om naar het overzicht van de de stembureaus te gaan. Klik op de '[bewerk]'-link links van een stembureau om deze te bewerken of te verwijderen. Of voeg een nieuwe stembureau toe. Als u gebruik maakt van een stembureau-spreadsheet dan kunt ook daar uw aanpassingen doorvoeren en deze opnieuw uploaden. Let op: dit verwijdert alle stembureaus die u eerder heeft toegevoegd.</p>
 
   <h2>Kaartvisualisaties en open data</h2>
-  <p>Vanaf de eerste week van maart kunnen gebruikers van dit platform ook de locaties van een stembureau op de kaart zien en hun dichtstbijzijnde stembureau vinden op basis van een ingevoerd adres of huidige locatie. Deze kaarten zijn ook te embedden op andere websites en te centreren op een bepaalde gemeente.</p>
+  <p>Zodra de stembureaus gepubliceerd zijn kunnen gebruikers van dit platform ook de locaties van een stembureau op de <a href="{{ url_for('index') }}">kaart</a> zien en hun dichtstbijzijnde stembureau vinden op basis van een ingevoerd adres of huidige locatie. Deze kaarten zijn ook in te sluiten (embedden) op andere websites en te centreren op uw eigen gemeente.</p>
 
-  <p>Ook zijn de open databestanden te downloaden via in CSV-formaat en te hergebruiken via een API. De data is beschikbaar via <a href="https://ckan.dataplatform.nl/organization/ministerie-van-binnenlandse-zaken" target="_blank">Dataplatform</a> en wordt ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/" target="_blank">data.overheid.nl</a>. Zo kan iedereen toepassingen maken met de stembureau data.</p>
+  <p>Ook zijn de open databestanden te downloaden in CSV-formaat en te hergebruiken via een API. De data is beschikbaar via <a href="https://ckan.dataplatform.nl/organization/open-state-foundation" target="_blank" rel="noopener">Dataplatform</a> en wordt ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/" target="_blank" rel="noopener">data.overheid.nl</a>. Zo kan iedereen toepassingen maken met de stembureau data.</p>
 
-  <p>Op de dag van de verkiezingen zal in samenwerking met het BKB Campagnebureau een knop beschikbaar komen op Facebook waardoor gebruikers hun dichtstbijzijnde stembureau kunnen vinden.</p>
+  <p>Op de dag van de verkiezingen zal in samenwerking met het Campagnebureau BKB een knop beschikbaar komen op Facebook en Google waardoor gebruikers op de verkiezingsdag hun dichtstbijzijnde stembureau kunnen vinden.</p>
+
+  <p>Door deze aanpak hebben de afgelopen jaren vele honderdduizenden mensen makkelijk een stembureau kunnen vinden.</p>
+
+  <h2>Nieuw account toevoegen</h2>
+  <p>Als u een nieuw account wilt toevoegen voor uw gemeente, <a href="{{ signup_form_url }}" target=_blank rel="noopener">vul dan dit formulier in</a>. Dit is handig als u één of meerdere collega's ook toegang wilt geven.</p>
+
+  <h2>Europese Parlementsverkiezingen 2019</h2>
+  <p>Uw stembureaus voor de verkiezingen van 20 maart worden automatisch ook toegevoegd voor de Europese Parlementsverkiezingen van 23 mei. Mochten die stembureaus echter verschillen dan kunt u deze na 20 maart aanpassen. Wij zullen u daar tegen die tijd nog een e-mail over sturen.</p>
+
+  <h2>Geografische informatie: BAG referentienummer, Longitude/Latitude en X/Y rijksdriehoekscoördinaten</h2>
+  <b>BAG referentienummer</b>
+  <p>In het "BAG referentienummer"-veld moet het BAG Nummeraanduiding ID van het gebouw waar het stembureau zich bevindt ingevuld worden. Het nummer kan snel gevonden worden via <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">bagviewer.kadaster.nl</a>. Vul daar in de zoekbalk het adres van het stembureau in. Het nummer staat nu rechts onder het kopje "Nummeraanduiding" in het "ID"-veld.</p>
+
+  <p>Vermeld voor mobiele stembureaus het dichtstbijzijnde BAG Nummeraanduiding ID en gebruik eventueel het "Extra adresaanduiding"-veld om de locatie van stembureau te beschrijven. NB: de precieze locatie geeft u aan met de "Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.</p>
+
+  <b>longitude/latitude en x/y</b>
+  <p>Om de precieze locatie van het stembureau vast te leggen moet u óf de "Longitude" en "Latitude"-velden invullen óf de "X" en "Y"-velden (Rijksdriehoeksstelsel). U kunt dus de keuze maken uit één van deze twee coördinatenstelsels. Als u de longitude en latitude van het stembureau niet weet dan kunt u dit vinden via <a href="https://openstreetmap.org" target="_blank" rel="noopener">openstreetmap.org</a>. Zoom zo ver mogelijk in op de locatie van het stembureau, klik daar met de rechtermuisknop en selecteer "Show address"/"Toon adres". De latitude en longitude (in die volgorde) staan nu linksboven in de zoekbalk (zie ook de afbeelding hieronder).</p>
+
+  <img class="center-block img-responsive" src="{{ url_for('static', filename='dist/images/instructie_osm.png', _external=True) }}" />
+
+  <b>Hulp nodig met het verzamelen van geografische informatie?</b>
+  <p>Uw gemeente heeft een Geo/GIS specialist of team. Zij kunnen u helpen om de benodigde informatie te verzamelen.</p>
+
+  <h2>Mindervaliden toegankelijkheid</h2>
+  <p>Sinds 2019 moeten alle stembureaus toegankelijk zijn voor mindervaliden. De VNG geeft daar op <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">deze pagina</a> meer informatie over. Een van de hulpmiddelen is de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">Checklist toegankelijkheidscriteria stemlokalen</a>'. Deze informatie kunt u ook op 'Waar is mijn stemlokaal' invullen. Dit is optioneel, maar deze data kan gebruikt worden om mindervaliden beter te informeren. Mocht u de toegankelijkheid van de stemlokalen nog moeten bekijken dan kunt u de checklist makkelijk op deze website of in de spreadsheet invullen. Zo heeft u de data meteen digitaal beschikbaar.</p>
+
+  <h2>Mobiele stembureaus en afwijkende openingstijden</h2>
+  <p>Sommige gemeenten werken met mobiele stembureaus die gedurende de dag op verschillende locaties staan. Voor mobiele stembureaus moet voor elke locatie een nieuw "stembureau" aangemaakt worden (zodat de locatie en openingstijden apart worden opgeslagen).</p>
+
+  <p>Mobiele stembureaus bevinden zich soms niet in een gebouw. Gebruik voor het "BAG referentienummer"-veld dan het dichtstbijzijnde BAG Nummeraanduiding ID (zie de sectie "Geografische informatie" hierboven) en gebruik eventueel het "Extra adresaanduiding"-veld om de locatie van stembureau te beschrijven. NB: de precieze locatie van het mobiele stembureau geeft u aan met de "Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.</p>
+
+  <p>Als een stembureau meerdere openingstijden heeft (bv. als het al om middernacht open is en later op de dag nog een keer open gaat) dan maakt u voor elke aaneengesloten periode dat het stembureau open is een nieuw "stembureau" aan.</p>
+
+  <h2>Wie ondersteunt dit project?</h2>
+  <p>Open State Foundation is een onafhankelijke stichting die digitale transparantie van overheidsinformatie bevordert. Voor 'Waar is mijn stemlokaal' werken wij samen met het ministerie van Binnenlandse Zaken, VNG en Civity om alle locaties van stembureaus te verzamelen ten behoeve van opkomstbevordering en verdere analyse. Dit project wordt mogelijk gemaakt door een subsidie van het ministerie van Binnenlandse Zaken.</p>
 
   <h2>Contact</h2>
-  <p>Heeft u vragen over het platform? Stuur dan een e-mail naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.</p>
+  <p>Heeft u vragen over het platform na het lezen van deze instructies? Stuur dan een e-mail naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.</p>
+
+  <h2>PDF</h2>
+  <p>U kunt deze instructies ook als <a href="/files/Instructies_Waar-is-mijn-stemlokaal.pdf">PDF downloaden</a> en bijvoorbeeld printen.</p>
 {% endblock %}

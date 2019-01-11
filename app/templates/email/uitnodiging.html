@@ -1,31 +1,41 @@
-Beste medewerker van de gemeente {{ user.gemeente_naam }},
+Beste mevrouw of meneer,
 <br>
 <br>
 <br>
-Bij dezen nodigen wij u graag uit om deel te nemen aan het platform 'Waar is mijn Stemlokaal'. Dit is het platform waar gemeenten voor de gemeenteraadsverkiezingen en het referendum over de Wet op de inlichtingen- en veiligheidsdiensten hun lijsten met stembureaus kunnen uploaden. Eerder heeft u hier via de nieuwsbrief van het ministerie van Binnenlandse Zaken informatie over ontvangen.
+Bij dezen nodigen wij u graag uit om deel te nemen aan het platform 'Waar is mijn Stemlokaal'. Dit is het platform waar gemeenten voor de aankomende verkiezingen hun lijsten met stembureaus kunnen uploaden. Eerder heeft u hier via de nieuwsbrief van het ministerie van Binnenlandse Zaken informatie over ontvangen.
 <br>
 <br>
 <b>Hoe kan ik inloggen?</b>
 <br>
-Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een <a href="{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}">wachtwoord aan te maken voor uw account</a>.
+Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een <a href="{{ url_for('user_reset_wachtwoord', token=token, _external=True) }}" target="_blank" rel="noopener">wachtwoord aan te maken voor uw account</a>.
 <br>
 <br>
 U kunt ook de volgende pagina bezoeken:
 <br>
-{{ url_for('gemeente_reset_wachtwoord', token=token, _external=True) }}
+{{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
 <br>
 <br>
-Deze pagina komt over 24 uur te vervallen. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een <a href="{{ url_for('gemeente_reset_wachtwoord_verzoek', _external=True) }}">nieuw verzoek indienen</a>.
+<u>Deze pagina komt over 24 uur te vervallen, dus maak alvast een account aan</u>. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een <a href="{{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}" target="_blank" rel="noopener">nieuw verzoek indienen</a>.
 <br>
 <br>
 <b>Over 'Waar is mijn Stemlokaal'</b>
 <br>
-Op 21 maart gaat Nederland naar de stembus voor de gemeenteraadsverkiezingen en het referendum over de Wet op de inlichtingen- en veiligheidsdiensten. Het ministerie van BZK, de gemeenten en Open State Foundation willen met open data mogelijk maken dat kiezers eenvoudig hun dichtstbijzijnde stembureau kunnen opzoeken. Hiervoor kunnen gemeenten via het platform van Open State Foundation hun lijsten met stembureaus invoeren.
+Op 20 maart gaat Nederland naar de stembus voor de Provinciale Statenverkiezingen en de waterschapsverkiezingen. Op dezelfde dag zijn er ook eilandsraadsverkiezingen en kiescollegeverkiezingen op de BES-eilanden. Vervolgens zijn er op 23 mei de Europese Parlementsverkiezingen. Het ministerie van BZK, VNG en Open State Foundation willen met open data mogelijk maken dat kiezers eenvoudig hun dichtstbijzijnde stembureau kunnen opzoeken. De afgelopen verkiezingen hebben vele honderdduizenden mensen deze informatie gebruikt. Gemeenten kunnen via 'Waar is mijn stemlokaal' hun lijsten met stembureaus invoeren. Om het zo makkelijk mogelijk te maken kunt u na het inloggen een deels vooringevuld stembureau-spreadsheet downloaden van uw gemeente waarin al zoveel mogelijk informatie op basis van uw stembureaus van het raadgevend referendum van 2018 ingevuld is. Het hergebruiken en waar nodig aanvullen of aanpassen van deze lijst is de meest eenvoudige manier om de stembureaus door te geven.
+<br>
+<br>
+<b>Instructies</b>
+<br>
+De volledige instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als <a href="https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf">PDF downloaden</a> en bijvoorbeeld printen. We raden u aan deze door te nemen.
+<br>
+<br>
+<b>Nieuw account toevoegen</b>
+<br>
+Als u een ander account wilt toevoegen voor uw gemeente, <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1fpsXr54WAeIubT1JpPJ-vOkQQP37-ZW4Ur_QfloTtaSczQ/viewform">vul dan dit formulier in</a>. Dit is handig als u één of meerdere collega's ook toegang wilt geven.
 <br>
 <br>
 <b>Vragen of contact?</b>
 <br>
-Heeft u vragen? Neem dan contact op met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a> van Open State Foundation of met Jan Willem Kooistra van het het ministerie van BZK (<a href="mailto:janwillem.kooistra@minbzk.nl">janwillem.kooistra@minbzk.nl</a>).
+Heeft u vragen? Neem dan contact op met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a> van Open State Foundation of met Hans Klok van het het ministerie van BZK (<a href="mailto:Hans.Klok@minbzk.nl">Hans.Klok@minbzk.nl</a>).
 <br>
 <br>
 <br>

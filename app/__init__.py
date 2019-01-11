@@ -50,21 +50,21 @@ if not app.debug:
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
-    # Log info messages and up to file
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler(
-        'logs/stemlokalen.log',
-        maxBytes=1000000,
-        backupCount=10
+# Log info messages and up to file
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+file_handler = RotatingFileHandler(
+    'logs/stemlokalen.log',
+    maxBytes=1000000,
+    backupCount=10
+)
+file_handler.setFormatter(
+    logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
     )
-    file_handler.setFormatter(
-        logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s '
-            '[in %(pathname)s:%(lineno)d]'
-        )
-    )
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('Stemlokalen startup')
+)
+file_handler.setLevel(logging.INFO)
+app.logger.addHandler(file_handler)
+app.logger.setLevel(logging.INFO)
+app.logger.info('Stemlokalen startup')

@@ -31,10 +31,12 @@ def find_bag_record_by_huisletter(data):
         woonplaats=data['Plaats'].strip()
     ).first()
 
+
 def as_text(value):
     if value is None:
         return ""
     return str(value)
+
 
 def main():
     reader = csv.reader(sys.stdin, delimiter=',')

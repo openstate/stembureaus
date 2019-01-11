@@ -2,35 +2,29 @@
    {
       "gemeente_code": "GM1680",
       "gemeente_naam": "Aa en Hunze",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
-      "gemeente_code": "GM0738",
-      "gemeente_naam": "Aalburg",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
-   },
-   {
       "gemeente_code": "GM0358",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Aalsmeer"
    },
    {
       "gemeente_code": "GM0197",
       "gemeente_naam": "Aalten",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0059",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Achtkarspelen"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Alblasserdam",
       "gemeente_code": "GM0482"
@@ -38,42 +32,48 @@
    {
       "gemeente_code": "GM0613",
       "gemeente_naam": "Albrandswaard",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0361",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Alkmaar"
    },
    {
       "gemeente_naam": "Almelo",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0141"
    },
    {
       "gemeente_naam": "Almere",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0034"
    },
    {
       "gemeente_naam": "Alphen aan den Rijn",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0484"
    },
    {
       "gemeente_code": "GM1723",
       "gemeente_naam": "Alphen-Chaam",
-      "email": "",
+      "email": [],
+      "verkiezingen": []
+   },
+   {
+      "gemeente_code": "GM1959",
+      "gemeente_naam": "Altena",
+      "email": [],
       "verkiezingen": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Ameland",
       "gemeente_code": "GM0060"
    },
@@ -81,40 +81,40 @@
       "gemeente_code": "GM0307",
       "gemeente_naam": "Amersfoort",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Amstelveen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0362"
    },
    {
       "gemeente_code": "GM0363",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Amsterdam"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Apeldoorn",
       "gemeente_code": "GM0200"
    },
    {
       "gemeente_naam": "Appingedam",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0003"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Arnhem",
       "gemeente_code": "GM0202"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Assen",
       "gemeente_code": "GM0106"
@@ -123,130 +123,124 @@
       "gemeente_code": "GM0743",
       "gemeente_naam": "Asten",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0744",
       "gemeente_naam": "Baarle-Nassau",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0308",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Baarn"
    },
    {
       "gemeente_code": "GM0489",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Barendrecht"
    },
    {
       "gemeente_code": "GM0203",
       "gemeente_naam": "Barneveld",
       "verkiezingen": [],
-      "email": ""
-   },
-   {
-      "gemeente_code": "GM0005",
-      "gemeente_naam": "Bedum",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
+      "email": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Beek (L.)",
       "gemeente_code": "GM0888"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
+      "gemeente_naam": "Beekdaelen",
+      "gemeente_code": "GM1954"
+   },
+   {
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Beemster",
       "gemeente_code": "GM0370"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Beesel",
       "gemeente_code": "GM0889"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Berg en Dal",
       "gemeente_code": "GM1945"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Bergeijk",
       "gemeente_code": "GM1724"
    },
    {
       "gemeente_code": "GM0893",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Bergen (L.)"
    },
    {
       "gemeente_code": "GM0373",
       "gemeente_naam": "Bergen (NH.)",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0748",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Bergen op Zoom"
    },
    {
       "gemeente_code": "GM1859",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Berkelland"
    },
    {
       "gemeente_naam": "Bernheze",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1721"
    },
    {
       "gemeente_code": "GM0753",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Best"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Beuningen",
       "gemeente_code": "GM0209"
    },
    {
       "gemeente_code": "GM0375",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Beverwijk"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "De Bilt",
       "gemeente_code": "GM0310"
    },
    {
-      "gemeente_code": "GM0585",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Binnenmaas"
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Bladel",
       "gemeente_code": "GM1728"
@@ -254,17 +248,17 @@
    {
       "gemeente_code": "GM0376",
       "gemeente_naam": "Blaricum",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Bloemendaal",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0377"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Bodegraven-Reeuwijk",
       "gemeente_code": "GM1901"
@@ -272,17 +266,11 @@
    {
       "gemeente_code": "GM0755",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Boekel"
    },
    {
-      "gemeente_naam": "Ten Boer",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_code": "GM0009"
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Borger-Odoorn",
       "gemeente_code": "GM1681"
@@ -290,24 +278,24 @@
    {
       "gemeente_naam": "Borne",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0147"
    },
    {
       "gemeente_code": "GM0654",
       "gemeente_naam": "Borsele",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0756",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Boxmeer"
    },
    {
       "gemeente_code": "GM0757",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Boxtel"
    },
@@ -315,142 +303,136 @@
       "gemeente_code": "GM0758",
       "gemeente_naam": "Breda",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Brielle",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0501"
    },
    {
       "gemeente_code": "GM1876",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Bronckhorst"
    },
    {
       "gemeente_code": "GM0213",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Brummen"
    },
    {
       "gemeente_naam": "Brunssum",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0899"
    },
    {
       "gemeente_naam": "Bunnik",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0312"
    },
    {
       "gemeente_code": "GM0313",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Bunschoten"
    },
    {
       "gemeente_naam": "Buren",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0214"
    },
    {
       "gemeente_naam": "Capelle aan den IJssel",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0502"
    },
    {
       "gemeente_code": "GM0383",
       "gemeente_naam": "Castricum",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0109",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Coevorden"
    },
    {
       "gemeente_code": "GM1706",
       "gemeente_naam": "Cranendonck",
       "verkiezingen": [],
-      "email": ""
-   },
-   {
-      "gemeente_naam": "Cromstrijen",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0611"
+      "email": []
    },
    {
       "gemeente_code": "GM1684",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Cuijk"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Culemborg",
       "gemeente_code": "GM0216"
    },
    {
       "gemeente_code": "GM0148",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Dalfsen"
    },
    {
       "gemeente_code": "GM1891",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Dantumadiel"
    },
    {
       "gemeente_code": "GM0503",
       "gemeente_naam": "Delft",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0010",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Delfzijl"
    },
    {
       "gemeente_code": "GM0762",
       "gemeente_naam": "Deurne",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0150",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Deventer"
    },
    {
       "gemeente_naam": "Diemen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0384"
    },
    {
       "gemeente_naam": "Dinkelland",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1774"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Doesburg",
       "gemeente_code": "GM0221"
@@ -458,125 +440,113 @@
    {
       "gemeente_naam": "Doetinchem",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0222"
    },
    {
       "gemeente_code": "GM0766",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Dongen"
-   },
-   {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Dongeradeel",
-      "gemeente_code": "GM0058"
    },
    {
       "gemeente_code": "GM0505",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Dordrecht"
    },
    {
       "gemeente_code": "GM0498",
       "gemeente_naam": "Drechterland",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Drimmelen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1719"
    },
    {
       "gemeente_code": "GM0303",
       "gemeente_naam": "Dronten",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0225",
       "gemeente_naam": "Druten",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Duiven",
       "gemeente_code": "GM0226"
    },
    {
       "gemeente_code": "GM1711",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Echt-Susteren"
    },
    {
       "gemeente_naam": "Edam-Volendam",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_code": "GM0385"
    },
    {
       "gemeente_code": "GM0228",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Ede"
    },
    {
       "gemeente_code": "GM0317",
       "gemeente_naam": "Eemnes",
       "verkiezingen": [],
-      "email": ""
-   },
-   {
-      "gemeente_code": "GM1651",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Eemsmond"
+      "email": []
    },
    {
       "gemeente_code": "GM0770",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Eersel"
    },
    {
       "gemeente_code": "GM1903",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Eijsden-Margraten"
    },
    {
       "gemeente_code": "GM0772",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Eindhoven"
    },
    {
       "gemeente_code": "GM0230",
       "gemeente_naam": "Elburg",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0114",
       "gemeente_naam": "Emmen",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Enkhuizen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0388"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Enschede",
       "gemeente_code": "GM0153"
@@ -585,29 +555,23 @@
       "gemeente_code": "GM0232",
       "gemeente_naam": "Epe",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Ermelo",
       "gemeente_code": "GM0233"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Etten-Leur",
       "gemeente_code": "GM0777"
    },
    {
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Ferwerderadiel",
-      "gemeente_code": "GM1722"
-   },
-   {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "De Fryske Marren",
       "gemeente_code": "GM1940"
    },
@@ -615,178 +579,148 @@
       "gemeente_code": "GM0779",
       "gemeente_naam": "Geertruidenberg",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
-      "gemeente_code": "GM0236",
-      "gemeente_naam": "Geldermalsen",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": ""
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Geldrop-Mierlo",
       "gemeente_code": "GM1771"
    },
    {
       "gemeente_code": "GM1652",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Gemert-Bakel"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Gennep",
       "gemeente_code": "GM0907"
    },
    {
-      "gemeente_code": "GM0689",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Giessenlanden"
-   },
-   {
       "gemeente_code": "GM0784",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Gilze en Rijen"
    },
    {
       "gemeente_naam": "Goeree-Overflakkee",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1924"
    },
    {
       "gemeente_code": "GM0664",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Goes"
    },
    {
       "gemeente_code": "GM0785",
       "gemeente_naam": "Goirle",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM1942",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Gooise Meren"
    },
    {
       "gemeente_code": "GM0512",
       "gemeente_naam": "Gorinchem",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0513",
       "gemeente_naam": "Gouda",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Grave",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0786"
    },
    {
       "gemeente_naam": "'s-Gravenhage",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0518"
    },
    {
       "gemeente_naam": "Groningen",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_code": "GM0014"
    },
    {
-      "gemeente_code": "GM0015",
-      "gemeente_naam": "Grootegast",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Gulpen-Wittem",
       "gemeente_code": "GM1729"
    },
    {
       "gemeente_naam": "Haaksbergen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0158"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Haaren",
       "gemeente_code": "GM0788"
    },
    {
       "gemeente_code": "GM0392",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Haarlem"
    },
    {
-      "gemeente_code": "GM0393",
-      "gemeente_naam": "Haarlemmerliede en Spaarnwoude",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": ""
-   },
-   {
       "gemeente_naam": "Haarlemmermeer",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_code": "GM0394"
    },
    {
       "gemeente_code": "GM1655",
       "gemeente_naam": "Halderberge",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Hardenberg",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0160"
    },
    {
       "gemeente_code": "GM0243",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Harderwijk"
    },
    {
       "gemeente_naam": "Hardinxveld-Giessendam",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0523"
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Haren",
-      "gemeente_code": "GM0017"
-   },
-   {
       "gemeente_code": "GM0072",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Harlingen"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Hattem",
       "gemeente_code": "GM0244"
@@ -795,94 +729,100 @@
       "gemeente_code": "GM0396",
       "gemeente_naam": "Heemskerk",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0397",
       "gemeente_naam": "Heemstede",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heerde",
       "gemeente_code": "GM0246"
    },
    {
       "gemeente_code": "GM0074",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heerenveen"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heerhugowaard",
       "gemeente_code": "GM0398"
    },
    {
       "gemeente_code": "GM0917",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heerlen"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Heeze-Leende",
       "gemeente_code": "GM1658"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heiloo",
       "gemeente_code": "GM0399"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Den Helder",
       "gemeente_code": "GM0400"
    },
    {
       "gemeente_code": "GM0163",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Hellendoorn"
    },
    {
       "gemeente_code": "GM0530",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Hellevoetsluis"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Helmond",
       "gemeente_code": "GM0794"
    },
    {
       "gemeente_code": "GM0531",
       "gemeente_naam": "Hendrik-Ido-Ambacht",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0164",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Hengelo (O.)"
    },
    {
       "gemeente_naam": "'s-Hertogenbosch",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0796"
    },
    {
-      "email": "",
+      "email": [],
+      "verkiezingen": [],
+      "gemeente_naam": "Het Hogeland",
+      "gemeente_code": "GM1966"
+   },
+   {
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Heumen",
       "gemeente_code": "GM0252"
@@ -890,17 +830,17 @@
    {
       "gemeente_naam": "Heusden",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0797"
    },
    {
       "gemeente_code": "GM0534",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Hillegom"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Hilvarenbeek",
       "gemeente_code": "GM0798"
@@ -909,41 +849,47 @@
       "gemeente_code": "GM0402",
       "gemeente_naam": "Hilversum",
       "verkiezingen": [],
-      "email": ""
+      "email": []
+   },
+   {
+      "gemeente_code": "GM1963",
+      "verkiezingen": [],
+      "email": [],
+      "gemeente_naam": "Hoeksche Waard"
    },
    {
       "gemeente_code": "GM1735",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Hof van Twente"
    },
    {
       "gemeente_naam": "Hollands Kroon",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1911"
    },
    {
       "gemeente_code": "GM0118",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Hoogeveen"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Hoorn",
       "gemeente_code": "GM0405"
    },
    {
       "gemeente_code": "GM1507",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Horst aan de Maas"
    },
    {
       "gemeente_code": "GM0321",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Houten"
    },
@@ -951,17 +897,17 @@
       "gemeente_code": "GM0406",
       "gemeente_naam": "Huizen",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0677",
       "gemeente_naam": "Hulst",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "IJsselstein",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0353"
    },
@@ -969,29 +915,29 @@
       "gemeente_code": "GM1884",
       "gemeente_naam": "Kaag en Braassem",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Kampen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0166"
    },
    {
       "gemeente_naam": "Kapelle",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0678"
    },
    {
       "gemeente_code": "GM0537",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Katwijk"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Kerkrade",
       "gemeente_code": "GM0928"
    },
@@ -999,41 +945,29 @@
       "gemeente_code": "GM1598",
       "gemeente_naam": "Koggenland",
       "verkiezingen": [],
-      "email": ""
-   },
-   {
-      "gemeente_code": "GM0079",
-      "gemeente_naam": "Kollumerland en Nieuwkruisland",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": ""
-   },
-   {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Korendijk",
-      "gemeente_code": "GM0588"
+      "email": []
    },
    {
       "gemeente_code": "GM0542",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Krimpen aan den IJssel"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Krimpenerwaard",
       "gemeente_code": "GM1931"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Laarbeek",
       "gemeente_code": "GM1659"
    },
    {
       "gemeente_code": "GM1685",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Landerd"
    },
@@ -1041,185 +975,155 @@
       "gemeente_code": "GM0882",
       "gemeente_naam": "Landgraaf",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Landsmeer",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0415"
    },
    {
       "gemeente_code": "GM0416",
       "gemeente_naam": "Langedijk",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Lansingerland",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1621"
    },
    {
       "gemeente_code": "GM0417",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Laren (NH.)"
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Leek",
-      "gemeente_code": "GM0022"
-   },
-   {
-      "gemeente_naam": "Leerdam",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0545"
-   },
-   {
       "gemeente_code": "GM0080",
       "gemeente_naam": "Leeuwarden",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": ""
+      "verkiezingen": [],
+      "email": []
    },
    {
       "gemeente_code": "GM0546",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Leiden"
    },
    {
       "gemeente_naam": "Leiderdorp",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0547"
    },
    {
       "gemeente_naam": "Leidschendam-Voorburg",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1916"
    },
    {
       "gemeente_code": "GM0995",
       "gemeente_naam": "Lelystad",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM1640",
       "gemeente_naam": "Leudal",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0327",
       "gemeente_naam": "Leusden",
       "verkiezingen": [],
-      "email": ""
-   },
-   {
-      "gemeente_code": "GM0733",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Lingewaal"
+      "email": []
    },
    {
       "gemeente_naam": "Lingewaard",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1705"
    },
    {
       "gemeente_code": "GM0553",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Lisse"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Lochem",
       "gemeente_code": "GM0262"
    },
    {
       "gemeente_code": "GM0809",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Loon op Zand"
    },
    {
       "gemeente_naam": "Lopik",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0331"
    },
    {
       "gemeente_code": "GM0024",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Loppersum"
    },
    {
       "gemeente_code": "GM0168",
       "gemeente_naam": "Losser",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0263",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Maasdriel"
    },
    {
       "gemeente_code": "GM1641",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Maasgouw"
    },
    {
       "gemeente_code": "GM0556",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Maassluis"
    },
    {
       "gemeente_code": "GM0935",
       "gemeente_naam": "Maastricht",
-      "email": "",
+      "email": [],
       "verkiezingen": []
-   },
-   {
-      "gemeente_code": "GM1663",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "De Marne"
-   },
-   {
-      "gemeente_naam": "Marum",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0025"
    },
    {
       "gemeente_code": "GM0420",
       "gemeente_naam": "Medemblik",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0938",
       "gemeente_naam": "Meerssen",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_naam": "Meierijstad",
       "gemeente_code": "GM1948"
    },
@@ -1227,64 +1131,64 @@
       "gemeente_code": "GM0119",
       "gemeente_naam": "Meppel",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Middelburg (Z.)",
       "gemeente_code": "GM0687"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Midden-Delfland",
       "gemeente_code": "GM1842"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Midden-Drenthe",
       "gemeente_code": "GM1731"
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_naam": "Midden-Groningen",
       "gemeente_code": "GM1952"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Mill en Sint Hubert",
       "gemeente_code": "GM0815"
    },
    {
       "gemeente_naam": "Moerdijk",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1709"
    },
    {
-      "gemeente_naam": "Molenwaard",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM1927"
+      "gemeente_code": "GM1978",
+      "gemeente_naam": "Molenlanden",
+      "verkiezingen": [],
+      "email": []
    },
    {
       "gemeente_code": "GM1955",
       "gemeente_naam": "Montferland",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Montfoort",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0335"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Mook en Middelaar",
       "gemeente_code": "GM0944"
@@ -1292,167 +1196,149 @@
    {
       "gemeente_code": "GM1740",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Neder-Betuwe"
    },
    {
       "gemeente_code": "GM0946",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Nederweert"
-   },
-   {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Neerijnen",
-      "gemeente_code": "GM0304"
    },
    {
       "gemeente_code": "GM0356",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Nieuwegein"
    },
    {
       "gemeente_naam": "Nieuwkoop",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0569"
    },
    {
       "gemeente_code": "GM0267",
       "gemeente_naam": "Nijkerk",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0268",
       "gemeente_naam": "Nijmegen",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM1930",
       "gemeente_naam": "Nissewaard",
       "verkiezingen": [],
-      "email": ""
+      "email": []
+   },
+   {
+      "gemeente_code": "GM1970",
+      "verkiezingen": [],
+      "email": [],
+      "gemeente_naam": "Noardeast-Fryslân"
    },
    {
       "gemeente_code": "GM1695",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Noord-Beveland"
    },
    {
       "gemeente_code": "GM1699",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Noordenveld"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Noordoostpolder",
       "gemeente_code": "GM0171"
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_naam": "Noordwijk",
       "gemeente_code": "GM0575"
    },
    {
-      "gemeente_code": "GM0576",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Noordwijkerhout"
-   },
-   {
       "gemeente_code": "GM0820",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Nuenen, Gerwen en Nederwetten"
    },
    {
       "gemeente_naam": "Nunspeet",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0302"
-   },
-   {
-      "gemeente_code": "GM0951",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Nuth"
    },
    {
       "gemeente_naam": "Oegstgeest",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0579"
    },
    {
       "gemeente_code": "GM0823",
       "gemeente_naam": "Oirschot",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0824",
       "gemeente_naam": "Oisterwijk",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM1895",
       "gemeente_naam": "Oldambt",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Oldebroek",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0269"
    },
    {
       "gemeente_code": "GM0173",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Oldenzaal"
    },
    {
       "gemeente_code": "GM1773",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Olst-Wijhe"
    },
    {
       "gemeente_naam": "Ommen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0175"
-   },
-   {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Onderbanken",
-      "gemeente_code": "GM0881"
    },
    {
       "gemeente_naam": "Oost Gelre",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1586"
    },
    {
       "gemeente_naam": "Oosterhout",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0826"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Ooststellingwerf",
       "gemeente_code": "GM0085"
@@ -1460,35 +1346,29 @@
    {
       "gemeente_code": "GM0431",
       "gemeente_naam": "Oostzaan",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0432",
       "gemeente_naam": "Opmeer",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Opsterland",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0086"
    },
    {
       "gemeente_code": "GM0828",
       "gemeente_naam": "Oss",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
-      "gemeente_code": "GM0584",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Oud-Beijerland"
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Oude IJsselstreek",
       "gemeente_code": "GM1509"
@@ -1496,30 +1376,30 @@
    {
       "gemeente_code": "GM0437",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Ouder-Amstel"
    },
    {
       "gemeente_code": "GM0589",
       "gemeente_naam": "Oudewater",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM1734",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Overbetuwe"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Papendrecht",
       "gemeente_code": "GM0590"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Peel en Maas",
       "gemeente_code": "GM1894"
    },
@@ -1527,190 +1407,184 @@
       "gemeente_code": "GM0765",
       "gemeente_naam": "Pekela",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Pijnacker-Nootdorp",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1926"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Purmerend",
       "gemeente_code": "GM0439"
    },
    {
       "gemeente_naam": "Putten",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0273"
    },
    {
       "gemeente_code": "GM0177",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Raalte"
    },
    {
       "gemeente_code": "GM0703",
       "gemeente_naam": "Reimerswaal",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0274",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Renkum"
    },
    {
       "gemeente_code": "GM0339",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Renswoude"
    },
    {
       "gemeente_code": "GM1667",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Reusel-De Mierden"
    },
    {
       "gemeente_naam": "Rheden",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0275"
    },
    {
       "gemeente_code": "GM0340",
       "gemeente_naam": "Rhenen",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0597",
       "gemeente_naam": "Ridderkerk",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM1742",
       "gemeente_naam": "Rijssen-Holten",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0603",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Rijswijk (ZH.)"
    },
    {
       "gemeente_code": "GM1669",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Roerdalen"
    },
    {
       "gemeente_code": "GM0957",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Roermond"
    },
    {
       "gemeente_naam": "De Ronde Venen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0736"
    },
    {
       "gemeente_code": "GM1674",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Roosendaal"
    },
    {
       "gemeente_naam": "Rotterdam",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0599"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Rozendaal",
       "gemeente_code": "GM0277"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Rucphen",
       "gemeente_code": "GM0840"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Schagen",
       "gemeente_code": "GM0441"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Scherpenzeel",
       "gemeente_code": "GM0279"
    },
    {
       "gemeente_code": "GM0606",
       "gemeente_naam": "Schiedam",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Schiermonnikoog",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0088"
-   },
-   {
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Schinnen",
-      "gemeente_code": "GM0962"
    },
    {
       "gemeente_code": "GM1676",
       "gemeente_naam": "Schouwen-Duiveland",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0965",
       "gemeente_naam": "Simpelveld",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Sint Anthonis",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1702"
    },
    {
       "gemeente_naam": "Sint-Michielsgestel",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0845"
    },
    {
       "gemeente_code": "GM1883",
       "gemeente_naam": "Sittard-Geleen",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Sliedrecht",
       "gemeente_code": "GM0610"
@@ -1719,47 +1593,47 @@
       "gemeente_code": "GM1714",
       "gemeente_naam": "Sluis",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0090",
       "gemeente_naam": "Smallingerland",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0342",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Soest"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Someren",
       "gemeente_code": "GM0847"
    },
    {
       "gemeente_code": "GM0848",
       "gemeente_naam": "Son en Breugel",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Stadskanaal",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0037"
    },
    {
       "gemeente_code": "GM0180",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Staphorst"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Stede Broec",
       "gemeente_code": "GM0532"
    },
@@ -1767,41 +1641,35 @@
       "gemeente_code": "GM0851",
       "gemeente_naam": "Steenbergen",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM1708",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Steenwijkerland"
    },
    {
       "gemeente_naam": "Stein (L.)",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0971"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Stichtse Vecht",
       "gemeente_code": "GM1904"
    },
    {
-      "gemeente_naam": "Strijen",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0617"
-   },
-   {
       "gemeente_code": "GM1900",
       "gemeente_naam": "Súdwest-Fryslân",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"]
+      "email": [],
+      "verkiezingen": []
    },
    {
       "gemeente_naam": "Terneuzen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0715"
    },
@@ -1809,41 +1677,41 @@
       "gemeente_code": "GM0093",
       "gemeente_naam": "Terschelling",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0448",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Texel"
    },
    {
       "gemeente_naam": "Teylingen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1525"
    },
    {
       "gemeente_naam": "Tholen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0716"
    },
    {
       "gemeente_naam": "Tiel",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0281"
    },
    {
       "gemeente_naam": "Tilburg",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0855"
    },
    {
       "gemeente_naam": "Tubbergen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0183"
    },
@@ -1851,94 +1719,94 @@
       "gemeente_code": "GM1700",
       "gemeente_naam": "Twenterand",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Tynaarlo",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM1730"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Tytsjerksteradiel",
       "gemeente_code": "GM0737"
    },
    {
       "gemeente_naam": "Uden",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0856"
    },
    {
       "gemeente_naam": "Uitgeest",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0450"
    },
    {
       "gemeente_code": "GM0451",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Uithoorn"
    },
    {
       "gemeente_naam": "Urk",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0184"
    },
    {
       "gemeente_naam": "Utrecht",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0344"
    },
    {
       "gemeente_code": "GM1581",
       "gemeente_naam": "Utrechtse Heuvelrug",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0981",
       "gemeente_naam": "Vaals",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Valkenburg aan de Geul",
       "gemeente_code": "GM0994"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Valkenswaard",
       "gemeente_code": "GM0858"
    },
    {
       "gemeente_code": "GM0047",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Veendam"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Veenendaal",
       "gemeente_code": "GM0345"
    },
    {
       "gemeente_code": "GM0717",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Veere"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Veldhoven",
       "gemeente_code": "GM0861"
@@ -1946,138 +1814,144 @@
    {
       "gemeente_naam": "Velsen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0453"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Venlo",
       "gemeente_code": "GM0983"
    },
    {
       "gemeente_naam": "Venray",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0984"
    },
    {
-      "gemeente_naam": "Vianen",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0620"
+      "gemeente_naam": "Vijfheerenlanden",
+      "email": [],
+      "verkiezingen": [],
+      "gemeente_code": "GM1961"
    },
    {
       "gemeente_code": "GM0622",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Vlaardingen"
    },
    {
       "gemeente_naam": "Vlieland",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0096"
    },
    {
       "gemeente_naam": "Vlissingen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0718"
    },
    {
       "gemeente_code": "GM0986",
       "gemeente_naam": "Voerendaal",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0626",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Voorschoten"
    },
    {
       "gemeente_naam": "Voorst",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0285"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Vught",
       "gemeente_code": "GM0865"
    },
    {
       "gemeente_code": "GM1949",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Waadhoeke"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Waalre",
       "gemeente_code": "GM0866"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Waalwijk",
       "gemeente_code": "GM0867"
    },
    {
       "gemeente_code": "GM0627",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Waddinxveen"
    },
    {
       "gemeente_code": "GM0289",
       "gemeente_naam": "Wageningen",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0629",
       "gemeente_naam": "Wassenaar",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0852",
       "gemeente_naam": "Waterland",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0988",
       "gemeente_naam": "Weert",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Weesp",
       "gemeente_code": "GM0457"
    },
    {
-      "gemeente_code": "GM0870",
-      "gemeente_naam": "Werkendam",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": ""
+      "gemeente_code": "GM1960",
+      "gemeente_naam": "West Betuwe",
+      "email": [],
+      "verkiezingen": []
    },
    {
       "gemeente_code": "GM0668",
       "gemeente_naam": "West Maas en Waal",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
+      "gemeente_naam": "Westerkwartier",
+      "gemeente_code": "GM1969"
+   },
+   {
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Westerveld",
       "gemeente_code": "GM1701"
    },
@@ -2085,106 +1959,94 @@
       "gemeente_code": "GM0293",
       "gemeente_naam": "Westervoort",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_naam": "Westerwolde",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_code": "GM1950"
    },
    {
       "gemeente_naam": "Westland",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1783"
    },
    {
       "gemeente_naam": "Weststellingwerf",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0098"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Westvoorne",
       "gemeente_code": "GM0614"
    },
    {
       "gemeente_naam": "Wierden",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0189"
    },
    {
       "gemeente_naam": "Wijchen",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0296"
    },
    {
       "gemeente_code": "GM1696",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Wijdemeren"
    },
    {
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Wijk bij Duurstede",
       "gemeente_code": "GM0352"
    },
    {
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Winsum",
-      "gemeente_code": "GM0053"
-   },
-   {
       "gemeente_code": "GM0294",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Winterswijk"
    },
    {
       "gemeente_code": "GM0873",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Woensdrecht"
    },
    {
       "gemeente_naam": "Woerden",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_code": "GM0632"
    },
    {
       "gemeente_naam": "De Wolden",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM1690"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Wormerland",
       "gemeente_code": "GM0880"
    },
    {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Woudenberg",
       "gemeente_code": "GM0351"
    },
    {
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_naam": "Woudrichem",
-      "gemeente_code": "GM0874"
-   },
-   {
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Zaanstad",
       "gemeente_code": "GM0479"
@@ -2192,109 +2054,97 @@
    {
       "gemeente_code": "GM0297",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zaltbommel"
    },
    {
       "gemeente_code": "GM0473",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zandvoort"
-   },
-   {
-      "gemeente_naam": "Zederik",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "gemeente_code": "GM0707"
    },
    {
       "gemeente_code": "GM0050",
       "gemeente_naam": "Zeewolde",
       "verkiezingen": [],
-      "email": ""
+      "email": []
    },
    {
       "gemeente_code": "GM0355",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_naam": "Zeist"
    },
    {
       "gemeente_code": "GM0299",
-      "email": "",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
+      "email": [],
+      "verkiezingen": [],
       "gemeente_naam": "Zevenaar"
    },
    {
       "gemeente_naam": "Zoetermeer",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0637"
    },
    {
       "gemeente_code": "GM0638",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zoeterwoude"
-   },
-   {
-      "gemeente_code": "GM0056",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
-      "gemeente_naam": "Zuidhorn"
    },
    {
       "gemeente_code": "GM1892",
       "gemeente_naam": "Zuidplas",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_code": "GM0879",
       "gemeente_naam": "Zundert",
-      "email": "",
+      "email": [],
       "verkiezingen": []
    },
    {
       "gemeente_naam": "Zutphen",
-      "email": "",
+      "email": [],
       "verkiezingen": [],
       "gemeente_code": "GM0301"
    },
    {
       "gemeente_code": "GM1896",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zwartewaterland"
    },
    {
       "gemeente_code": "GM0642",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zwijndrecht"
    },
    {
       "gemeente_code": "GM0193",
       "verkiezingen": [],
-      "email": "",
+      "email": [],
       "gemeente_naam": "Zwolle"
    },
    {
       "gemeente_code": "GM9001",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Bonaire"
    },
    {
       "gemeente_code": "GM9002",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Sint Eustatius"
    },
    {
       "gemeente_code": "GM9003",
-      "verkiezingen": ["Referendum over de Wet op de inlichtingen- en veiligheidsdiensten"],
-      "email": "",
+      "verkiezingen": [],
+      "email": [],
       "gemeente_naam": "Saba"
    }
 ]
