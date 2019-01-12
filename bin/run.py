@@ -102,8 +102,8 @@ def main():
     if not new_values:
         print('No (new) data found.')
     else:
-        fields = ['date', 'email', 'gemeente', 'naam']
-        records = [dict(zip(fields, v)) for v in new_values]
+        #fields = ['date', 'email', 'gemeente', 'naam']
+        #records = [dict(zip(fields, v)) for v in new_values]
         # pprint(records)
 
         # Load all valid gemeente namen
@@ -163,6 +163,10 @@ def main():
             #        e for e in ckan.elections.keys()]
             output.append(json_gemeente[0])
         print(json.dumps(output))
+
+    with open('last_processed_line.csv', 'w') as OUT:
+        writer = csv.writer(OUT)
+        writer.writerow(new_values[-1])
 
 
 if __name__ == '__main__':
