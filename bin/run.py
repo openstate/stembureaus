@@ -147,7 +147,7 @@ def main():
                         '[waarismijnstemlokaal.nl] Gemeente niet in '
                         'gemeenten.json.example',
                         sender=app.config['FROM'],
-                        recipients=[app.config['FROM']],
+                        recipients=[app.config['ADMINS']],
                         text_body=(
                             'Kon %s niet vinden in gemeenten.json.example'
                         ) % (new_gemeente_naam),
