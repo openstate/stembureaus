@@ -164,9 +164,10 @@ def main():
             output.append(json_gemeente[0])
         print(json.dumps(output))
 
-    with open('last_processed_line.csv', 'w') as OUT:
-        writer = csv.writer(OUT)
-        writer.writerow(new_values[-1])
+        # Save the new last processed line
+        with open('last_processed_line.csv', 'w') as OUT:
+            writer = csv.writer(OUT)
+            writer.writerow(new_values[-1])
 
 
 if __name__ == '__main__':
