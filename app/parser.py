@@ -250,7 +250,7 @@ class BaseParser(object):
             # Split the Verkiezingen string into a list in order to validate
             # the content. Afterwards in _create_record the list will be
             # changed back to a string again to save in CKAN.
-            if record['verkiezingen']:
+            if record.get('verkiezingen'):
                 record['verkiezingen'] = [x.strip() for x in record['verkiezingen'].split(';')]
 
         return records
@@ -352,10 +352,12 @@ class ExcelParser(BaseParser):
     # underscores
     def _get_headers(self, sh):
         headers = []
+        all_headers_check = []
         found_valid_headers = False
         for header in sh.col_values(0)[1:]:
             if self._header_valid(header):
                 found_valid_headers = True
+                all_headers_check.append(header)
             # The mindervaliden checklist field names start with a
             # number, so we prepend those names with a 'v' (from
             # 'veld')
@@ -373,6 +375,9 @@ class ExcelParser(BaseParser):
             )
         if not found_valid_headers:
             app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            raise ValueError()
+        if sorted(valid_headers) != sorted(all_headers_check):
+            app.logger.warning('Spreadsheet bevat niet alle veldnamen')
             raise ValueError()
         return headers
 

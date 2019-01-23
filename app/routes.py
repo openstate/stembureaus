@@ -383,16 +383,19 @@ def gemeente_stemlokalen_dashboard():
             flash(
                 Markup(
                     'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
-                    'maakt van de stembureau-spreadsheet. Download de '
+                    'maakt van (de meest recente versie van) de '
+                    'stembureau-spreadsheet. Download een '
                     '<a href="/files/waarismijnstemlokaal.nl_invulformulier'
-                    '.xlsx"><b>stembureaus-spreadsheet</b></a> en vul de '
-                    'gegevens volgens de instructies in de spreadsheet in om '
-                    'deze vervolgens op deze pagina te uploaden.'
+                    '.xlsx"><b>leeg</b></a> of <a href="%s"><b>deels vooringevuld</b></a> '
+                    'stembureau-spreadsheet en vul de gegevens volgens de '
+                    'instructies in de spreadsheet in om deze vervolgens op '
+                    'deze pagina te uploaden.' % (vooringevuld)
                 )
             )
             return render_template(
                 'gemeente-stemlokalen-dashboard.html',
                 verkiezing_string=_format_verkiezingen_string(elections),
+                gemeente=gemeente,
                 total_publish_records=len(gemeente_publish_records),
                 total_draft_records=len(gemeente_draft_records),
                 form=form,
