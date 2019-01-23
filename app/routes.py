@@ -382,14 +382,15 @@ def gemeente_stemlokalen_dashboard():
             app.logger.warning('Upload failed: %s' % e)
             flash(
                 Markup(
-                    'Uploaden mislukt. Het lijkt er op dat u geen gebruik '
-                    'maakt van (de meest recente versie van) de '
-                    'stembureau-spreadsheet. Download een '
-                    '<a href="/files/waarismijnstemlokaal.nl_invulformulier'
-                    '.xlsx"><b>leeg</b></a> of <a href="%s"><b>deels vooringevuld</b></a> '
-                    'stembureau-spreadsheet en vul de gegevens volgens de '
-                    'instructies in de spreadsheet in om deze vervolgens op '
-                    'deze pagina te uploaden.' % (vooringevuld)
+                    '<span class="text-red">Uploaden mislukt</span>. Het '
+                    'lijkt er op dat u geen gebruik maakt van (de meest '
+                    'recente versie van) de stembureau-spreadsheet. Download '
+                    'een <a href="/files/waarismijnstemlokaal.nl_invulformulier'
+                    '.xlsx"><b>leeg</b></a> of <a href="%s"><b>deels '
+                    'vooringevuld</b></a> stembureau-spreadsheet en vul de '
+                    'gegevens volgens de instructies in de spreadsheet in om '
+                    'deze vervolgens op deze pagina te '
+                    'uploaden.' % (vooringevuld)
                 )
             )
             return render_template(
@@ -413,8 +414,9 @@ def gemeente_stemlokalen_dashboard():
         if not results['no_errors']:
             flash(
                 Markup(
-                    'Uploaden mislukt. Los de hieronder getoonde '
-                    'foutmeldingen op en upload de spreadsheet opnieuw.'
+                    '<span class="text-red">Uploaden mislukt</span>. Los de '
+                    'hieronder getoonde foutmeldingen op en upload de '
+                    'spreadsheet opnieuw.'
                     '<br><br>'
                 )
             )
@@ -439,8 +441,8 @@ def gemeente_stemlokalen_dashboard():
         # could not find any stembureaus
         elif not results['found_any_record_with_values']:
             flash(
-                'Uploaden mislukt. Er zijn geen stembureaus gevonden in de '
-                'spreadsheet.'
+                '<span class="text-red">Uploaden mislukt</span>. Er zijn geen '
+                'stembureaus gevonden in de spreadsheet.'
             )
         # If the spreadsheet did validate then first delete all current
         # stembureaus from the draft_resource and then save the newly
