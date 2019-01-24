@@ -33,7 +33,13 @@ class CommaDotFloatField(FloatField):
 class CustomSelectField(SelectField):
     def pre_validate(self, form):
         if not self.data in [v for v, _ in self.choices]:
-            raise ValueError("'%s' is een ongeldige keuze. Kies uit %s of als het attribuut niet verplicht is kan het leeg gelaten worden." % (self.data, '/'.join([v for v, _ in self.choices]).lstrip('/')))
+            raise ValueError(
+                "'%s' is een ongeldige keuze. Kies uit %s of als het "
+                "attribuut niet verplicht is kan het leeg gelaten worden." % (
+                    self.data,
+                    '/'.join([v for v, _ in self.choices]).lstrip('/')
+                )
+            )
 
 
 class CustomSelectMultipleField(SelectMultipleField):
@@ -41,7 +47,15 @@ class CustomSelectMultipleField(SelectMultipleField):
         choices = [v for v, _ in self.choices]
         for value in self.data:
             if not value in choices:
-                raise ValueError("'%s' voldoet niet aan het format. De tekst moet beginnen met 'waterschapsverkiezingen voor' gevolgd door de naam van het waterschap zonder 'Waterschap' of 'Hoogheemraadschap' voor de naam. De keuzes bestaan uit: %s" % (value, ', '.join(choices)))
+                raise ValueError(
+                    "'%s' voldoet niet aan het format. De tekst moet beginnen "
+                    "met 'waterschapsverkiezingen voor' gevolgd door de naam "
+                    "van het waterschap zonder 'Waterschap' of "
+                    "'Hoogheemraadschap' voor de naam. In het geval dat er in "
+                    "dit stembureau voor meerdere waterschappen gestemd kan "
+                    "worden dan scheidt u deze met een puntkomma. De keuzes "
+                    "bestaan uit: %s" % (value, ', '.join(choices))
+                )
 
 
 # This custom StringField prepends URLs with 'http://' if the string
@@ -51,7 +65,8 @@ class URLStringField(StringField):
         if valuelist[0]:
             value = valuelist[0].strip()
             if value:
-                if not value.startswith('http://') and not value.startswith('https://'):
+                if (not value.startswith('http://') and
+                        not value.startswith('https://')):
                     self.data = 'http://' + value
                 else:
                     self.data = value
@@ -160,7 +175,15 @@ def min_four_decimals(form, field):
 
 
 def longitude_range(form, field):
-    print(type(field.data))
+    if type(field.data) != float:
+        raise ValidationError(
+            'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
+            'komma bestaan, bv. 4.3166395'
+        )
+        return
+
+    min_four_decimals(form, field)
+
     if type(field.data) == float:
         if field.data > 3 and field.data < 8:
             return
@@ -170,17 +193,21 @@ def longitude_range(form, field):
             return
         else:
             raise ValidationError(
-                'De longitude moet tussen 3 en 8 (Europees Nederland), -68.5 en '
-                '-68 (Bonaire) of -63.3 en -62.9 (Saba en Sint Eustatius) liggen '
-                'anders ligt uw stembureau niet in Nederland.'
+                'De longitude moet tussen 3 en 8 (Europees Nederland), -68.5 '
+                'en -68 (Bonaire) of -63.3 en -62.9 (Saba en Sint Eustatius) '
+                'liggen anders ligt uw stembureau niet in Nederland.'
             )
 
 
 def latitude_range(form, field):
     if type(field.data) != float:
         raise ValidationError(
-            'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of komma bestaan, bv. 52.0775912'
+            'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
+            'komma bestaan, bv. 52.0775912'
         )
+        return
+
+    min_four_decimals(form, field)
 
     if field.data > 50 and field.data < 54:
         return
@@ -197,8 +224,9 @@ def latitude_range(form, field):
 
 
 def x_range(form, field):
-    if field.data >= 0 and field.data < 300000:
-        return
+    if type(field.data) == float:
+        if field.data >= 0 and field.data < 300000:
+            return
     else:
         raise ValidationError(
             'De x-waarde moet tussen 0 of 300000 liggen, anders ligt de '
@@ -207,8 +235,9 @@ def x_range(form, field):
 
 
 def y_range(form, field):
-    if field.data >= 300000 and field.data < 620000:
-        return
+    if type(field.data) == float:
+        if field.data >= 300000 and field.data < 620000:
+            return
     else:
         raise ValidationError(
             'De y-waarde moet tussen 300000 of 620000 liggen, anders ligt de '
@@ -226,18 +255,35 @@ class EditForm(FlaskForm):
         # values to calculate x and y. Otherwise use x and y to calculate
         # the latitude and longitude values.
         if self.latitude.data and self.longitude.data:
-            self.x.data, self.y.data = convert_latlong_to_xy(self.longitude.data, self.latitude.data)
+            self.x.data, self.y.data = convert_latlong_to_xy(
+                self.longitude.data, self.latitude.data
+            )
         elif self.x.data and self.y.data:
-            self.longitude.data, self.latitude.data = convert_xy_to_latlong(self.x.data, self.y.data)
+            self.longitude.data, self.latitude.data = convert_xy_to_latlong(
+                self.x.data, self.y.data
+            )
 
         if not FlaskForm.validate(self):
             valid = False
 
-        if not ((self.latitude.data and self.longitude.data) or (self.x.data and self.y.data)):
-            self.latitude.errors.append("Minimaal Longitude en Latitude <b>of</b> X en Y moeten ingevuld zijn.")
-            self.longitude.errors.append("Minimaal Longitude en Latitude <b>of</b> X en Y moeten ingevuld zijn.")
-            self.x.errors.append("Minimaal Longitude en Latitude <b>of</b> X en Y moeten ingevuld zijn.")
-            self.y.errors.append("Minimaal Longitude en Latitude <b>of</b> X en Y moeten ingevuld zijn.")
+        if (not ((self.latitude.data and self.longitude.data) or
+                (self.x.data and self.y.data))):
+            self.latitude.errors.append(
+                "Minimaal Longitude en Latitude of X en Y moeten "
+                "ingevuld zijn."
+            )
+            self.longitude.errors.append(
+                "Minimaal Longitude en Latitude of X en Y moeten "
+                "ingevuld zijn."
+            )
+            self.x.errors.append(
+                "Minimaal Longitude en Latitude of X en Y moeten "
+                "ingevuld zijn."
+            )
+            self.y.errors.append(
+                "Minimaal Longitude en Latitude of X en Y moeten "
+                "ingevuld zijn."
+            )
             valid = False
 
         return valid
@@ -415,7 +461,6 @@ class EditForm(FlaskForm):
         ),
         validators=[
             Optional(),
-            min_four_decimals,
             longitude_range
         ],
         render_kw={
@@ -444,7 +489,6 @@ class EditForm(FlaskForm):
         ),
         validators=[
             Optional(),
-            min_four_decimals,
             latitude_range
         ],
         render_kw={
@@ -455,7 +499,8 @@ class EditForm(FlaskForm):
     x = CommaDotFloatField(
         'X',
         description=(
-            'Rijksdriehoekscoördinaat x (minimaal in meters, decimalen ook toegestaan).'
+            'Rijksdriehoekscoördinaat x (minimaal in meters, decimalen ook '
+            'toegestaan).'
             '<br>'
             '<br>'
             '<b>Format:</b> getal tussen 0 en 300000'
@@ -475,7 +520,8 @@ class EditForm(FlaskForm):
     y = CommaDotFloatField(
         'Y',
         description=(
-            'Rijksdriehoekscoördinaat y (minimaal in meters, decimalen ook toegestaan).'
+            'Rijksdriehoekscoördinaat y (minimaal in meters, decimalen ook '
+            'toegestaan).'
             '<br>'
             '<br>'
             '<b>Format:</b> getal tussen 300000 en 620000'
@@ -529,9 +575,9 @@ class EditForm(FlaskForm):
         'Contactgegevens',
         description=(
             '&lt;afdeling/functie&gt;: De afdeling of specifieke functie '
-            'binnen de gemeente die zich bezig houdt met de stembureaus; i.v.m. '
-            'verduurzaming bij voorkeur dus niet de naam/contactgegevens van '
-            'een persoon.'
+            'binnen de gemeente die zich bezig houdt met de stembureaus; '
+            'i.v.m. verduurzaming bij voorkeur dus niet de '
+            'naam/contactgegevens van een persoon.'
             '<br>'
             '<br>'
             '<b>Format:</b> &lt;afdeling/functie&gt;, &lt;e-mailadres en/of '
@@ -606,8 +652,8 @@ class EditForm(FlaskForm):
             '<ul>'
             '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
             'zonder "Waterschap" of "Hoogheemraadschap" voor de naam&gt;</li>'
-            '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; &lt;naam '
-            'van gebiedscommissies / wijkraden&gt;</li>'
+            '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
+            '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
             '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
             'stadsdeelcommissie&gt;</li>'
             '</ul>'
@@ -615,27 +661,90 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
         ),
         choices=[
-            ('waterschapsverkiezingen voor Noorderzijlvest', 'waterschapsverkiezingen voor Noorderzijlvest'),
-            ('waterschapsverkiezingen voor Fryslân', 'waterschapsverkiezingen voor Fryslân'),
-            ("waterschapsverkiezingen voor Hunze en Aa's", "waterschapsverkiezingen voor Hunze en Aa's"),
-            ('waterschapsverkiezingen voor Drents Overijsselse Delta', 'waterschapsverkiezingen voor Drents Overijsselse Delta'),
-            ('waterschapsverkiezingen voor Vechtstromen', 'waterschapsverkiezingen voor Vechtstromen'),
-            ('waterschapsverkiezingen voor Vallei en Veluwe', 'waterschapsverkiezingen voor Vallei en Veluwe'),
-            ('waterschapsverkiezingen voor Rijn en IJssel', 'waterschapsverkiezingen voor Rijn en IJssel'),
-            ('waterschapsverkiezingen voor De Stichtse Rijnlanden', 'waterschapsverkiezingen voor De Stichtse Rijnlanden'),
-            ('waterschapsverkiezingen voor Amstel, Gooi en Vecht', 'waterschapsverkiezingen voor Amstel, Gooi en Vecht'),
-            ('waterschapsverkiezingen voor Hollands Noorderkwartier', 'waterschapsverkiezingen voor Hollands Noorderkwartier'),
-            ('waterschapsverkiezingen voor Rijnland', 'waterschapsverkiezingen voor Rijnland'),
-            ('waterschapsverkiezingen voor Delfland', 'waterschapsverkiezingen voor Delfland'),
-            ('waterschapsverkiezingen voor Schieland en de Krimpenerwaard', 'waterschapsverkiezingen voor Schieland en de Krimpenerwaard'),
-            ('waterschapsverkiezingen voor Rivierenland', 'waterschapsverkiezingen voor Rivierenland'),
-            ('waterschapsverkiezingen voor Hollandse Delta', 'waterschapsverkiezingen voor Hollandse Delta'),
-            ('waterschapsverkiezingen voor Scheldestromen', 'waterschapsverkiezingen voor Scheldestromen'),
-            ('waterschapsverkiezingen voor Brabantse Delta', 'waterschapsverkiezingen voor Brabantse Delta'),
-            ('waterschapsverkiezingen voor De Dommel', 'waterschapsverkiezingen voor De Dommel'),
-            ('waterschapsverkiezingen voor Aa en Maas', 'waterschapsverkiezingen voor Aa en Maas'),
-            ('waterschapsverkiezingen voor Limburg', 'waterschapsverkiezingen voor Limburg'),
-            ('waterschapsverkiezingen voor Zuiderzeeland', 'waterschapsverkiezingen voor Zuiderzeeland')
+            (
+                'waterschapsverkiezingen voor Noorderzijlvest',
+                'waterschapsverkiezingen voor Noorderzijlvest'
+            ),
+            (
+                'waterschapsverkiezingen voor Fryslân',
+                'waterschapsverkiezingen voor Fryslân'
+            ),
+            (
+                "waterschapsverkiezingen voor Hunze en Aa's",
+                "waterschapsverkiezingen voor Hunze en Aa's"
+            ),
+            (
+                'waterschapsverkiezingen voor Drents Overijsselse Delta',
+                'waterschapsverkiezingen voor Drents Overijsselse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor Vechtstromen',
+                'waterschapsverkiezingen voor Vechtstromen'
+            ),
+            (
+                'waterschapsverkiezingen voor Vallei en Veluwe',
+                'waterschapsverkiezingen voor Vallei en Veluwe'
+            ),
+            (
+                'waterschapsverkiezingen voor Rijn en IJssel',
+                'waterschapsverkiezingen voor Rijn en IJssel'
+            ),
+            (
+                'waterschapsverkiezingen voor De Stichtse Rijnlanden',
+                'waterschapsverkiezingen voor De Stichtse Rijnlanden'
+            ),
+            (
+                'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
+                'waterschapsverkiezingen voor Amstel, Gooi en Vecht'
+            ),
+            (
+                'waterschapsverkiezingen voor Hollands Noorderkwartier',
+                'waterschapsverkiezingen voor Hollands Noorderkwartier'
+            ),
+            (
+                'waterschapsverkiezingen voor Rijnland',
+                'waterschapsverkiezingen voor Rijnland'
+            ),
+            (
+                'waterschapsverkiezingen voor Delfland',
+                'waterschapsverkiezingen voor Delfland'
+            ),
+            (
+                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
+                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard'
+            ),
+            (
+                'waterschapsverkiezingen voor Rivierenland',
+                'waterschapsverkiezingen voor Rivierenland'
+            ),
+            (
+                'waterschapsverkiezingen voor Hollandse Delta',
+                'waterschapsverkiezingen voor Hollandse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor Scheldestromen',
+                'waterschapsverkiezingen voor Scheldestromen'
+            ),
+            (
+                'waterschapsverkiezingen voor Brabantse Delta',
+                'waterschapsverkiezingen voor Brabantse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor De Dommel',
+                'waterschapsverkiezingen voor De Dommel'
+            ),
+            (
+                'waterschapsverkiezingen voor Aa en Maas',
+                'waterschapsverkiezingen voor Aa en Maas'
+            ),
+            (
+                'waterschapsverkiezingen voor Limburg',
+                'waterschapsverkiezingen voor Limburg'
+            ),
+            (
+                'waterschapsverkiezingen voor Zuiderzeeland',
+                'waterschapsverkiezingen voor Zuiderzeeland'
+            )
         ],
         validators=[
             Optional(),
@@ -644,7 +753,9 @@ class EditForm(FlaskForm):
             'class': 'selectpicker',
             'data-icon-base': 'fa',
             'data-tick-icon': 'fa-check',
-            'data-none-selected-text': 'Selecteer één of meerdere waterschappen'
+            'data-none-selected-text': (
+                'Selecteer één of meerdere waterschappen'
+            )
         }
     )
 
@@ -653,7 +764,11 @@ class EditForm(FlaskForm):
         description=(
             'Is het stembureau toegankelijk voor mindervaliden?'
             '<br>'
-            'Voor meer informatie, <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">zie deze pagina op vng.nl</a>.'
+            'Voor meer informatie, <a '
+            'href="https://vng.nl/onderwerpenindex/bestuur/'
+            'verkiezingen-referenda/nieuws/'
+            'toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" '
+            'target="_blank" rel="noopener">zie deze pagina op vng.nl</a>.'
             '<br>'
             'Mocht uw gemeente de toegankelijkheid van de stembureaus op '
             'basis van de ‘Checklist toegankelijkheidscriteria stemlokalen’ '
@@ -732,7 +847,9 @@ class EditForm(FlaskForm):
     v1_1_a_aanduiding_aanwezig = CustomSelectField(
         '1.1.a Aanduiding aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -753,7 +870,9 @@ class EditForm(FlaskForm):
     v1_1_b_aanduiding_duidelijk_zichtbaar = CustomSelectField(
         '1.1.b Aanduiding duidelijk zichtbaar',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -774,7 +893,9 @@ class EditForm(FlaskForm):
     v1_1_c_aanduiding_goed_leesbaar = CustomSelectField(
         '1.1.c Aanduiding goed leesbaar',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -795,7 +916,9 @@ class EditForm(FlaskForm):
     v1_2_a_gpa_aanwezig = CustomSelectField(
         '1.2.a GPA aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -816,7 +939,9 @@ class EditForm(FlaskForm):
     v1_2_b_aantal_vrij_parkeerplaatsen_binnen_50m_van_de_entree = IntegerField(
         '1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Aantal'
@@ -837,7 +962,9 @@ class EditForm(FlaskForm):
     v1_2_c_hoogteverschil_tussen_parkeren_en_trottoir = CustomSelectField(
         '1.2.c Hoogteverschil tussen parkeren en trottoir',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -858,7 +985,9 @@ class EditForm(FlaskForm):
     v1_2_d_hoogteverschil = IntegerField(
         '1.2.d Hoogteverschil',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -879,7 +1008,9 @@ class EditForm(FlaskForm):
     v1_2_e_type_overbrugging = CustomSelectField(
         '1.2.e Type overbrugging',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Helling/Trap/Lift/Geen'
@@ -887,7 +1018,13 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Lift'
         ),
-        choices=[('', ''), ('Helling', 'Helling'), ('Trap', 'Trap'), ('Lift', 'Lift'), ('Geen', 'Geen')],
+        choices=[
+            ('', ''),
+            ('Helling', 'Helling'),
+            ('Trap', 'Trap'),
+            ('Lift', 'Lift'),
+            ('Geen', 'Geen')
+        ],
         validators=[
             Optional()
         ],
@@ -900,7 +1037,9 @@ class EditForm(FlaskForm):
     v1_2_f_overbrugging_conform_itstandaard = CustomSelectField(
         '1.2.f Overbrugging conform ITstandaard',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -921,7 +1060,9 @@ class EditForm(FlaskForm):
     v1_3_a_vlak_verhard_en_vrij_van_obstakels = CustomSelectField(
         '1.3.a Vlak, verhard en vrij van obstakels',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -942,7 +1083,9 @@ class EditForm(FlaskForm):
     v1_3_b_hoogteverschil = IntegerField(
         '1.3.b Hoogteverschil',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -963,7 +1106,9 @@ class EditForm(FlaskForm):
     v1_3_c_type_overbrugging = CustomSelectField(
         '1.3.c Type overbrugging',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Helling/Trap/Lift/Geen'
@@ -971,7 +1116,13 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Lift'
         ),
-        choices=[('', ''), ('Helling', 'Helling'), ('Trap', 'Trap'), ('Lift', 'Lift'), ('Geen', 'Geen')],
+        choices=[
+            ('', ''),
+            ('Helling', 'Helling'),
+            ('Trap', 'Trap'),
+            ('Lift', 'Lift'),
+            ('Geen', 'Geen')
+        ],
         validators=[
             Optional()
         ],
@@ -984,7 +1135,9 @@ class EditForm(FlaskForm):
     v1_3_d_overbrugging_conform_itstandaard = CustomSelectField(
         '1.3.d Overbrugging conform ITstandaard',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1005,7 +1158,9 @@ class EditForm(FlaskForm):
     v1_3_e_obstakelvrije_breedte_van_de_route = IntegerField(
         '1.3.e Obstakelvrije breedte van de route',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -1026,7 +1181,9 @@ class EditForm(FlaskForm):
     v1_3_f_obstakelvrije_hoogte_van_de_route = IntegerField(
         '1.3.f Obstakelvrije hoogte van de route',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -1047,7 +1204,9 @@ class EditForm(FlaskForm):
     v1_4_a_is_er_een_route_tussen_gebouwentree_en_stemruimte = CustomSelectField(
         '1.4.a Is er een route tussen gebouwentree en stemruimte',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1068,7 +1227,9 @@ class EditForm(FlaskForm):
     v1_4_b_route_duidelijk_aangegeven = CustomSelectField(
         '1.4.b Route duidelijk aangegeven',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1089,7 +1250,9 @@ class EditForm(FlaskForm):
     v1_4_c_vlak_en_vrij_van_obstakels = CustomSelectField(
         '1.4.c Vlak en vrij van obstakels',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1110,7 +1273,9 @@ class EditForm(FlaskForm):
     v1_4_d_hoogteverschil = IntegerField(
         '1.4.d Hoogteverschil',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -1131,7 +1296,9 @@ class EditForm(FlaskForm):
     v1_4_e_type_overbrugging = CustomSelectField(
         '1.4.e Type overbrugging',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Helling/Trap/Lift/Geen'
@@ -1139,7 +1306,13 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Lift'
         ),
-        choices=[('', ''), ('Helling', 'Helling'), ('Trap', 'Trap'), ('Lift', 'Lift'), ('Geen', 'Geen')],
+        choices=[
+            ('', ''),
+            ('Helling', 'Helling'),
+            ('Trap', 'Trap'),
+            ('Lift', 'Lift'),
+            ('Geen', 'Geen')
+        ],
         validators=[
             Optional()
         ],
@@ -1152,7 +1325,9 @@ class EditForm(FlaskForm):
     v1_4_f_overbrugging_conform_itstandaard = CustomSelectField(
         '1.4.f Overbrugging conform ITstandaard',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1173,7 +1348,9 @@ class EditForm(FlaskForm):
     v1_4_g_obstakelvrije_breedte_van_de_route = IntegerField(
         '1.4.g Obstakelvrije breedte van de route',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -1194,7 +1371,9 @@ class EditForm(FlaskForm):
     v1_4_h_obstakelvrije_hoogte_van_de_route = IntegerField(
         '1.4.h Obstakelvrije hoogte van de route',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> in centimeters'
@@ -1215,7 +1394,9 @@ class EditForm(FlaskForm):
     v1_4_i_deuren_in_route_bedien_en_bruikbaar = CustomSelectField(
         '1.4.i Deuren in route bedien- en bruikbaar',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1236,7 +1417,9 @@ class EditForm(FlaskForm):
     v2_1_a_deurtype = CustomSelectField(
         '2.1.a Deurtype',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Handbediend of Automatisch'
@@ -1244,7 +1427,11 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Handbediend'
         ),
-        choices=[('', ''), ('Handbediend', 'Handbediend'), ('Automatisch', 'Automatisch')],
+        choices=[
+            ('', ''),
+            ('Handbediend', 'Handbediend'),
+            ('Automatisch', 'Automatisch')
+        ],
         validators=[
             Optional()
         ],
@@ -1257,7 +1444,9 @@ class EditForm(FlaskForm):
     v2_1_b_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
         '2.1.b Opstelruimte aan beide zijden van de deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1278,7 +1467,9 @@ class EditForm(FlaskForm):
     v2_1_c_bedieningskracht_buitendeur = CustomSelectField(
         '2.1.c Bedieningskracht buitendeur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <40N of >40N'
@@ -1299,7 +1490,9 @@ class EditForm(FlaskForm):
     v2_1_d_drempelhoogte_t_o_v_straat_vloer_niveau = CustomSelectField(
         '2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <2cm of >2cm'
@@ -1320,7 +1513,9 @@ class EditForm(FlaskForm):
     v2_1_e_vrije_doorgangsbreedte_buitendeur = CustomSelectField(
         '2.1.e Vrije doorgangsbreedte buitendeur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <85cm of >85cm'
@@ -1341,7 +1536,9 @@ class EditForm(FlaskForm):
     v2_2_a_tussendeuren_aanwezig_in_eventuele_route = CustomSelectField(
         '2.2.a Tussendeuren aanwezig in eventuele route',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1362,7 +1559,9 @@ class EditForm(FlaskForm):
     v2_2_b_deurtype = CustomSelectField(
         '2.2.b Deurtype',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Handbediend of Automatisch'
@@ -1370,7 +1569,11 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Handbediend'
         ),
-        choices=[('', ''), ('Handbediend', 'Handbediend'), ('Automatisch', 'Automatisch')],
+        choices=[
+            ('', ''),
+            ('Handbediend', 'Handbediend'),
+            ('Automatisch', 'Automatisch')
+        ],
         validators=[
             Optional()
         ],
@@ -1383,7 +1586,9 @@ class EditForm(FlaskForm):
     v2_2_c_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
         '2.2.c Opstelruimte aan beide zijden van de deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1404,7 +1609,9 @@ class EditForm(FlaskForm):
     v2_2_d_bedieningskracht_deuren = CustomSelectField(
         '2.2.d Bedieningskracht deuren',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <40N of >40N'
@@ -1425,7 +1632,9 @@ class EditForm(FlaskForm):
     v2_2_e_drempelhoogte_t_o_v_vloer_niveau = CustomSelectField(
         '2.2.e Drempelhoogte (t.o.v. vloer niveau)',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <2cm of >2cm'
@@ -1446,7 +1655,9 @@ class EditForm(FlaskForm):
     v2_2_f_vrije_doorgangsbreedte_deur = CustomSelectField(
         '2.2.f Vrije doorgangsbreedte deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <85cm of >85cm'
@@ -1467,7 +1678,9 @@ class EditForm(FlaskForm):
     v2_3_a_deur_aanwezig_naar_van_stemruimte = CustomSelectField(
         '2.3.a Deur aanwezig naar/van stemruimte',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1488,7 +1701,9 @@ class EditForm(FlaskForm):
     v2_3_b_deurtype = CustomSelectField(
         '2.3.b Deurtype',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Handbediend of Automatisch'
@@ -1496,7 +1711,11 @@ class EditForm(FlaskForm):
             '<br>'
             '<b>Voorbeeld:</b> Handbediend'
         ),
-        choices=[('', ''), ('Handbediend', 'Handbediend'), ('Automatisch', 'Automatisch')],
+        choices=[
+            ('', ''),
+            ('Handbediend', 'Handbediend'),
+            ('Automatisch', 'Automatisch')
+        ],
         validators=[
             Optional()
         ],
@@ -1509,7 +1728,9 @@ class EditForm(FlaskForm):
     v2_3_c_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
         '2.3.c Opstelruimte aan beide zijden van de deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1530,7 +1751,9 @@ class EditForm(FlaskForm):
     v2_3_d_bedieningskracht_deur = CustomSelectField(
         '2.3.d Bedieningskracht deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <40N of >40N'
@@ -1551,7 +1774,9 @@ class EditForm(FlaskForm):
     v2_3_e_drempelhoogte_t_o_v_vloer_niveau = CustomSelectField(
         '2.3.e Drempelhoogte (t.o.v. vloer niveau)',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <2cm of >2cm'
@@ -1572,7 +1797,9 @@ class EditForm(FlaskForm):
     v2_3_f_vrije_doorgangsbreedte_deur = CustomSelectField(
         '2.3.f Vrije doorgangsbreedte deur',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> <85cm of >85cm'
@@ -1593,7 +1820,9 @@ class EditForm(FlaskForm):
     v2_4_a_zijn_er_tijdelijke_voorzieningen_aangebracht = CustomSelectField(
         '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1612,9 +1841,14 @@ class EditForm(FlaskForm):
     )
 
     v2_4_b_vloerbedekking_randen_over_de_volle_lengte_deugdelijk_afgeplakt = CustomSelectField(
-        '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt',
+        (
+            '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk '
+            'afgeplakt'
+        ),
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1633,9 +1867,14 @@ class EditForm(FlaskForm):
     )
 
     v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_buitentoepassing = CustomSelectField(
-        '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+        (
+            '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij '
+            'buitentoepassing)'
+        ),
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1656,7 +1895,9 @@ class EditForm(FlaskForm):
     v2_4_d_hellingbaan_deugdelijk_verankerd_aan_ondergrond = CustomSelectField(
         '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1675,9 +1916,14 @@ class EditForm(FlaskForm):
     )
 
     v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_conform_criteria = CustomSelectField(
-        '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria',
+        (
+            '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform '
+            'criteria'
+        ),
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1696,9 +1942,14 @@ class EditForm(FlaskForm):
     )
 
     v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing = CustomSelectField(
-        '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+        (
+            '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing '
+            'bij buitentoepassing)'
+        ),
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1719,7 +1970,9 @@ class EditForm(FlaskForm):
     v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_ondergrond = CustomSelectField(
         '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1740,7 +1993,9 @@ class EditForm(FlaskForm):
     v3_1_a_obstakelvrije_doorgangen = CustomSelectField(
         '3.1.a Obstakelvrije doorgangen',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1761,7 +2016,9 @@ class EditForm(FlaskForm):
     v3_1_b_vrije_draaicirkel_manoeuvreerruimte = CustomSelectField(
         '3.1.b Vrije draaicirkel / manoeuvreerruimte',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1782,7 +2039,9 @@ class EditForm(FlaskForm):
     v3_1_c_idem_voor_stemtafel_en_stemhokje = CustomSelectField(
         '3.1.c Idem voor stemtafel en stemhokje',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1803,7 +2062,9 @@ class EditForm(FlaskForm):
     v3_1_d_opstelruimte_voor_naast_stembus = CustomSelectField(
         '3.1.d Opstelruimte voor/naast stembus',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1824,7 +2085,9 @@ class EditForm(FlaskForm):
     v3_2_a_stoelen_in_stemruimte_aanwezig = CustomSelectField(
         '3.2.a Stoelen in stemruimte aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1845,7 +2108,9 @@ class EditForm(FlaskForm):
     v3_2_b_1_op_5_stoelen_uitgevoerd_met_armleuningen = CustomSelectField(
         '3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1866,7 +2131,9 @@ class EditForm(FlaskForm):
     v3_3_a_hoogte_van_het_laagste_schrijfblad = IntegerField(
         '3.3.a Hoogte van het laagste schrijfblad',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> hoogte in centimeters'
@@ -1887,7 +2154,9 @@ class EditForm(FlaskForm):
     v3_3_b_schrijfblad_onderrijdbaar = CustomSelectField(
         '3.3.b Schrijfblad onderrijdbaar',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1908,7 +2177,9 @@ class EditForm(FlaskForm):
     v3_4_a_hoogte_inworpgleuf_stembiljet = IntegerField(
         '3.4.a Hoogte inworpgleuf stembiljet',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> hoogte in centimeters'
@@ -1929,7 +2200,9 @@ class EditForm(FlaskForm):
     v3_4_b_afstand_inwerpgleuf_t_o_v_de_opstelruimte = IntegerField(
         '3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> afstand in centimeters'
@@ -1950,7 +2223,9 @@ class EditForm(FlaskForm):
     v3_5_a_leesloep_zichtbaar_aanwezig = CustomSelectField(
         '3.5.a Leesloep (zichtbaar) aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1971,7 +2246,9 @@ class EditForm(FlaskForm):
     v3_6_a_kandidatenlijst_in_stemlokaal_aanwezig = CustomSelectField(
         '3.6.a Kandidatenlijst in stemlokaal aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
@@ -1992,7 +2269,9 @@ class EditForm(FlaskForm):
     v3_6_b_opstelruimte_voor_de_kandidatenlijst_aanwezig = CustomSelectField(
         '3.6.b Opstelruimte voor de kandidatenlijst aanwezig',
         description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">PDF</a> voor meer informatie'
+            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
+            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
+            'rel="noopener">PDF</a> voor meer informatie'
             '<br>'
             '<br>'
             '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'

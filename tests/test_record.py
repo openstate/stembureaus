@@ -4,7 +4,10 @@ test_record = {
     'nummer stembureau': 517,
     'naam stembureau': 'Stadhuis',
     'gebruikersdoel het gebouw': 'Kantoor',
-    'website locatie': 'https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm',
+    'website locatie': (
+        'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
+        'contact-met-de-gemeente/stadhuis-den-haag.htm'
+    ),
     'wijknaam': 'Centrum',
     'cbs wijknummer': 'WK051828',
     'buurtnaam': 'Kortenbos',
@@ -27,7 +30,10 @@ test_record = {
     'mindervalide toilet aanwezig': 'Y',
     'kieskring id': "'s-Gravenhage",
     'hoofdstembureau': '',
-    'contactgegevens': 'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag',
+    'contactgegevens': (
+        'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
+        'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
+    ),
     'beschikbaarheid': 'https://www.stembureausindenhaag.nl/',
     'verkiezingen': 'waterschapsverkiezingen voor Delfland',
     '1.1.a aanduiding aanwezig': 'Y',

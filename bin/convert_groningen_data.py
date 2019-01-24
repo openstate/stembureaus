@@ -71,37 +71,56 @@ def main():
     for muni, points in points_per_muni.items():
         # first Excel
         print(muni)
-        path = "data/waarismijnstemlokaal.nl_invulformulier_%s_deels_vooringevuld.xlsx" % (muni,)
-        os.system("cp files/waarismijnstemlokaal.nl_invulformulier.xlsx \"%s\"" % (
-            path,))
+        path = (
+            "data/waarismijnstemlokaal.nl_invulformulier_%s_deels_"
+            "vooringevuld.xlsx" % (muni)
+        )
+        os.system(
+            "cp files/waarismijnstemlokaal.nl_invulformulier.xlsx "
+            "\"%s\"" % (path)
+        )
         workbook = load_workbook(path)
         worksheet = workbook['Attributen']
         font = Font(name="Arial", size=10)
         col = 6
         for point in points:
-            worksheet.cell(row=3, column=col, value=point['Naam stembureau']).font = font
+            worksheet.cell(
+                row=3, column=col, value=point['Naam stembureau']
+            ).font = font
 
             if 'BAG referentienummer' in point:
-                worksheet.cell(row=5, column=col, value=point['BAG referentienummer']).font = font
+                worksheet.cell(
+                    row=5, column=col, value=point['BAG referentienummer']
+                ).font = font
             if 'Longitude' in point:
-                worksheet.cell(row=7, column=col, value=point['Longitude']).font = font
+                worksheet.cell(
+                    row=7, column=col, value=point['Longitude']
+                ).font = font
             if 'Latitude' in point:
-                worksheet.cell(row=8, column=col, value=point['Latitude']).font = font
-            worksheet.cell(row=10, column=col, value=point['Openingstijden']).font = font
+                worksheet.cell(
+                    row=8, column=col, value=point['Latitude']
+                ).font = font
+            worksheet.cell(
+                row=10, column=col, value=point['Openingstijden']
+            ).font = font
             col += 1
 
         # Set width of each column
         for column_cells in tuple(worksheet.columns)[5:]:
             length = max(len(as_text(cell.value)) for cell in column_cells)
-            worksheet.column_dimensions[column_cells[0].column].width = int(length * 0.75)
+            worksheet.column_dimensions[
+                column_cells[0].column
+            ].width = int(length * 0.75)
 
         workbook.save(path)
         workbook.close()
 
         # now openoffice
-        #path = "data/%s-2018-03-21.ods" % (muni,)
-        #os.system("cp files/waarismijnstemlokaal.nl_invulformulier.ods \"%s\"" % (
-        #    path,))
+        #path = "data/%s-2018-03-21.ods" % (muni)
+        #os.system(
+        #    "cp files/waarismijnstemlokaal.nl_"
+        #    "invulformulier.ods \"%s\"" % (path)
+        #)
         #data = get_data(path)
         #for point in points:
         #    data['Attributen'][2].append(point['Naam stembureau'])

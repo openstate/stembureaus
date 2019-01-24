@@ -3,20 +3,26 @@ import os
 import re
 import sys
 
-from flask import render_template, request, redirect, url_for, flash, Markup, session
+from flask import (
+    render_template, request, redirect, url_for, flash, Markup, session
+)
 from flask_login import (
-    UserMixin, login_required, login_user, logout_user, current_user)
+    UserMixin, login_required, login_user, logout_user, current_user
+)
 from werkzeug.utils import secure_filename
 
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    FileUploadForm, PubliceerForm, GemeenteSelectionForm)
+    FileUploadForm, PubliceerForm, GemeenteSelectionForm
+)
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, ckan, Record, BAG
-from app.utils import find_buurt_and_wijk, convert_xy_to_latlong, convert_latlong_to_xy
+from app.utils import (
+    find_buurt_and_wijk, convert_xy_to_latlong, convert_latlong_to_xy
+)
 from math import ceil
 from time import sleep
 import uuid
@@ -86,10 +92,16 @@ checklist_fields = [
     '2.3.f Vrije doorgangsbreedte deur',
     '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
     '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt',
-    '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    (
+        '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij '
+        'buitentoepassing)'
+    ),
     '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
     '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria',
-    '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    (
+        '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij '
+        'buitentoepassing)'
+    ),
     '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
     '3.1.a Obstakelvrije doorgangen',
     '3.1.b Vrije draaicirkel / manoeuvreerruimte',
@@ -279,7 +291,9 @@ def gemeente_logout():
 @login_required
 def gemeente_selectie():
     if len(current_user.gemeenten) == 1:
-        session['selected_gemeente_code'] = current_user.gemeenten[0].gemeente_code
+        session[
+            'selected_gemeente_code'
+        ] = current_user.gemeenten[0].gemeente_code
         return redirect(url_for('gemeente_stemlokalen_dashboard'))
 
     gemeente_selection_form = GemeenteSelectionForm()
@@ -292,7 +306,9 @@ def gemeente_selectie():
     # Process selected gemeente
     if gemeente_selection_form.validate_on_submit():
         if gemeente_selection_form.submit.data:
-            session['selected_gemeente_code'] = gemeente_selection_form.gemeente.data
+            session[
+                'selected_gemeente_code'
+            ] = gemeente_selection_form.gemeente.data
             return redirect(url_for('gemeente_stemlokalen_dashboard'))
 
     return render_template(
@@ -311,7 +327,9 @@ def gemeente_stemlokalen_dashboard():
     if not session['selected_gemeente_code']:
         return redirect(url_for('gemeente_selectie'))
 
-    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
     elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
@@ -385,11 +403,11 @@ def gemeente_stemlokalen_dashboard():
                     '<span class="text-red">Uploaden mislukt</span>. Het '
                     'lijkt er op dat u geen gebruik maakt van (de meest '
                     'recente versie van) de stembureau-spreadsheet. Download '
-                    'een <a href="/files/waarismijnstemlokaal.nl_invulformulier'
-                    '.xlsx"><b>leeg</b></a> of <a href="%s"><b>deels '
-                    'vooringevuld</b></a> stembureau-spreadsheet en vul de '
-                    'gegevens volgens de instructies in de spreadsheet in om '
-                    'deze vervolgens op deze pagina te '
+                    'een <a href="/files/waarismijnstemlokaal.nl_'
+                    'invulformulier.xlsx"><b>leeg</b></a> of <a href="%s"><b>'
+                    'deels vooringevuld</b></a> stembureau-spreadsheet en vul '
+                    'de gegevens volgens de instructies in de spreadsheet in '
+                    'om deze vervolgens op deze pagina te '
                     'uploaden.' % (vooringevuld)
                 )
             )
@@ -510,7 +528,9 @@ def gemeente_stemlokalen_overzicht():
     if not session['selected_gemeente_code']:
         return redirect(url_for('gemeente_selectie'))
 
-    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
     elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
@@ -585,7 +605,9 @@ def gemeente_stemlokalen_overzicht():
     end_record = page * posts_per_page
     if end_record > len(gemeente_draft_records):
         end_record = len(gemeente_draft_records)
-    sorted_draft_records = sorted(gemeente_draft_records, key=lambda k: int(k['Nummer stembureau']))
+    sorted_draft_records = sorted(
+        gemeente_draft_records, key=lambda k: int(k['Nummer stembureau'])
+    )
     paged_draft_records = sorted_draft_records[start_record:end_record]
 
     previous_url = None
@@ -634,7 +656,9 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     if not session['selected_gemeente_code']:
         return redirect(url_for('gemeente_selectie'))
 
-    gemeente = Gemeente.query.filter_by(gemeente_code=session['selected_gemeente_code']).first()
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
     elections = gemeente.elections.all()
 
     # Pick the first election. In the case of multiple elections we only
@@ -659,7 +683,9 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
             if record['UUID'] == stemlokaal_id:
                 # Split the Verkiezingen attribute into a list
                 if record['Verkiezingen']:
-                    record['Verkiezingen'] = [x.strip() for x in record['Verkiezingen'].split(';')]
+                    record['Verkiezingen'] = [
+                        x.strip() for x in record['Verkiezingen'].split(';')
+                    ]
                 init_record = Record(
                     **{k.lower(): v for k, v in record.items()}
                 ).record
@@ -733,8 +759,12 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 @app.route("/gemeente-instructies")
 @login_required
 def gemeente_instructies():
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
     return render_template(
         'gemeente-instructies.html',
+        gemeente=gemeente,
         signup_form_url=app.config['SIGNUP_FORM_URL']
     )
 
@@ -751,7 +781,16 @@ def _format_verkiezingen_string(elections):
 
     # TODO, temporary addition for Europese Parlementsverkiezingen 2019
     if 'Europese Parlementsverkiezingen 2019' in verkiezing_string:
-        verkiezing_string += ' <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Europese Parlementsverkiezingen 2019</b>" data-content="Uw stembureaus voor de verkiezingen van 20 maart worden automatisch ook toegevoegd voor de Europese Parlementsverkiezingen van 23 mei. Mochten die stembureaus echter verschillen dan kunt u deze na 20 maart aanpassen. Wij zullen u daar tegen die tijd nog een e-mail over sturen."></i>'
+        verkiezing_string += (
+            ' <i class="fa fa-question-circle" data-toggle="popover" '
+            'data-placement="auto" data-html="true" data-trigger="click" '
+            'title="<b>Europese Parlementsverkiezingen 2019</b>" '
+            'data-content="Uw stembureaus voor de verkiezingen van 20 maart '
+            'worden automatisch ook toegevoegd voor de Europese '
+            'Parlementsverkiezingen van 23 mei. Mochten die stembureaus '
+            'echter verschillen dan kunt u deze na 20 maart aanpassen. Wij '
+            'zullen u daar tegen die tijd nog een e-mail over sturen."></i>'
+        )
 
     return verkiezing_string
 
@@ -765,10 +804,14 @@ def _create_record(form, stemlokaal_id, gemeente, election):
 
     kieskring_id = ''
     hoofdstembureau = ''
-    if election.startswith('Gemeenteraadsverkiezingen') or election.startswith('Eilandsraadsverkiezingen') or election.startswith('Kiescollegeverkiezingen'):
+    if (election.startswith('Gemeenteraadsverkiezingen') or
+            election.startswith('Kiescollegeverkiezingen') or
+            election.startswith('Eilandsraadsverkiezingen')):
         kieskring_id = gemeente.gemeente_naam
         hoofdstembureau = gemeente.gemeente_naam
-    elif election.startswith('Referendum') or election.startswith('Provinciale Statenverkiezingen') or election.startswith('Tweede Kamerverkiezingen'):
+    elif (election.startswith('Referendum') or
+            election.startswith('Tweede Kamerverkiezingen') or
+            election.startswith('Provinciale Statenverkiezingen')):
         for row in kieskringen:
             if row[2] == gemeente.gemeente_naam:
                 kieskring_id = row[0]
@@ -791,14 +834,17 @@ def _create_record(form, stemlokaal_id, gemeente, election):
         # Save the Verkiezingen by joining the list into a string
         if f.label.text == 'Verkiezingen':
             record[f.label.text] = ';'.join(f.data)
-        elif f.type != 'SubmitField' and f.type != 'CSRFTokenField' and f.type != 'RadioField':
+        elif (f.type != 'SubmitField' and
+                f.type != 'CSRFTokenField' and f.type != 'RadioField'):
             record[f.label.text[:63]] = f.data
 
     # TODO only valid for elections of March and May 2019,
     # remove or change it for new elections or make it a config
     # variable
     if election.startswith('Europese Parlementsverkiezingen'):
-        record['Openingstijden'] = re.sub('2019-03-20', '2019-05-23', record['Openingstijden'])
+        record['Openingstijden'] = re.sub(
+            '2019-03-20', '2019-05-23', record['Openingstijden']
+        )
 
     bag_nummer = record['BAG referentienummer']
     bag_record = BAG.query.get(bag_nummer)

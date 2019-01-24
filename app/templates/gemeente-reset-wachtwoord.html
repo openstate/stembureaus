@@ -22,14 +22,16 @@
       <div class="login-forms top-form">
         {{ form.Wachtwoord.label }} {{ form.Wachtwoord }}
         {% for error in form.Wachtwoord.errors %}
-          <span style="color: red;">{{ error }}</span>
+          <span style="color: red;">- {{ error }}</span>
+          <br>
         {% endfor %}
       </div>
 
       <div class="login-forms">
         {{ form.Wachtwoord2.label }} {{ form.Wachtwoord2 }}
         {% for error in form.Wachtwoord2.errors %}
-          <span style="color: red;">{{ error }}</span>
+          <span style="color: red;">- {{ error }}</span>
+          <br>
         {% endfor %}
       </div>
 

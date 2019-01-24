@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import Gemeente, User, Gemeente_user, ckan, Election, BAG
+from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan
 from app.email import send_invite
 from app.parser import UploadFileParser
 from app.validator import Validator
@@ -448,11 +448,17 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt",
+            "id": (
+                "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk "
+                "afgeplakt"
+            ),
             "type": "text"
         },
         {
-            "id": "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij buitentoepassing)",
+            "id": (
+                "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij "
+                "buitentoepassing)"
+            ),
             "type": "text"
         },
         {
@@ -460,15 +466,23 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria",
+            "id": (
+                "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en "
+                "conform criteria"
+            ),
             "type": "text"
         },
         {
-            "id": "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij buitentoepassing)",
+            "id": (
+                "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van "
+                "toepassing bij buitentoepassing)"
+            ),
             "type": "text"
         },
         {
-            "id": "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond",
+            "id": (
+                "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond"
+            ),
             "type": "text"
         },
         {
@@ -554,7 +568,8 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
 
     parser = UploadFileParser()
     app.logger.info(
-        'Manually (CLI) uploading file for %s' % (current_gemeente.gemeente_naam)
+        'Manually (CLI) uploading file for '
+        '%s' % (current_gemeente.gemeente_naam)
     )
     try:
         records = parser.parse(file_path)
@@ -1032,9 +1047,14 @@ def remove_datastore(resource_id):
 
 
 def _get_gemeente(gemeente_code):
-    current_gemeente = Gemeente.query.filter_by(gemeente_code=gemeente_code).first()
+    current_gemeente = Gemeente.query.filter_by(
+        gemeente_code=gemeente_code
+    ).first()
     if not current_gemeente:
-        print('Gemeentecode "%s" not found in the MySQL database' % (gemeente_code))
+        print(
+            'Gemeentecode "%s" not found in the MySQL '
+            'database' % (gemeente_code)
+        )
     return current_gemeente
 
 
@@ -1180,7 +1200,9 @@ def add_admin_user(email):
 
     db.session.commit()
 
-    print("Added admin user with access to all %s gemeenten" % (gemeente_count))
+    print(
+        "Added admin user with access to all %s gemeenten" % (gemeente_count)
+    )
 
     # Send the new user an invitation email
     send_invite(user)
@@ -1226,7 +1248,9 @@ def add_gemeenten_verkiezingen_users(json_file):
             elections = gemeente.elections.all()
             if (len(elections)) <= 0:
                 for verkiezing in item['verkiezingen']:
-                    election = Election(verkiezing=verkiezing, gemeente=gemeente)
+                    election = Election(
+                        verkiezing=verkiezing, gemeente=gemeente
+                    )
                     db.session.add(election)
 
                 db.session.commit()

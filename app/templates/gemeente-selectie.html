@@ -22,7 +22,8 @@
       <div>
         {{ gemeente_selection_form.gemeente.label }} {{ gemeente_selection_form.gemeente }}
         {% for error in gemeente_selection_form.gemeente.errors %}
-          <span style="color: red;">{{ error }}</span>
+          <span style="color: red;">- {{ error }}</span>
+          <br>
         {% endfor %}
       </div>
 

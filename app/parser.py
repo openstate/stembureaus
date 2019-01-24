@@ -70,10 +70,16 @@ valid_headers = [
     '2.3.f Vrije doorgangsbreedte deur',
     '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
     '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt',
-    '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    (
+        '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij '
+        'buitentoepassing)'
+    ),
     '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
     '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria',
-    '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij buitentoepassing)',
+    (
+        '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij '
+        'buitentoepassing)'
+    ),
     '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
     '3.1.a Obstakelvrije doorgangen',
     '3.1.b Vrije draaicirkel / manoeuvreerruimte',
@@ -129,10 +135,16 @@ yes_no_empty_fields = [
     'v2_3_c_opstelruimte_aan_beide_zijden_van_de_deur',
     'v2_4_a_zijn_er_tijdelijke_voorzieningen_aangebracht',
     'v2_4_b_vloerbedekking_randen_over_de_volle_lengte_deugdelijk_afgeplakt',
-    'v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_buitentoepassing',
+    (
+        'v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_'
+        'buitentoepassing'
+    ),
     'v2_4_d_hellingbaan_deugdelijk_verankerd_aan_ondergrond',
     'v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_conform_criteria',
-    'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing',
+    (
+        'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_'
+        'buitentoepassing'
+    ),
     'v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_ondergrond',
     'v3_1_a_obstakelvrije_doorgangen',
     'v3_1_b_vrije_draaicirkel_manoeuvreerruimte',
@@ -210,48 +222,55 @@ class BaseParser(object):
 
             for overbrugging_field in overbrugging_fields:
                 if overbrugging_field in record:
-                    if re.match('^Helling$', str(record[overbrugging_field]), re.IGNORECASE):
+                    match = str(record[overbrugging_field])
+                    if re.match('^Helling$', match, re.IGNORECASE):
                         record[overbrugging_field] = 'Helling'
-                    elif re.match('^Trap$', str(record[overbrugging_field]), re.IGNORECASE):
+                    elif re.match('^Trap$', match, re.IGNORECASE):
                         record[overbrugging_field] = 'Trap'
-                    elif re.match('^Lift$', str(record[overbrugging_field]), re.IGNORECASE):
+                    elif re.match('^Lift$', match, re.IGNORECASE):
                         record[overbrugging_field] = 'Lift'
-                    elif re.match('^Geen$', str(record[overbrugging_field]), re.IGNORECASE):
+                    elif re.match('^Geen$', match, re.IGNORECASE):
                         record[overbrugging_field] = 'Geen'
 
             for deurtype_field in deurtype_fields:
                 if deurtype_field in record:
-                    if re.match('^Handbediend$', str(record[deurtype_field]), re.IGNORECASE):
+                    match = str(record[deurtype_field])
+                    if re.match('^Handbediend$', match, re.IGNORECASE):
                         record[deurtype_field] = 'Handbediend'
-                    elif re.match('^Automatisch$', str(record[deurtype_field]), re.IGNORECASE):
+                    elif re.match('^Automatisch$', match, re.IGNORECASE):
                         record[deurtype_field] = 'Automatisch'
 
             for bedieningskracht_field in bedieningskracht_fields:
                 if bedieningskracht_field in record:
-                    if re.match('^<40N$', str(record[bedieningskracht_field]), re.IGNORECASE):
+                    match = str(record[bedieningskracht_field])
+                    if re.match('^<40N$', match, re.IGNORECASE):
                         record[bedieningskracht_field] = '<40N'
-                    elif re.match('^>40N$', str(record[bedieningskracht_field]), re.IGNORECASE):
+                    elif re.match('^>40N$', match, re.IGNORECASE):
                         record[bedieningskracht_field] = '>40N'
 
             for drempelhoogte_field in drempelhoogte_fields:
                 if drempelhoogte_field in record:
-                    if re.match('^<2cm$', str(record[drempelhoogte_field]), re.IGNORECASE):
+                    match = str(record[drempelhoogte_field])
+                    if re.match('^<2cm$', match, re.IGNORECASE):
                         record[drempelhoogte_field] = '<2cm'
-                    elif re.match('^>2cm$', str(record[drempelhoogte_field]), re.IGNORECASE):
+                    elif re.match('^>2cm$', match, re.IGNORECASE):
                         record[drempelhoogte_field] = '>2cm'
 
             for doorgangsbreedte_field in doorgangsbreedte_fields:
                 if doorgangsbreedte_field in record:
-                    if re.match('^<85cm$', str(record[doorgangsbreedte_field]), re.IGNORECASE):
+                    match = str(record[doorgangsbreedte_field])
+                    if re.match('^<85cm$', match, re.IGNORECASE):
                         record[doorgangsbreedte_field] = '<85cm'
-                    elif re.match('^>85cm$', str(record[doorgangsbreedte_field]), re.IGNORECASE):
+                    elif re.match('^>85cm$', match, re.IGNORECASE):
                         record[doorgangsbreedte_field] = '>85cm'
 
             # Split the Verkiezingen string into a list in order to validate
             # the content. Afterwards in _create_record the list will be
             # changed back to a string again to save in CKAN.
             if record.get('verkiezingen'):
-                record['verkiezingen'] = [x.strip() for x in record['verkiezingen'].split(';')]
+                record['verkiezingen'] = [
+                    x.strip() for x in record['verkiezingen'].split(';')
+                ]
 
         return records
 

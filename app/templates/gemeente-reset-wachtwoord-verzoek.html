@@ -22,7 +22,8 @@
       <div class="login-forms">
         {{ form.email.label }} {{ form.email }}
         {% for error in form.email.errors %}
-          <span style="color: red;">{{ error }}</span>
+          <span style="color: red;">- {{ error }}</span>
+          <br>
         {% endfor %}
       </div>
 

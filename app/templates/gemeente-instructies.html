@@ -6,6 +6,9 @@
 
 {% block content %}
   <div>
+    {% if current_user.gemeenten|length > 1 %}
+    > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
+    {% endif %}
     > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Instructies
   </div>
 

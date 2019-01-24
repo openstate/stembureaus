@@ -104,43 +104,64 @@ def main():
         for gemeente, records in records_per_gemeente.items():
             # Save the records to the .xslx file
             print(gemeente)
-            path = "files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_deels_vooringevuld.xlsx" % (gemeente,)
-            os.system("cp files/waarismijnstemlokaal.nl_invulformulier.xlsx \"%s\"" % (
-                path,))
+            path = (
+                "files/deels_vooringevuld/waarismijnstemlokaal.nl_"
+                "invulformulier_%s_deels_vooringevuld.xlsx" % (gemeente)
+            )
+            os.system(
+                "cp files/waarismijnstemlokaal.nl_invulformulier.xlsx "
+                "\"%s\"" % (path)
+            )
             workbook = load_workbook(path)
             worksheet = workbook['Attributen']
             font = Font(name="Arial", size=10)
             column = 6
 
-            # Sort the records based on 'Nummer stembureau' while placing
-            # records without a 'Nummer stembureau' at the end
-            sorted_records = sorted(records, key=lambda k: int(k['Nummer stembureau']) if k['Nummer stembureau'] else 100000)
+            # Sort the records based on 'Nummer stembureau' while
+            # placing records without a 'Nummer stembureau' at the end
+            sorted_records = sorted(
+                records,
+                key=lambda k: int(
+                    k['Nummer stembureau']
+                ) if k['Nummer stembureau'] else 100000
+            )
 
             for record in sorted_records:
                 row = 2
                 for field_name in field_names:
-                    worksheet.cell(row=row, column=column, value=record[field_name]).font = font
+                    worksheet.cell(
+                        row=row, column=column, value=record[field_name]
+                    ).font = font
                     row += 1
                 column += 1
 
             # Set width of each column
             for column_cells in tuple(worksheet.columns)[5:]:
                 length = max(len(as_text(cell.value)) for cell in column_cells)
-                worksheet.column_dimensions[column_cells[0].column].width = int(length * 0.75)
+                worksheet.column_dimensions[
+                    column_cells[0].column
+                ].width = int(length * 0.75)
 
             workbook.save(path)
             workbook.close()
 
             # Save the records to the .ods file
-            #path = "files/deels_vooringevuld/waarismijnstemlokaal.nl_invulformulier_%s_deels_vooringevuld.ods" % (gemeente,)
-            #os.system("cp files/waarismijnstemlokaal.nl_invulformulier.ods \"%s\"" % (
-            #    path,))
+            #path = (
+            #    "files/deels_vooringevuld/waarismijnstemlokaal.nl_"
+            #    "invulformulier_%s_deels_vooringevuld.ods" % (gemeente)
+            #)
+            #os.system(
+            #    "cp files/waarismijnstemlokaal.nl_invulformulier.ods "
+            #    "\"%s\"" % (path)
+            #)
             #data = get_data(path)
             #for record in records:
             ## TODO this needs to be rewritten
             ##    data['Attributen'][2].append(record['Naam stembureau'])
             ##    if 'BAG referentienummer' in record:
-            ##        data['Attributen'][5].append(record['BAG referentienummer'])
+            ##        data['Attributen'][5].append(
+            ##            record['BAG referentienummer']
+            ##        )
             ##    if 'Longitude' in record:
             ##        data['Attributen'][7].append(record['Longitude'])
             ##    if 'Latitude' in record:

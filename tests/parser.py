@@ -9,7 +9,10 @@ from app.parser import BaseParser, ExcelParser
 test_record = {
     'nummer_stembureau': 517.0,
     'naam_stembureau': 'Stadhuis',
-    'website_locatie': 'https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-de-gemeente/stadhuis-den-haag.htm',
+    'website_locatie': (
+        'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
+        'contact-met-de-gemeente/stadhuis-den-haag.htm'
+    ),
     'bag_referentienummer': '0518200000747446',
     'extra_adresaanduiding': '',
     'x': '81611.0',
@@ -20,7 +23,10 @@ test_record = {
     'mindervaliden_toegankelijk': 'Y',
     'akoestiek': 'N',
     'mindervalide_toilet_aanwezig': 'Y',
-    'contactgegevens': 'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag',
+    'contactgegevens': (
+        'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
+        'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
+    ),
     'beschikbaarheid': 'https://www.stembureausindenhaag.nl/',
     'verkiezingen': ['waterschapsverkiezingen voor Delfland'],
     'bereikbaarheid': '',
@@ -117,7 +123,9 @@ class TestExcelParser(unittest.TestCase):
     def setUp(self):
         self.parser = ExcelParser()
         self.file_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), 'data/waarismijnstemlokaal.nl_invulformulier.xlsx')
+            os.path.dirname(os.path.abspath(__file__)),
+            'data/waarismijnstemlokaal.nl_invulformulier.xlsx'
+        )
         self.records = [test_record, test_record]
 
     # After running _get_headers and _clean_headers the list
@@ -200,12 +208,27 @@ class TestExcelParser(unittest.TestCase):
                 'v2_3_f_vrije_doorgangsbreedte_deur',
                 'v2_4_tijdelijke_voorzieningen',
                 'v2_4_a_zijn_er_tijdelijke_voorzieningen_aangebracht',
-                'v2_4_b_vloerbedekking_randen_over_de_volle_lengte_deugdelijk_afgeplakt',
-                'v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_buitentoepassing',
+                (
+                    'v2_4_b_vloerbedekking_randen_over_de_volle_lengte_'
+                    'deugdelijk_afgeplakt'
+                ),
+                (
+                    'v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_'
+                    'bij_buitentoepassing'
+                ),
                 'v2_4_d_hellingbaan_deugdelijk_verankerd_aan_ondergrond',
-                'v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_conform_criteria',
-                'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing',
-                'v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_ondergrond',
+                (
+                    'v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_'
+                    'conform_criteria'
+                ),
+                (
+                    'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_'
+                    'toepassing_bij_buitentoepassing'
+                ),
+                (
+                    'v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_'
+                    'ondergrond'
+                ),
                 'bruikbaarheid',
                 'v3_1_verkeersruimte_stemlokaal',
                 'v3_1_a_obstakelvrije_doorgangen',

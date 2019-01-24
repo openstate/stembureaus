@@ -24,7 +24,9 @@ class TestRecordValidator(unittest.TestCase):
 class TestValidator(unittest.TestCase):
     def setUp(self):
         self.validator = Validator()
-        self.test_records = [Record(**x).record for x in [test_record, test_record]]
+        self.test_records = [
+            Record(**x).record for x in [test_record, test_record]
+        ]
 
     def test_parse_empty(self):
         results = self.validator.validate()
