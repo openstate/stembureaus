@@ -180,7 +180,6 @@ def longitude_range(form, field):
             'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
             'komma bestaan, bv. 4.3166395'
         )
-        return
 
     min_four_decimals(form, field)
 
@@ -205,7 +204,6 @@ def latitude_range(form, field):
             'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
             'komma bestaan, bv. 52.0775912'
         )
-        return
 
     min_four_decimals(form, field)
 
