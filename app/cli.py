@@ -1276,7 +1276,10 @@ def add_gemeenten_verkiezingen_users(json_file):
                     # Send the new user an invitation email
                     send_invite(user)
                 else:
-                    print("User already exists: %s" % (email))
+                    print(
+                        "User already exists (might be because it is part of "
+                        "multiple municipalities): %s" % (email)
+                    )
 
                 # Add records to the Gemeente_user association table
                 gemeente_user = Gemeente_user.query.filter_by(
