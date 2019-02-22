@@ -1170,6 +1170,8 @@ def add_admin_user(email):
             'This email address exists already, please try again with a '
             'different email address'
         )
+        return
+
 
     # Create the admin user
     user = User(
