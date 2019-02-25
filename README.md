@@ -30,9 +30,10 @@ Collecting and presenting stembureaus
    - Compile the assets, see the section below
    - The `docker-compose up` command above also loads the BAG data in MySQL, this can take something like 1 hour on a server, so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
-   - Set up backups
+   - Set up backups for MySQL and CKAN
       - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
-         - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
+         - MySQL: Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
+         - CKAN: Copy the CKAN backup command for each CKAN (concept) resource you want to backup and fill in the `<RESOURCE_ID>`
       - To run manually use `sudo ./backup.sh`
       - To set a daily cronjob at 03:46
          - `sudo crontab -e` and add the following line (change the path below to your `stembureaus/docker` directory path)
