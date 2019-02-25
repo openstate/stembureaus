@@ -96,6 +96,7 @@ StembureausApp.show_gemeenten = function (matches, query) {
 
 StembureausApp.show = function (matches) {
   $('#results-search').empty();
+  matches.sort(function (a,b) {return (a['Nummer stembureau'] > b['Nummer stembureau']) ? 1 : ((b['Nummer stembureau'] > a['Nummer stembureau']) ? -1 : 0)});
   for (var i=0; i < matches.length; i++) {
     var opinfo = matches[i]['Openingstijden'].split(' tot ');
     var weelchair_labels = {
@@ -118,7 +119,7 @@ StembureausApp.show = function (matches) {
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" +  matches[i]['Naam stembureau'] + '</a></h2>' +
+      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + matches[i]['Nummer stembureau'] + ". " + matches[i]['Naam stembureau'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
       '<h5>' + adres + '</h5>' +
       '<h5><a href="/s/' + matches[i]['Gemeente'] + '"' + target + '>' + plaats_naam + '</a></h5>' +
