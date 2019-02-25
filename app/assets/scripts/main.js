@@ -80,7 +80,7 @@ var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: 
 
 StembureausApp.show_gemeenten = function (matches, query) {
   $('#results-search').empty();
-  for(var i=0; i < matches.length; i++) {
+  for (var i=0; i < matches.length; i++) {
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
@@ -96,7 +96,7 @@ StembureausApp.show_gemeenten = function (matches, query) {
 
 StembureausApp.show = function (matches) {
   $('#results-search').empty();
-  for(var i=0; i < matches.length; i++) {
+  for (var i=0; i < matches.length; i++) {
     var opinfo = matches[i]['Openingstijden'].split(' tot ');
     var weelchair_labels = {
       'Y': 'Rolstoeltoegankelijk',
@@ -260,7 +260,7 @@ $(document).ready(function () {
     return output;
   };
 
-  for(var i=0; i < StembureausApp.stembureaus.length; i++) {
+  for (var i=0; i < StembureausApp.stembureaus.length; i++) {
     StembureausApp.stembureaus_markers.push(
       L.marker(
         [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
@@ -271,7 +271,7 @@ $(document).ready(function () {
   StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
   StembureausApp.map._layersMaxZoom = 19;
   StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
-  for(var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
+  for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
     StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
   }
 
@@ -287,7 +287,8 @@ $(document).ready(function () {
     }));
   StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
+  StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
+  L.tileLayer('https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png', {
+      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
   }).addTo(StembureausApp.map);
 });
