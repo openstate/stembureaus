@@ -324,7 +324,7 @@ def gemeente_selectie():
 @login_required
 def gemeente_stemlokalen_dashboard():
     # Select a gemeente if none is currently selected
-    if not session['selected_gemeente_code']:
+    if not 'selected_gemeente_code' in session:
         return redirect(url_for('gemeente_selectie'))
 
     gemeente = Gemeente.query.filter_by(
