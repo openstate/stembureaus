@@ -276,11 +276,7 @@ $(document).ready(function () {
     StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
   }
 
-  if (StembureausApp.stembureaus_markers.length > 50) {
-    StembureausApp.map.addLayer(StembureausApp.clustermarkers);
-  } else {
-    StembureausApp.map.addLayer(L.layerGroup(StembureausApp.stembureaus_markers));
-  }
+  StembureausApp.map.addLayer(StembureausApp.clustermarkers);
 
   StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers.filter(
     function (s) {
