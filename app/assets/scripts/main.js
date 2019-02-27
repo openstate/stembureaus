@@ -116,10 +116,14 @@ StembureausApp.show = function (matches) {
         adres += ' ' + matches[i]['Huisnummertoevoeging'];
       }
     }
+    var nummer_stembureau = '';
+    if (matches[i]['Nummer stembureau']) {
+      nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
+    }
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + matches[i]['Nummer stembureau'] + ". " + matches[i]['Naam stembureau'] + '</a></h2>' +
+      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
       '<h5>' + adres + '</h5>' +
       '<h5><a href="/s/' + matches[i]['Gemeente'] + '"' + target + '>' + plaats_naam + '</a></h5>' +
