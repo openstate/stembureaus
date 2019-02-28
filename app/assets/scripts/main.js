@@ -273,7 +273,7 @@ $(document).ready(function () {
     );
   }
 
-  StembureausApp.map = L.map('map').setView([52.2, 5.592], 7);
+  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
   StembureausApp.map._layersMaxZoom = 19;
   StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
   for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
@@ -286,7 +286,12 @@ $(document).ready(function () {
     function (s) {
       return (StembureausApp.stembureaus_markers.length <= 50) || (s._latlng.lng > 0);
     }));
-  StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
+
+  // Only fit map to bounds if we are not showing the homepage map
+  // (i.e. less than e.g. 2000 stembureau)
+  if (StembureausApp.stembureaus.length < 2000) {
+    StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
+  }
 
   StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
   L.tileLayer('https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png', {
