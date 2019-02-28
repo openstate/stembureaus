@@ -273,7 +273,40 @@ $(document).ready(function () {
     );
   }
 
+ bgt = L.tileLayer(
+    'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
+    {
+      id: 'bgt',
+      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
+    }
+ );
+
+ osm = L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      id: 'osm',
+      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
+    }
+  );
+
   StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
+
+  StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
+
+  // Show BGT only when zoomed in on European Netherlands, use OSM for
+  // the rest
+  StembureausApp.map.on('load zoom move', function() {
+    var zoom = StembureausApp.map.getZoom();
+    var center = StembureausApp.map.getCenter();
+    if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
+      StembureausApp.map.removeLayer(osm);
+      StembureausApp.map.addLayer(bgt);
+    } else {
+      StembureausApp.map.removeLayer(bgt);
+      StembureausApp.map.addLayer(osm);
+    }
+  });
+
   StembureausApp.map._layersMaxZoom = 19;
   StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
   for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
@@ -292,9 +325,4 @@ $(document).ready(function () {
   if (StembureausApp.stembureaus.length < 2000) {
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
   }
-
-  StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
-  L.tileLayer('https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png', {
-      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
-  }).addTo(StembureausApp.map);
 });
