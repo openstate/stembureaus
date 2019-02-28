@@ -273,10 +273,10 @@ $(document).ready(function () {
     );
   }
 
- bgt = L.tileLayer(
+ brt = L.tileLayer(
     'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
     {
-      id: 'bgt',
+      id: 'brt',
       attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
     }
  );
@@ -293,16 +293,16 @@ $(document).ready(function () {
 
   StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
-  // Show BGT only when zoomed in on European Netherlands, use OSM for
+  // Show BRT only when zoomed in on European Netherlands, use OSM for
   // the rest
   StembureausApp.map.on('load zoom move', function() {
     var zoom = StembureausApp.map.getZoom();
     var center = StembureausApp.map.getCenter();
     if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
       StembureausApp.map.removeLayer(osm);
-      StembureausApp.map.addLayer(bgt);
+      StembureausApp.map.addLayer(brt);
     } else {
-      StembureausApp.map.removeLayer(bgt);
+      StembureausApp.map.removeLayer(brt);
       StembureausApp.map.addLayer(osm);
     }
   });
