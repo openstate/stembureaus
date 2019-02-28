@@ -273,7 +273,7 @@ $(document).ready(function () {
     );
   }
 
-  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
+  StembureausApp.map = L.map('map').setView([52.2, 5.592], 7);
   StembureausApp.map._layersMaxZoom = 19;
   StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
   for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
