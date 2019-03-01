@@ -277,8 +277,7 @@ $(document).ready(function () {
     'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
     {
       id: 'brt',
-      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
-      maxZoom: 18
+      attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
     }
  );
 
@@ -286,7 +285,7 @@ $(document).ready(function () {
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       id: 'osm',
-      attribution: '<a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
+      attribution: '<a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
     }
   );
 
@@ -318,7 +317,6 @@ $(document).ready(function () {
     }
   });
 
-  StembureausApp.map._layersMaxZoom = 19;
   StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
   for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
     StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
