@@ -1,4 +1,5 @@
 from app import app
+from app.models import BAG
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import (
@@ -164,6 +165,24 @@ class PubliceerForm(FlaskForm):
     )
 
 
+# Check if the BAG value is correct (sometimes people use the
+# Verblijfsobject ID or Pand ID instead of the Nummeraanduiding ID)
+def valid_bag(form, field):
+    bag_record = BAG.query.filter_by(nummeraanduiding=field.data).first()
+    if not bag_record:
+        if BAG.query.filter_by(object_id=field.data).first():
+            raise ValidationError(
+                'Het ingevulde nummer blijkt een BAG Verblijfsobject ID te '
+                'zijn. In dit veld moet het BAG Nummeraanduiding ID ingevuld '
+                'worden.'
+            )
+        elif BAG.query.filter_by(pandid=field.data).first():
+            raise ValidationError(
+                'Het ingevulde nummer blijkt een BAG Pand ID te zijn. In dit '
+                'veld moet het BAG Nummeraanduiding ID ingevuld worden.'
+            )
+
+
 # Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
     if not re.match('^-?\d+\.\d{4,}', str(field.data)):
@@ -262,6 +281,16 @@ class EditForm(FlaskForm):
             )
 
         if not FlaskForm.validate(self):
+            valid = False
+
+        if (self.bag_referentienummer.data == "0000000000000000" and
+                not self.extra_adresaanduiding.data):
+            self.extra_adresaanduiding.errors.append(
+                'Aangezien u "0000000000000000" in het "BAG '
+                'referentienummer"-veld heeft ingevuld moet u het adres of '
+                'andere verduidelijking van de locatie van stembureau in dit '
+                'veld invullen.'
+            )
             valid = False
 
         if (not ((self.latitude.data and self.longitude.data) or
@@ -395,6 +424,12 @@ class EditForm(FlaskForm):
             '"Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.'
             '<br>'
             '<br>'
+            'Bonaire, Sint Eustatius en Saba moeten hier "0000000000000000" '
+            '(zestien keer het getal "0") invullen. Het adres van het '
+            'stembureau moet vervolgens in het "Extra adresaanduiding"-veld '
+            'ingevuld worden.'
+            '<br>'
+            '<br>'
             '<b>Format:</b> cijfers'
             '<br>'
             '<br>'
@@ -410,7 +445,8 @@ class EditForm(FlaskForm):
             Regexp(
                 '^[0-9]+$',
                 message='Elk karakter moet een nummer tussen 0 en 9 zijn.'
-            )
+            ),
+            valid_bag
         ],
         render_kw={
             'placeholder': 'bv. 0518200000747446'
@@ -423,6 +459,10 @@ class EditForm(FlaskForm):
             'Eventuele extra informatie over de locatie van het stembureau. '
             'Bv. "Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
             'midden van het plein".'
+            '<br>'
+            '<br>'
+            'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
+            'stembureau invullen.'
             '<br>'
             '<br>'
             '<b>Format:</b> tekst'

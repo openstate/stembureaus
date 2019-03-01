@@ -847,7 +847,7 @@ def _create_record(form, stemlokaal_id, gemeente, election):
         )
 
     bag_nummer = record['BAG referentienummer']
-    bag_record = BAG.query.get(bag_nummer)
+    bag_record = BAG.query.filter_by(nummeraanduiding=bag_nummer).first()
 
     if bag_record is not None:
         bag_conversions = {
