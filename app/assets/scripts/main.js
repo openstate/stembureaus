@@ -278,6 +278,7 @@ $(document).ready(function () {
     {
       id: 'brt',
       attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>',
+      maxZoom: 18
     }
  );
 
