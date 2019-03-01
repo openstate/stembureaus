@@ -333,6 +333,6 @@ $(document).ready(function () {
   // Only fit map to bounds if we are not showing the homepage map
   // (i.e. less than e.g. 2000 stembureau)
   if (StembureausApp.stembureaus.length < 2000) {
-    StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {maxZoom: 16});
+    StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
   }
 });
