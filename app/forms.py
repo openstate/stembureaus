@@ -244,22 +244,20 @@ def x_range(form, field):
     if type(field.data) == float:
         if field.data >= 0 and field.data < 300000:
             return
-    else:
-        raise ValidationError(
-            'De x-waarde moet tussen 0 of 300000 liggen, anders ligt de '
-            'coördinaat niet op het vasteland van Europees Nederland.'
-        )
+    raise ValidationError(
+        'De x-waarde moet tussen 0 of 300000 liggen, anders ligt de '
+        'coördinaat niet op het vasteland van Europees Nederland.'
+    )
 
 
 def y_range(form, field):
     if type(field.data) == float:
         if field.data >= 300000 and field.data < 620000:
             return
-    else:
-        raise ValidationError(
-            'De y-waarde moet tussen 300000 of 620000 liggen, anders ligt de '
-            'coördinaat niet op het vasteland van Europees Nederland.'
-        )
+    raise ValidationError(
+        'De y-waarde moet tussen 300000 of 620000 liggen, anders ligt de '
+        'coördinaat niet op het vasteland van Europees Nederland.'
+    )
 
 
 class EditForm(FlaskForm):
