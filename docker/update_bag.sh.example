@@ -7,9 +7,10 @@ if [ "$NEW_TIME" != "`cat last_bag_download.txt`" ]; then
     echo $NEW_TIME > last_bag_download.txt
 
     cd docker-entrypoint-initdb.d
-    wget -nd 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'
-    unzip bag-adressen-full-laatst.csv.zip
+    wget -N 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'
+    unzip -o bag-adressen-full-laatst.csv.zip
 
+    cd ..
     MYSQL_CONTAINER="stm_mysql_1"
     DB_PASSWORD="<DB_PASSWORD>"
     NETWORK="stm_stm"

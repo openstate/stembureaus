@@ -26,5 +26,13 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
 ) CHARACTER SET=utf8;
 CREATE TABLE IF NOT EXISTS `stembureaus`.`bagtemp` LIKE `stembureaus`.`bag`;
 
+LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/bagadres-full.csv"
+INTO TABLE `stembureaus`.`bagtemp`
+COLUMNS TERMINATED BY ';'
+OPTIONALLY ENCLOSED BY '"'
+ESCAPED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
+
 RENAME TABLE `stembureaus`.`bag` TO `stembureaus`.`bagold`, `stembureaus`.`bagtemp` TO `stembureaus`.`bag`;
 DROP TABLE `stembureaus`.`bagold`;
