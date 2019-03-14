@@ -28,9 +28,9 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `sudo docker-compose up -d`
    - Compile the assets, see the section below
-   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take something like 1 hour on a server, so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take more than 1 hour on a server (without SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
-   - Set up backups for MySQL and CKAN
+   - Set up daily backups for MySQL and CKAN
       - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
          - MySQL: Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
          - CKAN: Copy the CKAN backup command for each CKAN (concept) resource you want to backup and fill in the `<RESOURCE_ID>`
@@ -39,12 +39,19 @@ Collecting and presenting stembureaus
          - `sudo crontab -e` and add the following line (change the path below to your `stembureaus/docker` directory path)
          - `46 3 * * * (cd <PATH_TO_stembureaus/docker> && sudo ./backup.sh)`
       - The resulting SQL backup files are saved in `docker/docker-entrypoint-initdb.d`
+   - Set up daily check for new BAG which downloads and installs it if there is a new BAG (once a month)
+      - Copy `docker/update_bag.sh.example` to `docker/update_bag.sh` and edit it
+         - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
+      - To run manually use `sudo ./update_bag.sh`
+      - To set a daily cronjob at 02:01
+         - `sudo crontab -e` and add the following line (change the path below to your `stembureaus/docker` directory path)
+         - `01 2 * * * (cd <PATH_TO_stembureaus/docker> && sudo ./update_bag.sh)`
 - Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
    - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Compile the assets, see the section below
-   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will beloaded in MySQL, this can take something like 10 minutes, so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 10 minutes (with an SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
