@@ -181,6 +181,21 @@ def valid_bag(form, field):
                 'Het ingevulde nummer blijkt een BAG Pand ID te zijn. In dit '
                 'veld moet het BAG Nummeraanduiding ID ingevuld worden.'
             )
+        elif field.data == "0000000000000000":
+            return
+        else:
+            raise ValidationError(
+                'Het ingevulde nummer kan niet gevonden worden in onze BAG '
+                'database. Dit kan gebeuren als de BAG nummeraanduiding ID '
+                'zeer recent is toegevoegd aan de BAG. Onze BAG database '
+                'wordt eens per maand bijgewerkt. Het kan ook zijn dat het '
+                'nummer onjuist is of verouderd. Gebruik '
+                'https://bagviewer.kadaster.nl/ om het juiste BAG '
+                'Nummeraanduiding ID te vinden. Als dit niet beschikbaar is '
+                'vul dan "0000000000000000" (zestien keer het getal "0") in '
+                'en voer het adres of andere verduidelijking van de locatie '
+                'in het "Extra adresaanduiding"-veld in.'
+            )
 
 
 # Require at least four decimals and a point in between the numbers
