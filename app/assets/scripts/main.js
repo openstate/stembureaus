@@ -154,19 +154,19 @@ StembureausApp.search = function (query) {
 
 StembureausApp.init = function() {
   var options = {
-  shouldSort: true,
-  tokenize: true,
-  threshold: 0.25,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  keys: [
-    "Gemeente",
-    "Plaats",
-    "Straatnaam",
-    "Naam stembureau"
-  ]
+    shouldSort: true,
+    tokenize: true,
+    threshold: 0.25,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 1,
+    keys: [
+      "Gemeente",
+      "Plaats",
+      "Straatnaam",
+      "Naam stembureau"
+    ]
   };
   StembureausApp.fuse = new Fuse(StembureausApp.stembureaus, options);
 
