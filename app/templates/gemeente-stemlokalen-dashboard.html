@@ -68,7 +68,7 @@
       <br>
 
       {% if upload_deadline_passed %}
-        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen. Mocht uw gemeente nog geen stembureaus toegevoegd hebben dan worden de stembureaus van uw gemeenten op basis van de data van de <a href="http://geodienst.xyz/verkiezingen/" style="color: black;" target="_blank" rel="noopener">Geodienst</a> van de Rijksuniversiteit Groningen toegevoegd.</span>
+        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
       {% else %}
         <form method="POST" enctype="multipart/form-data">
           {{ form.csrf_token }}

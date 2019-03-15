@@ -130,6 +130,16 @@ with open('app/data/kieskringen.csv') as IN:
 alle_gemeenten = [{'gemeente_naam': row[2]} for row in kieskringen]
 
 
+# Always allow admins to edit the data even if the deadline is passed
+def check_deadline_passed():
+    if current_user.admin:
+        return False
+    elif app.config['UPLOAD_DEADLINE_PASSED']:
+        return True
+    else:
+        return False
+
+
 def get_stembureaus(elections, filters=None):
     merge_field = 'UUID'
     results = {}
@@ -421,7 +431,7 @@ def gemeente_stemlokalen_dashboard():
                 show_publish_note=show_publish_note,
                 vooringevuld=vooringevuld,
                 toon_stembureaus_pagina=toon_stembureaus_pagina,
-                upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
+                upload_deadline_passed=check_deadline_passed()
             )
 
         validator = Validator()
@@ -517,7 +527,7 @@ def gemeente_stemlokalen_dashboard():
         show_publish_note=show_publish_note,
         vooringevuld=vooringevuld,
         toon_stembureaus_pagina=toon_stembureaus_pagina,
-        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
+        upload_deadline_passed=check_deadline_passed()
     )
 
 
@@ -638,7 +648,7 @@ def gemeente_stemlokalen_overzicht():
         total_pages=ceil(len(gemeente_draft_records)/posts_per_page),
         previous_url=previous_url,
         next_url=next_url,
-        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
+        upload_deadline_passed=check_deadline_passed()
     )
 
 
@@ -752,7 +762,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
         'gemeente-stemlokalen-edit.html',
         form=form,
         gemeente=gemeente,
-        upload_deadline_passed=app.config['UPLOAD_DEADLINE_PASSED']
+        upload_deadline_passed=check_deadline_passed()
     )
 
 
