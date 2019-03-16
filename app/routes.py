@@ -120,6 +120,17 @@ checklist_fields = [
 
 field_order = fields + checklist_fields
 
+disclaimer_text = (
+    "NB: Deze gemeente heeft haar stemlokaalgegevens niet aangeleverd. De "
+    "gegevens van de stembureaus van deze gemeenten zijn door Open State "
+    "Foundation zo goed mogelijk verzameled maar de correctheid ervan kan "
+    "niet gegarandeed kan worden."
+)
+
+disclaimer_gemeenten = []
+with open('app/data/niet-deelnemende-gemeenten-2019.csv') as IN:
+    disclaimer_gemeenten = IN.readlines()
+
 kieskringen = []
 with open('app/data/kieskringen.csv') as IN:
     reader = csv.reader(IN, delimiter=';')
@@ -196,6 +207,11 @@ def data():
 
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
+    disclaimer = ''
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
+    disclaimer = disclaimer_text
+
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
@@ -203,17 +219,24 @@ def show_stembureau(gemeente, primary_key):
         'show_stembureau.html',
         records=[_hydrate(r) for r in records],
         gemeente=gemeente,
-        primary_key=primary_key
+        primary_key=primary_key,
+        disclaimer=disclaimer
     )
 
 
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
+    disclaimer = ''
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
+    disclaimer = disclaimer_text
+
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
         'show_gemeente.html',
         records=[_hydrate(r) for r in records],
-        gemeente=gemeente
+        gemeente=gemeente,
+        disclaimer=disclaimer
     )
 
 
