@@ -210,7 +210,6 @@ def show_stembureau(gemeente, primary_key):
     disclaimer = ''
     if gemeente in disclaimer_gemeenten:
         disclaimer = disclaimer_text
-    disclaimer = disclaimer_text
 
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
@@ -229,7 +228,6 @@ def show_gemeente(gemeente):
     disclaimer = ''
     if gemeente in disclaimer_gemeenten:
         disclaimer = disclaimer_text
-    disclaimer = disclaimer_text
 
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
