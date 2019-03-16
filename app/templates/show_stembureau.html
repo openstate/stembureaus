@@ -29,11 +29,13 @@
   <br>
   Terug naar de <a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">stembureaupagina van gemeente {{ gemeente }}</a>.
   {% else %}
+  {% if disclaimer %}
   <div class="col-xs-12">
     {{ disclaimer }}
     <br>
     <br>
   </div>
+  {% endif %}
   <div class="col-xs-12 col-sm-12 col-md-6">
     <div id="map" style="height: 300px;"></div>
   </div>

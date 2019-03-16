@@ -129,7 +129,7 @@ disclaimer_text = (
 
 disclaimer_gemeenten = []
 with open('app/data/niet-deelnemende-gemeenten-2019.csv') as IN:
-    disclaimer_gemeenten = IN.readlines()
+    disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
 with open('app/data/kieskringen.csv') as IN:
