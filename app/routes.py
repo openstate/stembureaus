@@ -121,9 +121,9 @@ checklist_fields = [
 field_order = fields + checklist_fields
 
 disclaimer_text = (
-    "NB: Deze gemeente heeft haar stemlokaalgegevens niet aangeleverd. De "
-    "gegevens van de stembureaus van deze gemeenten zijn door Open State "
-    "Foundation zo goed mogelijk verzameled maar de correctheid ervan kan "
+    "NB: Deze gemeente heeft haar stemlokaalgegevens niet zelf aangeleverd. "
+    "De gegevens van de stembureaus van deze gemeenten zijn door Open State "
+    "Foundation zo goed mogelijk verzameld maar de correctheid ervan kan "
     "niet gegarandeed kan worden."
 )
 
