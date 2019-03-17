@@ -134,7 +134,8 @@ with open('app/data/niet-deelnemende-gemeenten-2019.csv') as IN:
 kieskringen = []
 with open('app/data/kieskringen.csv') as IN:
     reader = csv.reader(IN, delimiter=';')
-    headers = next(reader, None)
+    # Skip header
+    next(reader)
     kieskringen = list(reader)
 
 # A list containing all gemeentenamen, used in the search box on the
