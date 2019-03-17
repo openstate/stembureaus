@@ -6,12 +6,10 @@
 
 {% block content %}
   <h1>Data</h1>
-  De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken. De data word direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (voor de verkiezingen van 2018 kwam deze data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank" rel="noopener">Geodienst</a> van de Rijksuniversiteit Groningen). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de veldbeschrijving hieronder). De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.
-
-  <br>
-  <br>
+  <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken. De data word direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (voor de verkiezingen van 2019 is dit gedaan door Open State Foundation en in 2018 kwam deze data van de <a href="http://geodienst.xyz/verkiezingen/" target="_blank" rel="noopener">Geodienst</a> van de Rijksuniversiteit Groningen). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de veldbeschrijving hieronder). De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
   <b>Aankomende verkiezingen (deze data is nog niet compleet maar wordt tot de verkiezingen nog aangevuld door de gemeenten)</b>:
+  <p>NB: <a href="/files/niet-deelnemende-gemeenten-2019.csv">Deze gemeenten</a> hebben hun stemlokaalgegevens niet zelf aangeleverd. De gegevens van de stembureaus van deze gemeenten zijn door Open State Foundation zo goed mogelijk verzameld maar de correctheid en/of compleetheid ervan kan niet gegarandeed worden.</p>
   <ul>
     <li>2019-03-20 Stembureaus Provinciale Statenverkiezingen 2019 (stembureaus ODS v1.1): [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-provinciale-statenverkiezingen-2019" target="_blank" rel="noopener">Metadata</a>], [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-provinciale-statenverkiezingen-2019/resource/178e8e18-8247-4d0c-a08b-cc48f96c874b" target="_blank" rel="noopener">Data Explorer en API</a>] en [<a href="https://ckan.dataplatform.nl/datastore/dump/178e8e18-8247-4d0c-a08b-cc48f96c874b">CSV</a>]</li>
     <li>2019-03-20 Stembureaus waterschapsverkiezingen 2019 (stembureaus ODS v1.1): [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-waterschapsverkiezingen-2019" target="_blank" rel="noopener">Metadata</a>], [<a href="https://ckan.dataplatform.nl/dataset/stembureaus-waterschapsverkiezingen-2019/resource/7fdfdae1-96af-44fb-8abd-21fc4cd8093d" target="_blank" rel="noopener">Data Explorer en API</a>] en [<a href="https://ckan.dataplatform.nl/datastore/dump/7fdfdae1-96af-44fb-8abd-21fc4cd8093d">CSV</a>]</li>
@@ -28,10 +26,7 @@
   </ul>
 
   <h2>Veldbeschrijving</h2>
-
-  <b>*</b> = verplicht veld (doordat niet alle gemeenten de data zelf hebben aangeleverd is een verplicht veld echter niet altijd ingevuld).
-  <br>
-  <br>
+  <p><b>*</b> = verplicht veld (doordat niet alle gemeenten de data zelf hebben aangeleverd is een verplicht veld echter niet altijd ingevuld).</p>
 
   <ul>
     <li><b>_id</b>: een veld dat intern door CKAN gebruikt wordt. Gebruik het <b>UUID</b> veld als identifier van een stembureau.</li>
@@ -86,7 +81,6 @@
     <li>61 niet-verplichte velden die gebaseerd zijn op de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">checklist toegankelijkheidscriteria stemlokalen (PDF)</a>, zie <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">deze pagina</a> van de Vereniging van Nederlandse Gemeenten (VNG) voor meer informatie over de toegankelijkheid van verkiezingen. <i>[Beschikbaar sinds Stembureaus ODS v1.1]</i></li>
   </ul>
 
-
   <h2>Verdere toelichting</h2>
-  Sommige stembureaus komen meerdere keren in de data voor. Dit is het geval als een stembureau meerdere openingstijden en/of locaties heeft, zoals bij een mobiel stembureau het geval is. Een stembureau heeft voor elke locatie/openingstijd een nieuwe rij in de dataset.
+  <p>Sommige stembureaus komen meerdere keren in de data voor. Dit is het geval als een stembureau meerdere openingstijden en/of locaties heeft, zoals bij een mobiel stembureau het geval is. Een stembureau heeft voor elke locatie/openingstijd een nieuwe rij in de dataset.</p>
 {% endblock %}

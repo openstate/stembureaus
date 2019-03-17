@@ -126,7 +126,7 @@ StembureausApp.show = function (matches) {
       '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
       '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
       '<h5>' + adres + '</h5>' +
-      '<h5><a href="/s/' + matches[i]['Gemeente'] + '"' + target + '>' + plaats_naam + '</a></h5>' +
+      '<h5>' + plaats_naam + '</h5>' +
       '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
       '</div>'
     ))
@@ -239,7 +239,7 @@ $(document).ready(function () {
   StembureausApp.getPopup = function(s) {
     var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
+    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">#" + StembureausApp.stembureaus[i]['Nummer stembureau']  + " " + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
     if (StembureausApp.stembureaus[i]['Straatnaam']) {
       output += StembureausApp.stembureaus[i]['Straatnaam'];
     }
@@ -253,11 +253,14 @@ $(document).ready(function () {
       output += ' ' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
     }
     if (StembureausApp.stembureaus[i]['Plaats']) {
-      output += "<br />" + StembureausApp.stembureaus[i]['Plaats'] + "<br />";
+      output += "<br>" + StembureausApp.stembureaus[i]['Postcode'] + ", " + StembureausApp.stembureaus[i]['Plaats'];
     } else {
-      output += "<i>Gemeente " + StembureausApp.stembureaus[i]['Gemeente'] + "</i><br />";
+      output += "<i>Gemeente " + StembureausApp.stembureaus[i]['Gemeente'] + "</i>";
     }
-    output += '<strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br />';
+    if (StembureausApp.stembureaus[i]['Extra adresaanduiding']) {
+      output += "<br>" + StembureausApp.stembureaus[i]['Extra adresaanduiding'];
+    }
+    output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
     if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
       output += '<i class="fa fa-wheelchair" aria-hidden="true"></i>';
     }
@@ -268,7 +271,7 @@ $(document).ready(function () {
   for (var i=0; i < StembureausApp.stembureaus.length; i++) {
     StembureausApp.stembureaus_markers.push(
       L.marker(
-        [StembureausApp.stembureaus[i].Latitude, StembureausApp.stembureaus[i].Longitude]
+        [StembureausApp.stembureaus[i]['Latitude'], StembureausApp.stembureaus[i]['Longitude']]
       ).bindPopup(StembureausApp.getPopup(StembureausApp.stembureaus[i]))
     );
   }

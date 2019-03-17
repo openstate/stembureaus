@@ -120,15 +120,36 @@ checklist_fields = [
 
 field_order = fields + checklist_fields
 
+default_minimal_fields = [
+    'UUID',
+    'Gemeente',
+    'Nummer stembureau',
+    'Naam stembureau',
+    'Straatnaam',
+    'Huisnummer',
+    'Huisletter',
+    'Huisnummertoevoeging',
+    'Postcode',
+    'Plaats',
+    'Extra adresaanduiding',
+    'Longitude',
+    'Latitude',
+    'Openingstijden',
+    'Mindervaliden toegankelijk',
+    'Mindervalide toilet aanwezig'
+]
+
+extended_minimal_fields = default_minimal_fields + ['Website locatie']
+
 disclaimer_text = (
     "NB: Deze gemeente heeft haar stemlokaalgegevens niet zelf aangeleverd. "
-    "De gegevens van de stembureaus van deze gemeenten zijn door Open State "
-    "Foundation zo goed mogelijk verzameld maar de correctheid ervan kan "
-    "niet gegarandeed kan worden."
+    "De gegevens van de stembureaus van deze gemeente zijn door Open State "
+    "Foundation zo goed mogelijk verzameld maar de correctheid en/of "
+    "compleetheid ervan kan niet gegarandeed worden."
 )
 
 disclaimer_gemeenten = []
-with open('app/data/niet-deelnemende-gemeenten-2019.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2019.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
@@ -171,20 +192,17 @@ def get_stembureaus(elections, filters=None):
     return results.values()
 
 
-def _hydrate(r):
-    del r['Beschikbaarheid']
-    del r['Contactgegevens']
-    del r['Gebruikersdoel het gebouw']
-    del r['Website locatie']
-    del r['X']
-    del r['Y']
-    del r['ID']
-    del r['BAG referentienummer']
-    del r['Hoofdstembureau']
-    del r['Kieskring ID']
-    del r['Wijknaam']
-    del r['Buurtnaam']
-    return r
+def _hydrate(record, minimal_type='default'):
+    minimal_record = {}
+    if minimal_type == 'default':
+        for key, value in record.items():
+            if key in default_minimal_fields:
+                minimal_record[key] = value
+    elif minimal_type == 'extended':
+        for key, value in record.items():
+            if key in extended_minimal_fields:
+                minimal_record[key] = value
+    return minimal_record
 
 
 @app.route("/")
@@ -192,7 +210,7 @@ def index():
     records = get_stembureaus(ckan.elections)
     return render_template(
         'index.html',
-        records=[_hydrate(r) for r in records],
+        records=[_hydrate(record, 'default') for record in records],
         alle_gemeenten=alle_gemeenten
     )
 
@@ -218,7 +236,7 @@ def show_stembureau(gemeente, primary_key):
     )
     return render_template(
         'show_stembureau.html',
-        records=[_hydrate(r) for r in records],
+        records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
         primary_key=primary_key,
         disclaimer=disclaimer
@@ -234,7 +252,7 @@ def show_gemeente(gemeente):
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
         'show_gemeente.html',
-        records=[_hydrate(r) for r in records],
+        records=[_hydrate(record, 'default') for record in records],
         gemeente=gemeente,
         disclaimer=disclaimer
     )
@@ -246,7 +264,7 @@ def embed_stembureau(gemeente, primary_key):
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
     return render_template(
-        'embed_stembureau.html', records=[_hydrate(r) for r in records],
+        'embed_stembureau.html', records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
         primary_key=primary_key
     )
@@ -258,7 +276,7 @@ def embed_gemeente(gemeente):
     show_search = (request.args.get('search', 1, type=int) == 1)
     return render_template(
         'embed_gemeente.html',
-        records=[_hydrate(r) for r in records],
+        records=[_hydrate(record, 'default') for record in records],
         gemeente=gemeente,
         show_search=show_search
     )
