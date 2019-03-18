@@ -38,11 +38,13 @@ def _get_bag(r):
         print('geen straatnaam')
 
         bag = BAG.query.filter_by(nummeraanduiding=r['BAG referentienummer'])
-        if bag:
+        if bag.count() == 1:
             return bag.first()
+        elif bag:
+            return False
 
         bag = BAG.query.filter_by(object_id=r['BAG referentienummer'])
-        if bag and bag.count() == 1:
+        if bag.count() == 1:
             if bag.first().nummeraanduiding:
                 return bag.first()
             else:
@@ -51,7 +53,7 @@ def _get_bag(r):
             return False
 
         bag = BAG.query.filter_by(pandid=r['BAG referentienummer'])
-        if bag and bag.count() == 1:
+        if bag.count() == 1:
             if bag.first().nummeraanduiding:
                 return bag.first()
             else:
