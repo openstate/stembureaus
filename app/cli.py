@@ -43,7 +43,7 @@ def _get_bag(r):
 
         bag = BAG.query.filter_by(object_id=r['BAG referentienummer'])
         if bag and bag.count() == 1:
-            if bag.nummeraanduiding:
+            if bag.first().nummeraanduiding:
                 return bag.first()
             else:
                 return False
@@ -52,7 +52,7 @@ def _get_bag(r):
 
         bag = BAG.query.filter_by(pandid=r['BAG referentienummer'])
         if bag and bag.count() == 1:
-            if bag.nummeraanduiding:
+            if bag.first().nummeraanduiding:
                 return bag.first()
             else:
                 return False
