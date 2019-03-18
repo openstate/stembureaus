@@ -33,66 +33,59 @@ def show_verkiezingen():
 
 
 def _get_bag(r):
-    bag = BAG.query.get(r['BAG referentienummer'])
-    if bag is not None:
-        return bag, 'ref'
+    print(r['_id'])
+    if not r['Straatnaam']:
+        print('geen straatnaam')
 
-    bag = BAG.query.filter_by(object_id=r['BAG referentienummer']).first()
-    if bag is not None:
-        return bag, 'obj'
+        bag = BAG.query.filter_by(nummeraanduiding=r['BAG referentienummer'])
+        if bag:
+            return bag.first()
 
-    bag = BAG.query.filter_by(pandid=r['BAG referentienummer']).first()
-    if bag is not None:
-        return bag, 'pand'
-    return None, 'nf'
+        bag = BAG.query.filter_by(object_id=r['BAG referentienummer'])
+        if bag and bag.count() == 1:
+            if bag.nummeraanduiding:
+                return bag.first()
+            else:
+                return False
+        elif bag:
+            return False
+
+        bag = BAG.query.filter_by(pandid=r['BAG referentienummer'])
+        if bag and bag.count() == 1:
+            if bag.nummeraanduiding:
+                return bag.first()
+            else:
+                return False
+        elif bag:
+            return False
+
+        return False
 
 
 @CKAN.command()
-@click.option('--what', default='draft')
-def fix_bag_addresses(what):
+@click.option('--resource_type', default='draft')
+def fix_bag_addresses(resource_type):
+    """
+    Checks all records of all election resources (default draft) for
+    missing address information. If this is the case, try to retrieve
+    it based on the available BAG number, otherwise check if the BAG
+    number is another type of BAG number (other then nummeraanduiding)
+    and see if it corresponds with 1 BAG nummeraanduiding ID in order
+    to retrieve the address. Finally, the whole resource is exported.
+    """
     for name, election in ckan.elections.items():
         total = 0
         bag_found = 0
-        with_no_street = 0
-        no_bag_but_street = 0
-        bag_counts = {'ref': 0, 'obj': 0, 'pand': 0, 'nf': 0}
-        resource_id = election['%s_resource' % (what,)]
-        sys.stderr.write('%s: %s\n' % (name, resource_id,))
+        resource_id = election['%s_resource' % (resource_type)]
+        sys.stderr.write('%s: %s\n' % (name, resource_id))
         records = ckan.get_records(resource_id)
         for r in records['records']:
-            bag, bag_type = _get_bag(r)
-            bag_counts[bag_type] += 1
+            bag = _get_bag(r)
 
-            if bag_type != 'ref' and bag_type != 'obj':
-                sys.stderr.write("ERROR: no bag for %s (%s)\n" % (
-                    r['BAG referentienummer'], r['Gemeente'],))
-
-            bag_found += 1
-            if bag_type == 'obj':
+            if bag:
+                bag_found += 1
                 r['BAG referentienummer'] = bag.nummeraanduiding
 
-            if ((bag is not None) and (r['Postcode'] is not None)
-                    and (r['Postcode'] != bag.postcode)):
-                sys.stderr.write(
-                    "Record says: %s, BAG says: %s, found via %s (%s/%s)\n" % (
-                        r['Postcode'],
-                        bag.postcode,
-                        bag_type,
-                        r['Gemeente'],
-                        bag.gemeente
-                    )
-                )
-                # continue
-
-            ## We stopped adding the wijk and buurt data as the data
-            ## supplied by CBS is not up to date enough as it is only
-            ## released once a year and many months after changes
-            ## have been made by the municipalities.
-            #wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
-            #    r['BAG referentienummer'], r['CBS gemeentecode'],
-            #    r['Longitude'], r['Latitude'])
-
-            if bag is not None:
                 bag_conversions = {
                     'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
                     'openbareruimte': 'Straatnaam',
@@ -100,7 +93,7 @@ def fix_bag_addresses(what):
                     'huisletter': 'Huisletter',
                     'huisnummertoevoeging': 'Huisnummertoevoeging',
                     'postcode': 'Postcode',
-                    'woonplaats': 'Plaats',
+                    'woonplaats': 'Plaats'
                 }
 
                 for bag_field, record_field in bag_conversions.items():
@@ -112,29 +105,14 @@ def fix_bag_addresses(what):
                     else:
                         r[record_field] = None
 
-            ## We stopped adding the wijk and buurt data as the data
-            ## supplied by CBS is not up to date enough as it is only
-            ## released once a year and many months after changes
-            ## have been made by the municipalities.
-            #r['Wijknaam'] = wk_naam or ''
-            #r['CBS wijknummer'] = wk_code or ''
-            #r['Buurtnaam'] = bu_naam or ''
-            #r['CBS buurtnummer'] = bu_code or ''
-
             total += 1
         sys.stderr.write(
-            "%s records, %s with BAG found. %s had no street info"
-            "before.\n" % (
-                total, bag_found, with_no_street
+            "%s records, %s with BAG found\n" % (
+                total, bag_found
             )
         )
-        sys.stderr.write(
-            "%s record with no BAG, but with street info'n" % (
-                no_bag_but_street
-            )
-        )
-        sys.stderr.write("%s\n" % (bag_counts,))
-        with open('exports/%s_bag_fix.json' % (resource_id,), 'w') as OUT:
+
+        with open('exports/%s_bag_add_fix.json' % (resource_id), 'w') as OUT:
             json.dump(records['records'], OUT, indent=4, sort_keys=True)
 
 
