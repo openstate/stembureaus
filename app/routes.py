@@ -136,6 +136,7 @@ default_minimal_fields = [
     'Latitude',
     'Openingstijden',
     'Mindervaliden toegankelijk',
+    'Akoestiek',
     'Mindervalide toilet aanwezig'
 ]
 
@@ -145,7 +146,7 @@ disclaimer_text = (
     "NB: Deze gemeente heeft haar stemlokaalgegevens niet zelf aangeleverd. "
     "De gegevens van de stembureaus van deze gemeente zijn door Open State "
     "Foundation zo goed mogelijk verzameld maar de correctheid en/of "
-    "compleetheid ervan kan niet gegarandeed worden."
+    "compleetheid ervan kan niet gegarandeerd worden."
 )
 
 disclaimer_gemeenten = []

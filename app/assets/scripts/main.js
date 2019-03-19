@@ -124,6 +124,18 @@ StembureausApp.show = function (matches, query) {
       '': '',
       undefined: ''
     }
+    var akoestiek_labels = {
+      'Y': 'Akoestiek geschikt voor slechthorenden',
+      'N': '',
+      '': '',
+      undefined: ''
+    }
+    var mivatoilet_labels = {
+      'Y': 'Mindervaliden toilet aanwezig',
+      'N': '',
+      '': '',
+      undefined: ''
+    }
     var plaats_naam =  matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
@@ -141,12 +153,19 @@ StembureausApp.show = function (matches, query) {
     }
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
-      '<div class="result">' +
-      '<h2 class="pull-left"><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
-      '<p class="pull-right">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
-      '<h5>' + adres + '</h5>' +
-      '<h5>' + plaats_naam + '</h5>' +
-      '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
+      '<div class="result row">' +
+        '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
+        '<div class="col-xs-12 col-sm-7">' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
+          '<h5>' + adres + '</h5>' +
+          '<h5>' + plaats_naam + '</h5>' +
+          '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
+        '</div>' +
+        '<div class="col-xs-12 col-sm-5" style="padding-top: 24px;">' +
+          '<p style="font-size: 12px">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
+          '<p style="font-size: 12px">' + akoestiek_labels[matches[i]["Akoestiek"]] + '</p>' +
+          '<p style="font-size: 12px">' + mivatoilet_labels[matches[i]["Mindervalide toilet aanwezig"]] + '</p>' +
+        '</div>' +
       '</div>'
     ))
   }
@@ -283,9 +302,15 @@ $(document).ready(function () {
     }
     output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
     if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
-      output += '<i class="fa fa-wheelchair" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>';
+      output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>&nbsp;';
     } else {
-      output += '<span class="fa-stack" title="Niet mindervaliden toegankelijk"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.75;"></i></span><span class="sr-only">Niet mindervaliden toegankelijk</span>';
+      output += '<span class="fa-stack" title="Niet mindervaliden toegankelijk"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.75;"></i></span><span class="sr-only">Niet mindervaliden toegankelijk</span>&nbsp;';
+    }
+    if (StembureausApp.stembureaus[i]["Akoestiek"] == 'Y') {
+      output += '<i class="fa fa-deaf fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Akoestiek geschikt voor slechthorenden"></i><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;';
+    }
+    if (StembureausApp.stembureaus[i]["Mindervalide toilet aanwezig"] == 'Y') {
+      output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toilet aanwezig"></i><span title="Mindervaliden toilet aanwezig" style="position: relative; top: -8px; left: -10px" aria-hidden="true">WC</span><span class="sr-only">Mindervaliden toilet aanwezig</span>&nbsp;';
     }
     output += '</p>';
     return output;

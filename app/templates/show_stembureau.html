@@ -66,8 +66,11 @@
         {% else %}
         <li>Niet mindervaliden toegankelijk</li>
         {% endif %}
+        {% if record['Akoestiek'] == 'Y' %}
+        <li>Akoestiek geschikt voor slechthorenden</li>
+        {% endif %}
         {% if record['Mindervalide toilet aanwezig'] == 'Y' %}
-        <li>Toilet voor Mindervaliden aanwezig</li>
+        <li>Mindervaliden toilet aanwezig</li>
         {% endif %}
         </ul>
         {% endfor %}
