@@ -81,20 +81,39 @@ var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: 
 StembureausApp.show_gemeenten = function (matches, query) {
   $('#results-search').empty();
   for (var i=0; i < matches.length; i++) {
+
+    // Deal with alternative municipality names
+    gemeente_uri = matches[i]['gemeente_naam']
+    if (matches[i]['gemeente_naam'] == 'Den Haag') {
+      gemeente_uri = "'s-Gravenhage"
+    }
+    else if (matches[i]['gemeente_naam'] == 'Den Bosch') {
+      gemeente_uri = "'s-Hertogenbosch"
+    }
+    else if (matches[i]['gemeente_naam'] == 'De Friese Meren') {
+      gemeente_uri = "De Fryske Marren"
+    }
+    else if (matches[i]['gemeente_naam'] == 'Noordoost-Friesland') {
+      gemeente_uri = "Noardeast-Fryslân"
+    }
+    else if (matches[i]['gemeente_naam'] == 'Zuidwest-Friesland') {
+      gemeente_uri = "Súdwest-Fryslân"
+    }
+
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result">' +
-      '<h2><a href="/s/' + matches[i]['gemeente_naam'] + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
+      '<h2><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
       '</div>'
     ))
   }
 
   if (matches.length == 0 && query.length > 1) {
-    $('#results-search').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend? Wij gebruiken de officiële spelling van de gemeentenaam, bijvoorbeeld "\'s-Gravenhage" in plaats van "Den Haag".</p>'));
+    $('#results-search').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend?</p>'));
   }
 };
 
-StembureausApp.show = function (matches) {
+StembureausApp.show = function (matches, query) {
   $('#results-search').empty();
   matches.sort(function (a,b) {return (a['Nummer stembureau'] > b['Nummer stembureau']) ? 1 : ((b['Nummer stembureau'] > a['Nummer stembureau']) ? -1 : 0)});
   for (var i=0; i < matches.length; i++) {
@@ -132,8 +151,10 @@ StembureausApp.show = function (matches) {
     ))
   }
 
-  if (matches.length == 0) {
+  if (matches.length == 0 && query.length > 1) {
     $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straten. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
+  } else if (query.length == 0) {
+    StembureausApp.show(StembureausApp.stembureaus);
   }
 };
 
@@ -149,7 +170,7 @@ StembureausApp.search = function (query) {
   //console.log('matches:');
   //console.dir(stembureau_matches);
 
-  StembureausApp.show(stembureau_matches);
+  StembureausApp.show(stembureau_matches, query);
 };
 
 StembureausApp.init = function() {

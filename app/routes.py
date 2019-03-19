@@ -160,8 +160,17 @@ with open('app/data/kieskringen.csv') as IN:
     kieskringen = list(reader)
 
 # A list containing all gemeentenamen, used in the search box on the
-#homepage
-alle_gemeenten = [{'gemeente_naam': row[2]} for row in kieskringen]
+# homepage. Also allow for some alternative municipality names.
+alternative_names = [
+    {'gemeente_naam': 'Den Haag'},
+    {'gemeente_naam': 'Den Bosch'},
+    {'gemeente_naam': 'De Friese Meren'},
+    {'gemeente_naam': 'Noordoost-Friesland'},
+    {'gemeente_naam': 'Zuidwest-Friesland'}
+]
+alle_gemeenten = [
+    {'gemeente_naam': row[2]} for row in kieskringen
+] + alternative_names
 
 
 # Always allow admins to edit the data even if the deadline is passed
