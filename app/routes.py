@@ -745,7 +745,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
             # checklist fields contains a value as we then want
             # to show the user checklist
             for checklist_field in checklist_fields:
-                if record[checklist_field[:63]]:
+                if record[checklist_field[:62]]:
                     init_record['show_checklist'] = 'Ja'
 
     form = EditForm(**init_record)
@@ -887,7 +887,7 @@ def _create_record(form, stemlokaal_id, gemeente, election):
             record[f.label.text] = ';'.join(f.data)
         elif (f.type != 'SubmitField' and
                 f.type != 'CSRFTokenField' and f.type != 'RadioField'):
-            record[f.label.text[:63]] = f.data
+            record[f.label.text[:62]] = f.data
 
     # TODO only valid for elections of March and May 2019,
     # remove or change it for new elections or make it a config

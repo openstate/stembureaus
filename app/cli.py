@@ -424,14 +424,14 @@ def add_new_datastore(resource_id):
         {
             "id": (
                 "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk "
-                "af"
+                "a"
             ),
             "type": "text"
         },
         {
             "id": (
                 "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij "
-                "bui"
+                "bu"
             ),
             "type": "text"
         },
@@ -442,7 +442,7 @@ def add_new_datastore(resource_id):
         {
             "id": (
                 "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en "
-                "conform"
+                "confor"
             ),
             "type": "text"
         },
@@ -975,10 +975,10 @@ def test_datastore_upsert(resource_id):
         "2.3.e Drempelhoogte (t.o.v. vloer niveau)": "<2cm",
         "2.3.f Vrije doorgangsbreedte deur": ">85cm",
         "2.4.a Zijn er tijdelijke voorzieningen aangebracht": "Y",
-        "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk af": "Y",
-        "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij bui": "Y",
+        "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk a": "Y",
+        "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij bu": "Y",
         "2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond": "Y",
-        "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform": "Y",
+        "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en confor": "Y",
         "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing": "Y",
         "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond": "Y",
         "3.1.a Obstakelvrije doorgangen": "Y",

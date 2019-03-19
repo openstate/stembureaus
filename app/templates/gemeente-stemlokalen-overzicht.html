@@ -66,8 +66,8 @@
           {% endif %}
           {% for field in field_order %}
             <td>
-              {% if record[field[:63]] != None %}
-              {{ record[field[:63]] }}
+              {% if record[field[:62]] != None %}
+              {{ record[field[:62]] }}
               {% endif %}
             </td>
           {% endfor %}
