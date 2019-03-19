@@ -62,7 +62,9 @@
         <p>Bijzonderheden:</p>
         <ul>
         {% if record['Mindervaliden toegankelijk'] == 'Y' %}
-        <li>Rolstoeltoegankelijk</li>
+        <li>Mindervaliden toegankelijk</li>
+        {% else %}
+        <li>Niet mindervaliden toegankelijk</li>
         {% endif %}
         {% if record['Mindervalide toilet aanwezig'] == 'Y' %}
         <li>Toilet voor Mindervaliden aanwezig</li>

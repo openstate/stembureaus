@@ -119,8 +119,8 @@ StembureausApp.show = function (matches, query) {
   for (var i=0; i < matches.length; i++) {
     var opinfo = matches[i]['Openingstijden'].split(' tot ');
     var weelchair_labels = {
-      'Y': 'Rolstoeltoegankelijk',
-      'N': '',
+      'Y': 'Mindervaliden toegankelijk',
+      'N': 'Niet mindervaliden toegankelijk',
       '': '',
       undefined: ''
     }
@@ -283,7 +283,9 @@ $(document).ready(function () {
     }
     output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
     if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
-      output += '<i class="fa fa-wheelchair" aria-hidden="true"></i>';
+      output += '<i class="fa fa-wheelchair" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>';
+    } else {
+      output += '<span class="fa-stack" title="Niet mindervaliden toegankelijk"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.75;"></i></span><span class="sr-only">Niet mindervaliden toegankelijk</span>';
     }
     output += '</p>';
     return output;
