@@ -725,7 +725,12 @@ def import_resource(resource_id, file_path):
         for record in records:
             if '_id' in record:
                 del record['_id']
-        ckan.save_records(resource_id, records)
+        ckan.save_records(
+            resource_id,
+            sorted(
+                records, key=lambda x: (x['Gemeente'], x['Nummer stembureau'])
+            )
+        )
 
 
 @CKAN.command()
