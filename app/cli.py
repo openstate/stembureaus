@@ -424,14 +424,14 @@ def add_new_datastore(resource_id):
         {
             "id": (
                 "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk "
-                "afgeplakt"
+                "af"
             ),
             "type": "text"
         },
         {
             "id": (
                 "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij "
-                "buitentoepassing)"
+                "bui"
             ),
             "type": "text"
         },
@@ -442,14 +442,14 @@ def add_new_datastore(resource_id):
         {
             "id": (
                 "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en "
-                "conform criteria"
+                "conform"
             ),
             "type": "text"
         },
         {
             "id": (
                 "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van "
-                "toepassing bij buitentoepassing)"
+                "toepassing"
             ),
             "type": "text"
         },
@@ -979,7 +979,7 @@ def test_datastore_upsert(resource_id):
         "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij bui": "Y",
         "2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond": "Y",
         "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform": "Y",
-        "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing ": "Y",
+        "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing": "Y",
         "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond": "Y",
         "3.1.a Obstakelvrije doorgangen": "Y",
         "3.1.b Vrije draaicirkel / manoeuvreerruimte": "Y",

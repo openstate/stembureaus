@@ -273,7 +273,7 @@ class Record(object):
             'v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_buitentoepassing': record['2.4.c hellingbaan: weerbestendig (alleen van toepassing bij bui'],
             'v2_4_d_hellingbaan_deugdelijk_verankerd_aan_ondergrond': record['2.4.d hellingbaan: deugdelijk verankerd aan ondergrond'],
             'v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_conform_criteria': record['2.4.e leuning bij hellingbaan/trap: leuning aanwezig en conform'],
-            'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing': record['2.4.f dorpeloverbrugging: weerbestendig (alleen van toepassing '],
+            'v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing': record['2.4.f dorpeloverbrugging: weerbestendig (alleen van toepassing'],
             'v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_ondergrond': record['2.4.g dorpeloverbrugging: deugdelijk verankerd aan ondergrond'],
             'v3_1_a_obstakelvrije_doorgangen': record['3.1.a obstakelvrije doorgangen'],
             'v3_1_b_vrije_draaicirkel_manoeuvreerruimte': record['3.1.b vrije draaicirkel / manoeuvreerruimte'],
