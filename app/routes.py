@@ -120,6 +120,8 @@ checklist_fields = [
 
 field_order = fields + checklist_fields
 
+truncated_checklist_fields = {x[:62]: x for x in checklist_fields}
+
 default_minimal_fields = [
     'UUID',
     'Gemeente',
@@ -140,7 +142,12 @@ default_minimal_fields = [
     'Mindervalide toilet aanwezig'
 ]
 
-extended_minimal_fields = default_minimal_fields + ['Website locatie']
+extended_minimal_fields = default_minimal_fields + [
+    'Verkiezingen',
+    'Website locatie',
+    'Contactgegevens',
+    'Beschikbaarheid'
+]
 
 disclaimer_text = (
     "NB: Deze gemeente heeft haar stemlokaalgegevens niet zelf aangeleverd. "
@@ -215,6 +222,16 @@ def _hydrate(record, minimal_type='default'):
     return minimal_record
 
 
+# Only create a checklist if it contains values
+def _create_checklist(record):
+    checklist = {}
+    for key, value in record.items():
+        if key in truncated_checklist_fields:
+            if value:
+                checklist[truncated_checklist_fields[key]] = value
+    return checklist
+
+
 @app.route("/")
 def index():
     records = get_stembureaus(ckan.elections)
@@ -247,6 +264,7 @@ def show_stembureau(gemeente, primary_key):
     return render_template(
         'show_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
+        checklists=[_create_checklist(record) for record in records],
         gemeente=gemeente,
         primary_key=primary_key,
         disclaimer=disclaimer
@@ -275,6 +293,7 @@ def embed_stembureau(gemeente, primary_key):
     )
     return render_template(
         'embed_stembureau.html', records=[_hydrate(record, 'extended') for record in records],
+        checklists=[_create_checklist(record) for record in records],
         gemeente=gemeente,
         primary_key=primary_key
     )

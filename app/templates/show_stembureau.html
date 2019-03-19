@@ -73,6 +73,55 @@
         <li>Mindervaliden toilet aanwezig</li>
         {% endif %}
         </ul>
+
+        {% if record['Verkiezingen'] %}
+        <br>
+        In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen:
+          <ul>
+            {% for verkiezing in record['Verkiezingen'].split(';') %}
+            <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <br>
+        <br>
+        <br>
+        <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens'] }}</p>
+        <a href="{{ record['Beschikbaarheid'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
+
+        {% if checklists[0] %}
+        <br>
+        <br>
+        <br>
+        <p>Deze gemeente heeft de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">Checklist toegankelijkheidscriteria stemlokalen</a> ingevuld:</p>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Bekijk Checklist toegankelijkheidscriteria
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <table class="table table-condensed">
+                {% for checklist in checklists %}
+                  {% for key, value in checklist | dictsort %}
+                    <tr>
+                      <td>{{ key }}</td>
+                      <td>{{ value }}</td>
+                    </tr>
+                  {% endfor %}
+                {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
         {% endfor %}
       </div>
     </div>
