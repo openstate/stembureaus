@@ -232,6 +232,15 @@ def _create_checklist(record):
     return checklist
 
 
+# Add 'Cache-Control': 'private' header if users are logged in
+@app.after_request
+def after_request_callback(response):
+    if current_user.is_authenticated:
+        response.headers['Cache-Control'] = 'private'
+
+    return response
+
+
 @app.route("/")
 def index():
     records = get_stembureaus(ckan.elections)
