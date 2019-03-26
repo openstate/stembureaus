@@ -380,8 +380,8 @@ class ExcelParser(BaseParser):
             # The mindervaliden checklist field names start with a
             # number, so we prepend those names with a 'v' (from
             # 'veld')
-            if re.match('\d', header):
-                header = 'v' + header
+            if re.match('\d', str(header)):
+                header = 'v' + str(header)
             # 'Slugify' the field name
             headers.append(
                 re.sub(
