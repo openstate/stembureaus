@@ -48,18 +48,22 @@
 
   <div class="row">
     <div class="col-md-8 background-lighter-grey block-padding">
-      <h2>Download 'leeg' of deels vooringevuld stembureau-spreadsheet</h2>
+      <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
       <br>
       <br>
-      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx"><b>.xlsx</b></a>
-      <br>
-      <br>
-      - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van het raadgevend referendum van 2018:
+      {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba'] %}
+      - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de kiescollegeverkiezingen 2019:
+      {% else %}
+      - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Provinciale Statenverkiezingen 2019:
+      {% endif %}
       {% if vooringevuld %}
       <a href="{{ vooringevuld }}">.xlsx</a>
       {% else %}
       <b>niet beschikbaar voor uw gemeente</b>
       {% endif %}
+      <br>
+      <br>
+      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx">.xlsx</a>
     </div>
 
     <div class="col-md-4 background-light-blue block-padding upload-block">

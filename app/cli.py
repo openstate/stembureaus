@@ -1225,16 +1225,18 @@ def add_gemeenten_verkiezingen_users(json_file):
                     )
                 )
 
-            # Add verkiezingen
+            # Remove existing elections and add new elections (this
+            # allows us to easily change the elections that are
+            # currently held)
             elections = gemeente.elections.all()
-            if (len(elections)) <= 0:
-                for verkiezing in item['verkiezingen']:
-                    election = Election(
-                        verkiezing=verkiezing, gemeente=gemeente
-                    )
-                    db.session.add(election)
-
-                db.session.commit()
+            for election in elections:
+                Election.query.filter_by(id=election.id).delete()
+            for verkiezing in item['verkiezingen']:
+                election = Election(
+                    verkiezing=verkiezing, gemeente=gemeente
+                )
+                db.session.add(election)
+            db.session.commit()
 
             # Add users
             for email in item['email']:
@@ -1293,7 +1295,7 @@ def add_gemeenten_verkiezingen_users(json_file):
             db.session.commit()
 
         print(
-            '%d gemeenten (and related verkiezingen) added' % (
+            '%d gemeenten added' % (
                 total_gemeenten_created
             )
         )

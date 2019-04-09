@@ -18,23 +18,21 @@
   <p>Gemeenten kunnen op twee manieren hun data toevoegen aan 'Waar is mijn stemlokaal':</p>
 
   <ol>
-    <li>Door een deels vooringevuld of leeg stembureau-spreadsheet te downloaden, alle stembureaus aan te passen/in te vullen en vervolgens de spreadsheet te uploaden;</li>
-    <li>De stembureaus direct op deze website in te voeren.</li>
+    <li>Door de stembureaus direct op deze website in te voeren.</li>
+    <li>Door een vooringevuld of leeg stembureau-spreadsheet te downloaden, alle stembureaus aan te passen/in te vullen en vervolgens de spreadsheet te uploaden.</li>
   </ol>
 
-  <p>De ingevulde stembureaus worden automatisch voor alle verkiezingen die er in uw gemeente gehouden worden opgeslagen. Dus als er in uw gemeente zowel Provinciale Statenverkiezingen als waterschapsverkiezingen worden gehouden dan hoeft u de gegevens maar eenmaal in te voeren. Omdat de Europese Parlementsverkiezingen zo kort na de verkiezingen van 20 maart gehouden worden slaan we de stembureaus ook automatisch daarvoor op. Heeft uw gemeente afwijkende stembureaus voor de Europese Parlementsverkiezingen? Dan kunt u na 20 maart de wijzigingen doorgeven.</p>
+  <h4>1. Invoeren via de website</h4>
+  <p>Voor alle gemeenten zijn de stembureaus al ingevuld op basis van de stembureaus van de Provinciale Statenverkiezingen 2019 (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden). Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> klikt u op de blauwe 'Stembureaus'-knop om naar het overzicht van de de stembureaus te gaan. Daar kunt u controleren of alles klopt. Zo nee, dan kunt u eenvoudig gegevens van stembureaus wijzigen, nieuwe stembureaus toevoegen en stembureaus verwijderen. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
 
-  <h4>1. Stembureau-spreadsheet downloaden en uploaden</h4>
-  <p>Voor de meeste gemeenten bieden wij op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> een al <b>deels vooringevuld stembureau-spreadsheet</b> aan op basis van de informatie over de stembureaus van het raadgevend referendum van 2018 (dit is toen door uw gemeente zelf ingevuld, anders komt de informatie van de Geodienst van de Rijksuniversiteit Groningen). U kunt dit vooringevulde stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen. Als uw gemeente eind vorig jaar te maken heeft gehad met een herindeling dan zijn de stembureaus van de betreffende gemeenten ook samengevoegd. Waarschijnlijk zullen er daardoor meer veranderingen aan de stembureaus nodig zijn (zoals bv. het nummer van het stembureau).</p>
+  <h4>2. Stembureau-spreadsheet downloaden en uploaden</h4>
+  <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> kunt u ookeen <b>vooringevuld stembureau-spreadsheet</b> downloaden. Deze is ook op basis van de stembureaus van de Provinciale Statenverkiezingen 2019 ingevuld (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden). U kunt dit stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen.</p>
 
   <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> kunt u ook een <b>'leeg' stembureau-spreadsheet</b> downloaden (in .xlsx formaat) en daarin de stembureaus van uw eigen gemeente invullen. In de stembureau-spreadsheet wordt uitgelegd hoe u de stembureaus moet invullen.</p>
 
   <p><b>Tip:</b> Als uw gemeente vele tientallen of honderden stembureaus heeft, vul dan eerst een paar stembureaus in de spreadsheet in (bv. 5 à 10 stembureaus) en upload de spreadsheet alvast als test. Als u bepaalde velden niet juist invult krijgt u meteen foutmeldingen te zien en bent u eerder op de hoogte van hoe u de spreadsheet moet invullen.
 
   <p>De ingevulde stembureau-spreadsheet kan vervolgens op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> geüpload worden. De data wordt dan gevalideerd. Als er velden niet goed ingevuld zijn dan krijgt u daar foutmeldingen van te zien. U moet dan de aanpassingen doorvoeren in de stembureau-spreadsheet en deze opnieuw uploaden. Als de data door de validatie heen komt krijgt u alle stembureaus op een overzichtspagina te zien. Hier kunt u alle stembureaus controleren en/of bewerken. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
-
-  <h4>2. Invoeren via de website</h4>
-  <p>U kunt ook direct stembureaus invoeren via de website. Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> klikt u op de blauwe 'Stembureaus'-knop om naar het overzicht van de de stembureaus te gaan. Daar klikt u op de blauwe 'Voeg nieuw stembureau toe'-knop waarna u een pagina ziet waar u één stembureau kunt toevoegen. Herhaal deze stap voor alle stembureaus in uw gemeente. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
 
   <h2>Correcties</h2>
   <p>Mocht u na het publiceren van uw stembureaus nog iets willen aanpassen dan kan dat nog tot 4 dagen voor de verkiezingen. Ga naar de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dasboard-pagina</a> en klik op de blauwe 'Stembureaus'-knop om naar het overzicht van de de stembureaus te gaan. Klik op de '[bewerk]'-link links van een stembureau om deze te bewerken of te verwijderen. Of voeg een nieuwe stembureau toe. Als u gebruik maakt van een stembureau-spreadsheet dan kunt ook daar uw aanpassingen doorvoeren en deze opnieuw uploaden. Let op: dit verwijdert alle stembureaus die u eerder heeft toegevoegd.</p>
@@ -44,15 +42,12 @@
 
   <p>Ook zijn de open databestanden te downloaden in CSV-formaat en te hergebruiken via een API. De data is beschikbaar via <a href="https://ckan.dataplatform.nl/organization/open-state-foundation" target="_blank" rel="noopener">Dataplatform</a> en wordt ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/" target="_blank" rel="noopener">data.overheid.nl</a>. Zo kan iedereen toepassingen maken met de stembureau data.</p>
 
-  <p>Op de dag van de verkiezingen zal in samenwerking met het Campagnebureau BKB een knop beschikbaar komen op Facebook en Google waardoor gebruikers op de verkiezingsdag hun dichtstbijzijnde stembureau kunnen vinden.</p>
+  <p>Op de dag van de verkiezingen zal in samenwerking met het Campagnebureau BKB een knop beschikbaar komen op Facebook waardoor gebruikers op de verkiezingsdag hun dichtstbijzijnde stembureau kunnen vinden.</p>
 
-  <p>Door deze aanpak hebben de afgelopen jaren vele honderdduizenden mensen makkelijk een stembureau kunnen vinden.</p>
+  <p>Door deze aanpak hebben de afgelopen jaren miljoenen mensen makkelijk een stembureau kunnen vinden.</p>
 
   <h2>Nieuw account toevoegen</h2>
   <p>Als u een nieuw account wilt toevoegen voor uw gemeente, <a href="{{ signup_form_url }}" target=_blank rel="noopener">vul dan dit formulier in</a>. Dit is handig als u één of meerdere collega's ook toegang wilt geven.</p>
-
-  <h2>Europese Parlementsverkiezingen 2019</h2>
-  <p>Uw stembureaus voor de verkiezingen van 20 maart worden automatisch ook toegevoegd voor de Europese Parlementsverkiezingen van 23 mei. Mochten die stembureaus echter verschillen dan kunt u deze na 20 maart aanpassen. Wij zullen u daar tegen die tijd nog een e-mail over sturen.</p>
 
   <h2>Geografische informatie: BAG referentienummer, Longitude/Latitude en X/Y rijksdriehoekscoördinaten</h2>
   <b>BAG referentienummer</b>

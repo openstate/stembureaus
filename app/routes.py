@@ -868,19 +868,6 @@ def _format_verkiezingen_string(elections):
     else:
         verkiezing_string = verkiezingen[0]
 
-    # TODO, temporary addition for Europese Parlementsverkiezingen 2019
-    if 'Europese Parlementsverkiezingen 2019' in verkiezing_string:
-        verkiezing_string += (
-            ' <i class="fa fa-question-circle" data-toggle="popover" '
-            'data-placement="auto" data-html="true" data-trigger="click" '
-            'title="<b>Europese Parlementsverkiezingen 2019</b>" '
-            'data-content="Uw stembureaus voor de verkiezingen van 20 maart '
-            'worden automatisch ook toegevoegd voor de Europese '
-            'Parlementsverkiezingen van 23 mei. Mochten die stembureaus '
-            'echter verschillen dan kunt u deze na 20 maart aanpassen. Wij '
-            'zullen u daar tegen die tijd nog een e-mail over sturen."></i>'
-        )
-
     return verkiezing_string
 
 
@@ -926,14 +913,6 @@ def _create_record(form, stemlokaal_id, gemeente, election):
         elif (f.type != 'SubmitField' and
                 f.type != 'CSRFTokenField' and f.type != 'RadioField'):
             record[f.label.text[:62]] = f.data
-
-    # TODO only valid for elections of March and May 2019,
-    # remove or change it for new elections or make it a config
-    # variable
-    if election.startswith('Europese Parlementsverkiezingen'):
-        record['Openingstijden'] = re.sub(
-            '2019-03-20', '2019-05-23', record['Openingstijden']
-        )
 
     bag_nummer = record['BAG referentienummer']
     bag_record = BAG.query.filter_by(nummeraanduiding=bag_nummer).first()
