@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan
-from app.email import send_invite
+from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
@@ -1321,3 +1321,24 @@ def create_user_invite_link(email):
             url_for('user_reset_wachtwoord', token=token, _external=True)
         )
     )
+
+
+@mysql.command()
+def eenmalig_gemeenten_update_mail():
+    if not app.debug:
+        result = input(
+            'Je voert deze command in PRODUCTIE uit. Weet je zeker dat je '
+            'alle gemeenten een update e-mail voor waarismijnstemlokaal.nl '
+            'wilt sturen? (y/N): '
+        )
+        # Print empty line for better readability
+        print()
+        if not result.lower() == 'y':
+            print('Geen gemeenten ge-e-maild')
+            return
+
+    total_mailed = 0
+    for user in User.query.all():
+        send_update(user)
+        total_mailed += 1
+    print('%d gemeenten ge-e-maild' % (total_mailed))

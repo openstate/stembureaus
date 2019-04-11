@@ -1,0 +1,31 @@
+Beste mevrouw of meneer,
+
+
+Op het platform 'Waar is mijn stemlokaal' kunnen kiezers eenvoudig hun dichtstbijzijnde stemlokaal opzoeken. Dit platform is een samenwerking tussen het Ministerie van Binnenlandse Zaken en Koninkrijksrelaties, VNG en Open State Foundation.
+
+Tijdens de afgelopen verkiezingen waren de stemlokalen van alle 358 (bijzondere) gemeenten beschikbaar. Hierdoor hebben bijna een half miljoen bezoekers hun stemlokaal opgezocht. Voor de Europese Parlementsverkiezingen vragen we alle gemeenten wederom om hun stemlokalen te publiceren via 'Waar is mijn stemlokaal'.
+
+Wij hebben voor uw gemeente de gegevens al ingevuld op basis van de stembureaus van de Provinciale Statenverkiezingen 2019 (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden). Als uw stemlokalen hetzelfde zijn dan hoeft u enkel in te loggen en op de ‘Publiceer’-knop te klikken. Als er veranderingen zijn dan kunt u deze eenvoudig via de website doorvoeren.
+
+Publiceer of wijzig de stembureaus van uw gemeente: https://waarismijnstemlokaal.nl/gemeente-stemlokalen-overzicht
+
+Mocht u uw wachtwoord vergeten zijn dan kunt u een nieuw wachtwoord aanmaken: {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}
+
+De stemlokalen kunnen tot en met 10 mei 2019 worden gepubliceerd. Wees er dus snel bij!
+
+**** Achtergrondinformatie ****
+** Over 'Waar is mijn stemlokaal' **
+Op 23 mei vinden de Europese Parlementsverkiezingen plaats. Het ministerie van BZK, VNG en Open State Foundation willen met open data mogelijk maken dat kiezers eenvoudig hun dichtstbijzijnde stembureau kunnen opzoeken. Tijdens de verkiezingen van de afgelopen jaren hebben miljoenen mensen deze informatie gebruikt. Gemeenten kunnen via het platform 'Waar is mijn stemlokaal' hun lijsten met stembureaus publiceren. Om het voor u zo makkelijk mogelijk te maken hebben wij voor uw gemeente de gegevens al ingevuld op basis van de stembureaus van de Provinciale Statenverkiezingen 2019 (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden).
+
+**Handig: gebruik de kaart met stembureaus op uw eigen website**
+Na het publiceren van de stembureaus kunt u de kaart insluiten/embedden op uw gemeentewebsite. Zo kunnen uw inwoners makkelijk een stembureau vinden.
+
+**Instructies**
+De volledige instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
+
+** Vragen of contact? **
+Heeft u vragen? Neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.
+
+
+Met vriendelijke groet,
+Open State Foundation namens waarismijnstemlokaal.nl

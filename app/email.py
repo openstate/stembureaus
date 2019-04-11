@@ -47,3 +47,20 @@ def send_invite(user):
             token=token
         )
     )
+
+
+# Sends an update email to all users
+def send_update(user):
+    send_email(
+        "Publiceer uw stemlokalen weer op waarismijnstemlokaal.nl",
+        sender=app.config['FROM'],
+        recipients=[user.email],
+        text_body=render_template(
+            'email/update.txt',
+            user=user
+        ),
+        html_body=render_template(
+            'email/update.html',
+            user=user
+        )
+    )
