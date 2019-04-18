@@ -1144,22 +1144,21 @@ def add_admin_user(email):
     """
 
     # Check if a user already exists with this email address
-    if User.query.filter_by(email=email).all():
-        print(
-            'This email address exists already, please try again with a '
-            'different email address'
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        user.admin = True
+    if not user:
+        user = User(
+            email=email,
+            admin=True
         )
-        return
+        user.set_password(os.urandom(24))
+        db.session.add(user)
+        db.session.commit()
 
-
-    # Create the admin user
-    user = User(
-        email=email,
-        admin=True
-    )
-    user.set_password(os.urandom(24))
-    db.session.add(user)
-    db.session.commit()
+        # Send the new user an invitation email
+        send_invite(user)
 
     # Add access to all gemeenten for this user, by adding
     # records to the Gemeente_user association table
@@ -1184,9 +1183,6 @@ def add_admin_user(email):
     print(
         "Added admin user with access to all %s gemeenten" % (gemeente_count)
     )
-
-    # Send the new user an invitation email
-    send_invite(user)
 
 
 @mysql.command()
