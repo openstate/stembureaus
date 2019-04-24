@@ -264,8 +264,10 @@ def data():
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
     disclaimer = ''
-    if gemeente in disclaimer_gemeenten:
-        disclaimer = disclaimer_text
+    # TODO remove comment once a new list of gemeenten that didn't
+    # participate is available
+    #if gemeente in disclaimer_gemeenten:
+    #    disclaimer = disclaimer_text
 
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
@@ -283,8 +285,10 @@ def show_stembureau(gemeente, primary_key):
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
     disclaimer = ''
-    if gemeente in disclaimer_gemeenten:
-        disclaimer = disclaimer_text
+    # TODO remove comment once a new list of gemeenten that didn't
+    # participate is available
+    #if gemeente in disclaimer_gemeenten:
+    #    disclaimer = disclaimer_text
 
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
