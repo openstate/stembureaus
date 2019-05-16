@@ -157,7 +157,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2019.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2019-ep.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
@@ -264,10 +264,8 @@ def data():
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
     disclaimer = ''
-    # TODO remove comment once a new list of gemeenten that didn't
-    # participate is available
-    #if gemeente in disclaimer_gemeenten:
-    #    disclaimer = disclaimer_text
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
 
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
@@ -285,10 +283,8 @@ def show_stembureau(gemeente, primary_key):
 @app.route("/s/<gemeente>")
 def show_gemeente(gemeente):
     disclaimer = ''
-    # TODO remove comment once a new list of gemeenten that didn't
-    # participate is available
-    #if gemeente in disclaimer_gemeenten:
-    #    disclaimer = disclaimer_text
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
 
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
     return render_template(
