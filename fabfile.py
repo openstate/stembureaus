@@ -11,12 +11,15 @@ DIR = '/home/projects/%s' % (GIT_REPO)
 # Container used to compile the assets
 NODE_CONTAINER = 'stm_nodejs_1'
 
+# Server name
+SERVER = 'Oxygen'
+
 
 @task
 def deploy(c):
-    sudo_pass = getpass.getpass("What's your sudo password?")
+    sudo_pass = getpass.getpass("What's your sudo password on %s?" % SERVER)
     config = Config(overrides={'sudo': {'password': sudo_pass}})
-    c = Connection('Oxygen', config=config)
+    c = Connection(SERVER, config=config)
 
     # Pull from GitHub
     c.run(
