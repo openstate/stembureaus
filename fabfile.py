@@ -17,7 +17,7 @@ SERVER = 'Oxygen'
 
 @task
 def deploy(c):
-    sudo_pass = getpass.getpass("What's your sudo password on %s?" % SERVER)
+    sudo_pass = getpass.getpass("Enter your sudo password on %s: " % SERVER)
     config = Config(overrides={'sudo': {'password': sudo_pass}})
     c = Connection(SERVER, config=config)
 
