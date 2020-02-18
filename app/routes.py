@@ -195,9 +195,12 @@ def get_stembureaus(elections, filters=None):
     merge_field = 'UUID'
     results = {}
     for election in elections.keys():
-        records = ckan.filter_records(
-            ckan.elections[election]['publish_resource'],
-            filters)
+        try:
+            records = ckan.filter_records(
+                ckan.elections[election]['publish_resource'],
+                filters)
+        except Exception as e:
+            records = {'records': []}
         for record in records['records']:
             if record[merge_field] not in results:
                 results[record[merge_field]] = record
