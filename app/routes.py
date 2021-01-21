@@ -261,6 +261,15 @@ def data():
     return render_template('data.html')
 
 
+@app.route("/" + app.config['SIGNUP_FORM_PATH'])
+def signup_form():
+    return render_template(
+        'signup_form.html',
+        signup_form_url=app.config['SIGNUP_FORM_URL'],
+        signup_form_title=app.config['SIGNUP_FORM_TITLE']
+    )
+
+
 @app.route("/s/<gemeente>/<primary_key>")
 def show_stembureau(gemeente, primary_key):
     disclaimer = ''
