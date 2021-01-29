@@ -128,7 +128,7 @@ def main():
                 length = max(len(as_text(cell.value)) for cell in column_cells)
                 worksheet.column_dimensions[
                     get_column_letter(column_cells[0].column)
-                ].width = int(length * 0.75)
+                ].width = 52
 
             workbook.save(path)
             workbook.close()

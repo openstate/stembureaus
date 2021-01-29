@@ -106,3 +106,8 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 ## Update MySQL
 - docker-compose pull mysql
 - docker-compose up -d mysql
+
+## Deploying
+Use Fabric 2.x on your development machine to pull new changes from GitHub on a server and compile assets
+
+- fab deploy
