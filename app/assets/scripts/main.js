@@ -115,9 +115,9 @@ StembureausApp.show_gemeenten = function (matches, query) {
 
 StembureausApp.show = function (matches, query) {
   $('#results-search').empty();
-  matches.sort(function (a,b) {return (a['Nummer stembureau'] > b['Nummer stembureau']) ? 1 : ((b['Nummer stembureau'] > a['Nummer stembureau']) ? -1 : 0)});
+  matches.sort(function (a,b) {return (a['Nummer stembureau of afgiftepunt'] > b['Nummer stembureau of afgiftepunt']) ? 1 : ((b['Nummer stembureau of afgiftepunt'] > a['Nummer stembureau of afgiftepunt']) ? -1 : 0)});
   for (var i=0; i < matches.length; i++) {
-    var opinfo = matches[i]['Openingstijden'].split(' tot ');
+    var opinfo = matches[i]['Openingstijden 17-03-2021'].split(' tot ');
     var weelchair_labels = {
       'Y': 'Mindervaliden toegankelijk',
       'N': 'Niet mindervaliden toegankelijk',
@@ -148,15 +148,15 @@ StembureausApp.show = function (matches, query) {
       }
     }
     var nummer_stembureau = '';
-    if (matches[i]['Nummer stembureau']) {
-      nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
+    if (matches[i]['Nummer stembureau of afgiftepunt']) {
+      nummer_stembureau = '#' + matches[i]['Nummer stembureau of afgiftepunt'] + ' '
     }
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
     $('#results-search').append($(
       '<div class="result row">' +
         '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
         '<div class="col-xs-12 col-sm-7">' +
-          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
           '<h5>' + adres + '</h5>' +
           '<h5>' + plaats_naam + '</h5>' +
           '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
@@ -205,7 +205,7 @@ StembureausApp.init = function() {
       "Gemeente",
       "Plaats",
       "Straatnaam",
-      "Naam stembureau"
+      "Naam stembureau of afgiftepunt"
     ]
   };
   StembureausApp.fuse = new Fuse(StembureausApp.stembureaus, options);
@@ -277,9 +277,9 @@ $(document).ready(function () {
   StembureausApp.stembureaus_markers = [];
 
   StembureausApp.getPopup = function(s) {
-    var opinfo = StembureausApp.stembureaus[i]['Openingstijden'].split(' tot ');
+    var opinfo = StembureausApp.stembureaus[i]['Openingstijden 17-03-2021'].split(' tot ');
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">#" + StembureausApp.stembureaus[i]['Nummer stembureau']  + " " + StembureausApp.stembureaus[i]['Naam stembureau'] + "</a><br />";
+    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">#" + StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']  + " " + StembureausApp.stembureaus[i]['Naam stembureau of afgiftepunt'] + "</a><br />";
     if (StembureausApp.stembureaus[i]['Straatnaam']) {
       output += StembureausApp.stembureaus[i]['Straatnaam'];
     }

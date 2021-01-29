@@ -296,6 +296,21 @@ class EditForm(FlaskForm):
         if not FlaskForm.validate(self):
             valid = False
 
+        # Stembureaus require a nummer and naam, but this is optional
+        # for afgiftepunten
+        if self.stembureau_of_afgiftepunt.data == 'Stembureau':
+            if not self.nummer_stembureau_of_afgiftepunt.data:
+                self.nummer_stembureau_of_afgiftepunt.errors.append(
+                    'Vul het nummer van het stembureau in.'
+                )
+                valid = False
+            if not self.naam_stembureau_of_afgiftepunt.data:
+                self.naam_stembureau_of_afgiftepunt.errors.append(
+                    'Vul de naam van het stembureau in.'
+                )
+                valid = False
+
+        # If BAG ID 0000000000000000 we require Extra adresaanduiding
         if (self.bag_referentienummer.data == "0000000000000000" and
                 not self.extra_adresaanduiding.data):
             self.extra_adresaanduiding.errors.append(
@@ -306,6 +321,7 @@ class EditForm(FlaskForm):
             )
             valid = False
 
+        # We require either long and lat or x and y to be filled in
         if (not ((self.latitude.data and self.longitude.data) or
                 (self.x.data and self.y.data))):
             self.latitude.errors.append(
@@ -325,6 +341,65 @@ class EditForm(FlaskForm):
                 "ingevuld zijn."
             )
             valid = False
+
+        # Require that at least one relevant openingstijden field is
+        # filled in for a stembureau
+        if self.stembureau_of_afgiftepunt.data == 'Stembureau':
+            error_text = (
+                "Alleen afgiftepunten kunnen op deze dag open zijn"
+            )
+            if self.openingstijden_10_03_2021.data:
+                self.openingstijden_10_03_2021.errors.append(error_text)
+                valid = False
+            if self.openingstijden_11_03_2021.data:
+                self.openingstijden_11_03_2021.errors.append(error_text)
+                valid = False
+            if self.openingstijden_12_03_2021.data:
+                self.openingstijden_12_03_2021.errors.append(error_text)
+                valid = False
+            if self.openingstijden_13_03_2021.data:
+                self.openingstijden_13_03_2021.errors.append(error_text)
+                valid = False
+            if self.openingstijden_14_03_2021.data:
+                self.openingstijden_14_03_2021.errors.append(error_text)
+                valid = False
+
+            if not (self.openingstijden_15_03_2021.data
+                    or self.openingstijden_16_03_2021.data
+                    or self.openingstijden_17_03_2021.data):
+                error_text_one = (
+                    "Een stembureau moet op minimaal één van deze dagen open "
+                    "zijn"
+                )
+                self.openingstijden_15_03_2021.errors.append(error_text_one)
+                self.openingstijden_16_03_2021.errors.append(error_text_one)
+                self.openingstijden_17_03_2021.errors.append(error_text_one)
+                valid = False
+
+        # Require that at least one relevant openingstijden field is
+        # filled in for an afgiftepunt
+        if self.stembureau_of_afgiftepunt.data == 'Afgiftepunt':
+            if not (self.openingstijden_10_03_2021.data
+                    or self.openingstijden_11_03_2021.data
+                    or self.openingstijden_12_03_2021.data
+                    or self.openingstijden_13_03_2021.data
+                    or self.openingstijden_14_03_2021.data
+                    or self.openingstijden_15_03_2021.data
+                    or self.openingstijden_16_03_2021.data
+                    or self.openingstijden_17_03_2021.data):
+                error_text_one = (
+                    "Een afgiftepunt moet op minimaal één van deze dagen open "
+                    "zijn"
+                )
+                self.openingstijden_10_03_2021.errors.append(error_text_one)
+                self.openingstijden_11_03_2021.errors.append(error_text_one)
+                self.openingstijden_12_03_2021.errors.append(error_text_one)
+                self.openingstijden_13_03_2021.errors.append(error_text_one)
+                self.openingstijden_14_03_2021.errors.append(error_text_one)
+                self.openingstijden_15_03_2021.errors.append(error_text_one)
+                self.openingstijden_16_03_2021.errors.append(error_text_one)
+                self.openingstijden_17_03_2021.errors.append(error_text_one)
+                valid = False
 
         return valid
 
@@ -347,17 +422,43 @@ class EditForm(FlaskForm):
         }
     )
 
-    nummer_stembureau = IntegerField(
-        'Nummer stembureau',
+    stembureau_of_afgiftepunt = CustomSelectField(
+        'Stembureau of Afgiftepunt',
+        description=(
+            'Voor de Tweede Kamerverkiezingen van 2021 zijn er vanwege de '
+            'maatregelen rondom het coronavirus naast stembureaus ook '
+            'afgiftepunten beschikbaar. Iedereen ouder dan 70 ontvangt een '
+            'stempluspas die op de post gedaan kan worden maar ook in de '
+            'dagen voor en op de verkiezingsdag ingeleverd kan worden bij een '
+            'afgiftepunt. Via deze standaard wordt zowel informatie over '
+            'stembureaus als afgiftepunten verzameld.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> keuze uit: \'Stembureau\', \'Afgiftepunt\''
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Afgiftepunt'
+        ),
+        choices=[('Stembureau', 'Stembureau'), ('Afgiftepunt', 'Afgiftepunt')],
+        validators=[
+            DataRequired()
+        ],
+        render_kw={
+            'placeholder': 'bv. Afgiftepunt'
+        }
+    )
+
+    nummer_stembureau_of_afgiftepunt = IntegerField(
+        'Nummer stembureau of afgiftepunt',
         description=(
             'Een stembureau is gevestigd in een stemlokaal en elk stembureau '
             'heeft een eigen nummer. Sommige stemlokalen hebben meerdere '
-            'stembureaus.'
+            'stembureaus. Elk stembureau moet apart ingevoerd worden ook al '
+            'is de locatie (het stemlokaal) hetzelfde aangezien elk '
+            'stembureau een ander nummer heeft.'
             '<br>'
             '<br>'
-            'Elk stembureau moet apart ingevoerd worden ook al is de '
-            'locatie (het stemlokaal) hetzelfde aangezien elk stembureau een '
-            'ander nummer heeft.'
+            'Dit attribuut is niet verplicht voor afgiftepunten.'
             '<br>'
             '<br>'
             '<b>Format:</b> cijfers'
@@ -366,7 +467,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> 517'
         ),
         validators=[
-            DataRequired(),
+            Optional(),
             NumberRange(min=1, max=2000000000)
         ],
         render_kw={
@@ -374,10 +475,13 @@ class EditForm(FlaskForm):
         }
     )
 
-    naam_stembureau = StringField(
-        'Naam stembureau',
+    naam_stembureau_of_afgiftepunt = StringField(
+        'Naam stembureau of afgiftepunt',
         description=(
             'De naam van het stembureau.'
+            '<br>'
+            '<br>'
+            'Dit attribuut is niet verplicht voor afgiftepunten.'
             '<br>'
             '<br>'
             '<b>Format:</b> tekst'
@@ -386,7 +490,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> Stadhuis'
         ),
         validators=[
-            DataRequired()
+            Optional()
         ],
         render_kw={
             'placeholder': 'bv. Stadhuis'
@@ -396,10 +500,11 @@ class EditForm(FlaskForm):
     website_locatie = URLStringField(
         'Website locatie',
         description=(
-            'Website van de locatie van het stembureau, indien aanwezig.'
+            'Website van de locatie van het stembureau/afgiftepunt, indien '
+            'aanwezig.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Volledige URL (dit begint met "http://" or '
+            '<b>Format:</b> Volledige URL (dit begint met "http://" of '
             '"https://")'
             '<br>'
             '<br>'
@@ -425,16 +530,17 @@ class EditForm(FlaskForm):
         'BAG referentienummer',
         description=(
             'BAG Nummeraanduiding ID, vindbaar door het adres van het '
-            'stembureau op <a href="https://bagviewer.kadaster.nl/" '
+            'stembureau/afgiftepunt op <a href="https://bagviewer.kadaster.nl/" '
             'target="_blank" rel="noopener">bagviewer.kadaster.nl</a> in te '
             'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
             '<br>'
             '<br>'
-            'Vermeld voor mobiele stembureaus het dichtstbijzijnde BAG '
-            'Nummeraanduiding ID en gebruik eventueel het '
-            '"Extra adresaanduiding"-veld om de locatie van stembureau te '
-            'beschrijven. NB: de precieze locatie geeft u aan met de '
-            '"Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.'
+            'Vermeld voor mobiele stembureaus of lokaties zonder BAG '
+            'het dichtstbijzijnde BAG Nummeraanduiding ID en gebruik '
+            'eventueel het "Extra adresaanduiding"-veld om de locatie van '
+            'stembureau te beschrijven. NB: de precieze locatie geeft u aan '
+            'met de "Latitude" en "Longitude"-velden of met de "X" en '
+            '"Y"-velden.'
             '<br>'
             '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier "0000000000000000" '
@@ -469,9 +575,9 @@ class EditForm(FlaskForm):
     extra_adresaanduiding = StringField(
         'Extra adresaanduiding',
         description=(
-            'Eventuele extra informatie over de locatie van het stembureau. '
-            'Bv. "Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
-            'midden van het plein".'
+            'Eventuele extra informatie over de locatie van het '
+            'stembureau/afgiftepunt. Bv. "Ingang aan achterkant gebouw" of '
+            '"Mobiel stembureau op het midden van het plein".'
             '<br>'
             '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
@@ -497,12 +603,13 @@ class EditForm(FlaskForm):
             'Lengtegraad met minimaal 4 decimalen.'
             '<br>'
             '<br>'
-            'Als u de longitude van het stembureau niet weet dan kunt u '
-            'dit vinden via <a href="https://www.openstreetmap.org/" '
+            'Als u de longitude van het stembureau/afgiftepunt niet weet dan '
+            'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
-            'het stembureau, klik op de juiste locatie met de rechtermuisknop '
-            'en selecteer "Show address"/"Toon adres". De latitude en '
-            'longitude (in die volgorde) staan nu linksboven in de zoekbalk.'
+            'het stembureau/afgiftepunt, klik op de juiste locatie met de '
+            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
+            'latitude en longitude (in die volgorde) staan nu linksboven in '
+            'de zoekbalk.'
             '<br>'
             '<br>'
             '<b>Format:</b> graden in DD.dddd notatie'
@@ -525,12 +632,13 @@ class EditForm(FlaskForm):
             'Breedtegraad met minimaal 4 decimalen.'
             '<br>'
             '<br>'
-            'Als u de latitude van het stembureau niet weet dan kunt '
-            'dit vinden via <a href="https://www.openstreetmap.org/" '
+            'Als u de latitude van het stembureau/afgiftepunt niet weet dan '
+            'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
-            'het stembureau, klik op de juiste locatie met de rechtermuisknop '
-            'en selecteer "Show address"/"Toon adres". De latitude en '
-            'longitude (in die volgorde) staan nu linksboven in de zoekbalk.'
+            'het stembureau/afgiftepunt, klik op de juiste locatie met de '
+            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
+            'latitude en longitude (in die volgorde) staan nu linksboven in '
+            'de zoekbalk.'
             '<br>'
             '<br>'
             '<b>Format:</b> graden in DD.dddd notatie'
@@ -589,26 +697,27 @@ class EditForm(FlaskForm):
         }
     )
 
-    openingstijden = StringField(
-        'Openingstijden',
+    openingstijden_10_03_2021 = StringField(
+        'Openingstijden 10-03-2021',
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan.'
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
-            'Voor mobiele stembureaus moet voor elke locatie een nieuw '
-            '"stembureau" aangemaakt worden (zodat de locatie en '
-            'openingstijden apart worden opgeslagen).'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2019-03-20T07:30:00 tot 2019-03-20T21:00:00'
+            '<b>Voorbeeld:</b> 2021-03-10T07:30:00 tot 2021-03-10T21:00:00'
         ),
-        default='2019-03-20T07:30:00 tot 2019-03-20T21:00:00',
         validators=[
-            DataRequired(),
+            Optional(),
             Regexp(
                 (
                     '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
@@ -616,10 +725,272 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2019-03-20T07:30:00 tot 2019-03-20T21:00:00".'
+                    '"2021-03-10T07:30:00 tot 2021-03-10T21:00:00".'
                 )
             )
         ]
+    )
+
+    openingstijden_11_03_2021 = StringField(
+        'Openingstijden 11-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-11T07:30:00 tot 2021-03-11T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-11T07:30:00 tot 2021-03-11T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_12_03_2021 = StringField(
+        'Openingstijden 12-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-12T07:30:00 tot 2021-03-12T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-12T07:30:00 tot 2021-03-12T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_13_03_2021 = StringField(
+        'Openingstijden 13-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-13T07:30:00 tot 2021-03-13T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-13T07:30:00 tot 2021-03-13T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_14_03_2021 = StringField(
+        'Openingstijden 14-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-14T07:30:00 tot 2021-03-14T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-14T07:30:00 tot 2021-03-14T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_15_03_2021 = StringField(
+        'Openingstijden 15-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-15T07:30:00 tot 2021-03-15T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-15T07:30:00 tot 2021-03-15T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_16_03_2021 = StringField(
+        'Openingstijden 16-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-16T07:30:00 tot 2021-03-16T21:00:00'
+        ),
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-16T07:30:00 tot 2021-03-16T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    openingstijden_17_03_2021 = StringField(
+        'Openingstijden 17-03-2021',
+        description=(
+            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
+            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
+            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            '<br>'
+            '<br>'
+            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
+            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
+            'afgiftepunten (8 dagen).'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 2021-03-17T07:30:00 tot 2021-03-17T21:00:00'
+        ),
+        default='2021-03-17T07:30:00 tot 2021-03-17T21:00:00',
+        validators=[
+            Optional(),
+            Regexp(
+                (
+                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
+                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+                ),
+                message=(
+                    'Dit veld hoort ingevuld te worden zoals '
+                    '"2021-03-17T07:30:00 tot 2021-03-17T21:00:00".'
+                )
+            )
+        ]
+    )
+
+    tellocatie = CustomSelectField(
+        'Tellocatie',
+        description=(
+            'Is deze locatie ook een locatie waar de stemmen worden geteld?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul "Y" in als er op deze locatie ook stemmen '
+            'worden geteld. Vul "N" in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Y'
+        ),
+        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
     )
 
     contactgegevens = StringField(
@@ -674,146 +1045,146 @@ class EditForm(FlaskForm):
         }
     )
 
-    verkiezingen = CustomSelectMultipleField(
-        'Verkiezingen',
-        description=(
-            'In het geval van waterschapsverkiezingen en verkiezingen van '
-            'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
-            'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
-            'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
-            'waterschappen en er kan enkel voor een waterschap gestemd worden '
-            'bij stembureaus die in het gebied van het waterschap liggen. '
-            'Alle gemeenten vragen we daarom in het geval van deze '
-            'verkiezingen per stembureau specifiek aan te geven voor welke '
-            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-            'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
-            'één keuze is (bv. als er in de hele gemeente maar voor één '
-            'waterschap gekozen kan worden) en ook als er in de gemeente bij '
-            'elk stembureau voor alle verkiezingen gestemd kan worden.'
-            '<br>'
-            '<br>'
-            'In het geval dat er in dit stembureau voor meerdere '
-            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-            'wijkraden gestemd kan worden dan scheidt u deze met een '
-            'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
-            'waterschapsverkiezingen voor Rijnland'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> keuze uit:'
-            '<ul>'
-            '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
-            'zonder "Waterschap" of "Hoogheemraadschap" voor de naam&gt;</li>'
-            '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
-            '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
-            '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
-            'stadsdeelcommissie&gt;</li>'
-            '</ul>'
-            '<br>'
-            '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
-        ),
-        choices=[
-            (
-                'waterschapsverkiezingen voor Noorderzijlvest',
-                'waterschapsverkiezingen voor Noorderzijlvest'
-            ),
-            (
-                'waterschapsverkiezingen voor Fryslân',
-                'waterschapsverkiezingen voor Fryslân'
-            ),
-            (
-                "waterschapsverkiezingen voor Hunze en Aa's",
-                "waterschapsverkiezingen voor Hunze en Aa's"
-            ),
-            (
-                'waterschapsverkiezingen voor Drents Overijsselse Delta',
-                'waterschapsverkiezingen voor Drents Overijsselse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor Vechtstromen',
-                'waterschapsverkiezingen voor Vechtstromen'
-            ),
-            (
-                'waterschapsverkiezingen voor Vallei en Veluwe',
-                'waterschapsverkiezingen voor Vallei en Veluwe'
-            ),
-            (
-                'waterschapsverkiezingen voor Rijn en IJssel',
-                'waterschapsverkiezingen voor Rijn en IJssel'
-            ),
-            (
-                'waterschapsverkiezingen voor De Stichtse Rijnlanden',
-                'waterschapsverkiezingen voor De Stichtse Rijnlanden'
-            ),
-            (
-                'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
-                'waterschapsverkiezingen voor Amstel, Gooi en Vecht'
-            ),
-            (
-                'waterschapsverkiezingen voor Hollands Noorderkwartier',
-                'waterschapsverkiezingen voor Hollands Noorderkwartier'
-            ),
-            (
-                'waterschapsverkiezingen voor Rijnland',
-                'waterschapsverkiezingen voor Rijnland'
-            ),
-            (
-                'waterschapsverkiezingen voor Delfland',
-                'waterschapsverkiezingen voor Delfland'
-            ),
-            (
-                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
-                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard'
-            ),
-            (
-                'waterschapsverkiezingen voor Rivierenland',
-                'waterschapsverkiezingen voor Rivierenland'
-            ),
-            (
-                'waterschapsverkiezingen voor Hollandse Delta',
-                'waterschapsverkiezingen voor Hollandse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor Scheldestromen',
-                'waterschapsverkiezingen voor Scheldestromen'
-            ),
-            (
-                'waterschapsverkiezingen voor Brabantse Delta',
-                'waterschapsverkiezingen voor Brabantse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor De Dommel',
-                'waterschapsverkiezingen voor De Dommel'
-            ),
-            (
-                'waterschapsverkiezingen voor Aa en Maas',
-                'waterschapsverkiezingen voor Aa en Maas'
-            ),
-            (
-                'waterschapsverkiezingen voor Limburg',
-                'waterschapsverkiezingen voor Limburg'
-            ),
-            (
-                'waterschapsverkiezingen voor Zuiderzeeland',
-                'waterschapsverkiezingen voor Zuiderzeeland'
-            )
-        ],
-        validators=[
-            Optional(),
-        ],
-        render_kw={
-            'class': 'selectpicker',
-            'data-icon-base': 'fa',
-            'data-tick-icon': 'fa-check',
-            'data-none-selected-text': (
-                'Selecteer één of meerdere waterschappen'
-            )
-        }
-    )
+    #verkiezingen = CustomSelectMultipleField(
+    #    'Verkiezingen',
+    #    description=(
+    #        'In het geval van waterschapsverkiezingen en verkiezingen van '
+    #        'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
+    #        'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
+    #        'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
+    #        'waterschappen en er kan enkel voor een waterschap gestemd worden '
+    #        'bij stembureaus die in het gebied van het waterschap liggen. '
+    #        'Alle gemeenten vragen we daarom in het geval van deze '
+    #        'verkiezingen per stembureau specifiek aan te geven voor welke '
+    #        'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+    #        'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
+    #        'één keuze is (bv. als er in de hele gemeente maar voor één '
+    #        'waterschap gekozen kan worden) en ook als er in de gemeente bij '
+    #        'elk stembureau voor alle verkiezingen gestemd kan worden.'
+    #        '<br>'
+    #        '<br>'
+    #        'In het geval dat er in dit stembureau voor meerdere '
+    #        'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+    #        'wijkraden gestemd kan worden dan scheidt u deze met een '
+    #        'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
+    #        'waterschapsverkiezingen voor Rijnland'
+    #        '<br>'
+    #        '<br>'
+    #        '<b>Format:</b> keuze uit:'
+    #        '<ul>'
+    #        '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
+    #        'zonder "Waterschap" of "Hoogheemraadschap" voor de naam&gt;</li>'
+    #        '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
+    #        '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
+    #        '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
+    #        'stadsdeelcommissie&gt;</li>'
+    #        '</ul>'
+    #        '<br>'
+    #        '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
+    #    ),
+    #    choices=[
+    #        (
+    #            'waterschapsverkiezingen voor Noorderzijlvest',
+    #            'waterschapsverkiezingen voor Noorderzijlvest'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Fryslân',
+    #            'waterschapsverkiezingen voor Fryslân'
+    #        ),
+    #        (
+    #            "waterschapsverkiezingen voor Hunze en Aa's",
+    #            "waterschapsverkiezingen voor Hunze en Aa's"
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Drents Overijsselse Delta',
+    #            'waterschapsverkiezingen voor Drents Overijsselse Delta'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Vechtstromen',
+    #            'waterschapsverkiezingen voor Vechtstromen'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Vallei en Veluwe',
+    #            'waterschapsverkiezingen voor Vallei en Veluwe'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Rijn en IJssel',
+    #            'waterschapsverkiezingen voor Rijn en IJssel'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor De Stichtse Rijnlanden',
+    #            'waterschapsverkiezingen voor De Stichtse Rijnlanden'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
+    #            'waterschapsverkiezingen voor Amstel, Gooi en Vecht'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Hollands Noorderkwartier',
+    #            'waterschapsverkiezingen voor Hollands Noorderkwartier'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Rijnland',
+    #            'waterschapsverkiezingen voor Rijnland'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Delfland',
+    #            'waterschapsverkiezingen voor Delfland'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
+    #            'waterschapsverkiezingen voor Schieland en de Krimpenerwaard'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Rivierenland',
+    #            'waterschapsverkiezingen voor Rivierenland'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Hollandse Delta',
+    #            'waterschapsverkiezingen voor Hollandse Delta'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Scheldestromen',
+    #            'waterschapsverkiezingen voor Scheldestromen'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Brabantse Delta',
+    #            'waterschapsverkiezingen voor Brabantse Delta'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor De Dommel',
+    #            'waterschapsverkiezingen voor De Dommel'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Aa en Maas',
+    #            'waterschapsverkiezingen voor Aa en Maas'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Limburg',
+    #            'waterschapsverkiezingen voor Limburg'
+    #        ),
+    #        (
+    #            'waterschapsverkiezingen voor Zuiderzeeland',
+    #            'waterschapsverkiezingen voor Zuiderzeeland'
+    #        )
+    #    ],
+    #    validators=[
+    #        Optional(),
+    #    ],
+    #    render_kw={
+    #        'class': 'selectpicker',
+    #        'data-icon-base': 'fa',
+    #        'data-tick-icon': 'fa-check',
+    #        'data-none-selected-text': (
+    #            'Selecteer één of meerdere waterschappen'
+    #        )
+    #    }
+    #)
 
     mindervaliden_toegankelijk = CustomSelectField(
         'Mindervaliden toegankelijk',
         description=(
-            'Is het stembureau toegankelijk voor mindervaliden?'
+            'Is het stembureau/afgiftepunt toegankelijk voor mindervaliden?'
             '<br>'
             'Voor meer informatie, <a '
             'href="https://vng.nl/onderwerpenindex/bestuur/'
@@ -846,8 +1217,8 @@ class EditForm(FlaskForm):
     akoestiek = CustomSelectField(
         'Akoestiek',
         description=(
-            'Is de akoestiek van het stembureau geschikt voor slechthorenden? '
-            'Voor meer informatie, zie <a '
+            'Is de akoestiek van het stembureau/afgiftepunt geschikt voor '
+            'slechthorenden? Voor meer informatie, zie <a '
             'href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" '
             'target="_blank" rel="noopener">deze website</a>.'
             '<br>'
@@ -869,10 +1240,50 @@ class EditForm(FlaskForm):
         }
     )
 
+    auditieve_hulpmiddelen = StringField(
+        'Auditieve hulpmiddelen',
+        description=(
+            'Welke auditieve hulpmiddelen zijn aanwezig? Dit is een vrij '
+            'tekstveld.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Doventolk, ringleiding'
+        ),
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'placeholder': 'bv. Doventolk, ringleiding'
+        }
+    )
+
+    visuele_hulpmiddelen = StringField(
+        'Visuele hulpmiddelen',
+        description=(
+            'Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij '
+            'tekstveld.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> Leesloep'
+        ),
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'placeholder': 'bv. Leesloep'
+        }
+    )
+
     mindervalide_toilet_aanwezig = CustomSelectField(
         'Mindervalide toilet aanwezig',
         description=(
-            '<b>Format:</b> Vul "Y" in als de er een mindervalide toilet '
+            '<b>Format:</b> Vul "Y" in als er een mindervalide toilet '
             'aanwezig is in het stembureau. Vul "N" in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
@@ -885,1457 +1296,6 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'class': 'selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    show_checklist = RadioField(
-        'Toon "Checklist toegankelijkheidscriteria stembureaus"',
-        choices=[('Nee', 'Nee'), ('Ja', 'Ja')],
-        default='Nee'
-    )
-
-    v1_1_a_aanduiding_aanwezig = CustomSelectField(
-        '1.1.a Aanduiding aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_1_b_aanduiding_duidelijk_zichtbaar = CustomSelectField(
-        '1.1.b Aanduiding duidelijk zichtbaar',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_1_c_aanduiding_goed_leesbaar = CustomSelectField(
-        '1.1.c Aanduiding goed leesbaar',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_2_a_gpa_aanwezig = CustomSelectField(
-        '1.2.a GPA aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_2_b_aantal_vrij_parkeerplaatsen_binnen_50m_van_de_entree = IntegerField(
-        '1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Aantal'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 6'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 6'
-        }
-    )
-
-    v1_2_c_hoogteverschil_tussen_parkeren_en_trottoir = CustomSelectField(
-        '1.2.c Hoogteverschil tussen parkeren en trottoir',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_2_d_hoogteverschil = IntegerField(
-        '1.2.d Hoogteverschil',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 20'
-        ),
-        validators=[
-            NumberRange(min=0, max=10000),
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 20'
-        }
-    )
-
-    v1_2_e_type_overbrugging = CustomSelectField(
-        '1.2.e Type overbrugging',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Helling/Trap/Lift/Geen'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Lift'
-        ),
-        choices=[
-            ('', ''),
-            ('Helling', 'Helling'),
-            ('Trap', 'Trap'),
-            ('Lift', 'Lift'),
-            ('Geen', 'Geen')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_2_f_overbrugging_conform_itstandaard = CustomSelectField(
-        '1.2.f Overbrugging conform ITstandaard',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_3_a_vlak_verhard_en_vrij_van_obstakels = CustomSelectField(
-        '1.3.a Vlak, verhard en vrij van obstakels',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_3_b_hoogteverschil = IntegerField(
-        '1.3.b Hoogteverschil',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 30'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 30'
-        }
-    )
-
-    v1_3_c_type_overbrugging = CustomSelectField(
-        '1.3.c Type overbrugging',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Helling/Trap/Lift/Geen'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Lift'
-        ),
-        choices=[
-            ('', ''),
-            ('Helling', 'Helling'),
-            ('Trap', 'Trap'),
-            ('Lift', 'Lift'),
-            ('Geen', 'Geen')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_3_d_overbrugging_conform_itstandaard = CustomSelectField(
-        '1.3.d Overbrugging conform ITstandaard',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_3_e_obstakelvrije_breedte_van_de_route = IntegerField(
-        '1.3.e Obstakelvrije breedte van de route',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 120'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 120'
-        }
-    )
-
-    v1_3_f_obstakelvrije_hoogte_van_de_route = IntegerField(
-        '1.3.f Obstakelvrije hoogte van de route',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 200'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 200'
-        }
-    )
-
-    v1_4_a_is_er_een_route_tussen_gebouwentree_en_stemruimte = CustomSelectField(
-        '1.4.a Is er een route tussen gebouwentree en stemruimte',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_4_b_route_duidelijk_aangegeven = CustomSelectField(
-        '1.4.b Route duidelijk aangegeven',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_4_c_vlak_en_vrij_van_obstakels = CustomSelectField(
-        '1.4.c Vlak en vrij van obstakels',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_4_d_hoogteverschil = IntegerField(
-        '1.4.d Hoogteverschil',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 10'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 10'
-        }
-    )
-
-    v1_4_e_type_overbrugging = CustomSelectField(
-        '1.4.e Type overbrugging',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Helling/Trap/Lift/Geen'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Lift'
-        ),
-        choices=[
-            ('', ''),
-            ('Helling', 'Helling'),
-            ('Trap', 'Trap'),
-            ('Lift', 'Lift'),
-            ('Geen', 'Geen')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_4_f_overbrugging_conform_itstandaard = CustomSelectField(
-        '1.4.f Overbrugging conform ITstandaard',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v1_4_g_obstakelvrije_breedte_van_de_route = IntegerField(
-        '1.4.g Obstakelvrije breedte van de route',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 110'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 110'
-        }
-    )
-
-    v1_4_h_obstakelvrije_hoogte_van_de_route = IntegerField(
-        '1.4.h Obstakelvrije hoogte van de route',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 220'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 220'
-        }
-    )
-
-    v1_4_i_deuren_in_route_bedien_en_bruikbaar = CustomSelectField(
-        '1.4.i Deuren in route bedien- en bruikbaar',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_1_a_deurtype = CustomSelectField(
-        '2.1.a Deurtype',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Handbediend of Automatisch'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Handbediend'
-        ),
-        choices=[
-            ('', ''),
-            ('Handbediend', 'Handbediend'),
-            ('Automatisch', 'Automatisch')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_1_b_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
-        '2.1.b Opstelruimte aan beide zijden van de deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_1_c_bedieningskracht_buitendeur = CustomSelectField(
-        '2.1.c Bedieningskracht buitendeur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <40N of >40N'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <40N'
-        ),
-        choices=[('', ''), ('<40N', '<40N'), ('>40N', '>40N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_1_d_drempelhoogte_t_o_v_straat_vloer_niveau = CustomSelectField(
-        '2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <2cm of >2cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <2cm'
-        ),
-        choices=[('', ''), ('<2cm', '<2cm'), ('>2cm', '>2cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_1_e_vrije_doorgangsbreedte_buitendeur = CustomSelectField(
-        '2.1.e Vrije doorgangsbreedte buitendeur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <85cm of >85cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> >85cm'
-        ),
-        choices=[('', ''), ('<85cm', '<85cm'), ('>85cm', '>85cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_a_tussendeuren_aanwezig_in_eventuele_route = CustomSelectField(
-        '2.2.a Tussendeuren aanwezig in eventuele route',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_b_deurtype = CustomSelectField(
-        '2.2.b Deurtype',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Handbediend of Automatisch'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Handbediend'
-        ),
-        choices=[
-            ('', ''),
-            ('Handbediend', 'Handbediend'),
-            ('Automatisch', 'Automatisch')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_c_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
-        '2.2.c Opstelruimte aan beide zijden van de deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_d_bedieningskracht_deuren = CustomSelectField(
-        '2.2.d Bedieningskracht deuren',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <40N of >40N'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <40N'
-        ),
-        choices=[('', ''), ('<40N', '<40N'), ('>40N', '>40N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_e_drempelhoogte_t_o_v_vloer_niveau = CustomSelectField(
-        '2.2.e Drempelhoogte (t.o.v. vloer niveau)',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <2cm of >2cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <2cm'
-        ),
-        choices=[('', ''), ('<2cm', '<2cm'), ('>2cm', '>2cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_2_f_vrije_doorgangsbreedte_deur = CustomSelectField(
-        '2.2.f Vrije doorgangsbreedte deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <85cm of >85cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> >85cm'
-        ),
-        choices=[('', ''), ('<85cm', '<85cm'), ('>85cm', '>85cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_a_deur_aanwezig_naar_van_stemruimte = CustomSelectField(
-        '2.3.a Deur aanwezig naar/van stemruimte',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_b_deurtype = CustomSelectField(
-        '2.3.b Deurtype',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Handbediend of Automatisch'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Handbediend'
-        ),
-        choices=[
-            ('', ''),
-            ('Handbediend', 'Handbediend'),
-            ('Automatisch', 'Automatisch')
-        ],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_c_opstelruimte_aan_beide_zijden_van_de_deur = CustomSelectField(
-        '2.3.c Opstelruimte aan beide zijden van de deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_d_bedieningskracht_deur = CustomSelectField(
-        '2.3.d Bedieningskracht deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <40N of >40N'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <40N'
-        ),
-        choices=[('', ''), ('<40N', '<40N'), ('>40N', '>40N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_e_drempelhoogte_t_o_v_vloer_niveau = CustomSelectField(
-        '2.3.e Drempelhoogte (t.o.v. vloer niveau)',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <2cm of >2cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> <2cm'
-        ),
-        choices=[('', ''), ('<2cm', '<2cm'), ('>2cm', '>2cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_3_f_vrije_doorgangsbreedte_deur = CustomSelectField(
-        '2.3.f Vrije doorgangsbreedte deur',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> <85cm of >85cm'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> >85cm'
-        ),
-        choices=[('', ''), ('<85cm', '<85cm'), ('>85cm', '>85cm')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_a_zijn_er_tijdelijke_voorzieningen_aangebracht = CustomSelectField(
-        '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_b_vloerbedekking_randen_over_de_volle_lengte_deugdelijk_afgeplakt = CustomSelectField(
-        (
-            '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk '
-            'afgeplakt'
-        ),
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_c_hellingbaan_weerbestendig_alleen_van_toepassing_bij_buitentoepassing = CustomSelectField(
-        (
-            '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij '
-            'buitentoepassing)'
-        ),
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_d_hellingbaan_deugdelijk_verankerd_aan_ondergrond = CustomSelectField(
-        '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_e_leuning_bij_hellingbaan_trap_leuning_aanwezig_en_conform_criteria = CustomSelectField(
-        (
-            '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform '
-            'criteria'
-        ),
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_f_dorpeloverbrugging_weerbestendig_alleen_van_toepassing_bij_buitentoepassing = CustomSelectField(
-        (
-            '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing '
-            'bij buitentoepassing)'
-        ),
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v2_4_g_dorpeloverbrugging_deugdelijk_verankerd_aan_ondergrond = CustomSelectField(
-        '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_1_a_obstakelvrije_doorgangen = CustomSelectField(
-        '3.1.a Obstakelvrije doorgangen',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_1_b_vrije_draaicirkel_manoeuvreerruimte = CustomSelectField(
-        '3.1.b Vrije draaicirkel / manoeuvreerruimte',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_1_c_idem_voor_stemtafel_en_stemhokje = CustomSelectField(
-        '3.1.c Idem voor stemtafel en stemhokje',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_1_d_opstelruimte_voor_naast_stembus = CustomSelectField(
-        '3.1.d Opstelruimte voor/naast stembus',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_2_a_stoelen_in_stemruimte_aanwezig = CustomSelectField(
-        '3.2.a Stoelen in stemruimte aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_2_b_1_op_5_stoelen_uitgevoerd_met_armleuningen = CustomSelectField(
-        '3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_3_a_hoogte_van_het_laagste_schrijfblad = IntegerField(
-        '3.3.a Hoogte van het laagste schrijfblad',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> hoogte in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 60'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 60'
-        }
-    )
-
-    v3_3_b_schrijfblad_onderrijdbaar = CustomSelectField(
-        '3.3.b Schrijfblad onderrijdbaar',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_4_a_hoogte_inworpgleuf_stembiljet = IntegerField(
-        '3.4.a Hoogte inworpgleuf stembiljet',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> hoogte in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 70'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 70'
-        }
-    )
-
-    v3_4_b_afstand_inwerpgleuf_t_o_v_de_opstelruimte = IntegerField(
-        '3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> afstand in centimeters'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 160'
-        ),
-        validators=[
-            Optional(),
-            NumberRange(min=0, max=10000)
-        ],
-        render_kw={
-            'class': 'checklist',
-            'placeholder': 'bv. 160'
-        }
-    )
-
-    v3_5_a_leesloep_zichtbaar_aanwezig = CustomSelectField(
-        '3.5.a Leesloep (zichtbaar) aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_6_a_kandidatenlijst_in_stemlokaal_aanwezig = CustomSelectField(
-        '3.6.a Kandidatenlijst in stemlokaal aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
-            'data-none-selected-text': ''
-        }
-    )
-
-    v3_6_b_opstelruimte_voor_de_kandidatenlijst_aanwezig = CustomSelectField(
-        '3.6.b Opstelruimte voor de kandidatenlijst aanwezig',
-        description=(
-            'Zie deze <a href="https://vng.nl/files/vng/bijlage_1_checklist_'
-            'toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" '
-            'rel="noopener">PDF</a> voor meer informatie'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Y of N. Laat het veld leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Y'
-        ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
-        validators=[
-            Optional()
-        ],
-        render_kw={
-            'class': 'checklist selectpicker',
             'data-none-selected-text': ''
         }
     )

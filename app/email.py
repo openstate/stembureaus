@@ -39,12 +39,14 @@ def send_invite(user):
         text_body=render_template(
             'email/uitnodiging.txt',
             user=user,
-            token=token
+            token=token,
+            signup_form_url=app.config['SIGNUP_FORM_URL']
         ),
         html_body=render_template(
             'email/uitnodiging.html',
             user=user,
-            token=token
+            token=token,
+            signup_form_url=app.config['SIGNUP_FORM_URL']
         )
     )
 

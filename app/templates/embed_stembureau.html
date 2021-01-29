@@ -8,7 +8,7 @@
       {% if not records %}
       <li class="active">Onbekend stembureau UUID</li>
       {% else %}
-      <li class="active">{{ records[0]['Naam stembureau'] }}</li>
+      <li class="active">{{ records[0]['Naam stembureau of afgiftepunt'] }}</li>
       {% endif %}
     </ol>
   </div>
@@ -27,7 +27,7 @@
     <div class="row">
       <div class="col-xs-12">
         {% for record in records %}
-        <h2>#{{ record['Nummer stembureau'] }} {{ record['Naam stembureau'] }}{% if record['Website locatie'] %} <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener"><i class="fa fa-external-link" style="font-size: 14px;"></i></a>{% endif %}</h2>
+        <h2>#{{ record['Nummer stembureau of afgiftepunt'] }} {{ record['Naam stembureau of afgiftepunt'] }}{% if record['Website locatie'] %} <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener"><i class="fa fa-external-link" style="font-size: 14px;"></i></a>{% endif %}</h2>
         <p>
           {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %} {% if record['Huisletter'] %}{{ record['Huisletter'] }}{% endif %} {% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
         </p>
@@ -75,38 +75,6 @@
         <br>
         <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens'] }}</p>
         <a href="{{ record['Beschikbaarheid'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
-
-        {% if checklists[0] %}
-        <br>
-        <br>
-        <br>
-        <p>Deze gemeente heeft de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">Checklist toegankelijkheidscriteria stemlokalen</a> ingevuld:</p>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-              <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Bekijk Checklist toegankelijkheidscriteria
-                </a>
-              </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-              <div class="panel-body">
-                <table class="table table-condensed">
-                {% for checklist in checklists %}
-                  {% for key, value in checklist | dictsort %}
-                    <tr>
-                      <td>{{ key }}</td>
-                      <td>{{ value }}</td>
-                    </tr>
-                  {% endfor %}
-                {% endfor %}
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endif %}
 
         {% endfor %}
       </div>

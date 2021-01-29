@@ -79,12 +79,18 @@ def main():
     service = discovery.build('sheets', 'v4', http=http,
                               discoveryServiceUrl=discoveryUrl)
 
+    # ID of the Google spreadsheet where the answers of the form are
+    # stored
     spreadsheetId = '1AhN-cfJ3JYKFzsstKJ6njpVhbHTfWREEB8UUWozCNjc'
+    # Relevant columns in the spreadsheet
     rangeName = 'Form Responses 1!A2:D'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
 
+    # This file contains the most recent processed line/row. During a
+    # new run of this script only lines newer than the one in the file
+    # are processed.
     with open('last_processed_line.csv') as IN:
         reader = csv.reader(IN)
         last_processed_line = reader.__next__()
@@ -102,45 +108,24 @@ def main():
     if not new_values:
         print('No (new) data found.')
     else:
+        # Some debug lines
         #fields = ['date', 'email', 'gemeente', 'naam']
         #records = [dict(zip(fields, v)) for v in new_values]
-        # pprint(records)
+        #pprint(records)
 
-        # Load all valid gemeente namen
-        #gemeente_namen = []
-        #with open('gemeente_namen.txt') as IN:
-        #    for row in IN.readlines():
-        #        gemeente_namen.append(row.strip())
-
+        # Load gemeenten data of this election
         gemeente_json = []
         with open('app/data/gemeenten.json.example') as IN:
             gemeente_json = json.load(IN)
-        #pprint(gemeente_json)
         # Process each new value
         output = []
         for row in new_values:
             new_gemeente_naam = row[2].strip()
-            #new_gemeente_naam = re.sub(
-            #    '^gemeente ', '', row[2].strip(), flags=re.IGNORECASE)
-            #if new_gemeente_naam not in gemeente_namen:
-            #    with app.app_context():
-            #        send_email(
-            #            '[waarismijnstemlokaal.nl] Gemeente niet in '
-            #            'gemeente_namen.txt',
-            #            sender=app.config['FROM'],
-            #            recipients=[app.config['FROM']],
-            #            text_body=(
-            #                'Kon %s niet vinden in gemeente_namen.txt'
-            #            ) % (new_gemeente_naam),
-            #            html_body=(
-            #                '<p>Kon %s niet vinden in gemeente_namen.txt</p>'
-            #            ) % (new_gemeente_naam),
-            #        )
-            #    continue
-            # print('Found gemeente: %s' % (new_gemeente_naam))
+            # Retrieve info for the gemeente
             json_gemeente = [
                 g for g in gemeente_json
                 if g['gemeente_naam'] == new_gemeente_naam]
+            # Send an email if the gemeente could not be found
             if len(json_gemeente) <= 0:
                 with app.app_context():
                     send_email(
@@ -157,11 +142,11 @@ def main():
                         ) % (new_gemeente_naam),
                     )
                 continue
+            # Add the email adress to the gemeente info
             json_gemeente[0]['email'].append(row[1])
-            #if json_gemeente[0]['verkiezingen'] == []:
-            #    json_gemeente[0]['verkiezingen'] = [
-            #        e for e in ckan.elections.keys()]
             output.append(json_gemeente[0])
+        # Print the JSON containing gemeente info with the newly added
+        # email addresses
         print(json.dumps(output))
 
         # Save the new last processed line

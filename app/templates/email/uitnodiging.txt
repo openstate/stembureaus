@@ -1,22 +1,39 @@
-Beste mevrouw of meneer,
+{% if user.admin %}
+Beste admin,
+{% else %}
+Beste gemeente,
+{% endif %}
 
 
-Bij dezen nodigen wij u graag uit om deel te nemen aan het platform 'Waar is mijn Stemlokaal'. Dit is het platform waar gemeenten voor de aankomende verkiezingen hun lijsten met stembureaus kunnen uploaden. Eerder heeft u hier via de nieuwsbrief van het ministerie van Binnenlandse Zaken informatie over ontvangen.
+In maart stemt Nederland voor de Tweede Kamerverkiezingen. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal', zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
+
+'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus en afgiftepunten voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 75% van de gemeenten de gegevens aan en is de website meer dan 1 miljoen keer bezocht.
+
+Vanwege het coronavirus worden er deze verkiezingen speciale maatregelen genomen. Zo kunnen stembureaus drie dagen open zijn en ontvangen 70-plussers een stempluspas die al vanaf 10 maart ingeleverd kan worden bij afgiftepunten. Hierdoor is het dit jaar extra belangrijk kiezers goed te informeren over waar, hoe en wanneer er gestemd kan worden.
+
+** Wat vragen we van u? **
+Graag ontvangen wij van u informatie over uw stembureaus en afgiftepunten. Onderaan vindt u meer instructies, maar het proces is simpel:
+
+  - Maak een wachtwoord aan voor uw account en log in met uw e-mailadres {{ user.email }} via {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
+  - Download, bewerk en upload de deels vooringevulde stembureau-spreadsheet of voer uw stembureaus en afgiftepunten direct via het webformulier in
+  - Klik op de 'Publiceer'-knop om uw stembureaus en afgiftepunten op de kaart te plaatsen en de data beschikbaar te maken
+  - Optioneel: embed de handige kaart met stembureaus en afgiftepunten op uw gemeentewebsite
+
+De deels vooringevulde stembureaus-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 2019. U kunt daar veranderingen in uw stembureaus doorvoeren, de ontbrekende velden, zoals de nieuwe dagelijkse openingstijden, invullen en de afgiftepunten voor de stempluspassen toevoegen.
+
+NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus en afgiftepunten doorgeven.
 
 ** Hoe kan ik inloggen? **
-Er is al een account voor uw gemeente(n) aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een wachtwoord aan te maken voor uw account op volgende pagina:
+Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een wachtwoord aan te maken voor uw account op de volgende pagina:
 {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
 
 Deze pagina komt over 24 uur te vervallen, dus maak alvast een account aan. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een nieuw verzoek indienen via {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}.
 
-** Over 'Waar is mijn Stemlokaal' **
-Op 23 mei gaat Nederland naar de stembus voor de Europese Parlementsverkiezingen. Het ministerie van BZK, VNG en Open State Foundation willen met open data mogelijk maken dat kiezers eenvoudig hun dichtstbijzijnde stembureau kunnen opzoeken. De afgelopen verkiezingen hebben meer dan 400.000 mensen deze informatie gebruikt. Gemeenten kunnen via 'Waar is mijn stemlokaal' hun lijsten met stembureaus invoeren. Om het zo makkelijk mogelijk te maken hebben we de stembureaus van uw gemeenten alvast ingevuld op basis van stembureaus van de Provinciale Statenverkiezingen 2019 (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden). Als er geen veranderingen zijn dan hoeft u enkel in te loggen en op de 'Publiceer'-knop te klikken om uw stembureaus beschikbaar te maken. Als er wel veranderingen zijn dan kunt u deze makkelijk aanpassen via de website. U kunt ook het stembureau-spreadsheet downloaden waarin we alle informatie alvast hebben ingevuld, daar de veranderingen in aanbrengen en deze vervolgens uploaden.
+** Instructies **
+De instructies voor het invoeren van de stembureaus en afgiftepunten vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
 
-**Instructies**
-De instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
-
-**Nieuw account toevoegen**
-Als u een ander account wilt toevoegen voor uw gemeente, vul dan dit formulier in. Dit is handig als u één of meerdere collega's ook toegang wilt geven: https://docs.google.com/forms/d/e/1FAIpQLSe1fpsXr54WAeIubT1JpPJ-vOkQQP37-ZW4Ur_QfloTtaSczQ/viewform
+** Extra account toevoegen **
+Als u een ander account wilt toevoegen voor uw gemeente, vul dan dit formulier in. Dit is handig als u een of meerdere collega's ook toegang wilt geven: {{ url_for('signup_form', _external=True) }}
 
 ** Vragen of contact? **
 Heeft u vragen? Neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.

@@ -130,11 +130,15 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Nummer stembureau",
+            "id": "Stembureau of Afgiftepunt",
+            "type": "text"
+        },
+        {
+            "id": "Nummer stembureau of afgiftepunt",
             "type": "int"
         },
         {
-            "id": "Naam stembureau",
+            "id": "Naam stembureau of afgiftepunt",
             "type": "text"
         },
         {
@@ -210,7 +214,35 @@ def add_new_datastore(resource_id):
             "type": "float"
         },
         {
-            "id": "Openingstijden",
+            "id": "Openingstijden 10-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 11-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 12-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 13-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 14-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 15-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 16-03-2021",
+            "type": "text"
+        },
+        {
+            "id": "Openingstijden 17-03-2021",
             "type": "text"
         },
         {
@@ -219,6 +251,14 @@ def add_new_datastore(resource_id):
         },
         {
             "id": "Akoestiek",
+            "type": "text"
+        },
+        {
+            "id": "Auditieve hulpmiddelen",
+            "type": "text"
+        },
+        {
+            "id": "Visuele hulpmiddelen",
             "type": "text"
         },
         {
@@ -231,6 +271,10 @@ def add_new_datastore(resource_id):
         },
         {
             "id": "Hoofdstembureau",
+            "type": "text"
+        },
+        {
+            "id": "Tellocatie",
             "type": "text"
         },
         {
@@ -251,264 +295,6 @@ def add_new_datastore(resource_id):
         },
         {
             "id": "UUID",
-            "type": "text"
-        },
-        {
-            "id": "1.1.a Aanduiding aanwezig",
-            "type": "text"
-        },
-        {
-            "id": "1.1.b Aanduiding duidelijk zichtbaar",
-            "type": "text"
-        },
-        {
-            "id": "1.1.c Aanduiding goed leesbaar",
-            "type": "text"
-        },
-        {
-            "id": "1.2.a GPA aanwezig",
-            "type": "text"
-        },
-        {
-            "id": "1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree",
-            "type": "int"
-        },
-        {
-            "id": "1.2.c Hoogteverschil tussen parkeren en trottoir",
-            "type": "text"
-        },
-        {
-            "id": "1.2.d Hoogteverschil",
-            "type": "int"
-        },
-        {
-            "id": "1.2.e Type overbrugging",
-            "type": "text"
-        },
-        {
-            "id": "1.2.f Overbrugging conform ITstandaard",
-            "type": "text"
-        },
-        {
-            "id": "1.3.a Vlak, verhard en vrij van obstakels",
-            "type": "text"
-        },
-        {
-            "id": "1.3.b Hoogteverschil",
-            "type": "int"
-        },
-        {
-            "id": "1.3.c Type overbrugging",
-            "type": "text"
-        },
-        {
-            "id": "1.3.d Overbrugging conform ITstandaard",
-            "type": "text"
-        },
-        {
-            "id": "1.3.e Obstakelvrije breedte van de route",
-            "type": "int"
-        },
-        {
-            "id": "1.3.f Obstakelvrije hoogte van de route",
-            "type": "int"
-        },
-        {
-            "id": "1.4.a Is er een route tussen gebouwentree en stemruimte",
-            "type": "text"
-        },
-        {
-            "id": "1.4.b Route duidelijk aangegeven",
-            "type": "text"
-        },
-        {
-            "id": "1.4.c Vlak en vrij van obstakels",
-            "type": "text"
-        },
-        {
-            "id": "1.4.d Hoogteverschil",
-            "type": "int"
-        },
-        {
-            "id": "1.4.e Type overbrugging",
-            "type": "text"
-        },
-        {
-            "id": "1.4.f Overbrugging conform ITstandaard",
-            "type": "text"
-        },
-        {
-            "id": "1.4.g Obstakelvrije breedte van de route",
-            "type": "int"
-        },
-        {
-            "id": "1.4.h Obstakelvrije hoogte van de route",
-            "type": "int"
-        },
-        {
-            "id": "1.4.i Deuren in route bedien- en bruikbaar",
-            "type": "text"
-        },
-        {
-            "id": "2.1.a Deurtype",
-            "type": "text"
-        },
-        {
-            "id": "2.1.b Opstelruimte aan beide zijden van de deur",
-            "type": "text"
-        },
-        {
-            "id": "2.1.c Bedieningskracht buitendeur",
-            "type": "text"
-        },
-        {
-            "id": "2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)",
-            "type": "text"
-        },
-        {
-            "id": "2.1.e Vrije doorgangsbreedte buitendeur",
-            "type": "text"
-        },
-        {
-            "id": "2.2.a Tussendeuren aanwezig in eventuele route",
-            "type": "text"
-        },
-        {
-            "id": "2.2.b Deurtype",
-            "type": "text"
-        },
-        {
-            "id": "2.2.c Opstelruimte aan beide zijden van de deur",
-            "type": "text"
-        },
-        {
-            "id": "2.2.d Bedieningskracht deuren",
-            "type": "text"
-        },
-        {
-            "id": "2.2.e Drempelhoogte (t.o.v. vloer niveau)",
-            "type": "text"
-        },
-        {
-            "id": "2.2.f Vrije doorgangsbreedte deur",
-            "type": "text"
-        },
-        {
-            "id": "2.3.a Deur aanwezig naar/van stemruimte",
-            "type": "text"
-        },
-        {
-            "id": "2.3.b Deurtype",
-            "type": "text"
-        },
-        {
-            "id": "2.3.c Opstelruimte aan beide zijden van de deur",
-            "type": "text"
-        },
-        {
-            "id": "2.3.d Bedieningskracht deur",
-            "type": "text"
-        },
-        {
-            "id": "2.3.e Drempelhoogte (t.o.v. vloer niveau)",
-            "type": "text"
-        },
-        {
-            "id": "2.3.f Vrije doorgangsbreedte deur",
-            "type": "text"
-        },
-        {
-            "id": "2.4.a Zijn er tijdelijke voorzieningen aangebracht",
-            "type": "text"
-        },
-        {
-            "id": (
-                "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk "
-                "a"
-            ),
-            "type": "text"
-        },
-        {
-            "id": (
-                "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij "
-                "bu"
-            ),
-            "type": "text"
-        },
-        {
-            "id": "2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond",
-            "type": "text"
-        },
-        {
-            "id": (
-                "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en "
-                "confor"
-            ),
-            "type": "text"
-        },
-        {
-            "id": (
-                "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van "
-                "toepassing"
-            ),
-            "type": "text"
-        },
-        {
-            "id": (
-                "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond"
-            ),
-            "type": "text"
-        },
-        {
-            "id": "3.1.a Obstakelvrije doorgangen",
-            "type": "text"
-        },
-        {
-            "id": "3.1.b Vrije draaicirkel / manoeuvreerruimte",
-            "type": "text"
-        },
-        {
-            "id": "3.1.c Idem voor stemtafel en stemhokje",
-            "type": "text"
-        },
-        {
-            "id": "3.1.d Opstelruimte voor/naast stembus",
-            "type": "text"
-        },
-        {
-            "id": "3.2.a Stoelen in stemruimte aanwezig",
-            "type": "text"
-        },
-        {
-            "id": "3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen",
-            "type": "text"
-        },
-        {
-            "id": "3.3.a Hoogte van het laagste schrijfblad",
-            "type": "int"
-        },
-        {
-            "id": "3.3.b Schrijfblad onderrijdbaar",
-            "type": "text"
-        },
-        {
-            "id": "3.4.a Hoogte inworpgleuf stembiljet",
-            "type": "int"
-        },
-        {
-            "id": "3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte",
-            "type": "int"
-        },
-        {
-            "id": "3.5.a Leesloep (zichtbaar) aanwezig",
-            "type": "text"
-        },
-        {
-            "id": "3.6.a Kandidatenlijst in stemlokaal aanwezig",
-            "type": "text"
-        },
-        {
-            "id": "3.6.b Opstelruimte voor de kandidatenlijst aanwezig",
             "type": "text"
         }
     ]
@@ -900,6 +686,7 @@ def test_datastore_upsert(resource_id):
     record = {
         "Gemeente": "'s-Gravenhage",
         "CBS gemeentecode": "GM0518",
+        "Stembureau of Afgiftepunt": "Stembureau",
         "Nummer stembureau": "517",
         "Naam stembureau": "Stadhuis",
         "Gebruikersdoel het gebouw": "kantoor",
@@ -923,77 +710,27 @@ def test_datastore_upsert(resource_id):
         "Y": 454909,
         "Longitude": 4.3166395,
         "Latitude": 52.0775912,
-        "Openingstijden": "2017-03-21T07:30:00 tot 2017-03-21T21:00:00",
-        "Mindervaliden toegankelijk": 'Y',
-        "Akoestiek": 'Y',
+        "Openingstijden 10-03-2021": "2021-03-10T07:30:00 tot 2021-03-10T21:00:00",
+        "Openingstijden 11-03-2021": "2021-03-11T07:30:00 tot 2021-03-11T21:00:00",
+        "Openingstijden 12-03-2021": "2021-03-12T07:30:00 tot 2021-03-12T21:00:00",
+        "Openingstijden 13-03-2021": "2021-03-13T07:30:00 tot 2021-03-13T21:00:00",
+        "Openingstijden 14-03-2021": "2021-03-14T07:30:00 tot 2021-03-14T21:00:00",
+        "Openingstijden 15-03-2021": "2021-03-15T07:30:00 tot 2021-03-15T21:00:00",
+        "Openingstijden 16-03-2021": "2021-03-16T07:30:00 tot 2021-03-16T21:00:00",
+        "Openingstijden 17-03-2021": "2021-03-17T07:30:00 tot 2021-03-17T21:00:00",
+        "Mindervaliden toegankelijk": "Y",
+        "Akoestiek": "Y",
+        "Auditieve hulpmiddelen": "Doventolk, ringleiding",
+        "Visuele hulpmiddelen": "Leesloep",
         "Mindervalide toilet aanwezig": 'N',
         "Kieskring ID": "'s-Gravenhage",
+        "Hoofdstembureau": "Nederland",
+        "Tellocatie": "Y",
         "Contactgegevens": "persoonx@denhaag.nl",
         "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
         "Verkiezingen": "",
         "ID": "NLODSGM0518stembureaus20180321001",
-        "UUID": uuid.uuid4().hex,
-        "1.1.a Aanduiding aanwezig": "Y",
-        "1.1.b Aanduiding duidelijk zichtbaar": "Y",
-        "1.1.c Aanduiding goed leesbaar": "Y",
-        "1.2.a GPA aanwezig": "N",
-        "1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree": 6,
-        "1.2.c Hoogteverschil tussen parkeren en trottoir": "Y",
-        "1.2.d Hoogteverschil": 20,
-        "1.2.e Type overbrugging": "Helling",
-        "1.2.f Overbrugging conform ITstandaard": "Y",
-        "1.3.a Vlak, verhard en vrij van obstakels": "Y",
-        "1.3.b Hoogteverschil": 30,
-        "1.3.c Type overbrugging": "Lift",
-        "1.3.d Overbrugging conform ITstandaard": "Y",
-        "1.3.e Obstakelvrije breedte van de route": 120,
-        "1.3.f Obstakelvrije hoogte van de route": 200,
-        "1.4.a Is er een route tussen gebouwentree en stemruimte": "Y",
-        "1.4.b Route duidelijk aangegeven": "Y",
-        "1.4.c Vlak en vrij van obstakels": "Y",
-        "1.4.d Hoogteverschil": 10,
-        "1.4.e Type overbrugging": "Helling",
-        "1.4.f Overbrugging conform ITstandaard": "Y",
-        "1.4.g Obstakelvrije breedte van de route": 110,
-        "1.4.h Obstakelvrije hoogte van de route": 220,
-        "1.4.i Deuren in route bedien- en bruikbaar": "Y",
-        "2.1.a Deurtype": "Handbediend",
-        "2.1.b Opstelruimte aan beide zijden van de deur": "Y",
-        "2.1.c Bedieningskracht buitendeur": "<40N",
-        "2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)": "<2cm",
-        "2.1.e Vrije doorgangsbreedte buitendeur": ">85cm",
-        "2.2.a Tussendeuren aanwezig in eventuele route": "Y",
-        "2.2.b Deurtype": "Handbediend",
-        "2.2.c Opstelruimte aan beide zijden van de deur": "Y",
-        "2.2.d Bedieningskracht deuren": "<40N",
-        "2.2.e Drempelhoogte (t.o.v. vloer niveau)": "<2cm",
-        "2.2.f Vrije doorgangsbreedte deur": ">85cm",
-        "2.3.a Deur aanwezig naar/van stemruimte": "Y",
-        "2.3.b Deurtype": "Handbediend",
-        "2.3.c Opstelruimte aan beide zijden van de deur": "Y",
-        "2.3.d Bedieningskracht deur": "<40N",
-        "2.3.e Drempelhoogte (t.o.v. vloer niveau)": "<2cm",
-        "2.3.f Vrije doorgangsbreedte deur": ">85cm",
-        "2.4.a Zijn er tijdelijke voorzieningen aangebracht": "Y",
-        "2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk a": "Y",
-        "2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij bu": "Y",
-        "2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond": "Y",
-        "2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en confor": "Y",
-        "2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing": "Y",
-        "2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond": "Y",
-        "3.1.a Obstakelvrije doorgangen": "Y",
-        "3.1.b Vrije draaicirkel / manoeuvreerruimte": "Y",
-        "3.1.c Idem voor stemtafel en stemhokje": "Y",
-        "3.1.d Opstelruimte voor/naast stembus": "Y",
-        "3.2.a Stoelen in stemruimte aanwezig": "Y",
-        "3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen": "Y",
-        "3.3.a Hoogte van het laagste schrijfblad": 60,
-        "3.3.b Schrijfblad onderrijdbaar": "Y",
-        "3.4.a Hoogte inworpgleuf stembiljet": 70,
-        "3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte": 160,
-        "3.5.a Leesloep (zichtbaar) aanwezig": "Y",
-        "3.6.a Kandidatenlijst in stemlokaal aanwezig": "Y",
-        "3.6.b Opstelruimte voor de kandidatenlijst aanwezig": "Y"
+        "UUID": uuid.uuid4().hex
     }
     ckan.save_records(
         resource_id=resource_id,

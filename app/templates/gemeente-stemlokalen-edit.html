@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-  <meta property="og:title" content="Waar is mijn stemlokaal - Bewerk stembureau" />
+  <meta property="og:title" content="Waar is mijn stemlokaal - Bewerk stembureau/afgiftepunt" />
   {{ super() }}
 {% endblock %}
 
@@ -9,21 +9,21 @@
     {% if current_user.gemeenten|length > 1 %}
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
     {% endif %}
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
+    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus en afgiftepunten</a> > Bewerk stembureau/afgiftepunt
     <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
   </div>
 
-  <h1 class="title-pad">Stembureau</h1>
+  <h1 class="title-pad">Stembureau/afgiftepunt</h1>
 
   <br>
 
-  Hieronder kunt alle gegevens van een stembureau invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
+  Hieronder kunt alle gegevens van een stembureau of afgiftepunt invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
 
   <br>
   <br>
 
   {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+    <span class="text-red">De deadline voor het toevoegen van stembureaus/afgiftepunten is verlopen.</span>
   {% else %}
     <span class="required">*</span> = vereist veld
 
@@ -36,10 +36,10 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                <h4 class="modal-title" id="remove-confirmation-label">Stembureau/afgiftepunt verwijderen?</h4>
               </div>
               <div class="modal-body">
-                Weet u zeker dat u dit stembureau wilt verwijderen?
+                Weet u zeker dat u dit stembureau/afgiftepunt wilt verwijderen?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
@@ -53,7 +53,7 @@
         {% for f in form %}
           {% if f.label.text == 'Longitude' %}
           <hr>
-          <span><i>Kies Longitude en Latitude <b>of</b> X en Y (Rijksdriehoeksstelsel) om de coördinaten van het stembureau door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Longitude en Latitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
+          <span><i>Kies Longitude en Latitude <b>of</b> X en Y (Rijksdriehoeksstelsel) om de coördinaten van het stembureau/afgiftepunt door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Longitude en Latitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
           {% endif %}
 
           {% if f.label.text == 'X' %}
@@ -71,111 +71,8 @@
           <hr>
           {% endif %}
 
-          {% if f.label.text == 'Toon "Checklist toegankelijkheidscriteria stembureaus"' %}
-          <span><i>
-Mocht uw gemeente de <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">toegankelijkheid van de stembureaus</a> op basis van de '<a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">Checklist toegankelijkheidscriteria stemlokalen</a>' toetsen, selecteer dan 'Ja' en vul het formulier verder in. Het invullen van deze checklist is optioneel. Als uw gemeente op een andere manier onderzocht heeft of het stembureau toegankelijk voor mindervaliden is of niet dan is het invullen van het 'Mindervaliden toegankelijk'-veld hierboven voldoende.</i></span>
-          <br>
-          <br>
-          {% endif %}
-
           {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
-            {% if 'checklist' in f.render_kw.class %}
-              <div class="edit-entry checklist-div">
-
-              {% if f.label.text == '1.1.a Aanduiding aanwezig' %}
-              <br>
-              <i>TIP: Gebruik de Tab-toets en pijl omlaag-toets om makkelijk en snel de vragen in te vullen.</i>
-              <br>
-              <b>BEREIKBAARHEID</b>
-              <br>
-              <b>1.1 Aanduiding op openbare weg</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '1.2.a GPA aanwezig' %}
-              <br>
-              <b>1.2 Parkeergelegenheid</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '1.3.a Vlak, verhard en vrij van obstakels' %}
-              <br>
-              <b>1.3 Route tussen openbare weg en entree gebouw stembureau</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '1.4.a Is er een route tussen gebouwentree en stemruimte' %}
-              <br>
-              <b>1.4 Route tussen entree gebouw stembureau en stemruimte</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '2.1.a Deurtype' %}
-              <br>
-              <b>BETREEDBAARHEID</b>
-              <br>
-              <b>2.1 Entree (buitendeur) van gebouw Stemlokaal</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '2.2.a Tussendeuren aanwezig in eventuele route' %}
-              <br>
-              <b>2.2 Tussendeuren in de route in het gebouw naar stemruimte</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '2.3.a Deur aanwezig naar/van stemruimte' %}
-              <br>
-              <b>2.3 Deur stemruimte</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '2.4.a Zijn er tijdelijke voorzieningen aangebracht' %}
-              <br>
-              <b>2.4 Tijdelijke voorzieningen</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.1.a Obstakelvrije doorgangen' %}
-              <br>
-              <b>BRUIKBAARHEID</b>
-              <br>
-              <b>3.1 Verkeersruimte stemlokaal</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.2.a Stoelen in stemruimte aanwezig' %}
-              <br>
-              <b>3.2 Stoelen in stemruimte</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.3.a Hoogte van het laagste schrijfblad' %}
-              <br>
-              <b>3.3 Stemhokje</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.4.a Hoogte inworpgleuf stembiljet' %}
-              <br>
-              <b>3.4 Stembus</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.5.a Leesloep (zichtbaar) aanwezig' %}
-              <br>
-              <b>3.5 Leesloep</b>
-              <br>
-              {% endif %}
-
-              {% if f.label.text == '3.6.a Kandidatenlijst in stemlokaal aanwezig' %}
-              <br>
-              <b>3.6 Kandidatenlijst</b>
-              <br>
-              {% endif %}
-            {% else %}
-              <div class="edit-entry">
-            {% endif %}
+            <div class="edit-entry">
               {{ f.label }}
 
               {% if f.type == "RadioField" %}
@@ -193,62 +90,6 @@ Mocht uw gemeente de <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezing
 
               {% if f.description %}
               <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
-              {% endif %}
-
-              {% if f.label.text == '1.1.a Aanduiding aanwezig' %}
-              Y: Verder naar vraag 1.1.b / N: Verder naar vraag 1.2
-              {% endif %}
-
-              {% if f.label.text == '1.2.a GPA aanwezig' %}
-              Y: Verder naar vraag 1.2.c / N: Verder naar vraag 1.2.b
-              {% endif %}
-
-              {% if f.label.text == '1.2.c Hoogteverschil tussen parkeren en trottoir' %}
-              Y: Verder naar vraag 1.2.d / N: Verder naar vraag 1.3
-              {% endif %}
-
-              {% if f.label.text == '1.3.a, Ja: Verder naar vraag 1.4 / Nee: Verder naar vraag 1.3.b' %}
-              Y: Verder naar vraag 1.4 / N: Verder naar vraag 1.3.b
-              {% endif %}
-
-              {% if f.label.text == '1.4.a Is er een route tussen gebouwentree en stemruimte' %}
-              Y: Verder naar vraag 1.4.b / N: Verder naar vraag 2.1
-              {% endif %}
-
-              {% if f.label.text == '1.4.c Vlak en vrij van obstakels' %}
-              Y: Verder naar vraag 2.1 / N: Verder naar vraag 1.4.d
-              {% endif %}
-
-              {% if f.label.text == '2.1.a Deurtype' %}
-              Handbediend: Verder naar vraag 2.1.b / Automatisch: Verder naar vraag 2.1.d
-              {% endif %}
-
-              {% if f.label.text == '2.2.a Tussendeuren aanwezig in eventuele route' %}
-              Y: Verder naar vraag 2.2.b / N: Verder naar vraag 2.3
-              {% endif %}
-
-              {% if f.label.text == '2.2.b Deurtype' %}
-              Handbediend: Verder naar vraag 2.2.c / Automatisch: Verder naar vraag 2.2.e
-              {% endif %}
-
-              {% if f.label.text == '2.3.a Deur aanwezig naar/van stemruimte' %}
-              Y: Verder naar vraag 2.3.b / N: Verder naar vraag 2.4
-              {% endif %}
-
-              {% if f.label.text == '2.3.b Deurtype' %}
-              Handbediend: Verder naar vraag 2.3.c / Automatisch: Verder naar vraag 2.3.e
-              {% endif %}
-
-              {% if f.label.text == '2.4.a Zijn er tijdelijke voorzieningen aangebracht' %}
-              Y: Verder naar vraag 2.4.b / N: Verder naar vraag 3.1
-              {% endif %}
-
-              {% if f.label.text == '3.2.a Stoelen in stemruimte aanwezig' %}
-              Y: Verder naar vraag 3.2.b / N: Verder naar vraag 3.3
-              {% endif %}
-
-              {% if f.label.text == '3.6.a Kandidatenlijst in stemlokaal aanwezig' %}
-              Y: Verder naar vraag 3.6.b / N: Checklijst gereed
               {% endif %}
 
               {% if f.flags.required %}

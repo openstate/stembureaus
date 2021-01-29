@@ -13,6 +13,7 @@ docker/docker-entrypoint-initdb.d/*.csv
 docker/docker-entrypoint-initdb.d/*.zip
 docker/docker-entrypoint-initdb.d/*daily.sql
 docker/docker-entrypoint-initdb.d/*daily.sql.gz
+docker/docker-entrypoint-initdb.d/old/*
 docker/docker-compose.yml
 
 app/static/*

@@ -1,20 +1,14 @@
 #!/bin/bash
 
-# Checks if a new BAG release is available; if yes then it downloads and loads it
-NEW_TIME=`curl -s https://data.nlextract.nl/bag/csv/ | grep 'bag-adressen-full-laatst.csv.zip' | grep -o '....-..-.. ..:..'`
-if [ "$NEW_TIME" != "`cat last_bag_download.txt`" ]; then
-    echo new!
-    echo $NEW_TIME > last_bag_download.txt
+# Buy and download the most recent 'BAG Adressen - Uitgebreid - CSV'
+# from https://geotoko.nl/datasets?rid=24b6070d-5a92-4109-8fcd-a1d7cc000801
+# NB: from the moment that gemeenten start to update the stembureaus
+# till election day you need to buy and download the latest monthly
+# released version of this file into `docker/docker-entrypoint-initdb.d`,
+# unzip it and use this script to update our database
+MYSQL_CONTAINER="stm_mysql_1"
+DB_PASSWORD="<DB_PASSWORD>"
+NETWORK="stm_stm"
+CMD="mysql --local_infile=1 -h $MYSQL_CONTAINER -u root --password=$DB_PASSWORD -e 'source /docker-entrypoint-initdb.d/bag.sql'"
 
-    cd docker-entrypoint-initdb.d
-    wget -N 'https://data.nlextract.nl/bag/csv/bag-adressen-full-laatst.csv.zip'
-    unzip -o bag-adressen-full-laatst.csv.zip
-
-    cd ..
-    MYSQL_CONTAINER="stm_mysql_1"
-    DB_PASSWORD="<DB_PASSWORD>"
-    NETWORK="stm_stm"
-    CMD="mysql -h $MYSQL_CONTAINER -u root --password=$DB_PASSWORD -e 'source /docker-entrypoint-initdb.d/bag.sql'"
-
-    docker run --rm --network $NETWORK -v `pwd`/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw mysql bash -c "$CMD"
-fi
+docker run --rm --network $NETWORK -v `pwd`/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw mysql bash -c "$CMD"

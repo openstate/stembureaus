@@ -25,13 +25,14 @@ services:
       - stm
     restart: always
   mysql:
-    image: mysql:5.7.21
+    image: mysql:8.0
     # This root password will be overwritten with the password used in
     # the backup that will be restored from a .sql file in the
     # docker-entrypoint-initdb.d directory.
     environment:
       - MYSQL_DATABASE=stembureaus
       - MYSQL_ROOT_PASSWORD=<DB_PASSWORD>
+    command: --local-infile=true
     networks:
       - stm
     volumes:

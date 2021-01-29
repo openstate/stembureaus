@@ -29,9 +29,10 @@ import uuid
 
 
 # Used to set the order of the fields in the stembureaus overzicht
-fields = [
-    'Nummer stembureau',
-    'Naam stembureau',
+field_order = [
+    'Stembureau of Afgiftepunt',
+    'Nummer stembureau of afgiftepunt',
+    'Naam stembureau of afgiftepunt',
     'Website locatie',
     'BAG referentienummer',
     'Extra adresaanduiding',
@@ -39,94 +40,32 @@ fields = [
     'Latitude',
     'X',
     'Y',
-    'Openingstijden',
-    'Contactgegevens',
-    'Beschikbaarheid',
-    'Verkiezingen',
+    'Openingstijden 10-03-2021',
+    'Openingstijden 11-03-2021',
+    'Openingstijden 12-03-2021',
+    'Openingstijden 13-03-2021',
+    'Openingstijden 14-03-2021',
+    'Openingstijden 15-03-2021',
+    'Openingstijden 16-03-2021',
+    'Openingstijden 17-03-2021',
     'Mindervaliden toegankelijk',
     'Akoestiek',
-    'Mindervalide toilet aanwezig'
+    'Auditieve hulpmiddelen',
+    'Visuele hulpmiddelen',
+    'Mindervalide toilet aanwezig',
+    'Tellocatie',
+    'Contactgegevens',
+    'Beschikbaarheid',
+    #'Verkiezingen'
 ]
 
-checklist_fields = [
-    '1.1.a Aanduiding aanwezig',
-    '1.1.b Aanduiding duidelijk zichtbaar',
-    '1.1.c Aanduiding goed leesbaar',
-    '1.2.a GPA aanwezig',
-    '1.2.b Aantal vrij parkeerplaatsen binnen 50m van de entree',
-    '1.2.c Hoogteverschil tussen parkeren en trottoir',
-    '1.2.d Hoogteverschil',
-    '1.2.e Type overbrugging',
-    '1.2.f Overbrugging conform ITstandaard',
-    '1.3.a Vlak, verhard en vrij van obstakels',
-    '1.3.b Hoogteverschil',
-    '1.3.c Type overbrugging',
-    '1.3.d Overbrugging conform ITstandaard',
-    '1.3.e Obstakelvrije breedte van de route',
-    '1.3.f Obstakelvrije hoogte van de route',
-    '1.4.a Is er een route tussen gebouwentree en stemruimte',
-    '1.4.b Route duidelijk aangegeven',
-    '1.4.c Vlak en vrij van obstakels',
-    '1.4.d Hoogteverschil',
-    '1.4.e Type overbrugging',
-    '1.4.f Overbrugging conform ITstandaard',
-    '1.4.g Obstakelvrije breedte van de route',
-    '1.4.h Obstakelvrije hoogte van de route',
-    '1.4.i Deuren in route bedien- en bruikbaar',
-    '2.1.a Deurtype',
-    '2.1.b Opstelruimte aan beide zijden van de deur',
-    '2.1.c Bedieningskracht buitendeur',
-    '2.1.d Drempelhoogte (t.o.v. straat/vloer niveau)',
-    '2.1.e Vrije doorgangsbreedte buitendeur',
-    '2.2.a Tussendeuren aanwezig in eventuele route',
-    '2.2.b Deurtype',
-    '2.2.c Opstelruimte aan beide zijden van de deur',
-    '2.2.d Bedieningskracht deuren',
-    '2.2.e Drempelhoogte (t.o.v. vloer niveau)',
-    '2.2.f Vrije doorgangsbreedte deur',
-    '2.3.a Deur aanwezig naar/van stemruimte',
-    '2.3.b Deurtype',
-    '2.3.c Opstelruimte aan beide zijden van de deur',
-    '2.3.d Bedieningskracht deur',
-    '2.3.e Drempelhoogte (t.o.v. vloer niveau)',
-    '2.3.f Vrije doorgangsbreedte deur',
-    '2.4.a Zijn er tijdelijke voorzieningen aangebracht',
-    '2.4.b VLOERBEDEKKING: Randen over de volle lengte deugdelijk afgeplakt',
-    (
-        '2.4.c HELLINGBAAN: Weerbestendig (alleen van toepassing bij '
-        'buitentoepassing)'
-    ),
-    '2.4.d HELLINGBAAN: Deugdelijk verankerd aan ondergrond',
-    '2.4.e LEUNING BIJ HELLINGBAAN/TRAP: Leuning aanwezig en conform criteria',
-    (
-        '2.4.f DORPELOVERBRUGGING: Weerbestendig (alleen van toepassing bij '
-        'buitentoepassing)'
-    ),
-    '2.4.g DORPELOVERBRUGGING: Deugdelijk verankerd aan ondergrond',
-    '3.1.a Obstakelvrije doorgangen',
-    '3.1.b Vrije draaicirkel / manoeuvreerruimte',
-    '3.1.c Idem voor stemtafel en stemhokje',
-    '3.1.d Opstelruimte voor/naast stembus',
-    '3.2.a Stoelen in stemruimte aanwezig',
-    '3.2.b 1 op 5 Stoelen uitgevoerd met armleuningen',
-    '3.3.a Hoogte van het laagste schrijfblad',
-    '3.3.b Schrijfblad onderrijdbaar',
-    '3.4.a Hoogte inworpgleuf stembiljet',
-    '3.4.b Afstand inwerpgleuf t.o.v. de opstelruimte',
-    '3.5.a Leesloep (zichtbaar) aanwezig',
-    '3.6.a Kandidatenlijst in stemlokaal aanwezig',
-    '3.6.b Opstelruimte voor de kandidatenlijst aanwezig'
-]
-
-field_order = fields + checklist_fields
-
-truncated_checklist_fields = {x[:62]: x for x in checklist_fields}
-
+# Used
 default_minimal_fields = [
     'UUID',
     'Gemeente',
-    'Nummer stembureau',
-    'Naam stembureau',
+    'Stembureau of Afgiftepunt',
+    'Nummer stembureau of afgiftepunt',
+    'Naam stembureau of afgiftepunt',
     'Straatnaam',
     'Huisnummer',
     'Huisletter',
@@ -136,14 +75,24 @@ default_minimal_fields = [
     'Extra adresaanduiding',
     'Longitude',
     'Latitude',
-    'Openingstijden',
+    'Openingstijden 10-03-2021',
+    'Openingstijden 11-03-2021',
+    'Openingstijden 12-03-2021',
+    'Openingstijden 13-03-2021',
+    'Openingstijden 14-03-2021',
+    'Openingstijden 15-03-2021',
+    'Openingstijden 16-03-2021',
+    'Openingstijden 17-03-2021',
     'Mindervaliden toegankelijk',
+    'Auditieve hulpmiddelen',
+    'Visuele hulpmiddelen',
     'Akoestiek',
     'Mindervalide toilet aanwezig'
 ]
 
 extended_minimal_fields = default_minimal_fields + [
-    'Verkiezingen',
+    #'Verkiezingen',
+    'Tellocatie',
     'Website locatie',
     'Contactgegevens',
     'Beschikbaarheid'
@@ -157,7 +106,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2019-ep.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2021-tk.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
@@ -209,6 +158,7 @@ def get_stembureaus(elections, filters=None):
     return results.values()
 
 
+# Used to only retrieve the records that are needed on a page
 def _hydrate(record, minimal_type='default'):
     minimal_record = {}
     if minimal_type == 'default':
@@ -220,16 +170,6 @@ def _hydrate(record, minimal_type='default'):
             if key in extended_minimal_fields:
                 minimal_record[key] = value
     return minimal_record
-
-
-# Only create a checklist if it contains values
-def _create_checklist(record):
-    checklist = {}
-    for key, value in record.items():
-        if key in truncated_checklist_fields:
-            if value:
-                checklist[truncated_checklist_fields[key]] = value
-    return checklist
 
 
 # Add 'Cache-Control': 'private' header if users are logged in
@@ -282,7 +222,6 @@ def show_stembureau(gemeente, primary_key):
     return render_template(
         'show_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
-        checklists=[_create_checklist(record) for record in records],
         gemeente=gemeente,
         primary_key=primary_key,
         disclaimer=disclaimer
@@ -311,7 +250,6 @@ def embed_stembureau(gemeente, primary_key):
     )
     return render_template(
         'embed_stembureau.html', records=[_hydrate(record, 'extended') for record in records],
-        checklists=[_create_checklist(record) for record in records],
         gemeente=gemeente,
         primary_key=primary_key
     )
@@ -704,7 +642,7 @@ def gemeente_stemlokalen_overzicht():
     if end_record > len(gemeente_draft_records):
         end_record = len(gemeente_draft_records)
     sorted_draft_records = sorted(
-        gemeente_draft_records, key=lambda k: int(k['Nummer stembureau'])
+        gemeente_draft_records, key=lambda k: k['Stembureau of Afgiftepunt']
     )
     paged_draft_records = sorted_draft_records[start_record:end_record]
 
@@ -787,13 +725,6 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
                 init_record = Record(
                     **{k.lower(): v for k, v in record.items()}
                 ).record
-
-            # Set show_checklist to 'Ja' if at least one of the
-            # checklist fields contains a value as we then want
-            # to show the user checklist
-            for checklist_field in checklist_fields:
-                if record[checklist_field[:62]]:
-                    init_record['show_checklist'] = 'Ja'
 
     form = EditForm(**init_record)
 
@@ -941,7 +872,7 @@ def _create_record(form, stemlokaal_id, gemeente, election):
             bag_field_value = getattr(bag_record, bag_field, None)
             if bag_field_value is not None:
                 record[record_field] = bag_field_value.encode(
-                    'latin1'
+                    'utf-8'
                 ).decode()
             else:
                 record[record_field] = None
