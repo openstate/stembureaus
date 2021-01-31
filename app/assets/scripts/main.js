@@ -300,7 +300,9 @@ $(document).ready(function () {
     if (StembureausApp.stembureaus[i]['Extra adresaanduiding']) {
       output += "<br>" + StembureausApp.stembureaus[i]['Extra adresaanduiding'];
     }
-    output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
+    if (opinfo[0]) {
+      output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
+    }
     if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
       output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>&nbsp;';
     } else {
