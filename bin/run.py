@@ -4,6 +4,7 @@
 # https://developers.google.com/sheets/api/quickstart/python
 
 from __future__ import print_function
+import copy
 import csv
 import httplib2
 import os
@@ -123,7 +124,7 @@ def main():
             new_gemeente_naam = row[2].strip()
             # Retrieve info for the gemeente
             json_gemeente = [
-                g for g in gemeente_json
+                copy.deepcopy(g) for g in gemeente_json
                 if g['gemeente_naam'] == new_gemeente_naam]
             # Send an email if the gemeente could not be found
             if len(json_gemeente) <= 0:
