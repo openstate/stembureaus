@@ -122,10 +122,20 @@ def main():
         output = []
         for row in new_values:
             new_gemeente_naam = row[2].strip()
+
+            # Google Forms/Sheets treat values starting with a "'"
+            # different and remove it when we read the value, so we
+            # account for that here
+            if new_gemeente_naam == "s-Hertogenbosch":
+                new_gemeente_naam = "'s-Hertogenbosch"
+            if new_gemeente_naam == "s-Gravenhage":
+                new_gemeente_naam = "'s-Gravenhage"
+
             # Retrieve info for the gemeente
             json_gemeente = [
                 copy.deepcopy(g) for g in gemeente_json
                 if g['gemeente_naam'] == new_gemeente_naam]
+
             # Send an email if the gemeente could not be found
             if len(json_gemeente) <= 0:
                 with app.app_context():
@@ -133,7 +143,7 @@ def main():
                         '[waarismijnstemlokaal.nl] Gemeente niet in '
                         'gemeenten.json.example',
                         sender=app.config['FROM'],
-                        recipients=[app.config['ADMINS']],
+                        recipients=app.config['ADMINS'],
                         text_body=(
                             'Kon %s niet vinden in gemeenten.json.example'
                         ) % (new_gemeente_naam),
