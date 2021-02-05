@@ -5,6 +5,11 @@ $icon-font-path:        "../fonts/";
 $main-sm-columns:       12;
 $sidebar-sm-columns:    4;
 
+// We use Bootstrap's horizontal <dl> to format the openingstijden, but
+// we don't want the <dd> to go below the <dt> on smaller screens, so
+// set the breakpoint to 0
+$dl-horizontal-breakpoint: 0;
+
 // Colors
 $white:                 #FFF;
 $black:                 #000;

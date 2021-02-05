@@ -136,7 +136,7 @@ StembureausApp.show = function (matches, query) {
       '': '',
       undefined: ''
     }
-    var plaats_naam =  matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
+    var plaats_naam = matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
       adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'];
@@ -156,10 +156,9 @@ StembureausApp.show = function (matches, query) {
       '<div class="result row">' +
         '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
         '<div class="col-xs-12 col-sm-7">' +
-          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
           '<h5>' + adres + '</h5>' +
           '<h5>' + plaats_naam + '</h5>' +
-          '<p>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</p>' +
         '</div>' +
         '<div class="col-xs-12 col-sm-5" style="padding-top: 24px;">' +
           '<p style="font-size: 12px">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
@@ -170,9 +169,9 @@ StembureausApp.show = function (matches, query) {
     ))
   }
 
-  if (matches.length == 0 && query.length > 1) {
-    $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straten. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
-  } else if (query.length == 0) {
+  if (matches.length == 0) {
+    $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
+  } else if (typeof query !== 'undefined' && query.length == 0){
     StembureausApp.show(StembureausApp.stembureaus);
   }
 };
@@ -257,6 +256,25 @@ show_or_hide_checklist = function() {
   }
 }
 
+// Creates a list of openingstijden
+create_opinfo = function(datums, StembureausApp, i, datum_range) {
+  opinfo_output = '<dl class="dl-horizontal">';
+
+  datums.slice(datum_range).forEach(function(datum) {
+    var dag = datum.split(' ')[1];
+    var opinfo = StembureausApp.stembureaus[i]['Openingstijden ' + dag + '-03-2021'].split(' tot ');
+    opinfo_output += '<dt style="text-align: left;">' + datum + '</dt>'
+    if (opinfo[0]) {
+      opinfo_output += '<dd>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
+    } else {
+      opinfo_output += '<dd>gesloten</dd>'
+    }
+  });
+
+  opinfo_output += '</dl>';
+  return opinfo_output;
+}
+
 $(document).ready(function () {
   // Stick the header of the overzicht table to the top
   $('.fixed-header').floatThead({
@@ -277,9 +295,43 @@ $(document).ready(function () {
   StembureausApp.stembureaus_markers = [];
 
   StembureausApp.getPopup = function(s) {
-    var opinfo = StembureausApp.stembureaus[i]['Openingstijden 17-03-2021'].split(' tot ');
+    // First create the openingstijden HTML
+    var opinfo_output = '</p><i>Openingstijden</i>';
+
+    var datums = [
+      'woensdag 10 maart:',
+      'donderdag 11 maart:',
+      'vrijdag 12 maart:',
+      'zaterdag 13 maart:',
+      'zondag 14 maart:',
+      'maandag 15 maart:',
+      'dinsdag 16 maart:',
+      'woensdag 17 maart:'
+    ]
+
+    // Show openingstijden for all 8 days for afgiftepunten and only the
+    // last 3 days for stembureaus
+    datum_range = 0;
+    if (StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] == 'Stembureau') {
+      datum_range = 5;
+    }
+
+    opinfo_output += create_opinfo(datums, StembureausApp, i, datum_range);
+
+    opinfo_output += '<br><br>';
+
+    // Create the final HTML output
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-    output = "<p><a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">#" + StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']  + " " + StembureausApp.stembureaus[i]['Naam stembureau of afgiftepunt'] + "</a><br />";
+
+    output = "<p><b>" + StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] + "</b>";
+
+    output += " <a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">";
+    if (StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']) {
+      output += "#" + StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']  + " ";
+    }
+    output += StembureausApp.stembureaus[i]['Naam stembureau of afgiftepunt'];
+    output += "</a><br />";
+
     if (StembureausApp.stembureaus[i]['Straatnaam']) {
       output += StembureausApp.stembureaus[i]['Straatnaam'];
     }
@@ -300,9 +352,9 @@ $(document).ready(function () {
     if (StembureausApp.stembureaus[i]['Extra adresaanduiding']) {
       output += "<br>" + StembureausApp.stembureaus[i]['Extra adresaanduiding'];
     }
-    if (opinfo[0]) {
-      output += '<br><strong>Open:</strong> ' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '<br>';
-    }
+
+    output += opinfo_output;
+
     if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
       output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>&nbsp;';
     } else {

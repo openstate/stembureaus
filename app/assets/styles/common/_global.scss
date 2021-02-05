@@ -76,3 +76,16 @@ table.floatThead-table {
 .breakword {
   word-break: break-all;
 }
+
+dl {
+  margin-bottom: 0;
+}
+
+dt {
+  width: 150px !important;
+}
+
+dd {
+  width: 120px;
+  margin-left: 150px !important;
+}

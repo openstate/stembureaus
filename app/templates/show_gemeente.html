@@ -15,7 +15,7 @@
 </div>
 <div class="row">
   {% if not records %}
-  Geen stembureaus gevonden voor {{ gemeente }}.
+  Geen stembureaus/afgiftepunten gevonden voor {{ gemeente }}.
   <br>
   <br>
   Terug naar de <a href="/">homepage</a>.
@@ -30,7 +30,7 @@
   {% endif %}
 
   <div class="col-xs-12 col-sm-12 col-md-6">
-    <div id="map" style="height: 300px;"></div>
+    <div id="map" style="height: 500px;"></div>
     <p class="pull-right" style="margin-top: 10px;">
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
         Insluiten
@@ -50,7 +50,7 @@
         <form action="" method="get" class="form-inline" id="form-search">
             <div class="form-group">
               <label>
-              Zoek straat/naam stemlokaal/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
+              Zoek straat/naam van een stemlokaal/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
               </label>
               <input type="text" class="form-control" name="query" value="" placeholder="stemlokaal">
             </div>
