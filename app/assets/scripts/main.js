@@ -169,7 +169,7 @@ StembureausApp.show = function (matches, query) {
     ))
   }
 
-  if (matches.length == 0) {
+  if (matches.length == 0 && query.length > 0) {
     $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
   } else if (typeof query !== 'undefined' && query.length == 0){
     StembureausApp.show(StembureausApp.stembureaus);
