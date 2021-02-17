@@ -264,7 +264,7 @@ create_opinfo = function(datums, StembureausApp, i, datum_range) {
     var dag = datum.split(' ')[1];
     var opinfo = StembureausApp.stembureaus[i]['Openingstijden ' + dag + '-03-2021'].split(' tot ');
     opinfo_output += '<dt style="text-align: left;">' + datum + '</dt>'
-    if (opinfo[0]) {
+    if (opinfo[0].trim()) {
       opinfo_output += '<dd>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
     } else {
       opinfo_output += '<dd>gesloten</dd>'
