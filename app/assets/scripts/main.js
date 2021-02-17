@@ -156,7 +156,7 @@ StembureausApp.show = function (matches, query) {
       '<div class="result row">' +
         '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
         '<div class="col-xs-12 col-sm-7">' +
-          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + matches[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
           '<h5>' + adres + '</h5>' +
           '<h5>' + plaats_naam + '</h5>' +
         '</div>' +
