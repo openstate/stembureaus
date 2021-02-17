@@ -51,6 +51,10 @@
 
         {{ form.csrf_token }}
         {% for f in form %}
+          {% if f.label.text == 'Extra adresaanduiding' %}
+          <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in dit veld aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
+          {% endif %}
+
           {% if f.label.text == 'Longitude' %}
           <hr>
           <span><i>Kies Longitude en Latitude <b>of</b> X en Y (Rijksdriehoeksstelsel) om de coördinaten van het stembureau/afgiftepunt door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Longitude en Latitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>

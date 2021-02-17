@@ -576,8 +576,9 @@ class EditForm(FlaskForm):
         'Extra adresaanduiding',
         description=(
             'Eventuele extra informatie over de locatie van het '
-            'stembureau/afgiftepunt. Bv. "Ingang aan achterkant gebouw" of '
-            '"Mobiel stembureau op het midden van het plein".'
+            'stembureau/afgiftepunt. Bv. "Niet open voor algemeen publiek", '
+            '"Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
+            'midden van het plein".'
             '<br>'
             '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
@@ -587,13 +588,13 @@ class EditForm(FlaskForm):
             '<b>Format:</b> tekst'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Ingang aan achterkant gebouw'
+            '<b>Voorbeeld:</b> "Niet open voor algemeen publiek" of "Ingang aan achterkant gebouw"'
         ),
         validators=[
             Optional(),
         ],
         render_kw={
-            'placeholder': 'bv. Ingang aan achterkant gebouw'
+            'placeholder': 'bv. "Niet open voor algemeen publiek"'
         }
     )
 
