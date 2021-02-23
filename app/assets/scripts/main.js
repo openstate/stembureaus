@@ -247,15 +247,6 @@ StembureausApp.init = function() {
   });
 };
 
-// Shows or hides the checklist part of the stembureau edit form
-show_or_hide_checklist = function() {
-  if($('input[name=show_checklist]:checked').val() == 'Ja') {
-    $('.checklist-div').show();
-  } else {
-    $('.checklist-div').hide();
-  }
-}
-
 // Creates a list of openingstijden
 create_opinfo = function(datums, StembureausApp, i, datum_range) {
   opinfo_output = '<dl class="dl-horizontal">';
@@ -282,12 +273,6 @@ $(document).ready(function () {
       return $table.closest('.table-responsive');
     },
     top: 54
-  });
-
-  show_or_hide_checklist();
-
-  $('.edit-form input[name=show_checklist]').on('change', function() {
-    show_or_hide_checklist();
   });
 
   StembureausApp.init();

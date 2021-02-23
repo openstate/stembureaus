@@ -72,7 +72,7 @@
           {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}
           <dl class="dl-horizontal">
             <dt style="text-align: left;">{{ datum }}</dt>
-            {% if tijden[0] %}
+            {% if tijden[0].strip() %}
               <dd>{{ tijden[0].split('T')[1][0:5] }} &dash; {{ tijden[1].split('T')[1][0:5] }}</dd>
             {% else %}
               <dd>gesloten</dd>
