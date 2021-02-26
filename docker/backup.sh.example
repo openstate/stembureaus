@@ -10,6 +10,6 @@ docker exec stm_mysql_1 bash -c "$CMD"
 
 ## Backup CKAN
 # <Verkiezing> <Jaar> concept
-docker exec stm_app_1 flask ckan export_resource <CONCEPT_RESOURCE_ID>
+docker exec stm_app_1 flask ckan export-resource <CONCEPT_RESOURCE_ID>
 # <Verkiezing> <Jaar>
-docker exec stm_app_1 flask ckan export_resource <RESOURCE_ID>
+docker exec stm_app_1 flask ckan export-resource <RESOURCE_ID>
