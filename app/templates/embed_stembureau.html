@@ -6,9 +6,9 @@
       <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
       <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank" rel="noopener">{{ gemeente }}</a></li>
       {% if not records %}
-      <li class="active">Onbekend stembureau/afgiftepunt UUID</li>
+        <li class="active">Onbekend stembureau/afgiftepunt UUID</li>
       {% else %}
-      <li class="active">{{ records[0]['Naam stembureau of afgiftepunt'] }}</li>
+        <li class="active">{{ records[0]['Naam stembureau of afgiftepunt'] }}</li>
       {% endif %}
     </ol>
   </div>
@@ -27,88 +27,119 @@
     <div class="row">
       <div class="col-xs-12">
         {% for record in records %}
-        <h2>{{ record['Stembureau of Afgiftepunt'] }} {% if record['Nummer stembureau of afgiftepunt'] %}#{{ record['Nummer stembureau of afgiftepunt'] }}{% endif %} {{ record['Naam stembureau of afgiftepunt'] }}{% if record['Website locatie'] %} <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener"><i class="fa fa-external-link" style="font-size: 14px;"></i></a>{% endif %}</h2>
-        <p>
-          {% if record['Straatnaam'] %}{{ record['Straatnaam'] }}{% endif %} {% if record['Huisnummer'] %}{{ record['Huisnummer'] }}{% endif %} {% if record['Huisletter'] %}{{ record['Huisletter'] }}{% endif %} {% if record['Huisnummertoevoeging'] %}-{{ record['Huisnummertoevoeging'] }}{% endif %}
-        </p>
-        <p>
-          {% if record['Postcode'] %}{{ record['Postcode'] }}, {% endif %}{% if record['Plaats'] %}{{ record['Plaats'] }}{% else %}<i>Gemeente {{ record['Gemeente']}}</i>{% endif %}
-        </p>
-        <p>{{ record['Extra adresaanduiding'] }}</p>
-        {% set datums = [
-          'woensdag 10 maart:',
-          'donderdag 11 maart:',
-          'vrijdag 12 maart:',
-          'zaterdag 13 maart:',
-          'zondag 14 maart:',
-          'maandag 15 maart:',
-          'dinsdag 16 maart:',
-          'woensdag 17 maart:'
-        ] %}
-        <br>
-        <i>Openingstijden</i>
-        {% set datum_range = 0 %}
-        {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
-          {% set datum_range = 5 %}
-        {% endif %}
-        {% for datum in datums[datum_range:] %}
-          {% set dag = datum.split(' ')[1] %}
-          {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}
-          <dl class="dl-horizontal">
-            <dt style="text-align: left;">{{ datum }}</dt>
-            {% if tijden[0].strip() %}
-              <dd>{{ tijden[0].split('T')[1][0:5] }} &dash; {{ tijden[1].split('T')[1][0:5] }}</dd>
+          <h2>
+            {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
+              <i class="fa fa-pencil text-red"></i>
             {% else %}
-              <dd>gesloten</dd>
+              <i class="fa fa-envelope text-blue"></i>
             {% endif %}
-          </dl>
-        {% endfor %}
-        <br>
-        <p>Bijzonderheden:</p>
-        <ul>
-          {% if record['Mindervaliden toegankelijk'] %}
-            <li><b>Mindervaliden toegankelijk</b>: {% if record['Mindervaliden toegankelijk'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {{ record['Stembureau of Afgiftepunt'] }}
+            {% if record['Nummer stembureau of afgiftepunt'] %}
+              #{{ record['Nummer stembureau of afgiftepunt'] }}
+            {% endif %}
+            {{ record['Naam stembureau of afgiftepunt'] }}
+            {% if record['Website locatie'] %}
+              <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener"><i class="fa fa-external-link" style="font-size: 14px;"></i></a>
+            {% endif %}
+          </h2>
+          <p>
+            {% if record['Straatnaam'] %}
+              {{ record['Straatnaam'] }}
+            {% endif %}
+            {% if record['Huisnummer'] %}
+              {{ record['Huisnummer'] }}
+            {% endif %}
+            {% if record['Huisletter'] %}
+              {{ record['Huisletter'] }}
+            {% endif %}
+            {% if record['Huisnummertoevoeging'] %}
+              -{{ record['Huisnummertoevoeging'] }}
+            {% endif %}
+          </p>
+          <p>
+            {% if record['Postcode'] %}
+              {{ record['Postcode'] }},
+            {% endif %}
+            {% if record['Plaats'] %}
+              {{ record['Plaats'] }}
+            {% else %}
+              <i>Gemeente {{ record['Gemeente']}}</i>
+            {% endif %}
+          </p>
+          <p>{{ record['Extra adresaanduiding'] }}</p>
+          {% set datums = [
+            'woensdag 10 maart:',
+            'donderdag 11 maart:',
+            'vrijdag 12 maart:',
+            'zaterdag 13 maart:',
+            'zondag 14 maart:',
+            'maandag 15 maart:',
+            'dinsdag 16 maart:',
+            'woensdag 17 maart:'
+          ] %}
+          <br>
+          <i>Openingstijden</i>
+          {% set datum_range = 0 %}
+          {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
+            {% set datum_range = 5 %}
           {% endif %}
-
-          {% if record['Auditieve hulpmiddelen'] %}
-            <li><b>Auditieve hulpmiddelen</b>: {{ record['Auditieve hulpmiddelen'] }}</li>
-          {% endif %}
-
-          {% if record['Visuele hulpmiddelen'] %}
-            <li><b>Visuele hulpmiddelen</b>: {{ record['Visuele hulpmiddelen'] }}</li>
-          {% endif %}
-
-          {% if record['Akoestiek'] %}
-            <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
-          {% endif %}
-
-          {% if record['Mindervalide toilet aanwezig'] %}
-            <li><b>Mindervaliden toilet aanwezig</b>: {% if record['Mindervalide toilet aanwezig'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
-          {% endif %}
-
-          {% if record['Tellocatie'] %}
-            <li><b>Tellocatie</b>: {% if record['Tellocatie'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
-          {% endif %}
-        </ul>
-
-        {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen
-        {% if record['Verkiezingen'] %}
-        <br>
-        In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen:
+          {% for datum in datums[datum_range:] %}
+            {% set dag = datum.split(' ')[1] %}
+            {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}
+            <dl class="dl-horizontal">
+              <dt style="text-align: left;">{{ datum }}</dt>
+              {% if tijden[0].strip() %}
+                <dd>{{ tijden[0].split('T')[1][0:5] }} &dash; {{ tijden[1].split('T')[1][0:5] }}</dd>
+              {% else %}
+                <dd>gesloten</dd>
+              {% endif %}
+            </dl>
+          {% endfor %}
+          <br>
+          <p>Bijzonderheden:</p>
           <ul>
-            {% for verkiezing in record['Verkiezingen'].split(';') %}
-            <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
-            {% endfor %}
+            {% if record['Mindervaliden toegankelijk'] %}
+              <li><b>Mindervaliden toegankelijk</b>: {% if record['Mindervaliden toegankelijk'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% endif %}
+
+            {% if record['Auditieve hulpmiddelen'] %}
+              <li><b>Auditieve hulpmiddelen</b>: {{ record['Auditieve hulpmiddelen'] }}</li>
+            {% endif %}
+
+            {% if record['Visuele hulpmiddelen'] %}
+              <li><b>Visuele hulpmiddelen</b>: {{ record['Visuele hulpmiddelen'] }}</li>
+            {% endif %}
+
+            {% if record['Akoestiek'] %}
+              <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% endif %}
+
+            {% if record['Mindervalide toilet aanwezig'] %}
+              <li><b>Mindervaliden toilet aanwezig</b>: {% if record['Mindervalide toilet aanwezig'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% endif %}
+
+            {% if record['Tellocatie'] %}
+              <li><b>Tellocatie</b>: {% if record['Tellocatie'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% endif %}
           </ul>
-        {% endif %}
-        #}
 
-        <br>
-        <br>
-        <br>
-        <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens'] }}</p>
-        <a href="{{ record['Beschikbaarheid'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
+          {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen
+          {% if record['Verkiezingen'] %}
+          <br>
+          In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen:
+            <ul>
+              {% for verkiezing in record['Verkiezingen'].split(';') %}
+              <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          #}
 
+          <br>
+          <br>
+          <br>
+          <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens'] }}</p>
+          <a href="{{ record['Beschikbaarheid'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
         {% endfor %}
       </div>
     </div>
@@ -119,5 +150,5 @@
 
 {% block scripts %}
 {{ super() }}
-{% include "map.html" %}
+{% include "map_scripts.html" %}
 {% endblock %}

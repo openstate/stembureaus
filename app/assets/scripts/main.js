@@ -78,8 +78,15 @@
 
 var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
 
+// Icons
+var icons = {
+  'Stembureau': '<i class="fa fa-pencil text-red"></i> ',
+  'Afgiftepunt': '<i class="fa fa-envelope text-blue"></i> '
+};
+
+// List gemeenten on the homepage
 StembureausApp.show_gemeenten = function (matches, query) {
-  $('#results-search').empty();
+  $('#results-search-gemeenten').empty();
   for (var i=0; i < matches.length; i++) {
 
     // Deal with alternative municipality names
@@ -101,7 +108,7 @@ StembureausApp.show_gemeenten = function (matches, query) {
     }
 
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-    $('#results-search').append($(
+    $('#results-search-gemeenten').append($(
       '<div class="result">' +
       '<h2><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
       '</div>'
@@ -109,10 +116,11 @@ StembureausApp.show_gemeenten = function (matches, query) {
   }
 
   if (matches.length == 0 && query.length > 1) {
-    $('#results-search').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend?</p>'));
+    $('#results-search-gemeenten').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend?</p>'));
   }
 };
 
+// List locations in rigth panel on the gemeente pages
 StembureausApp.show = function (matches, query) {
   $('#results-search').empty();
   matches.sort(function (a,b) {return (a['Nummer stembureau of afgiftepunt'] > b['Nummer stembureau of afgiftepunt']) ? 1 : ((b['Nummer stembureau of afgiftepunt'] > a['Nummer stembureau of afgiftepunt']) ? -1 : 0)});
@@ -156,7 +164,7 @@ StembureausApp.show = function (matches, query) {
       '<div class="result row">' +
         '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
         '<div class="col-xs-12 col-sm-7">' +
-          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + "\"" + target + ">" + matches[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons[matches[i]['Stembureau of Afgiftepunt']] + matches[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
           '<h5>' + adres + '</h5>' +
           '<h5>' + plaats_naam + '</h5>' +
         '</div>' +
@@ -169,10 +177,10 @@ StembureausApp.show = function (matches, query) {
     ))
   }
 
-  if (matches.length == 0 && query.length > 0) {
+  if (matches && matches.length == 0 && query && query.length > 0) {
     $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
   } else if (typeof query !== 'undefined' && query.length == 0){
-    StembureausApp.show(StembureausApp.stembureaus);
+    StembureausApp.show(StembureausApp.filtered_locations);
   }
 };
 
@@ -181,10 +189,29 @@ StembureausApp.search_gemeenten = function (query) {
   StembureausApp.show_gemeenten(gemeenten_matches, query);
 };
 
+// Options for Fuse locations search
+var options = {
+  shouldSort: true,
+  tokenize: true,
+  threshold: 0.25,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    "Gemeente",
+    "Plaats",
+    "Straatnaam",
+    "Naam stembureau of afgiftepunt"
+  ]
+};
+
 StembureausApp.search = function (query) {
+  // Create a Fuse fuzzy search for the filtered locations (used on the gemeenten pages)
+  StembureausApp.fuse_locations = new Fuse(StembureausApp.filtered_locations, options);
   //console.log('should be searching for : [' + query + '] now ...');
   //console.log(query.split(/\s+/));
-  var stembureau_matches = StembureausApp.fuse.search(query);
+  var stembureau_matches = StembureausApp.fuse_locations.search(query);
   //console.log('matches:');
   //console.dir(stembureau_matches);
 
@@ -192,23 +219,10 @@ StembureausApp.search = function (query) {
 };
 
 StembureausApp.init = function() {
-  var options = {
-    shouldSort: true,
-    tokenize: true,
-    threshold: 0.25,
-    location: 0,
-    distance: 100,
-    maxPatternLength: 32,
-    minMatchCharLength: 1,
-    keys: [
-      "Gemeente",
-      "Plaats",
-      "Straatnaam",
-      "Naam stembureau of afgiftepunt"
-    ]
-  };
-  StembureausApp.fuse = new Fuse(StembureausApp.stembureaus, options);
+  // Create an initial Fuse fuzzy search for all locations (used on the gemeenten pages)
+  StembureausApp.fuse_locations = new Fuse(StembureausApp.stembureaus, options);
 
+  // Create a Fuse fuzzy search for the gemeenten (used on the homepage)
   var gemeente_options = {
   shouldSort: true,
   tokenize: true,
@@ -248,12 +262,12 @@ StembureausApp.init = function() {
 };
 
 // Creates a list of openingstijden
-create_opinfo = function(datums, StembureausApp, i, datum_range) {
+create_opinfo = function(datums, loc, datum_range) {
   opinfo_output = '<dl class="dl-horizontal">';
 
   datums.slice(datum_range).forEach(function(datum) {
     var dag = datum.split(' ')[1];
-    var opinfo = StembureausApp.stembureaus[i]['Openingstijden ' + dag + '-03-2021'].split(' tot ');
+    var opinfo = loc['Openingstijden ' + dag + '-03-2021'].split(' tot ');
     opinfo_output += '<dt style="text-align: left;">' + datum + '</dt>'
     if (opinfo[0].trim()) {
       opinfo_output += '<dd>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
@@ -264,6 +278,20 @@ create_opinfo = function(datums, StembureausApp, i, datum_range) {
 
   opinfo_output += '</dl>';
   return opinfo_output;
+}
+
+// Get the value of currently selected location type for the map filter
+get_location_type = function() {
+  return $('.location-type-filter.active input').val();
+}
+
+// Get the value of currently selected dag for the map filter
+get_dag = function() {
+  return $('#dag-filter').val();
+}
+
+get_query = function() {
+  return $('#form-search input[type="text"]').val();
 }
 
 $(document).ready(function () {
@@ -277,92 +305,160 @@ $(document).ready(function () {
 
   StembureausApp.init();
 
-  StembureausApp.stembureaus_markers = [];
+  // Icons for the map markers
+  var markerIcons = {
+    'Stembureau': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'pencil',
+        markerColor: 'red'
+      }
+    ),
+    'Afgiftepunt': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'envelope',
+        markerColor: 'blue'
+      }
+    )
+  };
 
-  StembureausApp.getPopup = function(s) {
+  // Apply filters to the map
+  StembureausApp.filter_map = function (location_type, dag) {
+    if (StembureausApp.clustermarkers) {
+      StembureausApp.map.removeLayer(StembureausApp.clustermarkers);
+    }
+    StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
+    StembureausApp.filter_locations(location_type, dag);
+    // Save markers to filtered_markers as we use it later to fit bounds
+    StembureausApp.filtered_markers = [];
+    StembureausApp.filtered_locations.forEach(function (loc) {
+      StembureausApp.filtered_markers.push(
+        L.marker(
+          [
+            loc['Latitude'],
+            loc['Longitude']
+          ],
+          {icon: markerIcons[loc['Stembureau of Afgiftepunt']]}
+        ).bindPopup(
+          StembureausApp.getPopup(loc)
+        )
+      )
+    });
+    StembureausApp.filtered_markers.forEach(function (marker) {
+      marker.addTo(StembureausApp.clustermarkers);
+    });
+    StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+  }
+
+  location_filter = function(loc) {
+    if (location_type == loc['Stembureau of Afgiftepunt']) {
+      StembureausApp.filtered_locations.push(loc);
+    } else if (location_type == 'alles') {
+      StembureausApp.filtered_locations.push(loc);
+    }
+  }
+
+  // Filter locations
+  StembureausApp.filter_locations = function (location_type, dag) {
+    StembureausApp.filtered_locations = [];
+    StembureausApp.stembureaus.forEach(function (loc) {
+      // When you only view a single location, there is no dag filter as
+      // all the information is shown on the page
+      if (dag) {
+        if (dag == 'alles') {
+          location_filter(loc);
+        } else if (loc['Openingstijden ' + dag + '-03-2021'].split(' tot ')[0].trim()) {
+          location_filter(loc);
+        }
+      } else {
+        StembureausApp.filtered_locations.push(loc);
+      }
+    })
+  }
+
+  var datums = [
+    'woensdag 10 maart:',
+    'donderdag 11 maart:',
+    'vrijdag 12 maart:',
+    'zaterdag 13 maart:',
+    'zondag 14 maart:',
+    'maandag 15 maart:',
+    'dinsdag 16 maart:',
+    'woensdag 17 maart:'
+  ]
+
+  // Create the popup which you see when you click on a marker
+  StembureausApp.getPopup = function(loc) {
     // First create the openingstijden HTML
     var opinfo_output = '</p><i>Openingstijden</i>';
-
-    var datums = [
-      'woensdag 10 maart:',
-      'donderdag 11 maart:',
-      'vrijdag 12 maart:',
-      'zaterdag 13 maart:',
-      'zondag 14 maart:',
-      'maandag 15 maart:',
-      'dinsdag 16 maart:',
-      'woensdag 17 maart:'
-    ]
 
     // Show openingstijden for all 8 days for afgiftepunten and only the
     // last 3 days for stembureaus
     datum_range = 0;
-    if (StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] == 'Stembureau') {
+    if (loc['Stembureau of Afgiftepunt'] == 'Stembureau') {
       datum_range = 5;
     }
 
-    opinfo_output += create_opinfo(datums, StembureausApp, i, datum_range);
+    opinfo_output += create_opinfo(datums, loc, datum_range);
 
     opinfo_output += '<br><br>';
 
     // Create the final HTML output
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-    output = "<p><b>" + StembureausApp.stembureaus[i]['Stembureau of Afgiftepunt'] + "</b>";
+    output = "<p><b>" + icons[loc['Stembureau of Afgiftepunt']] + loc['Stembureau of Afgiftepunt'] + "</b>";
 
-    output += " <a href=\"/s/" + StembureausApp.stembureaus[i]['Gemeente'] + '/' + StembureausApp.stembureaus[i]['UUID'] + "\"" + target + ">";
-    if (StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']) {
-      output += "#" + StembureausApp.stembureaus[i]['Nummer stembureau of afgiftepunt']  + " ";
+    output += " <a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
+    if (loc['Nummer stembureau of afgiftepunt']) {
+      output += "#" + loc['Nummer stembureau of afgiftepunt']  + " ";
     }
-    output += StembureausApp.stembureaus[i]['Naam stembureau of afgiftepunt'];
+    output += loc['Naam stembureau of afgiftepunt'];
     output += "</a><br />";
 
-    if (StembureausApp.stembureaus[i]['Straatnaam']) {
-      output += StembureausApp.stembureaus[i]['Straatnaam'];
+    if (loc['Straatnaam']) {
+      output += loc['Straatnaam'];
     }
-    if (StembureausApp.stembureaus[i]['Huisnummer']) {
-      output += ' ' + StembureausApp.stembureaus[i]['Huisnummer'];
+    if (loc['Huisnummer']) {
+      output += ' ' + loc['Huisnummer'];
     }
-    if (StembureausApp.stembureaus[i]['Huisletter']) {
-      output += ' ' + StembureausApp.stembureaus[i]['Huisletter'];
+    if (loc['Huisletter']) {
+      output += ' ' + loc['Huisletter'];
     }
-    if (StembureausApp.stembureaus[i]['Huisnummertoevoeging']) {
-      output += ' ' + StembureausApp.stembureaus[i]['Huisnummertoevoeging'];
+    if (loc['Huisnummertoevoeging']) {
+      output += ' ' + loc['Huisnummertoevoeging'];
     }
-    if (StembureausApp.stembureaus[i]['Plaats']) {
-      output += "<br>" + StembureausApp.stembureaus[i]['Postcode'] + ", " + StembureausApp.stembureaus[i]['Plaats'];
+    if (loc['Plaats']) {
+      output += "<br>" + loc['Postcode'] + ", " + loc['Plaats'];
     } else {
-      output += "<i>Gemeente " + StembureausApp.stembureaus[i]['Gemeente'] + "</i>";
+      output += "<i>Gemeente " + loc['Gemeente'] + "</i>";
     }
-    if (StembureausApp.stembureaus[i]['Extra adresaanduiding']) {
-      output += "<br>" + StembureausApp.stembureaus[i]['Extra adresaanduiding'];
+    if (loc['Extra adresaanduiding']) {
+      output += "<br>" + loc['Extra adresaanduiding'];
     }
 
     output += opinfo_output;
 
-    if (StembureausApp.stembureaus[i]["Mindervaliden toegankelijk"] == 'Y') {
+    if (loc["Mindervaliden toegankelijk"] == 'Y') {
       output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toegankelijk"></i><span class="sr-only">Mindervaliden toegankelijk</span>&nbsp;';
     } else {
       output += '<span class="fa-stack" title="Niet mindervaliden toegankelijk"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.75;"></i></span><span class="sr-only">Niet mindervaliden toegankelijk</span>&nbsp;';
     }
-    if (StembureausApp.stembureaus[i]["Akoestiek"] == 'Y') {
+    if (loc["Akoestiek"] == 'Y') {
       output += '<i class="fa fa-deaf fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Akoestiek geschikt voor slechthorenden"></i><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;';
     }
-    if (StembureausApp.stembureaus[i]["Mindervalide toilet aanwezig"] == 'Y') {
+    if (loc["Mindervalide toilet aanwezig"] == 'Y') {
       output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Mindervaliden toilet aanwezig"></i><span title="Mindervaliden toilet aanwezig" style="position: relative; top: -8px; left: -10px" aria-hidden="true">WC</span><span class="sr-only">Mindervaliden toilet aanwezig</span>&nbsp;';
     }
     output += '</p>';
     return output;
   };
 
-  for (var i=0; i < StembureausApp.stembureaus.length; i++) {
-    StembureausApp.stembureaus_markers.push(
-      L.marker(
-        [StembureausApp.stembureaus[i]['Latitude'], StembureausApp.stembureaus[i]['Longitude']]
-      ).bindPopup(StembureausApp.getPopup(StembureausApp.stembureaus[i]))
-    );
-  }
+  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
 
+  StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
+
+ // Basisregistratie Topografie (BRT) map used when viewing 'Europees Nederland' on our map
  brt = L.tileLayer(
     'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
     {
@@ -371,6 +467,8 @@ $(document).ready(function () {
     }
  );
 
+ // OpenStreetMap map used when viewing all other places outside 'Europees Nederland' on our map,
+ // because BRT doesn't have that data
  osm = L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -379,10 +477,7 @@ $(document).ready(function () {
     }
   );
 
-  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
-
-  StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
-
+  // Use BRT in 'Europees Nederland' and OSM for the rest
   var zoom = StembureausApp.map.getZoom();
   var center = StembureausApp.map.getCenter();
   if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
@@ -407,21 +502,46 @@ $(document).ready(function () {
     }
   });
 
-  StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
-  for (var i=0; i < StembureausApp.stembureaus_markers.length; i++) {
-    StembureausApp.stembureaus_markers[i].addTo(StembureausApp.clustermarkers);
-  }
+  // Apply updates to the map if the location type filter is clicked
+  $('.location-type-filter').click(function() {
+    StembureausApp.filter_map(
+      location_type=$(this).find('input').val(),
+      dag=get_dag()
+    );
+    StembureausApp.search(get_query());
+  });
 
-  StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+  // Apply updates to the map if the location type filter is clicked
+  $('#dag-filter').change(function() {
+    StembureausApp.filter_map(
+      location_type=get_location_type(),
+      dag=this.value
+    );
+    StembureausApp.search(get_query());
+  });
 
-  StembureausApp.group = L.featureGroup(StembureausApp.stembureaus_markers.filter(
+  // Default view: show all stembureaus and afgiftepunten on the 17th of March
+  StembureausApp.filter_map(
+    location_type=get_location_type(),
+    dag=get_dag()
+  );
+
+  // Select the location to fit the bounds of the map to; use all locations if
+  // there are less than 50 (useful for debugging), otherwise only show
+  // locations with a longitude > 0; this excludes locations in
+  // 'Caribisch Nederland' which would make the map zoom out too much
+  StembureausApp.group = L.featureGroup(StembureausApp.filtered_markers.filter(
     function (s) {
-      return (StembureausApp.stembureaus_markers.length <= 50) || (s._latlng.lng > 0);
-    }));
+      return (StembureausApp.filtered_markers.length <= 50) || (s._latlng.lng > 0);
+    }
+  ));
 
   // Only fit map to bounds if we are not showing the homepage map
-  // (i.e. less than e.g. 2000 stembureau)
-  if (StembureausApp.stembureaus.length < 2000) {
+  // (i.e. less than e.g. 2000 stembureau), because we always want to
+  // show the whole map of the Netherlands even if we are still
+  // collecting the locations; also only fit bounds if there is at least one
+  // marker otherwise you get an error
+  if (StembureausApp.filtered_markers.length > 0 && StembureausApp.filtered_markers.length < 2000) {
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
   }
 });

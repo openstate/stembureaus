@@ -10,51 +10,60 @@
 </div>
 <div class="row">
   {% if not records %}
-  Geen stembureaus of afgiftepunten gevonden voor {{ gemeente }}.
-  <br>
-  <br>
-  Terug naar de <a href="/">homepage</a>.
+    Geen stembureaus of afgiftepunten gevonden voor {{ gemeente }}.
+    <br>
+    <br>
+    Terug naar de <a href="/">homepage</a>.
   {% else %}
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    <div id="map" style="height: 500px;"></div>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    {% if show_search %}
-    <div class="row">
-      <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
-        <a href="#" id ="btn-location">
-          <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
-        </a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <form action="" method="get" class="form-inline" id="form-search">
-            <div class="form-group">
-              <label>
-              Zoek straat/naam van een stembureau/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
-              </label>
-              <input type="text" class="form-control" name="query" value="" placeholder="stemlokaal">
-            </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12" id="results-search">
-      </div>
+
+    {% if disclaimer %}
+    <div class="col-xs-12">
+      {{ disclaimer }}
+      <br>
+      <br>
     </div>
     {% endif %}
-  </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6">
+      {% include "map.html" %}
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6">
+      {% if show_search %}
+      <div class="row">
+        <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
+          <a href="#" id ="btn-location">
+            <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <form action="" method="get" class="form-inline" id="form-search">
+              <div class="form-group">
+                <label>
+                Zoek straat/naam van een stembureau/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+                <input type="text" class="form-control" name="query" value="" placeholder="stemlokaal">
+              </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12" id="results-search">
+        </div>
+      </div>
+      {% endif %}
+    </div>
   {% endif %}
 </div>
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
-{% include "map.html" %}
+{% include "map_scripts.html" %}
 <script>
   $(document).ready(function() {
-    StembureausApp.show(StembureausApp.stembureaus);
+    StembureausApp.show(StembureausApp.filtered_locations);
   });
 </script>
 {% endblock %}

@@ -15,53 +15,53 @@
 </div>
 <div class="row">
   {% if not records %}
-  Geen stembureaus/afgiftepunten gevonden voor {{ gemeente }}.
-  <br>
-  <br>
-  Terug naar de <a href="/">homepage</a>.
+    Geen stembureaus of afgiftepunten gevonden voor {{ gemeente }}.
+    <br>
+    <br>
+    Terug naar de <a href="/">homepage</a>.
   {% else %}
 
-  {% if disclaimer %}
-  <div class="col-xs-12">
-    {{ disclaimer }}
-    <br>
-    <br>
-  </div>
-  {% endif %}
+    {% if disclaimer %}
+    <div class="col-xs-12">
+      {{ disclaimer }}
+      <br>
+      <br>
+    </div>
+    {% endif %}
 
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    <div id="map" style="height: 500px;"></div>
-    <p class="pull-right" style="margin-top: 10px;">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
-        Insluiten
-      </button>
-    </p>
-  </div>
-  <div class="col-xs-12 col-sm-12 col-md-6">
-    <div class="row">
-      <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
-        <a href="#" id ="btn-location">
-          <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
-        </a>
+    <div class="col-xs-12 col-sm-12 col-md-6">
+      {% include "map.html" %}
+      <p class="pull-right" style="margin-top: 10px;">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+          Insluiten
+        </button>
+      </p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6">
+      <div class="row">
+        <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
+          <a href="#" id ="btn-location">
+            <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <form action="" method="get" class="form-inline" id="form-search">
+              <div class="form-group">
+                <label>
+                Zoek straat/naam van een stemlokaal/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+                <input type="text" class="form-control" name="query" value="" placeholder="stemlokaal">
+              </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12" id="results-search">
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <form action="" method="get" class="form-inline" id="form-search">
-            <div class="form-group">
-              <label>
-              Zoek straat/naam van een stemlokaal/afgiftepunt <i class="fa fa-search" aria-hidden="true"></i>
-              </label>
-              <input type="text" class="form-control" name="query" value="" placeholder="stemlokaal">
-            </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12" id="results-search">
-      </div>
-    </div>
-  </div>
   {% endif %}
 </div>
 
@@ -99,10 +99,10 @@
 
 {% block scripts %}
 {{ super() }}
-{% include "map.html" %}
+{% include "map_scripts.html" %}
 <script>
   $(document).ready(function() {
-    StembureausApp.show(StembureausApp.stembureaus);
+    StembureausApp.show(StembureausApp.filtered_locations);
 
     $('#model-embed').on('shown.bs.modal', function () {
       $('textarea:visible').select().focus();

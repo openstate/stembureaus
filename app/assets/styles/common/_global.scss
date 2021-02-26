@@ -22,14 +22,39 @@ a {
   color: $light-blue;
 }
 
-@media(max-width:767px) {
-  h1 {
-    font-size: 26px;
-  }
+#radio-button-stembureaus {
+  background-color: $red;
+  border-color: black;
 
-  h2 {
-    font-size: 18px;
+  &.active {
+    background-color: darken($red, 2%) !important;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
   }
+}
+
+#radio-button-afgiftepunten {
+  background-color: $blue;
+  border-color: black;
+
+  &.active {
+    background-color: darken($blue, 2%) !important;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
+  }
+}
+
+#radio-button-alles {
+  background-color: $grey;
+  border-color: black;
+
+  &.active {
+    background-color: darken($grey, 2%) !important;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
+  }
+}
+
+#dag-filter {
+  display: inline-block;
+  width: 180px !important;
 }
 
 .background-lighter-grey {
@@ -40,8 +65,12 @@ a {
   background-color: $light-blue;
 }
 
+.text-blue {
+  color: $blue;
+}
+
 .text-red {
-  color: red;
+  color: $red;
 }
 
 .text-white {
@@ -88,4 +117,27 @@ dt {
 dd {
   width: 120px;
   margin-left: 150px !important;
+}
+
+@media(max-width:767px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+}
+
+@media(max-width:576px) {
+  .btn-group .btn {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+
+  #dag-filter {
+    margin: 7px 0;
+    padding: 6px 0;
+    width: 160px !important;
+  }
 }
