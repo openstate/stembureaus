@@ -454,7 +454,7 @@ $(document).ready(function () {
     return output;
   };
 
-  StembureausApp.map = L.map('map').setView([52.2, 5.592], 6);
+  StembureausApp.map = L.map('map').setView([52.2, 5.592], 7);
 
   StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
