@@ -454,7 +454,7 @@ $(document).ready(function () {
     return output;
   };
 
-  StembureausApp.map = L.map('map').setView([52.2, 5.3], 7);
+  StembureausApp.map = L.map('map', {zoomSnap: 0.2}).setView([52.2, 5.3], 7);
 
   StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
@@ -542,6 +542,6 @@ $(document).ready(function () {
   // collecting the locations; also only fit bounds if there is at least one
   // marker otherwise you get an error
   if (StembureausApp.filtered_markers.length > 0 && StembureausApp.filtered_markers.length < 2000) {
-    StembureausApp.map.fitBounds(StembureausApp.group.getBounds());
+    StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {padding: [30, 30]});
   }
 });
