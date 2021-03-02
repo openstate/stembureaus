@@ -43,11 +43,23 @@
     <div class="row">
       <div class="col-xs-12">
         {% for record in records %}
+          {% set niet_open_voor_algemeen_publiek = false %}
+          {% if 'niet open voor algemeen publiek' in record['Extra adresaanduiding'].lower() %}
+            {% set niet_open_voor_algemeen_publiek = true %}
+          {% endif %}
           <h2>
             {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
-              <i class="fa fa-pencil text-red"></i>
+              {% if niet_open_voor_algemeen_publiek %}
+                <i class="fa fa-pencil text-orange"></i>
+              {% else %}
+                <i class="fa fa-pencil text-red"></i>
+              {% endif %}
             {% else %}
-              <i class="fa fa-envelope text-blue"></i>
+              {% if niet_open_voor_algemeen_publiek %}
+                <i class="fa fa-envelope text-orange"></i>
+              {% else %}
+                <i class="fa fa-envelope text-blue"></i>
+              {% endif %}
             {% endif %}
             {{ record['Stembureau of Afgiftepunt'] }}
             {% if record['Nummer stembureau of afgiftepunt'] %}
@@ -82,7 +94,13 @@
               <i>Gemeente {{ record['Gemeente']}}</i>
             {% endif %}
           </p>
-          <p>{{ record['Extra adresaanduiding'] }}</p>
+          {% if niet_open_voor_algemeen_publiek %}
+          <h2 class="color: text-red">NB: {{ record['Extra adresaanduiding'] }}
+            <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
+          </h2>
+          {% else %}
+            <p>{{ record['Extra adresaanduiding'] }}</p>
+          {% endif %}
           {% set datums = [
             'woensdag 10 maart:',
             'donderdag 11 maart:',
@@ -165,6 +183,11 @@
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-{% include "map_scripts.html" %}
+  {{ super() }}
+  {% include "map_scripts.html" %}
+  <script>
+    $(function () {
+      $('[data-toggle="popover"]').popover();
+    })
+  </script>
 {% endblock %}

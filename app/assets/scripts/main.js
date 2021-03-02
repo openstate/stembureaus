@@ -81,7 +81,9 @@ var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: 
 // Icons
 var icons = {
   'Stembureau': '<i class="fa fa-pencil text-red"></i> ',
-  'Afgiftepunt': '<i class="fa fa-envelope text-blue"></i> '
+  'Afgiftepunt': '<i class="fa fa-envelope text-blue"></i> ',
+  'Stembureau-orange': '<i class="fa fa-pencil text-orange"></i> ',
+  'Afgiftepunt-orange': '<i class="fa fa-envelope text-orange"></i> '
 };
 
 // List gemeenten on the homepage
@@ -123,28 +125,44 @@ StembureausApp.show_gemeenten = function (matches, query) {
 // List locations in rigth panel on the gemeente pages
 StembureausApp.show = function (matches, query) {
   $('#results-search').empty();
+
   matches.sort(function (a,b) {return (a['Nummer stembureau of afgiftepunt'] > b['Nummer stembureau of afgiftepunt']) ? 1 : ((b['Nummer stembureau of afgiftepunt'] > a['Nummer stembureau of afgiftepunt']) ? -1 : 0)});
+
   for (var i=0; i < matches.length; i++) {
     var opinfo = matches[i]['Openingstijden 17-03-2021'].split(' tot ');
+
     var weelchair_labels = {
       'Y': 'Mindervaliden toegankelijk',
       'N': 'Niet mindervaliden toegankelijk',
       '': '',
       undefined: ''
     }
+
     var akoestiek_labels = {
       'Y': 'Akoestiek geschikt voor slechthorenden',
       'N': '',
       '': '',
       undefined: ''
     }
+
     var mivatoilet_labels = {
       'Y': 'Mindervaliden toilet aanwezig',
       'N': '',
       '': '',
       undefined: ''
     }
-    var plaats_naam = matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
+
+    var extra_adresaanduiding = '';
+    var orange_icon = '';
+    if (matches[i]['Extra adresaanduiding'].trim()) {
+      if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+        extra_adresaanduiding = '<h4 class="color: text-red">NB: ' + matches[i]['Extra adresaanduiding'] + '</h4>';
+        orange_icon = '-orange';
+      } else {
+        extra_adresaanduiding = '<h5>' + matches[i]['Extra adresaanduiding'] + '</h5>';
+      }
+    }
+
     var adres = '';
     if (typeof(matches[i]['Straatnaam']) !== "object") {
       adres = matches[i]['Straatnaam'] + ' ' + matches[i]['Huisnummer'];
@@ -155,18 +173,24 @@ StembureausApp.show = function (matches, query) {
         adres += ' ' + matches[i]['Huisnummertoevoeging'];
       }
     }
+
+    var plaats_naam = matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
+
     var nummer_stembureau = '';
     if (matches[i]['Nummer stembureau of afgiftepunt']) {
       nummer_stembureau = '#' + matches[i]['Nummer stembureau of afgiftepunt'] + ' '
     }
+
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
+
     $('#results-search').append($(
       '<div class="result row">' +
         '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
         '<div class="col-xs-12 col-sm-7">' +
-          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons[matches[i]['Stembureau of Afgiftepunt']] + matches[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
+          '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons[matches[i]['Stembureau of Afgiftepunt'] + orange_icon] + matches[i]['Stembureau of Afgiftepunt'] + ' ' + nummer_stembureau + matches[i]['Naam stembureau of afgiftepunt'] + '</a></h2>' +
           '<h5>' + adres + '</h5>' +
           '<h5>' + plaats_naam + '</h5>' +
+          extra_adresaanduiding +
         '</div>' +
         '<div class="col-xs-12 col-sm-5" style="padding-top: 24px;">' +
           '<p style="font-size: 12px">' + weelchair_labels[matches[i]["Mindervaliden toegankelijk"]] + '</p>' +
@@ -320,6 +344,20 @@ $(document).ready(function () {
         icon: 'envelope',
         markerColor: 'blue'
       }
+    ),
+    'Stembureau-orange': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'pencil',
+        markerColor: 'orange'
+      }
+    ),
+    'Afgiftepunt-orange': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'envelope',
+        markerColor: 'orange'
+      }
     )
   };
 
@@ -333,15 +371,20 @@ $(document).ready(function () {
     // Save markers to filtered_markers as we use it later to fit bounds
     StembureausApp.filtered_markers = [];
     StembureausApp.filtered_locations.forEach(function (loc) {
+      var icon = markerIcons[loc['Stembureau of Afgiftepunt']];
+      var orange_icon = '';
+      if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+        var orange_icon = '-orange';
+      }
       StembureausApp.filtered_markers.push(
         L.marker(
           [
             loc['Latitude'],
             loc['Longitude']
           ],
-          {icon: markerIcons[loc['Stembureau of Afgiftepunt']]}
+          {icon: markerIcons[loc['Stembureau of Afgiftepunt'] + orange_icon]}
         ).bindPopup(
-          StembureausApp.getPopup(loc)
+          StembureausApp.getPopup(loc, orange_icon)
         )
       )
     });
@@ -389,7 +432,7 @@ $(document).ready(function () {
   ]
 
   // Create the popup which you see when you click on a marker
-  StembureausApp.getPopup = function(loc) {
+  StembureausApp.getPopup = function(loc, orange_icon) {
     // First create the openingstijden HTML
     var opinfo_output = '</p><i>Openingstijden</i>';
 
@@ -407,7 +450,7 @@ $(document).ready(function () {
     // Create the final HTML output
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-    output = "<p><b>" + icons[loc['Stembureau of Afgiftepunt']] + loc['Stembureau of Afgiftepunt'] + "</b>";
+    output = "<p><b>" + icons[loc['Stembureau of Afgiftepunt'] + orange_icon] + loc['Stembureau of Afgiftepunt'] + "</b>";
 
     output += " <a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
     if (loc['Nummer stembureau of afgiftepunt']) {
@@ -434,7 +477,11 @@ $(document).ready(function () {
       output += "<i>Gemeente " + loc['Gemeente'] + "</i>";
     }
     if (loc['Extra adresaanduiding']) {
-      output += "<br>" + loc['Extra adresaanduiding'];
+      if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+        output += '<br><h2 class="color: text-red">NB: ' + loc['Extra adresaanduiding'] + '</h2>';
+      } else {
+        output += '<br>' + loc['Extra adresaanduiding'];
+      }
     }
 
     output += opinfo_output;
