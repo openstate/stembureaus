@@ -261,7 +261,7 @@ class Record(object):
             # TODO: we need to know if these are the right fields for in CKAN.
             fld_val = getattr(record, fld, None)
             if fld_val is not None:
-                self.record[fld] = fld_val.encode('latin1').decode()
+                self.record[fld] = fld_val.encode('utf-8').decode()
             else:
                 self.record[fld] = None
 
