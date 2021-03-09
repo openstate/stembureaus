@@ -83,8 +83,7 @@
             {% if record['Huisnummertoevoeging'] %}
               -{{ record['Huisnummertoevoeging'] }}
             {% endif %}
-          </p>
-          <p>
+            <br>
             {% if record['Postcode'] %}
               {{ record['Postcode'] }},
             {% endif %}
@@ -93,6 +92,9 @@
             {% else %}
               <i>Gemeente {{ record['Gemeente']}}</i>
             {% endif %}
+          </p>
+          <p>
+            <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename={{ record['Stembureau of Afgiftepunt'] }} {{ record['Naam stembureau of afgiftepunt'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
           </p>
           {% if niet_open_voor_algemeen_publiek %}
           <h2 class="color: text-red">NB: {{ record['Extra adresaanduiding'] }}

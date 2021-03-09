@@ -484,6 +484,8 @@ $(document).ready(function () {
       }
     }
 
+    output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=' + loc['Stembureau of Afgiftepunt'] + ' ' + loc['Naam stembureau of afgiftepunt'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>'
+
     output += opinfo_output;
 
     if (loc["Mindervaliden toegankelijk"] == 'Y') {
