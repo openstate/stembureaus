@@ -495,8 +495,10 @@ def gemeente_stemlokalen_dashboard():
         # could not find any stembureaus
         elif not results['found_any_record_with_values']:
             flash(
-                '<span class="text-red">Uploaden mislukt</span>. Er zijn geen '
-                'stembureaus gevonden in de spreadsheet.'
+                Markup(
+                    '<span class="text-red">Uploaden mislukt</span>. Er zijn geen '
+                    'stembureaus gevonden in de spreadsheet.'
+                )
             )
         # If the spreadsheet did validate then first delete all current
         # stembureaus from the draft_resource and then save the newly
