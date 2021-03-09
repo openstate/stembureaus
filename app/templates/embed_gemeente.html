@@ -28,7 +28,6 @@
       {% include "map.html" %}
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
-      {% if show_search %}
       <div class="row">
         <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
           <a href="#" id ="btn-location">
@@ -36,6 +35,7 @@
           </a>
         </div>
       </div>
+      {% if show_search %}
       <div class="row">
         <div class="col-xs-12">
           <form action="" method="get" class="form-inline" id="form-search">
