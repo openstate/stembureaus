@@ -78,11 +78,11 @@ class CKAN():
     # First delete all records in the publish_resource for the current
     # gemeente, then upsert all draft_records of the current gemeente
     # to the publish_resource
-    def publish(self, verkiezing, draft_records):
+    def publish(self, verkiezing, gemeente_code, draft_records):
         election = self.elections[verkiezing]
         self.delete_records(
             election['publish_resource'],
-            {'CBS gemeentecode': draft_records[0]['CBS gemeentecode']}
+            {'CBS gemeentecode': gemeente_code}
         )
 
         self.save_records(election['publish_resource'], draft_records)

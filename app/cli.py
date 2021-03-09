@@ -421,7 +421,7 @@ def publish_gemeente(gemeente_code):
             if record['CBS gemeentecode'] == current_gemeente.gemeente_code
         ]
         _remove_id(temp_gemeente_draft_records)
-        ckan.publish(election, temp_gemeente_draft_records)
+        ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 
 
 @CKAN.command()

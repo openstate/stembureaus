@@ -601,7 +601,7 @@ def gemeente_stemlokalen_overzicht():
                     if record['CBS gemeentecode'] == gemeente.gemeente_code
                 ]
                 _remove_id(temp_gemeente_draft_records)
-                ckan.publish(election, temp_gemeente_draft_records)
+                ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
             flash('Stembureaus gepubliceerd')
             # Sleep to make sure that the data is saved before it is
             # requested again in the lines right below here
