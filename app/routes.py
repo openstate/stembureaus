@@ -248,10 +248,12 @@ def embed_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
+    show_infobar = (request.args.get('infobar', 1, type=int) == 1)
     return render_template(
         'embed_stembureau.html', records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
-        primary_key=primary_key
+        primary_key=primary_key,
+        show_infobar=show_infobar
     )
 
 
