@@ -123,6 +123,13 @@ dd {
   margin-left: 150px !important;
 }
 
+@media(min-width:1200px) {
+  .no-gutter-xl {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @media(min-width:992px) {
   .vertical-align {
     display: flex;
