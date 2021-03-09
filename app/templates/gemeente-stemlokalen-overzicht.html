@@ -26,6 +26,9 @@
     <span class="text-red">De deadline voor het toevoegen van stembureaus en afgiftepunten is verlopen.</span>
     <br>
   {% else %}
+    {% if not draft_records %}
+    <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
+    {% endif %}
     <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau/afgiftepunt toe</a>
 
     <br>
@@ -34,7 +37,10 @@
     <form method="POST" action="">
       {{ publish_form.csrf_token }}
     {% if disable_publish_form %}
-      {{ publish_form.submit(disabled=True) }} [de stembureaus en afgiftepunten zijn gepubliceerd]
+      {{ publish_form.submit(disabled=True) }}
+      {% if draft_records %}
+        [de stembureaus en afgiftepunten zijn gepubliceerd]
+      {% endif %}
     {% else %}
       {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
     {% endif %}
