@@ -636,7 +636,7 @@ def gemeente_stemlokalen_overzicht():
     # If the user requests a page larger than the largest page for which
     # we have records to show, use that page instead of the requested
     # one
-    if page > ceil(len(gemeente_draft_records) / posts_per_page):
+    if page > ceil(len(gemeente_draft_records) / posts_per_page) and page > 1:
         page = ceil(len(gemeente_draft_records) / posts_per_page)
 
     start_record = (page - 1) * posts_per_page
@@ -661,6 +661,14 @@ def gemeente_stemlokalen_overzicht():
             page=page + 1
         )
 
+    # Only add 1 if there are records
+    if len(gemeente_draft_records):
+        start_record += 1
+
+    total_pages = ceil(len(gemeente_draft_records)/posts_per_page)
+    if total_pages == 0:
+        total_pages = 1
+
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing_string=_format_verkiezingen_string(elections),
@@ -670,10 +678,10 @@ def gemeente_stemlokalen_overzicht():
         publish_form=publish_form,
         disable_publish_form=disable_publish_form,
         page=page,
-        start_record=start_record + 1,
+        start_record=start_record,
         end_record=end_record,
         total_records=len(gemeente_draft_records),
-        total_pages=ceil(len(gemeente_draft_records)/posts_per_page),
+        total_pages=total_pages,
         previous_url=previous_url,
         next_url=next_url,
         upload_deadline_passed=check_deadline_passed()
