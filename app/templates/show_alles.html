@@ -1,0 +1,35 @@
+<span style="color: red">De stembureaus voor de Tweede Kamerverkiezingen 2021 zijn nog niet compleet en worden tot en met de verkiezingen continu aangevuld</span>
+<br>
+<br>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    {% include "map.html" %}
+    <div class="row">
+      <div class="col-xs-12" style="padding-top: 20px; padding-bottom: 20px;">
+        <a href="#" id ="btn-location">
+          <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+        </a>
+      </div>
+    </div>
+  </div>
+  {% if show_search %}
+  <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="row">
+      <div class="col-xs-12">
+        <form action="" method="get" class="form-inline" id="form-gemeente-search">
+            <div class="form-group">
+              <label>
+              Zoek uw gemeente <i class="fa fa-search" aria-hidden="true"></i>
+              </label>
+              <input type="text" class="form-control" name="query" value="" placeholder="Amsterdam">
+            </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" id="results-search-gemeenten">
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

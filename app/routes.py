@@ -187,7 +187,8 @@ def index():
     return render_template(
         'index.html',
         records=[_hydrate(record, 'default') for record in records],
-        alle_gemeenten=alle_gemeenten
+        alle_gemeenten=alle_gemeenten,
+        show_search=True
     )
 
 
@@ -250,7 +251,8 @@ def embed_stembureau(gemeente, primary_key):
     )
     show_infobar = (request.args.get('infobar', 1, type=int) == 1)
     return render_template(
-        'embed_stembureau.html', records=[_hydrate(record, 'extended') for record in records],
+        'embed_stembureau.html',
+        records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
         primary_key=primary_key,
         show_infobar=show_infobar
@@ -265,6 +267,18 @@ def embed_gemeente(gemeente):
         'embed_gemeente.html',
         records=[_hydrate(record, 'default') for record in records],
         gemeente=gemeente,
+        show_search=show_search
+    )
+
+
+@app.route("/e/alles")
+def embed_alles():
+    records = get_stembureaus(ckan.elections)
+    show_search = (request.args.get('search', 1, type=int) == 1)
+    return render_template(
+        'embed_alles.html',
+        records=[_hydrate(record, 'default') for record in records],
+        alle_gemeenten=alle_gemeenten,
         show_search=show_search
     )
 

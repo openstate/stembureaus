@@ -8,6 +8,15 @@
   <h1>Data</h1>
   <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data word direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
+  <h2>Embedden/Insluiten</h2>
+  <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau/afgiftepunt embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau/afgiftepunt en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>).</p>
+
+  <p>De embedcode voor de kaart van heel Nederland:
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+      <i class="fa fa-code"></i> Insluiten
+    </button>
+  </p>
+
   <h2>Aankomende verkiezingen</h2>
   <div class="table-responsive">
     <table class="table table-hover">
@@ -163,4 +172,51 @@
 
   <h2>Verdere toelichting</h2>
   <p>Sommige stembureaus komen meerdere keren in de data voor. Dit is het geval als een stembureau meerdere openingstijden en/of locaties heeft, zoals bij een mobiel stembureau het geval is. Een stembureau heeft voor elke locatie/openingstijd een nieuwe rij in de dataset.</p>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Insluiten</h4>
+      </div>
+      <div class="modal-body">
+        <p>Om de kaart in te sluiten in een andere pagina dient u de onderstaande code te kopi&euml;ren en te plakken in uw CMS.</p>
+        <p><input type="checkbox" id="form-embed-search-checkbox" checked> Met zoekfunctie</p>
+        <form id="form-embed-search">
+          <textarea style="width: 100%; height: 80px;" id="form-embed-text-search">
+            &lt;iframe src="{{ url_for('embed_alles', _external=True) }}" width="500" height="760" /&gt;
+          </textarea>
+        </form>
+
+        <form id="form-embed-no-search" style="display: none;">
+          <textarea style="width: 100%; height: 80px;" id="form-embed-text-no-search">
+            &lt;iframe src="{{ url_for('embed_alles', _external=True, search='0') }}" width="500" height="760" /&gt;
+          </textarea>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    $(document).ready(function() {
+      $('#model-embed').on('shown.bs.modal', function () {
+        $('textarea:visible').select().focus();
+      });
+
+      $('#form-embed-search-checkbox').on('click', function (e) {
+        $('#form-embed-search').toggle();
+        $('#form-embed-no-search').toggle();
+        $('textarea:visible').select().focus();
+      });
+    });
+  </script>
 {% endblock %}
