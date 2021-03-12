@@ -3,7 +3,7 @@ body {
   color: $dark-grey;
 }
 
-article {
+main {
   background-color: $white;
   padding: 20px;
 }
@@ -121,6 +121,28 @@ dt {
 dd {
   width: 120px;
   margin-left: 150px !important;
+}
+
+.awesome-marker {
+  background-image: url('../images/markers-soft.png');
+}
+
+.awesome-marker-shadow {
+  background-image: url('../images/markers-shadow.png');
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 @media(min-width:1200px) {
