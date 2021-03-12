@@ -33,10 +33,10 @@
         // JavaScript to be fired on the home page, after the init JS
       }
     },
-    // About us page, note the change from about-us to about_us.
-    'about_us': {
+    'map': {
       init: function() {
-        // JavaScript to be fired on the about us page
+        // JavaScript to be fired on pages with a map
+        run_stembureaus();
       }
     }
   };
@@ -318,7 +318,7 @@ get_query = function() {
   return $('#form-search input[type="text"]').val();
 }
 
-$(document).ready(function () {
+run_stembureaus = function () {
   // Stick the header of the overzicht table to the top
   $('.fixed-header').floatThead({
     responsiveContainer: function($table){
@@ -593,4 +593,4 @@ $(document).ready(function () {
   if (StembureausApp.filtered_markers.length > 0 && StembureausApp.filtered_markers.length < 2000) {
     StembureausApp.map.fitBounds(StembureausApp.group.getBounds(), {padding: [30, 30]});
   }
-});
+}
