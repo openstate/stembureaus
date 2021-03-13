@@ -1,8 +1,12 @@
+.btn {
+  text-decoration: none;
+}
+
 .btn-info {
-  background-color: $light-blue;
+  background-color: $dark-blue;
 }
 
 .upload-block .btn-info {
   background-color: white;
-  color: $light-blue;
+  color: $dark-blue;
 }

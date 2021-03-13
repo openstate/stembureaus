@@ -19,7 +19,8 @@ h2 {
 }
 
 a {
-  color: $light-blue;
+  color: $dark-blue;
+  text-decoration: underline;
 }
 
 #radio-button-stembureaus {
@@ -62,7 +63,7 @@ a {
 }
 
 .background-light-blue {
-  background-color: $light-blue;
+  background-color: $dark-blue;
 }
 
 .text-blue {
@@ -90,7 +91,7 @@ a {
 }
 
 .action-bar {
-  border: 1px $light-blue solid !important;
+  border: 1px $dark-blue solid !important;
 }
 
 .block-padding {

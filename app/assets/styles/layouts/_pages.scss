@@ -3,16 +3,25 @@
     h2 {
       a {
         color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     }
+
     margin-bottom: 10px;
+
     h5 {
       clear: both;
       color: #888;
     }
+
     .pull-right {
       margin-top: 20px;
     }
+
     p {
       color: #888;
     }
@@ -22,6 +31,7 @@
 #form-search, #form-gemeente-search {
   color: #c21889;
   line-height: 30px;
+
   .form-group {
     width: 100%;
     border-bottom: 1px solid #c21889;
