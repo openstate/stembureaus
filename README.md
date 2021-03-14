@@ -31,7 +31,7 @@ Collecting and presenting stembureaus
    - `sudo docker-compose up -d`
    - Compile the assets, see the section below
    - The `docker-compose up` command above also loads the BAG data in MySQL, this can take more than 1 hour on a server (without SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
-   - # NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
+   - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Set up daily backups for MySQL and CKAN
       - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
          - MySQL: Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
