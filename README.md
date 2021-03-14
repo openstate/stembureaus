@@ -47,7 +47,7 @@ Collecting and presenting stembureaus
    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Compile the assets, see the section below
    - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 10 minutes (with an SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
-   - # NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
+   - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Run the tests: `sudo docker exec -it stm_app_1 nosetests`
