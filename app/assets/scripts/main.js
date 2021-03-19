@@ -526,31 +526,30 @@ run_stembureaus = function () {
     }
   );
 
-  StembureausApp.map.addLayer(osm);
-  //// Use BRT in 'Europees Nederland' and OSM for the rest
-  //var zoom = StembureausApp.map.getZoom();
-  //var center = StembureausApp.map.getCenter();
-  //if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
-  //  StembureausApp.map.removeLayer(osm);
-  //  StembureausApp.map.addLayer(brt);
-  //} else {
-  //  StembureausApp.map.removeLayer(brt);
-  //  StembureausApp.map.addLayer(osm);
-  //}
+  // Use BRT in 'Europees Nederland' and OSM for the rest
+  var zoom = StembureausApp.map.getZoom();
+  var center = StembureausApp.map.getCenter();
+  if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
+    StembureausApp.map.removeLayer(osm);
+    StembureausApp.map.addLayer(brt);
+  } else {
+    StembureausApp.map.removeLayer(brt);
+    StembureausApp.map.addLayer(osm);
+  }
 
-  //// Show BRT only when zoomed in on European Netherlands, use OSM for
-  //// the rest
-  //StembureausApp.map.on('zoom move', function() {
-  //  var zoom = StembureausApp.map.getZoom();
-  //  var center = StembureausApp.map.getCenter();
-  //  if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
-  //    StembureausApp.map.removeLayer(osm);
-  //    StembureausApp.map.addLayer(brt);
-  //  } else {
-  //    StembureausApp.map.removeLayer(brt);
-  //    StembureausApp.map.addLayer(osm);
-  //  }
-  //});
+  // Show BRT only when zoomed in on European Netherlands, use OSM for
+  // the rest
+  StembureausApp.map.on('zoom move', function() {
+    var zoom = StembureausApp.map.getZoom();
+    var center = StembureausApp.map.getCenter();
+    if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
+      StembureausApp.map.removeLayer(osm);
+      StembureausApp.map.addLayer(brt);
+    } else {
+      StembureausApp.map.removeLayer(brt);
+      StembureausApp.map.addLayer(osm);
+    }
+  });
 
   // Apply updates to the map if the location type filter is clicked
   $('.location-type-filter').click(function() {
