@@ -398,7 +398,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
                 ckan.elections[election]['draft_resource'],
                 records=records
             )
-        print('Upload succesful!')
+        print('Upload successful!')
     print('\n\n')
 
 
@@ -798,7 +798,7 @@ def show_all_users():
 @mysql.command()
 def show_all_gemeenten():
     """
-    Show all gemeenten and their correspondig users and verkiezingen
+    Show all gemeenten and their corresponding users and verkiezingen
     """
     for gemeente in Gemeente.query.all():
         print(
@@ -815,7 +815,7 @@ def show_all_gemeenten():
 def remove_all_gemeenten_verkiezingen_users():
     """
     Only use this in development. This command removes all gemeenten,
-    vekiezingen and users from the MySQL database.
+    verkiezingen and users from the MySQL database.
     """
     if not app.debug:
         result = input(
