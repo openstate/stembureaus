@@ -30,7 +30,7 @@ var manifest = require('asset-builder')('./assets/manifest.json');
 // - `path.source` - Path to the source files. Default: `assets/`
 // - `path.dist` - Path to the build directory. Default: `dist/`
 var path = manifest.paths;
-path.dist = 'static/dist/'
+path.dist = 'static/dist/';
 
 // `config` - Store arbitrary configuration values here.
 var config = manifest.config || {};
@@ -64,7 +64,7 @@ var enabled = {
   failStyleTask: argv.production,
   // Fail due to ESLint warnings only when `--production`
   failESLint: argv.production,
-  // Strip debug statments from javascript when `--production`
+  // Strip debug statements from javascript when `--production`
   stripJSDebug: argv.production
 };
 
