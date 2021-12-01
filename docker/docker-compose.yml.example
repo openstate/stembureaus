@@ -40,7 +40,7 @@ services:
       - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     restart: always
   nodejs:
-    image: node:5.4.1
+    image: node:6.17.1
     working_dir: /opt/stm
     volumes:
       - ../app:/opt/stm
