@@ -14,7 +14,7 @@ Collecting and presenting stembureaus
    - Fill in your CKAN URL and CKAN API key
    - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
    - Specify the name(s) of the election(s) and its corresponding CKAN draft and publish resource IDs
-      - NOTE: Use the exact same '<name of election>' values in the 'verkiezingen' field in 'app/data/gemeenten.json'
+      - NOTE: Use the exact same `<name of election>` values in the 'verkiezingen' field in 'app/data/gemeenten.json'
    - Specify email related information in order for the application to send emails
 - Copy `app/data/gemeenten.json.example` to `app/data/gemeenten.json` and edit it
    - Fill in the email addresses of the gemeenten
