@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from time import time
 from ckanapi import RemoteCKAN
+from ckanapi.errors import CKANAPIError
 import jwt
 
 
@@ -42,23 +43,46 @@ class CKAN():
         resources_metadata = {}
         for election_key, election_value in self.elections.items():
             resources_metadata[election_key] = {}
-            resources_metadata[election_key]['publish_resource'] = (
-                self.ckanapi.resource_show(
-                    id=election_value['publish_resource']
+            try:
+                resources_metadata[election_key]['publish_resource'] = (
+                    self.ckanapi.resource_show(
+                        id=election_value['publish_resource']
+                    )
                 )
-            )
-            resources_metadata[election_key]['draft_resource'] = (
-                self.ckanapi.resource_show(id=election_value['draft_resource'])
-            )
+            except CKANAPIError as e:
+                app.logger.error(
+                    'Can\'t get publish resource metadata: %s' % (e)
+                )
+
+            try:
+                resources_metadata[election_key]['draft_resource'] = (
+                    self.ckanapi.resource_show(id=election_value['draft_resource'])
+                )
+            except CKANAPIError as e:
+                app.logger.error(
+                    'Can\'t get draft resource metadata: %s' % (e)
+                )
         return resources_metadata
 
     def get_records(self, resource_id):
-        return self.ckanapi.datastore_search(
-            resource_id=resource_id, limit=15000)
+        try:
+            return self.ckanapi.datastore_search(
+                resource_id=resource_id, limit=15000)
+        except CKANAPIError as e:
+            app.logger.error(
+                'Can\'t get records: %s' % (e)
+            )
+            return {'records': []}
 
     def filter_records(self, resource_id, datastore_filters={}):
-        return self.ckanapi.datastore_search(
-            resource_id=resource_id, filters=datastore_filters, limit=15000)
+        try:
+            return self.ckanapi.datastore_search(
+                resource_id=resource_id, filters=datastore_filters, limit=15000)
+        except CKANAPIError as e:
+            app.logger.error(
+                'Can\'t filter records: %s' % (e)
+            )
+            return {'records': []}
 
     def save_records(self, resource_id, records):
         self.ckanapi.datastore_upsert(

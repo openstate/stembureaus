@@ -34,7 +34,7 @@
       <div class="row">
         <div class="col-xs-6" style="padding-top: 20px; padding-bottom: 20px;">
           <a href="#" id ="btn-location">
-            <i class="fa fa-map-marker" aria-hidden="true"></i> Gebruik mijn locatie
+            <i class="fa fa-map-marker-alt" aria-hidden="true"></i> Gebruik mijn locatie
           </a>
         </div>
         <p class="pull-right" style="padding-top: 13px; padding-bottom: 13px; padding-right: 15px;">
@@ -102,7 +102,9 @@
 {% include "map_scripts.html" %}
 <script>
   $(document).ready(function() {
-    StembureausApp.show(StembureausApp.filtered_locations);
+    if (StembureausApp.show) {
+      StembureausApp.show(StembureausApp.filtered_locations);
+    }
 
     $('#model-embed').on('shown.bs.modal', function () {
       $('textarea:visible').select().focus();

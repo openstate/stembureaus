@@ -58,19 +58,14 @@ Collecting and presenting stembureaus
    - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `touch uwsgi-touch-reload`
 
 ## Compile assets
-All the following commands have to be run in the `stm_nodejs_1` container, so first enter it using:
-- `sudo docker exec -it stm_nodejs_1 bash`
+- Install all packages (only need to run once after installation or when you change packages): `sudo docker exec stm_nodejs_1 yarn`
 
-Run the following commands once after a new install:
-- `npm install -g gulp bower`
-- `npm install`
-- `bower install --allow-root`
+Production
+- Compile CSS/JS to `static/dist` directory: `sudo docker exec stm_nodejs_1 yarn prod`
 
-To compile the assets:
-- `gulp`
-
-To automatically compile the assets in development on any file changes (always run `gulp` first to compile any changes up till now):
-- `gulp watch`
+Development
+- Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn dev`
+- Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
 
 ## CLI
 To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:

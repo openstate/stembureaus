@@ -1,10 +1,14 @@
 @import "common/_variables";
 
-// Automatically injected Bower dependencies via wiredep (never manually edit this block)
-// bower:scss
-@import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-@import "../../bower_components/font-awesome/scss/font-awesome.scss";
-// endbower
+/**
+ * Import npm dependencies
+ *
+ * Prefix your imports with `~` to grab from node_modules/
+ * @see https://github.com/webpack-contrib/sass-loader#imports
+ */
+// @import "~some-node-module";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "leaflet";
 
 @import "common/_global";
 @import "components/_buttons";
@@ -15,5 +19,3 @@
 @import "layouts/_footer";
 @import "layouts/_pages";
 @import "layouts/_posts";
-
-@import 'https://fonts.googleapis.com/css?family=Montserrat|Source+Code+Pro';

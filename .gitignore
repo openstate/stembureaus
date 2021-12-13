@@ -18,8 +18,7 @@ docker/docker-entrypoint-initdb.d/old/*
 docker/docker-compose.yml
 
 app/static/*
-app/node_modules/*
-app/bower_components/*
+app/assets/node_modules/*
 app/data/gemeenten.json
 
 files/deels_vooringevuld/*
