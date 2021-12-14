@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block head %}
   {% if not records %}
-  <meta property="og:title" content="Waar is mijn stemlokaal" />
+    <title>Waar is mijn stemlokaal</title>
+    <meta property="og:title" content="Waar is mijn stemlokaal" />
   {% else %}
-  <meta property="og:title" content="Waar is mijn stemlokaal - {{ records[0]['Naam stembureau of afgiftepunt'] }}" />
+    <title>Waar is mijn stemlokaal - {{ records[0]['Naam stembureau of afgiftepunt'] }}</title>
+    <meta property="og:title" content="Waar is mijn stemlokaal - {{ records[0]['Naam stembureau of afgiftepunt'] }}" />
   {% endif %}
   {{ super() }}
 {% endblock %}

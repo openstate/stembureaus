@@ -28,3 +28,10 @@ backup.sh
 last_processed_line.csv
 update_bag.sh
 last_bag_download.txt
+bower_components
+bower_components/*
+node_modules
+node_modules/*
+docker/log
+app/package-lock.json
+app/yarn.lock
