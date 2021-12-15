@@ -10,6 +10,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+    SESSION_COOKIE_SAMESITE = "Strict"
     SECRET_KEY = False
     SERVER_NAME = 'waarismijnstemlokaal.nl'
     PREFERRED_URL_SCHEME = 'https'
