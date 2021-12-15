@@ -30,7 +30,12 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-32274817-14', { 'anonymize_ip': true });
+    gtag('config', 'UA-32274817-14', {
+  cookie_flags: 'max-age=7200;secure;samesite=none'
+  } ,
+  { 
+    'anonymize_ip': true 
+  });
   </script>
 
   <!-- H1ML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
