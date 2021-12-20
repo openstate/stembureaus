@@ -127,7 +127,10 @@
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
-      $('[data-toggle="popover"]').popover();
+      setTimeout(
+        function() {$('[data-toggle="popover"]').popover()},
+        1
+      );
     })
   </script>
 {% endblock %}

@@ -1710,10 +1710,10 @@ bootstrap-filestyle@1.2.1:
   resolved "https://registry.yarnpkg.com/bootstrap-filestyle/-/bootstrap-filestyle-1.2.1.tgz#4164271d5b101ec867565eebbdab25d210a581a0"
   integrity sha1-QWQnHVsQHshnVl7rvasl0hClgaA=
 
-bootstrap-sass@3.3.7:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
-  integrity sha1-ZZbHq0D2Y3OTMjqwvIDQZPxjBJg=
+bootstrap-sass@3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.6.tgz#363b0d300e868d3e70134c1a742bb17288444fd1"
+  integrity sha1-NjsNMA6GjT5wE0wadCuxcohET9E=
 
 bootstrap-select@^1.13.5:
   version "1.13.18"
@@ -4857,10 +4857,10 @@ jpegtran-bin@^4.0.0:
     bin-wrapper "^4.0.0"
     logalot "^2.0.0"
 
-jquery@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
+jquery@2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
+  integrity sha1-LInWiJterFIqfuoywUUhVZxsvwI=
 
 js-tokens@^3.0.2:
   version "3.0.2"
