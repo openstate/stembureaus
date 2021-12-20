@@ -106,3 +106,16 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 Use Fabric 2.x on your development machine to pull new changes from GitHub on a server and compile assets
 
 - fab deploy
+
+## Troubleshooting
+If you try to visit waarismijnstemlokaal.nl and get a '502 Bad Gateway', then open the console in your browser. If you see a message like (this is in Firefox):
+
+> The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol.
+
+or if you see something like this in your Docker logs:
+
+> app_1     | invalid request block size: 21573 (max 4096)...skip
+> nginx_1   | 2021/12/20 16:12:40 [error] 30#30: *1 upstream prematurely closed connection while reading response header from upstream, client: 172.18.0.1, server: waarismijnstemlokaal.nl, request: "GET / HTTP/1.1", upstream: "http://172.18.0.3:5000/", host: "waarismijnstemlokaal.nl"
+
+
+then you are probably mixing up development and production images for the `app` and `nginx` services (to be precise, nginx uses a normal HTTP request in the development environment, but uses uwsgi in production). Stop and remove the app and nginx containers and remove the app and nginx images. Build again (use the `--no-cache` option) and *make sure* that you use `docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --no-cache app nginx` for development and simply `docker-compose build --no-cache app nginx` for production.
