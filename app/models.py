@@ -234,9 +234,8 @@ class Record(object):
         except KeyError:
             bag_ref = record['bag referentie nummer']
         self.record = {
-            'stembureau_of_afgiftepunt': record['stembureau of afgiftepunt'],
-            'nummer_stembureau_of_afgiftepunt': record['nummer stembureau of afgiftepunt'],
-            'naam_stembureau_of_afgiftepunt': record['naam stembureau of afgiftepunt'],
+            'nummer_stembureau': record['nummer stembureau'],
+            'naam_stembureau': record['naam stembureau'],
             'website_locatie': record['website locatie'],
             'bag_referentienummer': bag_ref,
             'extra_adresaanduiding': record['extra adresaanduiding'],

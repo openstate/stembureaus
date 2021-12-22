@@ -6,16 +6,16 @@
       <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
       <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}" target="_blank" rel="noopener">{{ gemeente }}</a></li>
       {% if not records %}
-        <li class="active">Onbekend stembureau/afgiftepunt UUID</li>
+        <li class="active">Onbekend stembureau UUID</li>
       {% else %}
-        <li class="active">{{ records[0]['Naam stembureau of afgiftepunt'] }}</li>
+        <li class="active">{{ records[0]['Naam stembureau'] }}</li>
       {% endif %}
     </ol>
   </div>
 </div>
 <div class="row">
   {% if not records %}
-  Kan stembureau/afgiftepunt met UUID "{{ primary_key }}" niet vinden.
+  Kan stembureau met UUID "{{ primary_key }}" niet vinden.
   <br>
   <br>
   Terug naar de <a href="{{ url_for('embed_gemeente', gemeente=gemeente) }}">stembureaupagina van gemeente {{ gemeente }}</a>.
@@ -33,7 +33,7 @@
             {% set niet_open_voor_algemeen_publiek = true %}
           {% endif %}
           <h2>
-            {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
+            {% if record['Stembureau'] == 'Stembureau' %}
               {% if niet_open_voor_algemeen_publiek %}
                 <i class="fa fa-pencil-alt text-orange"></i>
               {% else %}
@@ -46,11 +46,11 @@
                 <i class="fa fa-envelope text-blue"></i>
               {% endif %}
             {% endif %}
-            {{ record['Stembureau of Afgiftepunt'] }}
-            {% if record['Nummer stembureau of afgiftepunt'] %}
-              #{{ record['Nummer stembureau of afgiftepunt'] }}
+            {{ record['Stembureau'] }}
+            {% if record['Nummer stembureau '] %}
+              #{{ record['Nummer stembureau'] }}
             {% endif %}
-            {{ record['Naam stembureau of afgiftepunt'] }}
+            {{ record['Naam stembureau'] }}
             {% if record['Website locatie'] %}
               <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener"><i class="fa fa-external-link" style="font-size: 14px;"></i></a>
             {% endif %}
@@ -79,7 +79,7 @@
             {% endif %}
           </p>
           <p>
-            <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename={{ record['Stembureau of Afgiftepunt'] }} {{ record['Naam stembureau of afgiftepunt'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
+            <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename={{ record['Stembureau'] }} {{ record['Naam stembureau'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
           </p>
           {% if niet_open_voor_algemeen_publiek %}
             <h2 class="color: text-red">NB: {{ record['Extra adresaanduiding'] }}
@@ -100,10 +100,7 @@
           ] %}
           <br>
           <i>Openingstijden</i>
-          {% set datum_range = 0 %}
-          {% if record['Stembureau of Afgiftepunt'] == 'Stembureau' %}
-            {% set datum_range = 5 %}
-          {% endif %}
+          {% set datum_range = 5 %}
           {% for datum in datums[datum_range:] %}
             {% set dag = datum.split(' ')[1] %}
             {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}

@@ -18,29 +18,29 @@
 
   <br>
 
-  Er zijn twee methoden om stembureaus en afgiftepunten toe te voegen, <a href="{{ url_for('gemeente_instructies') }}">zie de help-pagina voor meer informatie en instructies</a>.
+  Er zijn twee methoden om stembureaus toe te voegen, <a href="{{ url_for('gemeente_instructies') }}">zie de help-pagina voor meer informatie en instructies</a>.
 
   <br>
   <br>
 
   <div class="action-bar block-padding">
-    U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus/afgiftepunten opgeslagen en {{total_publish_records}} gepubliceerd.
+    U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus opgeslagen en {{total_publish_records}} gepubliceerd.
     {% if show_publish_note %}
-    <span class="text-red">Let op: er zijn wijzigingen in de stembureaus en afgiftepunten die u nog niet gepubliceerd heeft.</span>
+    <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
     {% endif %}
 
     <br>
     <br>
 
-    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus en afgiftepunten</a>
+    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
 
     <br>
     <br>
 
     {% if toon_stembureaus_pagina %}
-      <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus en afgiftepunten op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
+      <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
     {% else %}
-      <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus en afgiftepunten op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus en afgiftepunten heeft toegevoegd en gepubliceerd]
+      <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
     {% endif %}
   </div>
 
@@ -74,17 +74,17 @@
       <br>
 
       {% if upload_deadline_passed %}
-        <span class="text-red">De deadline voor het toevoegen van stembureaus en afgiftepunten is verlopen.</span>
+        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
       {% else %}
         <form method="POST" enctype="multipart/form-data">
           {{ form.csrf_token }}
           {{ form.data_file }}
           <br>
-          <b>Let op</b>: uploaden vervangt alle stembureaus en afgiftepunten die u eerder heeft toegevoegd!
+          <b>Let op</b>: uploaden vervangt alle stembureaus die u eerder heeft toegevoegd!
           <br>
           {{ form.submit }}
           <br>
-          <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus/afgiftepunten kan enkele minuten duren.
+          <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
         </form>
       {% endif %}
 

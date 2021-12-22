@@ -10,7 +10,7 @@
   <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data word direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
   <h2>Embedden/Insluiten</h2>
-  <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau/afgiftepunt embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau/afgiftepunt en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>).</p>
+  <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>).</p>
 
   <p>De embedcode voor de kaart van heel Nederland:
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
@@ -125,36 +125,36 @@
     <li><b>_id</b>: een veld dat intern door CKAN gebruikt wordt. Gebruik het <b>UUID</b> veld als identifier van een stembureau.</li>
     <li><b>Gemeente</b>: De officiële gemeentenaam zoals gebruikt door het CBS.</li>
     <li><b>CBS gemeentecode *</b>: Unieke code voor de gemeente zoals gebruikt door het CBS.</li>
-    <li><b>Stembureau of Afgiftepunt *</b>: Voor de Tweede Kamerverkiezingen van 2021 zijn er vanwege de maatregelen rondom het coronavirus naast stembureaus ook afgiftepunten beschikbaar. Iedereen ouder dan 70 ontvangt een stempluspas die op de post gedaan kan worden maar ook in de dagen voor en op de verkiezingsdag ingeleverd kan worden bij een afgiftepunt. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
-    <li><b>Nummer stembureau of afgiftepunt *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. Dit veld is niet verplicht voor afgiftepunten. <i>[Dit veld is niet altijd ingevuld]</i></li>
-    <li><b>Naam stembureau of afgiftepunt *</b>: De naam van het stembureau. Dit veld is niet verplicht voor afgiftepunten.</li>
+    <li><b>Stembureau </b>
+    <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. <i>[Dit veld is niet altijd ingevuld]</i></li>
+    <li><b>Naam stembureau *</b>: De naam van het stembureau.</li>
     <li><b>Gebruikersdoel het gebouw *</b>: Gebruiksdoel volgens de BAG. Voor uitgebreidere beschrijving van bovenstaande gebruiksdoelen <a href="https://www.amsterdam.nl/stelselpedia/bag-index/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" target="_blank" rel="noopener">klik hier</a>.
-    <li><b>Website locatie</b>: Website van de locatie van het stembureau/afgiftepunt.</li>
+    <li><b>Website locatie</b>: Website van de locatie van het stembureau.</li>
     <li><b>Wijknaam</b>: Naam van de wijk waar het stembureau in ligt. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
     <li><b>CBS wijknummer</b>: Nummer van de wijk waar het stembureau in ligt zoals gebruikt door het CBS. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
     <li><b>Buurtnaam</b>: Naam van de buurt waar het stembureau in ligt. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
     <li><b>CBS buurtnummer</b>: Nummer van de buurt waar het stembureau in ligt zoals gebruikt door het CBS. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
-    <li><b>BAG referentie nummer *</b>: BAG Nummeraanduiding ID waarmee het adres van het stembureau/afgiftepunt op te halen is (o.a. via de <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">BAG viewer</a>). Voor mobiele stembureaus staat het dichtstbijzijnde BAG Nummeraanduiding ID vermeld en wordt eventueel het 'Extra adresaanduiding'-veld gebruikt om de locatie van stembureau te beschrijven. NB: de precieze locatie van het stembureau/afgiftepunt is beschikbaar via de 'Latitude' en 'Longitude'-velden. Dit veld is niet altijd ingevuld.</li>
-    <li><b>Straatnaam</b>: De naam van de straat waar het stembureau/afgiftepunt ligt.</li>
-    <li><b>Huisnummer</b>: Huisnummer van het stembureau/afgiftepunt.</li>
-    <li><b>Huisletter</b>: Huisletter van het stembureau/afgiftepunt. <i>[Beschikbaar sinds Stembureaus ODS v1.1]</i></li>
-    <li><b>Huisnummertoevoeging</b>: Huisnummertoevoeging van het stembureau/afgiftepunt.</li>
-    <li><b>Postcode</b>: Postcode van het stembureau/afgiftepunt.</li>
-    <li><b>Plaats</b>: Plaats waar het stembureau/afgiftepunt in ligt.</li>
-    <li><b>Extra adresaanduiding</b>: Eventuele extra informatie over de locatie van het stembureau/afgiftepunt. Bv. 'Ingang aan achterkant gebouw' of 'Mobiel stembureau op het midden van het plein'.</li>
-    <li><b>X</b>: Rijksdriehoekscoördinaat X van het stembureau/afgiftepunt (minimaal in meters).</li>
-    <li><b>Y</b>: Rijksdriehoekscoördinaat Y van het stembureau/afgiftepunt (minimaal in meters).</li>
-    <li><b>Longitude *</b>: Lengtegraad van het stembureau/afgiftepunt (DD.dddddd notatie) met minimaal 4 decimalen</li>
-    <li><b>Latitude *</b>: Breedtegraad van het stembureau/afgiftepunt (DD.dddddd notatie) met minimaal 4 decimalen</li>
+    <li><b>BAG referentie nummer *</b>: BAG Nummeraanduiding ID waarmee het adres van het stembureau op te halen is (o.a. via de <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">BAG viewer</a>). Voor mobiele stembureaus staat het dichtstbijzijnde BAG Nummeraanduiding ID vermeld en wordt eventueel het 'Extra adresaanduiding'-veld gebruikt om de locatie van stembureau te beschrijven. NB: de precieze locatie van het stembureau is beschikbaar via de 'Latitude' en 'Longitude'-velden. Dit veld is niet altijd ingevuld.</li>
+    <li><b>Straatnaam</b>: De naam van de straat waar het stembureau ligt.</li>
+    <li><b>Huisnummer</b>: Huisnummer van het stembureau.</li>
+    <li><b>Huisletter</b>: Huisletter van het stembureau. <i>[Beschikbaar sinds Stembureaus ODS v1.1]</i></li>
+    <li><b>Huisnummertoevoeging</b>: Huisnummertoevoeging van het stembureau.</li>
+    <li><b>Postcode</b>: Postcode van het stembureau.</li>
+    <li><b>Plaats</b>: Plaats waar het stembureau in ligt.</li>
+    <li><b>Extra adresaanduiding</b>: Eventuele extra informatie over de locatie van het stembureau. Bv. 'Ingang aan achterkant gebouw' of 'Mobiel stembureau op het midden van het plein'.</li>
+    <li><b>X</b>: Rijksdriehoekscoördinaat X van het stembureau (minimaal in meters).</li>
+    <li><b>Y</b>: Rijksdriehoekscoördinaat Y van het stembureau (minimaal in meters).</li>
+    <li><b>Longitude *</b>: Lengtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen</li>
+    <li><b>Latitude *</b>: Breedtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen</li>
     <li><b>Districtcode</b>: <i>[Verwijderd sinds Stembureaus ODS v1.1]</i></li>
-    <li><b>Openingstijden *</b>: Openingstijden van het stembureau/afgiftepunt. Als een stembureau/afgiftepunt meerdere openingstijden heeft (bijvoorbeeld in het geval van een mobiel stembureau) dan wordt het stembureau in meerdere rijen beschreven met elk een andere openingstijd. Voor de Tweede Kamerverkiezingen 2021 kunnen stembureaus en afgiftepunten meerdere dagen open zijn. Er is dan een 'Openingstijden'-veld aangemaakt voor elke dag.</li>
-    <li><b>Mindervaliden toegankelijk *</b>: Het gebouw van het stembureau/afgiftepunt en minstens één stemhokje is goed toegankelijk en bereikbaar. Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg als het onbekend is. <i>[Verplicht sinds Stembureaus ODS v1.1]</i></li>
+    <li><b>Openingstijden *</b>: Openingstijden van het stembureau. Als een stembureau meerdere openingstijden heeft (bijvoorbeeld in het geval van een mobiel stembureau) dan wordt het stembureau in meerdere rijen beschreven met elk een andere openingstijd. Voor de Tweede Kamerverkiezingen 2021 kunnen stembureaus meerdere dagen open zijn. Er is dan een 'Openingstijden'-veld aangemaakt voor elke dag.</li>
+    <li><b>Mindervaliden toegankelijk *</b>: Het gebouw van het stembureau en minstens één stemhokje is goed toegankelijk en bereikbaar. Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg als het onbekend is. <i>[Verplicht sinds Stembureaus ODS v1.1]</i></li>
     <li><b>Invalidenparkeerplaatsen</b>: Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg/'' als het onbekend is. <i>[Enkel beschikbaar in Stembureaus ODS v1.0, daarna vervangen door het veld '1.2.a GPA aanwezig']</i></li>
-    <li><b>Akoestiek</b>: Is de akoestiek van het stembureau/afgiftepunt geschikt voor slechthorenden? Voor meer informatie, zie <a href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" target="_blank" rel="noopener">deze website</a>. Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg als het onbekend is.</li>
+    <li><b>Akoestiek</b>: Is de akoestiek van het stembureau geschikt voor slechthorenden? Voor meer informatie, zie <a href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" target="_blank" rel="noopener">deze website</a>. Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg als het onbekend is.</li>
     <li><b>Auditieve hulpmiddelen</b>: Welke auditieve hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
     <li><b>Visuele hulpmiddelen</b>: Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
     <li><b>Mindervalide toilet aanwezig</b>: Waarden: 'Y' voor 'Ja', 'N' voor 'Nee' en leeg als het onbekend is.</li>
-    <li><b>Kieskring ID</b>: Afhankelijk van het type verkiezing het nummer of de naam van de kieskring waar het stembureau/afgiftepunt in valt:
+    <li><b>Kieskring ID</b>: Afhankelijk van het type verkiezing het nummer of de naam van de kieskring waar het stembureau in valt:
       <ul>
         <li>Tweede Kamerverkiezing: kieskringnummer</li>
         <li>Referendum: kieskringnummer</li>
@@ -168,12 +168,12 @@
     </li>
     <li><b>Hoofdstembureau</b>: Hoofdstembureau van de kieskring</li>
     <li><b>Tellocatie</b>: Is deze locatie ook een locatie waar de stemmen worden geteld? <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
-    <li><b>Contactgegevens *</b>: Contactgegevens van de afdeling of specifieke functie binnen de gemeente die zich bezig houdt met de stembureaus/afgiftepunten. Dit veld is niet altijd ingevuld.</li>
-    <li><b>Beschikbaarheid *</b>: URL van de gemeentewebsite met data of informatie over de stembureaus/afgiftepunten (of verkiezing). <i>[Dit veld is niet altijd ingevuld]</i></li>
+    <li><b>Contactgegevens *</b>: Contactgegevens van de afdeling of specifieke functie binnen de gemeente die zich bezig houdt met de stembureausen. Dit veld is niet altijd ingevuld.</li>
+    <li><b>Beschikbaarheid *</b>: URL van de gemeentewebsite met data of informatie over de stembureausen (of verkiezing). <i>[Dit veld is niet altijd ingevuld]</i></li>
     <li><b>Verkiezingen</b>: In het geval van waterschapsverkiezingen en verkiezingen van stadsdeelcommissies / gebiedscommissies / wijkraden kan er in sommige gemeenten niet in elk stembureau voor alle verkiezingen gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie waterschappen en er kan enkel voor een waterschap gestemd worden bij stembureaus die in het gebied van het waterschap liggen. Alle gemeenten vragen we daarom in het geval van deze verkiezingen per stembureau specifiek aan te geven voor welke waterschappen / stadsdeelcommissies / gebiedscommissies / wijkraden er gestemd kunnen worden. Ook als er überhaupt maar één keuze is (bv. als er in de hele gemeente maar voor één waterschap gekozen kan worden) en ook als er in de gemeente bij elk stembureau voor alle verkiezingen gestemd kan worden.
     <br>
     In het geval dat er in een stembureau voor meerdere waterschappen / stadsdeelcommissies / gebiedscommissies/wijkraden gestemd kan worden dan zijn deze gescheiden met een puntkomma, bv.: waterschapsverkiezingen voor Delfland; waterschapsverkiezingen voor Rijnland <i>[Beschikbaar sinds Stembureaus ODS v1.1]</i></li>
-    <li><b>ID</b>: ID voor alle stembureaus/afgiftepunten van een gemeente voor een verkiezing.</li>
+    <li><b>ID</b>: ID voor alle stembureausen van een gemeente voor een verkiezing.</li>
     <li><b>UUID</b>: Unieke code voor deze rij (de beschrijving van een stembureau kan uit meerdere rijen bestaan, zie ook het 'Openingstijden'-veld en de 'Verdere toelichting'). Als het stembureau gebruikt wordt voor meerdere verkiezingen in dezelfde periode dan wordt dezelfde UUID code gebruikt in de datasets van al deze verkiezingen.</li>
     <li>61 niet-verplichte velden die gebaseerd zijn op de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">checklist toegankelijkheidscriteria stemlokalen (PDF)</a>, zie <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">deze pagina</a> van de Vereniging van Nederlandse Gemeenten (VNG) voor meer informatie over de toegankelijkheid van verkiezingen. <i>[Enkel beschikbaar in Stembureaus ODS v1.1]</i></li>
   </ul>

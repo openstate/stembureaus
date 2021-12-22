@@ -30,9 +30,8 @@ import uuid
 
 # Used to set the order of the fields in the stembureaus overzicht
 field_order = [
-    'Stembureau of Afgiftepunt',
-    'Nummer stembureau of afgiftepunt',
-    'Naam stembureau of afgiftepunt',
+    'Nummer stembureau',
+    'Naam stembureau',
     'Website locatie',
     'BAG referentienummer',
     'Extra adresaanduiding',
@@ -63,9 +62,9 @@ field_order = [
 default_minimal_fields = [
     'UUID',
     'Gemeente',
-    'Stembureau of Afgiftepunt',
-    'Nummer stembureau of afgiftepunt',
-    'Naam stembureau of afgiftepunt',
+    'Stembureau',
+    'Nummer stembureau',
+    'Naam stembureau',
     'Straatnaam',
     'Huisnummer',
     'Huisletter',
@@ -660,7 +659,7 @@ def gemeente_stemlokalen_overzicht():
     if end_record > len(gemeente_draft_records):
         end_record = len(gemeente_draft_records)
     sorted_draft_records = sorted(
-        gemeente_draft_records, key=lambda k: k['Stembureau of Afgiftepunt']
+        gemeente_draft_records, key=lambda k: k['Stembureau']
     )
     paged_draft_records = sorted_draft_records[start_record:end_record]
 

@@ -11,9 +11,8 @@ from xlrd import open_workbook
 
 
 valid_headers = [
-    'Stembureau of Afgiftepunt',
-    'Nummer stembureau of afgiftepunt',
-    'Naam stembureau of afgiftepunt',
+    'Nummer stembureau',
+    'Naam stembureau',
     'Website locatie',
     'BAG referentie nummer',
     'Extra adresaanduiding',
@@ -41,7 +40,7 @@ valid_headers = [
 ]
 
 parse_as_integer = [
-    'nummer_stembureau_of_afgiftepunt'
+    'nummer_stembureau'
 ]
 
 yes_no_empty_fields = [
@@ -155,7 +154,7 @@ class ODSParser(BaseParser):
                                 ).strip()
                             else:
                                 record[clean_headers[idx]] = value.strip()
-                        elif clean_headers[idx] == 'nummer_stembureau_of_afgiftepunt':
+                        elif clean_headers[idx] == 'nummer_stembureau':
                             record[clean_headers[idx]] = value
                         else:
                             record[clean_headers[idx]] = str(value).strip()

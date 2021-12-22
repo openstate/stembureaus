@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
-  <title>Waar is mijn stemlokaal - Overzicht stembureaus en afgiftepunten</title>
-  <meta property="og:title" content="Waar is mijn stemlokaal - Overzicht stembureaus en afgiftepunten" />
+  <title>Waar is mijn stemlokaal - Overzicht stembureaus</title>
+  <meta property="og:title" content="Waar is mijn stemlokaal - Overzicht stembureaus" />
   {{ super() }}
 {% endblock %}
 
@@ -10,27 +10,27 @@
     {% if current_user.gemeenten|length > 1 %}
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
     {% endif %}
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus en afgiftepunten
+    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
     <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
   </div>
 
-  <h1 class="title-pad">Stembureaus en afgiftepunten</h1>
+  <h1 class="title-pad">Stembureaus</h1>
 
   <br>
 
-  Overzicht van de stembureaus en afgiftepunten van de gemeente {{ gemeente.gemeente_naam }} voor {{ verkiezing_string | safe }}.
+  Overzicht van de stembureaus van de gemeente {{ gemeente.gemeente_naam }} voor {{ verkiezing_string | safe }}.
 
   <br>
   <br>
 
   {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus en afgiftepunten is verlopen.</span>
+    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
     <br>
   {% else %}
     {% if not draft_records %}
     <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
     {% endif %}
-    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau/afgiftepunt toe</a>
+    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
 
     <br>
     <br>
@@ -40,7 +40,7 @@
     {% if disable_publish_form %}
       {{ publish_form.submit(disabled=True) }}
       {% if draft_records %}
-        [de stembureaus en afgiftepunten zijn gepubliceerd]
+        [de stembureaus zijn gepubliceerd]
       {% endif %}
     {% else %}
       {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
@@ -101,7 +101,7 @@
   <br>
   <br>
 
-  Pagina {{ page }} van {{ total_pages }} (stembureaus/afgiftepunten {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus/afgiftepunten)
+  Pagina {{ page }} van {{ total_pages }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
 
 {% endblock %}
 {% block scripts %}

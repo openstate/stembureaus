@@ -130,15 +130,11 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Stembureau of Afgiftepunt",
-            "type": "text"
-        },
-        {
-            "id": "Nummer stembureau of afgiftepunt",
+            "id": "Nummer stembureau",
             "type": "int"
         },
         {
-            "id": "Naam stembureau of afgiftepunt",
+            "id": "Naam stembureau",
             "type": "text"
         },
         {
@@ -686,7 +682,6 @@ def test_datastore_upsert(resource_id):
     record = {
         "Gemeente": "'s-Gravenhage",
         "CBS gemeentecode": "GM0518",
-        "Stembureau of Afgiftepunt": "Stembureau",
         "Nummer stembureau": "517",
         "Naam stembureau": "Stadhuis",
         "Gebruikersdoel het gebouw": "kantoor",

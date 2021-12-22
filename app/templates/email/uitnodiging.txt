@@ -7,21 +7,20 @@ Beste gemeente,
 
 In maart stemt Nederland voor de Tweede Kamerverkiezingen. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal', zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
 
-'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus en afgiftepunten voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 75% van de gemeenten de gegevens aan en is de website meer dan 1 miljoen keer bezocht.
+'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 75% van de gemeenten de gegevens aan en is de website meer dan 1 miljoen keer bezocht.
 
-Vanwege het coronavirus worden er deze verkiezingen speciale maatregelen genomen. Zo kunnen stembureaus drie dagen open zijn en ontvangen 70-plussers een stempluspas die al vanaf 10 maart ingeleverd kan worden bij afgiftepunten. Hierdoor is het dit jaar extra belangrijk kiezers goed te informeren over waar, hoe en wanneer er gestemd kan worden.
 
 ** Wat vragen we van u? **
-Graag ontvangen wij van u informatie over uw stembureaus en afgiftepunten. Onderaan vindt u meer instructies, maar het proces is simpel:
+Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer instructies, maar het proces is simpel:
 
   - Maak een wachtwoord aan voor uw account en log in met uw e-mailadres {{ user.email }} via {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
-  - Download, bewerk en upload de deels vooringevulde stembureau-spreadsheet of voer uw stembureaus en afgiftepunten direct via het webformulier in
-  - Klik op de 'Publiceer'-knop om uw stembureaus en afgiftepunten op de kaart te plaatsen en de data beschikbaar te maken
-  - Optioneel: embed de handige kaart met stembureaus en afgiftepunten op uw gemeentewebsite
+  - Download, bewerk en upload de deels vooringevulde stembureau-spreadsheet of voer uw stembureaus direct via het webformulier in
+  - Klik op de 'Publiceer'-knop om uw stembureaus op de kaart te plaatsen en de data beschikbaar te maken
+  - Optioneel: embed de handige kaart met stembureaus op uw gemeentewebsite
 
-De deels vooringevulde stembureaus-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 2019. U kunt daar veranderingen in uw stembureaus doorvoeren, de ontbrekende velden, zoals de nieuwe dagelijkse openingstijden, invullen en de afgiftepunten voor de stempluspassen toevoegen.
+De deels vooringevulde stembureaus-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 2019. U kunt daar veranderingen in uw stembureaus doorvoeren, de ontbrekende velden, zoals de nieuwe dagelijkse openingstijden.
 
-NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus en afgiftepunten doorgeven.
+NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus doorgeven.
 
 ** Hoe kan ik inloggen? **
 Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een wachtwoord aan te maken voor uw account op de volgende pagina:
@@ -30,7 +29,7 @@ Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.ema
 Deze pagina komt over 24 uur te vervallen, dus maak alvast een account aan. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een nieuw verzoek indienen via {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}.
 
 ** Instructies **
-De instructies voor het invoeren van de stembureaus en afgiftepunten vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
+De instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
 
 ** Extra account toevoegen **
 Als u een ander account wilt toevoegen voor uw gemeente, vul dan dit formulier in. Dit is handig als u een of meerdere collega's ook toegang wilt geven: {{ url_for('signup_form', _external=True) }}

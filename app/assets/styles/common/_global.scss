@@ -23,35 +23,6 @@ a {
   text-decoration: underline;
 }
 
-#radio-button-stembureaus {
-  background-color: $red;
-  border-color: black;
-
-  &.active {
-    background-color: darken($red, 2%) !important;
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
-  }
-}
-
-#radio-button-afgiftepunten {
-  background-color: $blue;
-  border-color: black;
-
-  &.active {
-    background-color: darken($blue, 2%) !important;
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
-  }
-}
-
-#radio-button-alles {
-  background-color: $grey;
-  border-color: black;
-
-  &.active {
-    background-color: darken($grey, 2%) !important;
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.4)
-  }
-}
 
 #dag-filter {
   display: inline-block;

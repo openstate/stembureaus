@@ -296,19 +296,17 @@ class EditForm(FlaskForm):
         if not FlaskForm.validate(self):
             valid = False
 
-        # Stembureaus require a nummer and naam, but this is optional
-        # for afgiftepunten
-        if self.stembureau_of_afgiftepunt.data == 'Stembureau':
-            if not self.nummer_stembureau_of_afgiftepunt.data:
-                self.nummer_stembureau_of_afgiftepunt.errors.append(
+        # Stembureaus require a nummer and naam
+        if not self.nummer_stembureau.data:
+            self.nummer_stembureau.errors.append(
                     'Vul het nummer van het stembureau in.'
                 )
-                valid = False
-            if not self.naam_stembureau_of_afgiftepunt.data:
-                self.naam_stembureau_of_afgiftepunt.errors.append(
-                    'Vul de naam van het stembureau in.'
-                )
-                valid = False
+            valid = False
+        if not self.naam_stembureau.data:
+            self.naam_stembureau.errors.append(
+                'Vul de naam van het stembureau in.'
+            )
+            valid = False
 
         # If BAG ID 0000000000000000 we require Extra adresaanduiding
         if (self.bag_referentienummer.data == "0000000000000000" and
@@ -344,10 +342,6 @@ class EditForm(FlaskForm):
 
         # Require that at least one relevant openingstijden field is
         # filled in for a stembureau
-        if self.stembureau_of_afgiftepunt.data == 'Stembureau':
-            error_text = (
-                "Alleen afgiftepunten kunnen op deze dag open zijn"
-            )
             if self.openingstijden_10_03_2021.data:
                 self.openingstijden_10_03_2021.errors.append(error_text)
                 valid = False
@@ -376,31 +370,7 @@ class EditForm(FlaskForm):
                 self.openingstijden_17_03_2021.errors.append(error_text_one)
                 valid = False
 
-        # Require that at least one relevant openingstijden field is
-        # filled in for an afgiftepunt
-        if self.stembureau_of_afgiftepunt.data == 'Afgiftepunt':
-            if not (self.openingstijden_10_03_2021.data
-                    or self.openingstijden_11_03_2021.data
-                    or self.openingstijden_12_03_2021.data
-                    or self.openingstijden_13_03_2021.data
-                    or self.openingstijden_14_03_2021.data
-                    or self.openingstijden_15_03_2021.data
-                    or self.openingstijden_16_03_2021.data
-                    or self.openingstijden_17_03_2021.data):
-                error_text_one = (
-                    "Een afgiftepunt moet op minimaal één van deze dagen open "
-                    "zijn"
-                )
-                self.openingstijden_10_03_2021.errors.append(error_text_one)
-                self.openingstijden_11_03_2021.errors.append(error_text_one)
-                self.openingstijden_12_03_2021.errors.append(error_text_one)
-                self.openingstijden_13_03_2021.errors.append(error_text_one)
-                self.openingstijden_14_03_2021.errors.append(error_text_one)
-                self.openingstijden_15_03_2021.errors.append(error_text_one)
-                self.openingstijden_16_03_2021.errors.append(error_text_one)
-                self.openingstijden_17_03_2021.errors.append(error_text_one)
-                valid = False
-
+                
         return valid
 
     submit = SubmitField(
@@ -422,43 +392,14 @@ class EditForm(FlaskForm):
         }
     )
 
-    stembureau_of_afgiftepunt = CustomSelectField(
-        'Stembureau of Afgiftepunt',
-        description=(
-            'Voor de Tweede Kamerverkiezingen van 2021 zijn er vanwege de '
-            'maatregelen rondom het coronavirus naast stembureaus ook '
-            'afgiftepunten beschikbaar. Iedereen ouder dan 70 ontvangt een '
-            'stempluspas die op de post gedaan kan worden maar ook in de '
-            'dagen voor en op de verkiezingsdag ingeleverd kan worden bij een '
-            'afgiftepunt. Via deze standaard wordt zowel informatie over '
-            'stembureaus als afgiftepunten verzameld.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> keuze uit: \'Stembureau\', \'Afgiftepunt\''
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> Afgiftepunt'
-        ),
-        choices=[('Stembureau', 'Stembureau'), ('Afgiftepunt', 'Afgiftepunt')],
-        validators=[
-            DataRequired()
-        ],
-        render_kw={
-            'placeholder': 'bv. Afgiftepunt'
-        }
-    )
-
-    nummer_stembureau_of_afgiftepunt = IntegerField(
-        'Nummer stembureau of afgiftepunt',
+    nummer_stembureau = IntegerField(
+        'Nummer stembureau',
         description=(
             'Een stembureau is gevestigd in een stemlokaal en elk stembureau '
             'heeft een eigen nummer. Sommige stemlokalen hebben meerdere '
             'stembureaus. Elk stembureau moet apart ingevoerd worden ook al '
             'is de locatie (het stemlokaal) hetzelfde aangezien elk '
             'stembureau een ander nummer heeft.'
-            '<br>'
-            '<br>'
-            'Dit attribuut is niet verplicht voor afgiftepunten.'
             '<br>'
             '<br>'
             '<b>Format:</b> cijfers'
@@ -475,13 +416,10 @@ class EditForm(FlaskForm):
         }
     )
 
-    naam_stembureau_of_afgiftepunt = StringField(
-        'Naam stembureau of afgiftepunt',
+    naam_stembureau = StringField(
+        'Naam stembureau',
         description=(
             'De naam van het stembureau.'
-            '<br>'
-            '<br>'
-            'Dit attribuut is niet verplicht voor afgiftepunten.'
             '<br>'
             '<br>'
             '<b>Format:</b> tekst'
@@ -500,7 +438,7 @@ class EditForm(FlaskForm):
     website_locatie = URLStringField(
         'Website locatie',
         description=(
-            'Website van de locatie van het stembureau/afgiftepunt, indien '
+            'Website van de locatie van het stembureau, indien '
             'aanwezig.'
             '<br>'
             '<br>'
@@ -530,7 +468,7 @@ class EditForm(FlaskForm):
         'BAG referentienummer',
         description=(
             'BAG Nummeraanduiding ID, vindbaar door het adres van het '
-            'stembureau/afgiftepunt op <a href="https://bagviewer.kadaster.nl/" '
+            'stembureau op <a href="https://bagviewer.kadaster.nl/" '
             'target="_blank" rel="noopener">bagviewer.kadaster.nl</a> in te '
             'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
             '<br>'
@@ -576,7 +514,7 @@ class EditForm(FlaskForm):
         'Extra adresaanduiding',
         description=(
             'Eventuele extra informatie over de locatie van het '
-            'stembureau/afgiftepunt. Bv. "Niet open voor algemeen publiek", '
+            'stembureau. Bv. "Niet open voor algemeen publiek", '
             '"Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
             'midden van het plein".'
             '<br>'
@@ -604,10 +542,10 @@ class EditForm(FlaskForm):
             'Lengtegraad met minimaal 4 decimalen.'
             '<br>'
             '<br>'
-            'Als u de longitude van het stembureau/afgiftepunt niet weet dan '
+            'Als u de longitude van het stembureau niet weet dan '
             'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
-            'het stembureau/afgiftepunt, klik op de juiste locatie met de '
+            'het stembureau, klik op de juiste locatie met de '
             'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
             'latitude en longitude (in die volgorde) staan nu linksboven in '
             'de zoekbalk.'
@@ -633,10 +571,10 @@ class EditForm(FlaskForm):
             'Breedtegraad met minimaal 4 decimalen.'
             '<br>'
             '<br>'
-            'Als u de latitude van het stembureau/afgiftepunt niet weet dan '
+            'Als u de latitude van het stembureau niet weet dan '
             'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
-            'het stembureau/afgiftepunt, klik op de juiste locatie met de '
+            'het stembureau, klik op de juiste locatie met de '
             'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
             'latitude en longitude (in die volgorde) staan nu linksboven in '
             'de zoekbalk.'
@@ -708,8 +646,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen)'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -742,8 +679,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen).'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -776,8 +712,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen) '
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -810,8 +745,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen) '
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -844,8 +778,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen)'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -878,8 +811,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen)'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -912,8 +844,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen)'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -946,8 +877,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via zowel stembureaus (3 dagen) als '
-            'afgiftepunten (8 dagen).'
+            'meerdere dagen gestemd via de stembureaus (3 dagen)'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
@@ -1185,7 +1115,7 @@ class EditForm(FlaskForm):
     mindervaliden_toegankelijk = CustomSelectField(
         'Mindervaliden toegankelijk',
         description=(
-            'Is het stembureau/afgiftepunt toegankelijk voor mindervaliden?'
+            'Is het stembureau toegankelijk voor mindervaliden?'
             '<br>'
             'Voor meer informatie, <a '
             'href="https://www.rijksoverheid.nl/documenten/publicaties/2018/'
@@ -1217,7 +1147,7 @@ class EditForm(FlaskForm):
     akoestiek = CustomSelectField(
         'Akoestiek',
         description=(
-            'Is de akoestiek van het stembureau/afgiftepunt geschikt voor '
+            'Is de akoestiek van het stembureau geschikt voor '
             'slechthorenden? Voor meer informatie, zie <a '
             'href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" '
             'target="_blank" rel="noopener">deze website</a>.'

@@ -7,9 +7,8 @@ from xlrd import open_workbook
 from app.parser import BaseParser, ExcelParser
 
 test_record1 = {
-    'stembureau_of_afgiftepunt': 'Stembureau',
-    'nummer_stembureau_of_afgiftepunt': 516.0,
-    'naam_stembureau_of_afgiftepunt': 'Stadhuis',
+    'nummer_stembureau': 516.0,
+    'naam_stembureau': 'Stadhuis',
     'website_locatie': (
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
@@ -43,9 +42,8 @@ test_record1 = {
 }
 
 test_record2 = {
-    'stembureau_of_afgiftepunt': 'Afgiftepunt',
-    'nummer_stembureau_of_afgiftepunt': 517.0,
-    'naam_stembureau_of_afgiftepunt': 'Stadhuis',
+    'nummer_stembureau': 517.0,
+    'naam_stembureau': 'Stadhuis',
     'website_locatie': (
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
@@ -109,9 +107,9 @@ class TestExcelParser(unittest.TestCase):
         self.assertListEqual(
             clean_headers,
             [
-                'stembureau_of_afgiftepunt',
-                'nummer_stembureau_of_afgiftepunt',
-                'naam_stembureau_of_afgiftepunt',
+                'stembureau',
+                'nummer_stembureau',
+                'naam_stembureau',
                 'website_locatie',
                 'bag_referentienummer',
                 'extra_adresaanduiding',

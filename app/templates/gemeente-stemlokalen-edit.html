@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
-  <title>Waar is mijn stemlokaal - Bewerk stembureau/afgiftepunt</title>
-  <meta property="og:title" content="Waar is mijn stemlokaal - Bewerk stembureau/afgiftepunt" />
+  <title>Waar is mijn stemlokaal - Bewerk stembureau</title>
+  <meta property="og:title" content="Waar is mijn stemlokaal - Bewerk stembureau" />
   {{ super() }}
 {% endblock %}
 
@@ -10,21 +10,21 @@
     {% if current_user.gemeenten|length > 1 %}
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
     {% endif %}
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus en afgiftepunten</a> > Bewerk stembureau/afgiftepunt
+    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
     <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
   </div>
 
-  <h1 class="title-pad">Stembureau/afgiftepunt</h1>
+  <h1 class="title-pad">Stembureau</h1>
 
   <br>
 
-  Hieronder kunt alle gegevens van een stembureau of afgiftepunt invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
+  Hieronder kunt alle gegevens van een stembureau invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
 
   <br>
   <br>
 
   {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus/afgiftepunten is verlopen.</span>
+    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
   {% else %}
     <span class="required">*</span> = vereist veld
 
@@ -37,10 +37,10 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="remove-confirmation-label">Stembureau/afgiftepunt verwijderen?</h4>
+                <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
               </div>
               <div class="modal-body">
-                Weet u zeker dat u dit stembureau/afgiftepunt wilt verwijderen?
+                Weet u zeker dat u dit stembureau wilt verwijderen?
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
@@ -58,7 +58,7 @@
 
           {% if f.label.text == 'Longitude' %}
           <hr>
-          <span><i>Kies Longitude en Latitude <b>of</b> X en Y (Rijksdriehoeksstelsel) om de coördinaten van het stembureau/afgiftepunt door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Longitude en Latitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
+          <span><i>Kies Longitude en Latitude <b>of</b> X en Y (Rijksdriehoeksstelsel) om de coördinaten van het stembureau door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Longitude en Latitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
           {% endif %}
 
           {% if f.label.text == 'X' %}
