@@ -21,6 +21,7 @@
     "jquery": "2.2.4",
     "bootstrap-sass": "3.3.6",
     "bootstrap-filestyle": "1.2.1",
+    "bootstrap-table": "1.19.1",
     "fuse.js": "^3.2.0",
     "floatthead": "^2.1.2",
     "bootstrap-select": "^1.13.5",

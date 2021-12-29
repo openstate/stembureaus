@@ -1,6 +1,7 @@
 // Import external dependencies
 import 'jquery';
 import 'bootstrap-sass';
+import 'bootstrap-table';
 import 'floatthead';
 import L from 'leaflet';
 import 'leaflet.awesome-markers';

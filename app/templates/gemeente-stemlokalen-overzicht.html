@@ -50,39 +50,37 @@
 
   <br>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-condensed table-bordered fixed-header fixed-first-column">
-      <thead>
-        <tr>
-            <th>
-            </th>
-          {% for field in field_order %}
-            <th>
-              {{ field }}
-            </th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-      {% for record in draft_records %}
-        <tr>
-          {% if not upload_deadline_passed %}
-            <td>
-              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-            </td>
-          {% endif %}
-          {% for field in field_order %}
-            <td>
-              {% if record[field[:62]] != None %}
-              {{ record[field[:62]] }}
-              {% endif %}
-            </td>
-          {% endfor %}
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  <table data-toggle="table">
+    <thead>
+      <tr>
+          <th>
+          </th>
+        {% for field in field_order %}
+          <th>
+            {{ field }}
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for record in draft_records %}
+      <tr>
+        {% if not upload_deadline_passed %}
+          <td>
+            <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
+          </td>
+        {% endif %}
+        {% for field in field_order %}
+          <td>
+            {% if record[field[:62]] != None %}
+            {{ record[field[:62]] }}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 
   <br>
 
