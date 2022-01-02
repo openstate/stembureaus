@@ -163,7 +163,6 @@ class ODSParser(BaseParser):
         sh = wb['Attributen']
 
         headers = self._get_headers(sh)
-        clean_headers = self._clean_headers(headers)
 
         records = self._get_records(sh, clean_headers)
         clean_records = self._clean_records(records)
@@ -241,7 +240,6 @@ class ExcelParser(BaseParser):
         sh = wb.sheet_by_index(nsh)
 
         headers = self._get_headers(sh)
-        clean_headers = self._clean_headers(headers)
 
         records = self._get_records(sh, clean_headers)
         clean_records = self._clean_records(records)
