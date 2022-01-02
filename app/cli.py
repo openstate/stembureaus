@@ -37,18 +37,18 @@ def _get_bag(r):
     if not r['Straatnaam']:
         print('geen straatnaam')
 
-        bag = BAG.query.filter_by(nummeraanduiding=r['BAG referentienummer'])
+        bag = BAG.query.filter_by(nummeraanduiding=r['BAG Nummeraanduiding ID'])
         if bag.count() == 1:
             return bag.first()
 
-        bag = BAG.query.filter_by(object_id=r['BAG referentienummer'])
+        bag = BAG.query.filter_by(object_id=r['BAG Nummeraanduiding ID'])
         if bag.count() == 1:
             if bag.first().nummeraanduiding:
                 return bag.first()
             else:
                 return False
 
-        bag = BAG.query.filter_by(pandid=r['BAG referentienummer'])
+        bag = BAG.query.filter_by(pandid=r['BAG Nummeraanduiding ID'])
         if bag.count() == 1:
             if bag.first().nummeraanduiding:
                 return bag.first()
@@ -65,7 +65,7 @@ def fix_bag_addresses(resource_type):
     Checks all records of all election resources (default draft) for
     missing address information. If this is the case, try to retrieve
     it based on the available BAG number, otherwise check if the BAG
-    number is another type of BAG number (other then nummeraanduiding)
+    number is another type of BAG number (other than nummeraanduiding)
     and see if it corresponds with 1 BAG nummeraanduiding ID in order
     to retrieve the address. Finally, the whole resource is exported.
     """
@@ -80,10 +80,10 @@ def fix_bag_addresses(resource_type):
 
             if bag:
                 bag_found += 1
-                r['BAG referentienummer'] = bag.nummeraanduiding
+                r['BAG Nummeraanduiding ID'] = bag.nummeraanduiding
 
                 bag_conversions = {
-                    'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+                    'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
                     'openbareruimte': 'Straatnaam',
                     'huisnummer': 'Huisnummer',
                     'huisletter': 'Huisletter',
@@ -138,7 +138,7 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Gebruikersdoel het gebouw",
+            "id": "Gebruiksdoel van het gebouw",
             "type": "text"
         },
         {
@@ -162,7 +162,7 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "BAG referentienummer",
+            "id": "BAG Nummeraanduiding ID",
             "type": "text"
         },
         {
@@ -202,47 +202,27 @@ def add_new_datastore(resource_id):
             "type": "float"
         },
         {
-            "id": "Longitude",
-            "type": "float"
-        },
-        {
             "id": "Latitude",
             "type": "float"
         },
         {
-            "id": "Openingstijden 10-03-2021",
+            "id": "Longitude",
+            "type": "float"
+        },
+        {
+            "id": "Openingstijden 14-03-2022",
             "type": "text"
         },
         {
-            "id": "Openingstijden 11-03-2021",
+            "id": "Openingstijden 15-03-2022",
             "type": "text"
         },
         {
-            "id": "Openingstijden 12-03-2021",
+            "id": "Openingstijden 16-03-2022",
             "type": "text"
         },
         {
-            "id": "Openingstijden 13-03-2021",
-            "type": "text"
-        },
-        {
-            "id": "Openingstijden 14-03-2021",
-            "type": "text"
-        },
-        {
-            "id": "Openingstijden 15-03-2021",
-            "type": "text"
-        },
-        {
-            "id": "Openingstijden 16-03-2021",
-            "type": "text"
-        },
-        {
-            "id": "Openingstijden 17-03-2021",
-            "type": "text"
-        },
-        {
-            "id": "Mindervaliden toegankelijk",
+            "id": "Toegankelijk voor mensen met een lichamelijke beperking",
             "type": "text"
         },
         {
@@ -258,7 +238,7 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Mindervalide toilet aanwezig",
+            "id": "Gehandicaptentoilet",
             "type": "text"
         },
         {
@@ -274,11 +254,11 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Contactgegevens",
+            "id": "Contactgegevens gemeente",
             "type": "text"
         },
         {
-            "id": "Beschikbaarheid",
+            "id": "Verkiezingswebsite gemeente",
             "type": "text"
         },
         {
@@ -584,13 +564,13 @@ def import_rug(rug_file_path,
             # If there are multiple BAG matches, simply take the first
             bag_object = bag_result.first()
 
-            # Retrieve gebruikersdoel, postcode and nummeraanduiding
+            # Retrieve gebruiksdoel, postcode and nummeraanduiding
             # from BAG
             if bag_object:
                 bag_conversions = {
-                    'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+                    'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
                     'postcode': 'Postcode',
-                    'nummeraanduiding': 'BAG referentienummer'
+                    'nummeraanduiding': 'BAG Nummeraanduiding ID'
                 }
 
                 for bag_field, record_field in bag_conversions.items():
@@ -610,8 +590,8 @@ def import_rug(rug_file_path,
             #wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
             #    '000',
             #    rug_record['CBS gemeentecode'],
-            #    rug_record['Longitude'],
             #    rug_record['Latitude']
+            #    rug_record['Longitude'],
             #)
             #if wk_naam:
             #    rug_record['Wijknaam'] = wk_naam
@@ -684,7 +664,7 @@ def test_datastore_upsert(resource_id):
         "CBS gemeentecode": "GM0518",
         "Nummer stembureau": "517",
         "Naam stembureau": "Stadhuis",
-        "Gebruikersdoel het gebouw": "kantoor",
+        "Gebruiksdoel van het gebouw": "kantoor",
         "Website locatie": (
             "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
             "de-gemeente/stadhuis-den-haag.htm"
@@ -693,38 +673,33 @@ def test_datastore_upsert(resource_id):
         "CBS wijknummer": "WK051828",
         "Buurtnaam": "Kortenbos",
         "CBS buurtnummer": "BU05182811",
-        "BAG referentienummer": "0518100000275247",
+        "BAG Nummeraanduiding ID": "0518100000275247",
         "Straatnaam": "Spui",
         "Huisnummer": 70,
         "Huisletter": "",
         "Huisnummertoevoeging": "",
         "Postcode": "2511 BT",
         "Plaats": "Den Haag",
-        "Extra adresaanduiding": "",
+        "Extra adresaanduiding": "Ingang aan achterkant gebouw",
         "X": 81611,
         "Y": 454909,
-        "Longitude": 4.3166395,
         "Latitude": 52.0775912,
-        "Openingstijden 10-03-2021": "2021-03-10T07:30:00 tot 2021-03-10T21:00:00",
-        "Openingstijden 11-03-2021": "2021-03-11T07:30:00 tot 2021-03-11T21:00:00",
-        "Openingstijden 12-03-2021": "2021-03-12T07:30:00 tot 2021-03-12T21:00:00",
-        "Openingstijden 13-03-2021": "2021-03-13T07:30:00 tot 2021-03-13T21:00:00",
-        "Openingstijden 14-03-2021": "2021-03-14T07:30:00 tot 2021-03-14T21:00:00",
-        "Openingstijden 15-03-2021": "2021-03-15T07:30:00 tot 2021-03-15T21:00:00",
-        "Openingstijden 16-03-2021": "2021-03-16T07:30:00 tot 2021-03-16T21:00:00",
-        "Openingstijden 17-03-2021": "2021-03-17T07:30:00 tot 2021-03-17T21:00:00",
-        "Mindervaliden toegankelijk": "Y",
-        "Akoestiek": "Y",
-        "Auditieve hulpmiddelen": "Doventolk, ringleiding",
-        "Visuele hulpmiddelen": "Leesloep",
-        "Mindervalide toilet aanwezig": 'N',
+        "Longitude": 4.3166395,
+        "Openingstijden 14-03-2022": "2022-03-14T07:30:00 tot 2022-03-14T21:00:00",
+        "Openingstijden 15-03-2022": "2022-03-15T07:30:00 tot 2022-03-15T21:00:00",
+        "Openingstijden 16-03-2022": "2022-03-16T07:30:00 tot 2022-03-16T21:00:00",
+        "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
+        "Akoestiek": "ja",
+        "Auditieve hulpmiddelen": "gebarentolk",
+        "Visuele hulpmiddelen": "leesloep, stemmal, vrijwilliger/host aanwezig",
+        "Gehandicaptentoilet": "nee",
         "Kieskring ID": "'s-Gravenhage",
         "Hoofdstembureau": "Nederland",
-        "Tellocatie": "Y",
-        "Contactgegevens": "persoonx@denhaag.nl",
-        "Beschikbaarheid": "https://www.stembureausindenhaag.nl/",
-        "Verkiezingen": "",
-        "ID": "NLODSGM0518stembureaus20180321001",
+        "Tellocatie": "ja",
+        "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
+        "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
+        #"Verkiezingen": "",
+        "ID": "NLODSGM0518stembureaus20220316009",
         "UUID": uuid.uuid4().hex
     }
     ckan.save_records(

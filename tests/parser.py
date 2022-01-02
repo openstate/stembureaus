@@ -13,31 +13,26 @@ test_record1 = {
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
     ),
-    'bag_referentienummer': '0518200000747446',
-    'extra_adresaanduiding': 'Via de deur links',
+    'bag_nummeraanduiding_id': '0518200000747446',
+    'extra_adresaanduiding': 'Ingang aan achterkant gebouw',
     'x': '81611.0',
     'y': '454909.0',
-    'longitude': '4.3166395',
     'latitude': '52.0775912',
-    'openingstijden_10_03_2021': '',
-    'openingstijden_11_03_2021': '',
-    'openingstijden_12_03_2021': '',
-    'openingstijden_13_03_2021': '',
-    'openingstijden_14_03_2021': '',
-    'openingstijden_15_03_2021': '2021-03-15T07:30:00 tot 2021-03-15T21:00:00',
-    'openingstijden_16_03_2021': '2021-03-16T07:30:00 tot 2021-03-16T21:00:00',
-    'openingstijden_17_03_2021': '2021-03-17T07:30:00 tot 2021-03-17T21:00:00',
-    'mindervaliden_toegankelijk': 'Y',
-    'akoestiek': 'Y',
-    'auditieve_hulpmiddelen': 'Doventolk, ringleiding',
-    'visuele_hulpmiddelen': 'Leesloep',
-    'mindervalide_toilet_aanwezig': 'Y',
-    'tellocatie': 'Y',
-    'contactgegevens': (
+    'longitude': '4.3166395',
+    'openingstijden_14_03_2022': '2022-03-14T07:30:00 tot 2022-03-14T21:00:00',
+    'openingstijden_15_03_2022': '2022-03-15T07:30:00 tot 2022-03-15T21:00:00',
+    'openingstijden_16_03_2022': '2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
+    'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'ja',
+    'akoestiek': 'ja',
+    'auditieve_hulpmiddelen': 'gebarentolk',
+    'visuele_hulpmiddelen': 'leesloep, stemmal, vrijwilliger/host aanwezig',
+    'gehandicaptentoilet': 'ja',
+    'tellocatie': 'ja',
+    'contactgegevens gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'beschikbaarheid': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/'
     #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }
 
@@ -48,31 +43,26 @@ test_record2 = {
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
     ),
-    'bag_referentienummer': '0518200000747446',
+    'bag_nummeraanduiding_id': '0518200000747446',
     'extra_adresaanduiding': '',
     'x': '81611.0',
     'y': '454909.0',
-    'longitude': '4.3166395',
     'latitude': '52.0775912',
-    'openingstijden_10_03_2021': '2021-03-10T07:30:00 tot 2021-03-10T21:00:00',
-    'openingstijden_11_03_2021': '2021-03-11T07:30:00 tot 2021-03-11T21:00:00',
-    'openingstijden_12_03_2021': '2021-03-12T07:30:00 tot 2021-03-12T21:00:00',
-    'openingstijden_13_03_2021': '2021-03-13T07:30:00 tot 2021-03-13T21:00:00',
-    'openingstijden_14_03_2021': '2021-03-14T07:30:00 tot 2021-03-14T21:00:00',
-    'openingstijden_15_03_2021': '2021-03-15T07:30:00 tot 2021-03-15T21:00:00',
-    'openingstijden_16_03_2021': '2021-03-16T07:30:00 tot 2021-03-16T21:00:00',
-    'openingstijden_17_03_2021': '2021-03-17T07:30:00 tot 2021-03-17T21:00:00',
-    'mindervaliden_toegankelijk': 'N',
-    'akoestiek': 'N',
+    'longitude': '4.3166395',
+    'openingstijden_14_03_2022': '2022-03-14T07:30:00 tot 2022-03-14T21:00:00',
+    'openingstijden_15_03_2022': '2022-03-15T07:30:00 tot 2022-03-15T21:00:00',
+    'openingstijden_16_03_2022': '2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
+    'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'nee',
+    'akoestiek': 'nee',
     'auditieve_hulpmiddelen': '',
     'visuele_hulpmiddelen': '',
-    'mindervalide_toilet_aanwezig': 'N',
-    'tellocatie': 'N',
-    'contactgegevens': (
+    'gehandicaptentoilet': 'nee',
+    'tellocatie': 'nee',
+    'contactgegevens gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'beschikbaarheid': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/'
     #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }
 
@@ -107,32 +97,26 @@ class TestExcelParser(unittest.TestCase):
         self.assertListEqual(
             clean_headers,
             [
-                'stembureau',
                 'nummer_stembureau',
                 'naam_stembureau',
                 'website_locatie',
-                'bag_referentienummer',
+                'bag_nummeraanduiding_id',
                 'extra_adresaanduiding',
                 'x',
                 'y',
-                'longitude',
                 'latitude',
-                'openingstijden_10_03_2021',
-                'openingstijden_11_03_2021',
-                'openingstijden_12_03_2021',
-                'openingstijden_13_03_2021',
-                'openingstijden_14_03_2021',
-                'openingstijden_15_03_2021',
-                'openingstijden_16_03_2021',
-                'openingstijden_17_03_2021',
-                'mindervaliden_toegankelijk',
+                'longitude',
+                'openingstijden_14_03_2022',
+                'openingstijden_15_03_2022',
+                'openingstijden_16_03_2022',
+                'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
                 'akoestiek',
                 'auditieve_hulpmiddelen',
                 'visuele_hulpmiddelen',
-                'mindervalide_toilet_aanwezig',
+                'gehandicaptentoilet',
                 'tellocatie',
                 'contactgegevens',
-                'beschikbaarheid',
+                'verkiezingswebsite gemeente',
                 #'verkiezingen'
             ]
         )

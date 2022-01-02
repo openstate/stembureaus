@@ -9,6 +9,7 @@ In maart stemt Nederland voor de Tweede Kamerverkiezingen. Hierbij nodigen wij u
 
 'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 75% van de gemeenten de gegevens aan en is de website meer dan 1 miljoen keer bezocht.
 
+Vanwege het coronavirus worden er deze verkiezingen speciale maatregelen genomen. Zo kunnen stembureaus drie dagen open zijn. Hierdoor is het dit jaar extra belangrijk kiezers goed te informeren over waar en wanneer er gestemd kan worden.
 
 ** Wat vragen we van u? **
 Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer instructies, maar het proces is simpel:
@@ -18,7 +19,7 @@ Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer 
   - Klik op de 'Publiceer'-knop om uw stembureaus op de kaart te plaatsen en de data beschikbaar te maken
   - Optioneel: embed de handige kaart met stembureaus op uw gemeentewebsite
 
-De deels vooringevulde stembureaus-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 2019. U kunt daar veranderingen in uw stembureaus doorvoeren, de ontbrekende velden, zoals de nieuwe dagelijkse openingstijden.
+De deels vooringevulde stembureaus-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 2019. U kunt daar veranderingen in uw stembureaus doorvoeren.
 
 NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus doorgeven.
 

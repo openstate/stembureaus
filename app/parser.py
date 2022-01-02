@@ -14,28 +14,23 @@ valid_headers = [
     'Nummer stembureau',
     'Naam stembureau',
     'Website locatie',
-    'BAG referentie nummer',
+    'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
-    'Longitude',
     'Latitude',
+    'Longitude',
     'X',
     'Y',
-    'Openingstijden 10-03-2021',
-    'Openingstijden 11-03-2021',
-    'Openingstijden 12-03-2021',
-    'Openingstijden 13-03-2021',
-    'Openingstijden 14-03-2021',
-    'Openingstijden 15-03-2021',
-    'Openingstijden 16-03-2021',
-    'Openingstijden 17-03-2021',
-    'Mindervaliden toegankelijk',
+    'Openingstijden 14-03-2022',
+    'Openingstijden 15-03-2022',
+    'Openingstijden 16-03-2022',
+    'Toegankelijk voor mensen met een lichamelijke beperking',
     'Akoestiek',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
-    'Mindervalide toilet aanwezig',
+    'Gehandicaptentoilet',
     'Tellocatie',
-    'Contactgegevens',
-    'Beschikbaarheid'
+    'Contactgegevens gemeente',
+    'Verkiezingswebsite gemeente'
     #'Verkiezingen'
 ]
 
@@ -44,9 +39,9 @@ parse_as_integer = [
 ]
 
 yes_no_empty_fields = [
-    'mindervaliden_toegankelijk',
+    'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
     'akoestiek',
-    'mindervalide_toilet_aanwezig',
+    'gehandicaptentoilet',
     'tellocatie'
 ]
 
@@ -64,23 +59,15 @@ class BaseParser(object):
         else:
             return False
 
-    # Rename columnnames which use different spellings
-    def _clean_headers(self, headers):
-        for idx, header in enumerate(headers):
-            if header == 'bag_referentie_nummer':
-                headers[idx] = 'bag_referentienummer'
-
-        return headers
-
     def _clean_records(self, records):
-        # Convert variations of 'Y' and 'N' to 'Y' and 'N'
+        # Convert variations of 'ja' and 'nee' to 'ja' and 'nee'
         for record in records:
             for yes_no_empty_field in yes_no_empty_fields:
                 if yes_no_empty_field in record:
-                    if re.match('^[YyJj]$', str(record[yes_no_empty_field])):
-                        record[yes_no_empty_field] = 'Y'
-                    elif re.match('^[Nn]$', str(record[yes_no_empty_field])):
-                        record[yes_no_empty_field] = 'N'
+                    if re.match('^[YyJj]a?$', str(record[yes_no_empty_field])):
+                        record[yes_no_empty_field] = 'ja'
+                    elif re.match('^[Nn]e?e?$', str(record[yes_no_empty_field])):
+                        record[yes_no_empty_field] = 'nee'
 
             # Split the Verkiezingen string into a list in order to validate
             # the content. Afterwards in _create_record the list will be
@@ -92,19 +79,19 @@ class BaseParser(object):
 
         return records
 
-    def _clean_bag_referentienummer(self, record):
+    def _clean_bag_nummeraanduiding_id(self, record):
         # Left pad this field with max 3 zeroes
-        if len(record['bag_referentienummer']) == 15:
-            record['bag_referentienummer'] = '0' + record[
-                'bag_referentienummer'
+        if len(record['bag_nummeraanduiding_id']) == 15:
+            record['bag_nummeraanduiding_id'] = '0' + record[
+                'bag_nummeraanduiding_id'
             ]
-        if len(record['bag_referentienummer']) == 14:
-            record['bag_referentienummer'] = '00' + record[
-                'bag_referentienummer'
+        if len(record['bag_nummeraanduiding_id']) == 14:
+            record['bag_nummeraanduiding_id'] = '00' + record[
+                'bag_nummeraanduiding_id'
             ]
-        if len(record['bag_referentienummer']) == 13:
-            record['bag_referentienummer'] = '000' + record[
-                'bag_referentienummer'
+        if len(record['bag_nummeraanduiding_id']) == 13:
+            record['bag_nummeraanduiding_id'] = '000' + record[
+                'bag_nummeraanduiding_id'
             ]
 
         return record
@@ -144,10 +131,10 @@ class ODSParser(BaseParser):
                         continue
                     value = row[col_num]
                     try:
-                        # Convert all to str except for bag_referentienummer
+                        # Convert all to str except for bag_nummeraanduiding_id
                         # as this field is interpreted as float by Excel so
                         # first cast it to int and then to str
-                        if clean_headers[idx] == 'bag_referentienummer':
+                        if clean_headers[idx] == 'bag_nummeraanduiding_id':
                             if type(value) == float or type(value) == int:
                                 record[clean_headers[idx]] = str(
                                     int(value)
@@ -161,8 +148,8 @@ class ODSParser(BaseParser):
                     except IndexError:
                         record[clean_headers[idx]] = ''
 
-            if 'bag_referentienummer' in record:
-                record = self._clean_bag_referentienummer(record)
+            if 'bag_nummeraanduiding_id' in record:
+                record = self._clean_bag_nummeraanduiding_id(record)
             records.append(record)
 
         return records
@@ -195,11 +182,6 @@ class ExcelParser(BaseParser):
             if self._header_valid(header):
                 found_valid_headers = True
                 all_headers_check.append(header)
-            # The mindervaliden checklist field names start with a
-            # number, so we prepend those names with a 'v' (from
-            # 'veld')
-            if re.match('\d', str(header)):
-                header = 'v' + str(header)
             # 'Slugify' the field name
             headers.append(
                 re.sub(
@@ -224,10 +206,10 @@ class ExcelParser(BaseParser):
             record = {}
             for idx, value in enumerate(
                     sh.col_values(col_num)[1:len(clean_headers)+1]):
-                # Convert all to str except for bag_referentienummer
+                # Convert all to str except for bag_nummeraanduiding_id
                 # as this field is interpreted as float by Excel so
                 # first cast it to int and then to str
-                if clean_headers[idx] == 'bag_referentienummer':
+                if clean_headers[idx] == 'bag_nummeraanduiding_id':
                     if type(value) == float or type(value) == int:
                         record[clean_headers[idx]] = str(
                             int(value)
@@ -239,7 +221,7 @@ class ExcelParser(BaseParser):
                 else:
                     record[clean_headers[idx]] = str(value).strip()
 
-            record = self._clean_bag_referentienummer(record)
+            record = self._clean_bag_nummeraanduiding_id(record)
             records.append(record)
 
         return records
