@@ -110,7 +110,7 @@
           <i>Openingstijden</i>
           {% for datum in datums %}
             {% set dag = datum.split(' ')[1] %}
-            {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}
+            {% set tijden = record['Openingstijden ' + dag + '-03-2022'].split(' tot ', 1) %}
             <dl class="dl-horizontal">
               <dt style="text-align: left;">{{ datum }}</dt>
               {% if tijden[0].strip() %}

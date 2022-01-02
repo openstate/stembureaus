@@ -221,7 +221,7 @@ StembureausApp.init = function() {
 
 // Creates a list of openingstijden
 var create_opinfo = function(datums, loc) {
-  opinfo_output = '<dl class="dl-horizontal">';
+  var opinfo_output = '<dl class="dl-horizontal">';
 
   datums.forEach(function(datum) {
     var dag = datum.split(' ')[1];
@@ -345,7 +345,7 @@ var run_stembureaus = function () {
     // Create the final HTML output
     var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-    output = "<p><b>" + icons['Stembureau' + orange_icon] + "</b>";
+    var output = "<p><b>" + icons['Stembureau' + orange_icon] + "</b>";
 
     output += " <a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
     if (loc['Nummer stembureau']) {
