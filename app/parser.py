@@ -164,7 +164,7 @@ class ODSParser(BaseParser):
 
         headers = self._get_headers(sh)
 
-        records = self._get_records(sh, clean_headers)
+        records = self._get_records(sh, headers)
         clean_records = self._clean_records(records)
 
         return clean_records
@@ -241,7 +241,7 @@ class ExcelParser(BaseParser):
 
         headers = self._get_headers(sh)
 
-        records = self._get_records(sh, clean_headers)
+        records = self._get_records(sh, headers)
         clean_records = self._clean_records(records)
 
         return clean_records
