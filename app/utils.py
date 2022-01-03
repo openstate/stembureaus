@@ -63,7 +63,7 @@ def find_shape(lat, lon, shapes):
             return props
 
 
-def find_buurt_and_wijk(bag_nummer, muni_code, lon, lat):
+def find_buurt_and_wijk(bag_nummer, muni_code, lat, lon):
     try:
         wijken = _wijken_buurten.get_wijken_for(muni_code)
     except KeyError:
@@ -73,9 +73,9 @@ def find_buurt_and_wijk(bag_nummer, muni_code, lon, lat):
         wijken = _wijken_buurten.wijken
 
     try:
-        wijk_props = find_shape(float(lon), float(lat), wijken)
+        wijk_props = find_shape(float(lat), float(lon), wijken)
         buurten = _wijken_buurten.get_buurten_for(wijk_props['WK_CODE'])
-        buurt_props = find_shape(float(lon), float(lat), buurten)
+        buurt_props = find_shape(float(lat), float(lon), buurten)
     except TypeError:
             return ('', '', '', '',)
     return (
@@ -102,9 +102,9 @@ p2 = Proj(proj='latlong', datum='WGS84')
 
 def convert_xy_to_latlong(x, y):
     longitude, latitude, _ = transform(p1, p2, x, y, 0.0)
-    return (longitude, latitude)
+    return (latitude, longitude)
 
 
-def convert_latlong_to_xy(longitude, latitude):
+def convert_latlong_to_xy(latitude, longitude):
     x, y, _ = transform(p2, p1, longitude, latitude, 0.0)
     return (x, y)

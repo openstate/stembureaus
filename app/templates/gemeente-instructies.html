@@ -33,7 +33,7 @@
 
   <p>In de stembureau-spreadsheet wordt uitgelegd hoe u de stembureaus moet invullen.</p>
 
-  <p><b>Tip:</b> Als uw gemeente vele tientallen of honderden stembureaus heeft, vul dan eerst een paar stembureaus de spreadsheet in (bv. 5 à 10) en upload de spreadsheet alvast als test. Als u bepaalde velden niet juist invult krijgt u meteen foutmeldingen te zien en bent u eerder op de hoogte van hoe u de spreadsheet moet invullen.
+  <p><b>Tip:</b> Als uw gemeente vele tientallen of honderden stembureaus heeft, vul dan eerst een paar stembureaus in de spreadsheet in (bv. 5 à 10) en upload de spreadsheet alvast als test. Als u bepaalde velden niet juist invult krijgt u meteen foutmeldingen te zien en bent u eerder op de hoogte van hoe u de spreadsheet moet invullen.
 
   <p>De ingevulde stembureau-spreadsheet kan vervolgens op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> geüpload worden. De data wordt dan gevalideerd. Als er velden niet goed ingevuld zijn dan krijgt u daar foutmeldingen van te zien. U moet dan de aanpassingen doorvoeren in de stembureau-spreadsheet en deze opnieuw uploaden. Als de data door de validatie heen komt krijgt u alle stembureaus op een overzichtspagina te zien. Hier kunt u alle stembureaus controleren en/of bewerken. Als alles in orde is klikt u op de blauwe 'Publiceer'-knop op de stembureaus te publiceren.</p>
 
@@ -53,20 +53,21 @@
   <p>Als u een nieuw account wilt toevoegen voor uw gemeente, <a href="{{ url_for('signup_form') }}" target=_blank rel="noopener">vul dan dit formulier in</a>. Dit is handig als u één of meerdere collega's ook toegang wilt geven.</p>
 
   <h2>Coronamaatregelen</h2>
+  <p>Vanwege het coronavirus zijn er deze verkiezingen speciale maatregelen. Zo zijn de stembureaus 3 dagen open. Om het de kiezer zo eenvoudig mogelijk te maken verzamelt 'Waar is mijn stemlokaal' ook gegevens over de dagelijkse openingstijden van de stembureaus.</p>
 
-  <h2>Geografische informatie: BAG referentienummer, Longitude/Latitude en X/Y rijksdriehoekscoördinaten</h2>
-  <b>BAG referentienummer</b>
-  <p>In het "BAG referentienummer"-veld moet het BAG Nummeraanduiding ID van het gebouw waar het stembureau zich bevindt ingevuld worden. Het nummer kan snel gevonden worden via <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">bagviewer.kadaster.nl</a>. Vul daar in de zoekbalk het adres van het stembureau in. Het nummer staat nu rechts onder het kopje "Nummeraanduiding" in het "ID"-veld.</p>
+  <h2>Geografische informatie: BAG Nummeraanduiding ID, Latitude/Longitude en X/Y rijksdriehoekscoördinaten</h2>
+  <b>BAG Nummeraanduiding ID</b>
+  <p>In het "BAG Nummeraanduiding ID"-veld moet het BAG Nummeraanduiding ID van het gebouw waar het stembureau zich bevindt ingevuld worden. Het nummer kan snel gevonden worden via <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">bagviewer.kadaster.nl</a>. Vul daar in de zoekbalk het adres van het stembureau in. Het nummer staat nu rechts onder het kopje "Nummeraanduiding" in het "ID"-veld.</p>
 
   <p>Vermeld voor mobiele stembureaus het dichtstbijzijnde BAG Nummeraanduiding ID en gebruik eventueel het "Extra adresaanduiding"-veld om de locatie van stembureau te beschrijven. NB: de precieze locatie geeft u aan met de "Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.</p>
 
-  <b>longitude/latitude en x/y</b>
-  <p>Om de precieze locatie van het stembureau vast te leggen moet u óf de "Longitude" en "Latitude"-velden invullen óf de "X" en "Y"-velden (Rijksdriehoeksstelsel). U kunt dus de keuze maken uit één van deze twee coördinatenstelsels. Als u de longitude en latitude van het stembureau niet weet dan kunt u dit vinden via <a href="https://openstreetmap.org" target="_blank" rel="noopener">openstreetmap.org</a>. Zoom zo ver mogelijk in op de locatie van het stembureau, klik daar met de rechtermuisknop en selecteer "Show address"/"Toon adres". De latitude en longitude (in die volgorde) staan nu linksboven in de zoekbalk (zie ook de afbeelding hieronder).</p>
+  <b>latitude/longitude en x/y</b>
+  <p>Om de precieze locatie van het stembureau vast te leggen moet u óf de "Latitude" en "Longitude"-velden invullen óf de "X" en "Y"-velden (Rijksdriehoeksstelsel). U kunt dus de keuze maken uit één van deze twee coördinatenstelsels. Als u de latitude en longitude van het stembureau niet weet dan kunt u dit vinden via <a href="https://openstreetmap.org" target="_blank" rel="noopener">openstreetmap.org</a>. Zoom zo ver mogelijk in op de locatie van het stembureau, klik daar met de rechtermuisknop en selecteer "Show address"/"Toon adres". De latitude en longitude (in die volgorde) staan nu linksboven in de zoekbalk (zie ook de afbeelding hieronder).</p>
 
   <img class="center-block img-responsive" src="{{ url_for('static', filename='dist/images/instructie_osm.png', _external=True) }}" alt="Screenshot van openstreetmap.org" />
 
   <b>Bonaire, Sint Eustatius en Saba</b>
-  <p>De bijzondere gemeenten hebben een ander Kadaster en een ander BAG-systeem. Deze gemeenten kunnen in het "BAG referentienummer"-veld simpelweg "0000000000000000" (zestien keer het getal "0") invullen. Het adres van het stembureau kan vervolgens in het "Extra adresaanduiding"-veld ingevuld worden. Aangezien er ook geen rijksdriehoekscoördinaten (X/Y) zijn voor de bijzondere gemeenten kan de locatie aangegeven worden door middel van de "Longitude" en "Latitude"-velden.</p>
+  <p>De bijzondere gemeenten hebben een ander Kadaster en een ander BAG-systeem. Deze gemeenten kunnen in het "BAG Nummeraanduiding ID"-veld simpelweg "0000000000000000" (zestien keer het getal "0") invullen. Het adres van het stembureau kan vervolgens in het "Extra adresaanduiding"-veld ingevuld worden. Aangezien er ook geen rijksdriehoekscoördinaten (X/Y) zijn voor de bijzondere gemeenten kan de locatie aangegeven worden door middel van de "Latitude" en "Longitude"-velden.</p>
 
   <b>Hulp nodig met het verzamelen van geografische informatie?</b>
   <p>Uw gemeente heeft een Geo/GIS specialist of team. Zij kunnen u helpen om de benodigde informatie te verzamelen.</p>
@@ -77,7 +78,7 @@
   <h2>Mobiele stembureaus en afwijkende openingstijden</h2>
   <p>Sommige gemeenten werken met mobiele stembureaus die gedurende de dag op verschillende locaties staan. Voor mobiele stembureaus moet voor elke locatie een nieuw "stembureau" aangemaakt worden (zodat de locatie en openingstijden apart worden opgeslagen).</p>
 
-  <p>Mobiele stembureaus bevinden zich soms niet in een gebouw. Gebruik voor het "BAG referentienummer"-veld dan het dichtstbijzijnde BAG Nummeraanduiding ID (zie de sectie "Geografische informatie" hierboven) en gebruik eventueel het "Extra adresaanduiding"-veld om de locatie van stembureau te beschrijven. NB: de precieze locatie van het mobiele stembureau geeft u aan met de "Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.</p>
+  <p>Mobiele stembureaus bevinden zich soms niet in een gebouw. Gebruik voor het "BAG Nummeraanduiding ID"-veld dan het dichtstbijzijnde BAG Nummeraanduiding ID (zie de sectie "Geografische informatie" hierboven) en gebruik eventueel het "Extra adresaanduiding"-veld om de locatie van stembureau te beschrijven. NB: de precieze locatie van het mobiele stembureau geeft u aan met de "Latitude" en "Longitude"-velden of met de "X" en "Y"-velden.</p>
 
   <p>Als een stembureau meerdere openingstijden op één dag heeft (bv. als het al om middernacht open is en later op de dag nog een keer open gaat) dan maakt u voor elke aaneengesloten periode dat het stembureau open is een nieuw "stembureau" aan.</p>
 

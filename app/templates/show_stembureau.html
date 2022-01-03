@@ -55,18 +55,11 @@
             {% set niet_open_voor_algemeen_publiek = true %}
           {% endif %}
           <h2>
-            
-              {% if niet_open_voor_algemeen_publiek %}
-                <i class="fa fa-pencil text-orange"></i>
-              {% else %}
-                <i class="fa fa-pencil text-red"></i>
-              {% endif %}
+            {% if niet_open_voor_algemeen_publiek %}
+              <i class="fa fa-pencil text-orange"></i>
             {% else %}
-              {% if niet_open_voor_algemeen_publiek %}
-                <i class="fa fa-envelope text-orange"></i>
-              {% endif %}
+              <i class="fa fa-pencil text-red"></i>
             {% endif %}
-            Stembureau
             {% if record['Nummer stembureau'] %}
               #{{ record['Nummer stembureau'] }}
             {% endif %}
@@ -99,7 +92,7 @@
             {% endif %}
           </p>
           <p>
-            <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename=stembureau {{ record['Naam stembureau'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
+            <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename=Stembureau {{ record['Naam stembureau'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
           </p>
           {% if niet_open_voor_algemeen_publiek %}
           <h2 class="color: text-red">NB: {{ record['Extra adresaanduiding'] }}
@@ -109,21 +102,15 @@
             <p>{{ record['Extra adresaanduiding'] }}</p>
           {% endif %}
           {% set datums = [
-            'woensdag 10 maart:',
-            'donderdag 11 maart:',
-            'vrijdag 12 maart:',
-            'zaterdag 13 maart:',
-            'zondag 14 maart:',
-            'maandag 15 maart:',
-            'dinsdag 16 maart:',
-            'woensdag 17 maart:'
+            'maandag 14 maart:',
+            'dinsdag 15 maart:',
+            'woensdag 16 maart:'
           ] %}
           <br>
           <i>Openingstijden</i>
-          {% set datum_range = 5 %}
-          {% for datum in datums[datum_range:] %}
+          {% for datum in datums %}
             {% set dag = datum.split(' ')[1] %}
-            {% set tijden = record['Openingstijden ' + dag + '-03-2021'].split(' tot ', 1) %}
+            {% set tijden = record['Openingstijden ' + dag + '-03-2022'].split(' tot ', 1) %}
             <dl class="dl-horizontal">
               <dt style="text-align: left;">{{ datum }}</dt>
               {% if tijden[0].strip() %}
@@ -136,8 +123,8 @@
           <br>
           <p>Bijzonderheden:</p>
           <ul>
-            {% if record['Mindervaliden toegankelijk'] %}
-              <li><b>Mindervaliden toegankelijk</b>: {% if record['Mindervaliden toegankelijk'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% if record['Toegankelijk voor mensen met een lichamelijke beperking'] %}
+              <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b>: {% if record['Toegankelijk voor mensen met een lichamelijke beperking'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
             {% endif %}
 
             {% if record['Auditieve hulpmiddelen'] %}
@@ -149,15 +136,15 @@
             {% endif %}
 
             {% if record['Akoestiek'] %}
-              <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+              <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
             {% endif %}
 
-            {% if record['Mindervalide toilet aanwezig'] %}
-              <li><b>Mindervaliden toilet aanwezig</b>: {% if record['Mindervalide toilet aanwezig'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+            {% if record['Gehandicaptentoilet'] %}
+              <li><b>Gehandicaptentoilet</b>: {% if record['Gehandicaptentoilet'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
             {% endif %}
 
             {% if record['Tellocatie'] %}
-              <li><b>Tellocatie</b>: {% if record['Tellocatie'] == 'Y' %}Ja{% else %}Nee{% endif %}</li>
+              <li><b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
             {% endif %}
           </ul>
 
@@ -176,8 +163,8 @@
           <br>
           <br>
           <br>
-          <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens'] }}</p>
-          <a href="{{ record['Beschikbaarheid'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
+          <b>Contactgegevens gemeente {{ gemeente }}</b><p>{{ record['Contactgegevens gemeente'] }}</p>
+          <a href="{{ record['Verkiezingswebsite gemeente'] }}" target="_blank" rel="noopener">Verkiezingswebsite gemeente {{ gemeente }}</a>
         {% endfor %}
       </div>
     </div>

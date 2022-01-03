@@ -218,8 +218,8 @@ class BAG(db.Model):
     pandbouwjaar = db.Column(db.String(20))
     x = db.Column(db.Numeric(precision=25, scale=9))
     y = db.Column(db.Numeric(precision=25, scale=9))
-    lon = db.Column(db.Numeric(precision=24, scale=16))
     lat = db.Column(db.Numeric(precision=24, scale=16))
+    lon = db.Column(db.Numeric(precision=24, scale=16))
 
 
 class Record(object):
@@ -229,42 +229,36 @@ class Record(object):
         self.expand()
 
     def populate(self, record):
-        try:
-            bag_ref = record['bag referentienummer']
-        except KeyError:
-            bag_ref = record['bag referentie nummer']
         self.record = {
             'nummer_stembureau': record['nummer stembureau'],
             'naam_stembureau': record['naam stembureau'],
             'website_locatie': record['website locatie'],
-            'bag_referentienummer': bag_ref,
+            'bag_nummeraanduiding_id': record['bag_nummeraanduiding_id'],
             'extra_adresaanduiding': record['extra adresaanduiding'],
-            'longitude': record['longitude'],
             'latitude': record['latitude'],
+            'longitude': record['longitude'],
             'x': record['x'],
             'y': record['y'],
-            'openingstijden_10_03_2021': record['openingstijden 10-03-2021'],
-            'openingstijden_11_03_2021': record['openingstijden 11-03-2021'],
-            'openingstijden_12_03_2021': record['openingstijden 12-03-2021'],
-            'openingstijden_13_03_2021': record['openingstijden 13-03-2021'],
-            'openingstijden_14_03_2021': record['openingstijden 14-03-2021'],
-            'openingstijden_15_03_2021': record['openingstijden 15-03-2021'],
-            'openingstijden_16_03_2021': record['openingstijden 16-03-2021'],
-            'openingstijden_17_03_2021': record['openingstijden 17-03-2021'],
-            'mindervaliden_toegankelijk': record['mindervaliden toegankelijk'],
+            'openingstijden_14_03_2022': record['openingstijden 14-03-2022'],
+            'openingstijden_15_03_2022': record['openingstijden 15-03-2022'],
+            'openingstijden_16_03_2022': record['openingstijden 16-03-2022'],
+            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': record[
+                'toegankelijk voor mensen met een lichamelijke beperking'
+            ],
             'akoestiek': record['akoestiek'],
             'auditieve_hulpmiddelen': record['auditieve hulpmiddelen'],
             'visuele_hulpmiddelen': record['visuele hulpmiddelen'],
-            'mindervalide_toilet_aanwezig': record[
-                'mindervalide toilet aanwezig'],
+            'gehandicaptentoilet': record[
+                'gehandicaptentoilet'
+            ],
             'tellocatie': record['tellocatie'],
-            'contactgegevens': record['contactgegevens'],
-            'beschikbaarheid': record['beschikbaarheid'],
+            'contactgegevens gemeente': record['contactgegevens gemeente'],
+            'verkiezingswebsite gemeente': record['verkiezingswebsite gemeente'],
             #'verkiezingen': record['verkiezingen']
         }
 
     def expand(self):
-        record = BAG.query.get(self.record['bag_referentienummer'])
+        record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
 
         for fld in [
             'gemeente',

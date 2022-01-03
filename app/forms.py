@@ -208,6 +208,29 @@ def min_four_decimals(form, field):
         )
 
 
+def latitude_range(form, field):
+    if type(field.data) != float:
+        raise ValidationError(
+            'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
+            'komma bestaan, bv. 52.0775912'
+        )
+
+    min_four_decimals(form, field)
+
+    if field.data > 50 and field.data < 54:
+        return
+    elif field.data > 12 and field.data < 12.4:
+        return
+    elif field.data > 17.4 and field.data < 17.7:
+        return
+    else:
+        raise ValidationError(
+            'De latitude moet tussen 50 en 54 (Europees Nederland), 12 en '
+            '12.4 (Bonaire) of 17.4 en 17.7 (Saba en Sint Eustatius) liggen '
+            'anders ligt uw stembureau niet in Nederland.'
+        )
+
+
 def longitude_range(form, field):
     if type(field.data) != float:
         raise ValidationError(
@@ -230,29 +253,6 @@ def longitude_range(form, field):
                 'en -68 (Bonaire) of -63.3 en -62.9 (Saba en Sint Eustatius) '
                 'liggen anders ligt uw stembureau niet in Nederland.'
             )
-
-
-def latitude_range(form, field):
-    if type(field.data) != float:
-        raise ValidationError(
-            'Ongeldig getal. Het getal mag enkel uit cijfers en één punt of '
-            'komma bestaan, bv. 52.0775912'
-        )
-
-    min_four_decimals(form, field)
-
-    if field.data > 50 and field.data < 54:
-        return
-    elif field.data > 12 and field.data < 12.4:
-        return
-    elif field.data > 17.4 and field.data < 17.7:
-        return
-    else:
-        raise ValidationError(
-            'De latitude moet tussen 50 en 54 (Europees Nederland), 12 en '
-            '12.4 (Bonaire) of 17.4 en 17.7 (Saba en Sint Eustatius) liggen '
-            'anders ligt uw stembureau niet in Nederland.'
-        )
 
 
 def x_range(form, field):
@@ -286,10 +286,10 @@ class EditForm(FlaskForm):
         # the latitude and longitude values.
         if self.latitude.data and self.longitude.data:
             self.x.data, self.y.data = convert_latlong_to_xy(
-                self.longitude.data, self.latitude.data
+                self.latitude.data, self.longitude.data
             )
         elif self.x.data and self.y.data:
-            self.longitude.data, self.latitude.data = convert_xy_to_latlong(
+            self.latitude.data, self.longitude.data = convert_xy_to_latlong(
                 self.x.data, self.y.data
             )
 
@@ -309,68 +309,60 @@ class EditForm(FlaskForm):
             valid = False
 
         # If BAG ID 0000000000000000 we require Extra adresaanduiding
-        if (self.bag_referentienummer.data == "0000000000000000" and
+        if (self.bag_nummeraanduiding_id.data == "0000000000000000" and
                 not self.extra_adresaanduiding.data):
             self.extra_adresaanduiding.errors.append(
-                'Aangezien u "0000000000000000" in het "BAG '
-                'referentienummer"-veld heeft ingevuld moet u het adres of '
+                'Aangezien u "0000000000000000" in het "bag '
+                'nummeraanduiding id"-veld heeft ingevuld moet u het adres of '
                 'andere verduidelijking van de locatie van stembureau in dit '
                 'veld invullen.'
             )
             valid = False
 
-        # We require either long and lat or x and y to be filled in
-        if (not ((self.latitude.data and self.longitude.data) or
+        # If BAG ID 0000000000000000 we require either lat and long or x and y to be filled in
+        if (self.bag_nummeraanduiding_id.data == "0000000000000000" and
+                not ((self.latitude.data and self.longitude.data) or
                 (self.x.data and self.y.data))):
             self.latitude.errors.append(
-                "Minimaal Longitude en Latitude of X en Y moeten "
-                "ingevuld zijn."
+                'Aangezien u "0000000000000000" in het "bag '
+                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'minimaal Latitude én Longitude of X én Y invullen, '
+                'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.longitude.errors.append(
-                "Minimaal Longitude en Latitude of X en Y moeten "
-                "ingevuld zijn."
+                'Aangezien u "0000000000000000" in het "bag '
+                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'minimaal Latitude én Longitude of X én Y invullen, '
+                'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.x.errors.append(
-                "Minimaal Longitude en Latitude of X en Y moeten "
-                "ingevuld zijn."
+                'Aangezien u "0000000000000000" in het "bag '
+                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'minimaal Latitude én Longitude of X én Y invullen, '
+                'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.y.errors.append(
-                "Minimaal Longitude en Latitude of X en Y moeten "
-                "ingevuld zijn."
+                'Aangezien u "0000000000000000" in het "bag '
+                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'minimaal Latitude én Longitude of X én Y invullen, '
+                'zodat de exacte locatie van het stembureau bekend is.'
             )
             valid = False
 
         # Require that at least one relevant openingstijden field is
         # filled in for a stembureau
-            if self.openingstijden_10_03_2021.data:
-                self.openingstijden_10_03_2021.errors.append(error_text)
-                valid = False
-            if self.openingstijden_11_03_2021.data:
-                self.openingstijden_11_03_2021.errors.append(error_text)
-                valid = False
-            if self.openingstijden_12_03_2021.data:
-                self.openingstijden_12_03_2021.errors.append(error_text)
-                valid = False
-            if self.openingstijden_13_03_2021.data:
-                self.openingstijden_13_03_2021.errors.append(error_text)
-                valid = False
-            if self.openingstijden_14_03_2021.data:
-                self.openingstijden_14_03_2021.errors.append(error_text)
-                valid = False
+        if not (self.openingstijden_14_03_2022.data
+                or self.openingstijden_15_03_2022.data
+                or self.openingstijden_16_03_2022.data):
+            error_text_one = (
+                "Een stembureau moet op minimaal één van deze dagen open "
+                "zijn"
+            )
+            self.openingstijden_14_03_2022.errors.append(error_text_one)
+            self.openingstijden_15_03_2022.errors.append(error_text_one)
+            self.openingstijden_16_03_2022.errors.append(error_text_one)
+            valid = False
 
-            if not (self.openingstijden_15_03_2021.data
-                    or self.openingstijden_16_03_2021.data
-                    or self.openingstijden_17_03_2021.data):
-                error_text_one = (
-                    "Een stembureau moet op minimaal één van deze dagen open "
-                    "zijn"
-                )
-                self.openingstijden_15_03_2021.errors.append(error_text_one)
-                self.openingstijden_16_03_2021.errors.append(error_text_one)
-                self.openingstijden_17_03_2021.errors.append(error_text_one)
-                valid = False
-
-                
         return valid
 
     submit = SubmitField(
@@ -408,7 +400,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> 517'
         ),
         validators=[
-            Optional(),
+            DataRequired(),
             NumberRange(min=1, max=2000000000)
         ],
         render_kw={
@@ -428,7 +420,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> Stadhuis'
         ),
         validators=[
-            Optional()
+            DataRequired(),
         ],
         render_kw={
             'placeholder': 'bv. Stadhuis'
@@ -464,8 +456,8 @@ class EditForm(FlaskForm):
         }
     )
 
-    bag_referentienummer = StringField(
-        'BAG referentienummer',
+    bag_nummeraanduiding_id = StringField(
+        'BAG Nummeraanduiding ID',
         description=(
             'BAG Nummeraanduiding ID, vindbaar door het adres van het '
             'stembureau op <a href="https://bagviewer.kadaster.nl/" '
@@ -473,11 +465,12 @@ class EditForm(FlaskForm):
             'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
             '<br>'
             '<br>'
-            'Vermeld voor mobiele stembureaus of lokaties zonder BAG '
-            'het dichtstbijzijnde BAG Nummeraanduiding ID en gebruik '
-            'eventueel het "Extra adresaanduiding"-veld om de locatie van '
-            'stembureau te beschrijven. NB: de precieze locatie geeft u aan '
-            'met de "Latitude" en "Longitude"-velden of met de "X" en '
+            'Vermeld voor mobiele stembureaus of locaties zonder BAG '
+            'Nummeraanduiding ID het dichtstbijzijnde BAG '
+            'Nummeraanduiding ID en gebruik eventueel het "Extra '
+            'adresaanduiding"-veld om de locatie van het stembureau te '
+            'beschrijven. NB: de precieze locatie geeft u aan met de '
+            '"Latitude" en "Longitude"-velden of met de "X" en '
             '"Y"-velden.'
             '<br>'
             '<br>'
@@ -514,9 +507,15 @@ class EditForm(FlaskForm):
         'Extra adresaanduiding',
         description=(
             'Eventuele extra informatie over de locatie van het '
-            'stembureau. Bv. "Niet open voor algemeen publiek", '
-            '"Ingang aan achterkant gebouw" of "Mobiel stembureau op het '
-            'midden van het plein".'
+            'stembureau. Bv. "Ingang aan achterkant gebouw" of '
+            '"Mobiel stembureau op het midden van het plein".'
+            '<br>'
+            '<br>'
+            'Sommige stembureaus zijn niet open voor algemeen publiek '
+            'vanwege coronamaatregelen. Bijvoorbeeld een '
+            'stembureau in een verzorgingshuis. Geef dat in dit veld '
+            'aan door exact de tekst "Niet open voor algemeen '
+            'publiek" in te voeren.'
             '<br>'
             '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
@@ -533,35 +532,6 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'placeholder': 'bv. "Niet open voor algemeen publiek"'
-        }
-    )
-
-    longitude = CommaDotFloatField(
-        'Longitude',
-        description=(
-            'Lengtegraad met minimaal 4 decimalen.'
-            '<br>'
-            '<br>'
-            'Als u de longitude van het stembureau niet weet dan '
-            'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
-            'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
-            'het stembureau, klik op de juiste locatie met de '
-            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
-            'latitude en longitude (in die volgorde) staan nu linksboven in '
-            'de zoekbalk.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> graden in DD.dddd notatie'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 4.3166395'
-        ),
-        validators=[
-            Optional(),
-            longitude_range
-        ],
-        render_kw={
-            'placeholder': 'bv. 4.3166395'
         }
     )
 
@@ -591,6 +561,35 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'placeholder': 'bv. 52.0775912'
+        }
+    )
+
+    longitude = CommaDotFloatField(
+        'Longitude',
+        description=(
+            'Lengtegraad met minimaal 4 decimalen.'
+            '<br>'
+            '<br>'
+            'Als u de longitude van het stembureau niet weet dan '
+            'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
+            'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
+            'het stembureau, klik op de juiste locatie met de '
+            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
+            'latitude en longitude (in die volgorde) staan nu linksboven in '
+            'de zoekbalk.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> graden in DD.dddd notatie'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 4.3166395'
+        ),
+        validators=[
+            Optional(),
+            longitude_range
+        ],
+        render_kw={
+            'placeholder': 'bv. 4.3166395'
         }
     )
 
@@ -636,8 +635,8 @@ class EditForm(FlaskForm):
         }
     )
 
-    openingstijden_10_03_2021 = StringField(
-        'Openingstijden 10-03-2021',
+    openingstijden_14_03_2022 = StringField(
+        'Openingstijden 14-03-2022',
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
@@ -645,14 +644,10 @@ class EditForm(FlaskForm):
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen)'
-            '<br>'
-            '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2021-03-10T07:30:00 tot 2021-03-10T21:00:00'
+            '<b>Voorbeeld:</b> 2022-03-14T07:30:00 tot 2022-03-14T21:00:00'
         ),
         validators=[
             Optional(),
@@ -663,14 +658,14 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-10T07:30:00 tot 2021-03-10T21:00:00".'
+                    '"2022-03-14T07:30:00 tot 2022-03-14T21:00:00".'
                 )
             )
         ]
     )
 
-    openingstijden_11_03_2021 = StringField(
-        'Openingstijden 11-03-2021',
+    openingstijden_15_03_2022 = StringField(
+        'Openingstijden 15-03-2022',
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
@@ -678,14 +673,10 @@ class EditForm(FlaskForm):
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen).'
-            '<br>'
-            '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2021-03-11T07:30:00 tot 2021-03-11T21:00:00'
+            '<b>Voorbeeld:</b> 2022-03-15T07:30:00 tot 2022-03-15T21:00:00'
         ),
         validators=[
             Optional(),
@@ -696,14 +687,14 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-11T07:30:00 tot 2021-03-11T21:00:00".'
+                    '"2022-03-15T07:30:00 tot 2022-03-15T21:00:00".'
                 )
             )
         ]
     )
 
-    openingstijden_12_03_2021 = StringField(
-        'Openingstijden 12-03-2021',
+    openingstijden_16_03_2022 = StringField(
+        'Openingstijden 16-03-2022',
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
@@ -711,15 +702,12 @@ class EditForm(FlaskForm):
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen) '
-            '<br>'
-            '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2021-03-12T07:30:00 tot 2021-03-12T21:00:00'
+            '<b>Voorbeeld:</b> 2022-03-16T07:30:00 tot 2022-03-16T21:00:00'
         ),
+        default='2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
         validators=[
             Optional(),
             Regexp(
@@ -729,173 +717,7 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-12T07:30:00 tot 2021-03-12T21:00:00".'
-                )
-            )
-        ]
-    )
-
-    openingstijden_13_03_2021 = StringField(
-        'Openingstijden 13-03-2021',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen) '
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2021-03-13T07:30:00 tot 2021-03-13T21:00:00'
-        ),
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
-                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-13T07:30:00 tot 2021-03-13T21:00:00".'
-                )
-            )
-        ]
-    )
-
-    openingstijden_14_03_2021 = StringField(
-        'Openingstijden 14-03-2021',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen)'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2021-03-14T07:30:00 tot 2021-03-14T21:00:00'
-        ),
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
-                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-14T07:30:00 tot 2021-03-14T21:00:00".'
-                )
-            )
-        ]
-    )
-
-    openingstijden_15_03_2021 = StringField(
-        'Openingstijden 15-03-2021',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen)'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2021-03-15T07:30:00 tot 2021-03-15T21:00:00'
-        ),
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
-                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-15T07:30:00 tot 2021-03-15T21:00:00".'
-                )
-            )
-        ]
-    )
-
-    openingstijden_16_03_2021 = StringField(
-        'Openingstijden 16-03-2021',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen)'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2021-03-16T07:30:00 tot 2021-03-16T21:00:00'
-        ),
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
-                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-16T07:30:00 tot 2021-03-16T21:00:00".'
-                )
-            )
-        ]
-    )
-
-    openingstijden_17_03_2021 = StringField(
-        'Openingstijden 17-03-2021',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            'Tijdens de Tweede Kamerverkiezingen van 2021 wordt er op '
-            'meerdere dagen gestemd via de stembureaus (3 dagen)'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2021-03-17T07:30:00 tot 2021-03-17T21:00:00'
-        ),
-        default='2021-03-17T07:30:00 tot 2021-03-17T21:00:00',
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2} tot '
-                    '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '"2021-03-17T07:30:00 tot 2021-03-17T21:00:00".'
+                    '"2022-03-16T07:30:00 tot 2022-03-16T21:00:00".'
                 )
             )
         ]
@@ -907,14 +729,14 @@ class EditForm(FlaskForm):
             'Is deze locatie ook een locatie waar de stemmen worden geteld?'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "Y" in als er op deze locatie ook stemmen '
-            'worden geteld. Vul "N" in als dat niet zo is. '
+            '<b>Format:</b> Vul "ja" in als er op deze locatie ook stemmen '
+            'worden geteld. Vul "nee" in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Y'
+            '<b>Voorbeeld:</b> ja'
         ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
             Optional()
         ],
@@ -924,8 +746,8 @@ class EditForm(FlaskForm):
         }
     )
 
-    contactgegevens = StringField(
-        'Contactgegevens',
+    contactgegevens_gemeente = StringField(
+        'Contactgegevens gemeente',
         description=(
             '&lt;afdeling/functie&gt;: De afdeling of specifieke functie '
             'binnen de gemeente die zich bezig houdt met de stembureaus; '
@@ -951,8 +773,8 @@ class EditForm(FlaskForm):
         }
     )
 
-    beschikbaarheid = URLStringField(
-        'Beschikbaarheid',
+    verkiezingswebsite_gemeente = URLStringField(
+        'Verkiezingswebsite gemeente',
         description=(
             'URL van de gemeentewebsite met data of informatie over de '
             'stembureaus (of verkiezing).'
@@ -1112,29 +934,24 @@ class EditForm(FlaskForm):
     #    }
     #)
 
-    mindervaliden_toegankelijk = CustomSelectField(
-        'Mindervaliden toegankelijk',
+    toegankelijk_voor_mensen_met_een_lichamelijke_beperking = CustomSelectField(
+        'Toegankelijk voor mensen met een lichamelijke beperking',
         description=(
-            'Is het stembureau toegankelijk voor mindervaliden?'
+            'Is het stembureau toegankelijk voor mensen met een lichamelijke beperking?'
             '<br>'
             'Voor meer informatie, <a '
-            'href="https://www.rijksoverheid.nl/documenten/publicaties/2018/'
-            '10/25/toolkit-verkiezingen" target="_blank" rel="noopener">zie '
-            'deze pagina op rijksoverheid.nl</a>.'
-            '<br>'
-            'Mocht uw gemeente de toegankelijkheid van de stembureaus op '
-            'basis van de ‘Checklist toegankelijkheidscriteria stemlokalen’ '
-            'toetsen, dan kunt u de antwoorden onderaan dit formulier '
-            'invullen.'
+            'href="https://www.rijksoverheid.nl/documenten/publicaties/2021/'
+            '10/14/toegankelijkheid-verkiezingen" target="_blank" '
+            'rel="noopener">zie deze pagina op rijksoverheid.nl</a>.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "Y" in als het stembureau mindervaliden '
-            'toegankelijk is. Vul "N" in als dat niet zo is.'
+            '<b>Format:</b> Vul "ja" in als het stembureau mindervaliden '
+            'toegankelijk is. Vul "nee" in als dat niet zo is.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Y'
+            '<b>Voorbeeld:</b> ja'
         ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
             DataRequired()
         ],
@@ -1153,14 +970,14 @@ class EditForm(FlaskForm):
             'target="_blank" rel="noopener">deze website</a>.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "Y" in als de akoestiek in het stembureau '
-            'geschikt is voor slechthorenden. Vul "N" in als dat niet zo is. '
+            '<b>Format:</b> Vul "ja" in als de akoestiek in het stembureau '
+            'geschikt is voor slechthorenden. Vul "nee" in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Y'
+            '<b>Voorbeeld:</b> ja'
         ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
             Optional()
         ],
@@ -1180,13 +997,13 @@ class EditForm(FlaskForm):
             '<b>Format:</b> tekst'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Doventolk, ringleiding'
+            '<b>Voorbeeld:</b> gebarentolk'
         ),
         validators=[
             Optional()
         ],
         render_kw={
-            'placeholder': 'bv. Doventolk, ringleiding'
+            'placeholder': 'bv. gebarentolk'
         }
     )
 
@@ -1200,27 +1017,27 @@ class EditForm(FlaskForm):
             '<b>Format:</b> tekst'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Leesloep'
+            '<b>Voorbeeld:</b> leesloep, stemmal, vrijwilliger/host aanwezig'
         ),
         validators=[
             Optional()
         ],
         render_kw={
-            'placeholder': 'bv. Leesloep'
+            'placeholder': 'bv. leesloep, stemmal, vrijwilliger/host aanwezig'
         }
     )
 
-    mindervalide_toilet_aanwezig = CustomSelectField(
-        'Mindervalide toilet aanwezig',
+    gehandicaptentoilet = CustomSelectField(
+        'Gehandicaptentoilet',
         description=(
-            '<b>Format:</b> Vul "Y" in als er een mindervalide toilet '
-            'aanwezig is in het stembureau. Vul "N" in als dat niet zo is. '
+            '<b>Format:</b> Vul "ja" in als er een gehandicaptentoilet '
+            'aanwezig is in het stembureau. Vul "nee" in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Y'
+            '<b>Voorbeeld:</b> ja'
         ),
-        choices=[('', ''), ('Y', 'Y'), ('N', 'N')],
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
             Optional()
         ],

@@ -20,9 +20,7 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, ckan, Record, BAG
-from app.utils import (
-    find_buurt_and_wijk, convert_xy_to_latlong, convert_latlong_to_xy
-)
+from app.utils import find_buurt_and_wijk
 from math import ceil
 from time import sleep
 import uuid
@@ -33,28 +31,23 @@ field_order = [
     'Nummer stembureau',
     'Naam stembureau',
     'Website locatie',
-    'BAG referentienummer',
+    'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
-    'Longitude',
     'Latitude',
+    'Longitude',
     'X',
     'Y',
-    'Openingstijden 10-03-2021',
-    'Openingstijden 11-03-2021',
-    'Openingstijden 12-03-2021',
-    'Openingstijden 13-03-2021',
-    'Openingstijden 14-03-2021',
-    'Openingstijden 15-03-2021',
-    'Openingstijden 16-03-2021',
-    'Openingstijden 17-03-2021',
-    'Mindervaliden toegankelijk',
+    'Openingstijden 14-03-2022',
+    'Openingstijden 15-03-2022',
+    'Openingstijden 16-03-2022',
+    'Toegankelijk voor mensen met een lichamelijke beperking',
     'Akoestiek',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
-    'Mindervalide toilet aanwezig',
+    'Gehandicaptentoilet',
     'Tellocatie',
-    'Contactgegevens',
-    'Beschikbaarheid',
+    'Contactgegevens gemeente',
+    'Verkiezingswebsite gemeente',
     #'Verkiezingen'
 ]
 
@@ -62,7 +55,6 @@ field_order = [
 default_minimal_fields = [
     'UUID',
     'Gemeente',
-    'Stembureau',
     'Nummer stembureau',
     'Naam stembureau',
     'Straatnaam',
@@ -72,29 +64,24 @@ default_minimal_fields = [
     'Postcode',
     'Plaats',
     'Extra adresaanduiding',
-    'Longitude',
     'Latitude',
-    'Openingstijden 10-03-2021',
-    'Openingstijden 11-03-2021',
-    'Openingstijden 12-03-2021',
-    'Openingstijden 13-03-2021',
-    'Openingstijden 14-03-2021',
-    'Openingstijden 15-03-2021',
-    'Openingstijden 16-03-2021',
-    'Openingstijden 17-03-2021',
-    'Mindervaliden toegankelijk',
+    'Longitude',
+    'Openingstijden 14-03-2022',
+    'Openingstijden 15-03-2022',
+    'Openingstijden 16-03-2022',
+    'Toegankelijk voor mensen met een lichamelijke beperking',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Akoestiek',
-    'Mindervalide toilet aanwezig'
+    'Gehandicaptentoilet'
 ]
 
 extended_minimal_fields = default_minimal_fields + [
     #'Verkiezingen',
     'Tellocatie',
     'Website locatie',
-    'Contactgegevens',
-    'Beschikbaarheid'
+    'Contactgegevens gemeente',
+    'Verkiezingswebsite gemeente'
 ]
 
 disclaimer_text = (
@@ -659,7 +646,7 @@ def gemeente_stemlokalen_overzicht():
     if end_record > len(gemeente_draft_records):
         end_record = len(gemeente_draft_records)
     sorted_draft_records = sorted(
-        gemeente_draft_records, key=lambda k: k['Stembureau']
+        gemeente_draft_records, key=lambda k: int(k['Nummer stembureau'])
     )
     paged_draft_records = sorted_draft_records[start_record:end_record]
 
@@ -879,12 +866,12 @@ def _create_record(form, stemlokaal_id, gemeente, election):
                 f.type != 'CSRFTokenField' and f.type != 'RadioField'):
             record[f.label.text[:62]] = f.data
 
-    bag_nummer = record['BAG referentienummer']
+    bag_nummer = record['BAG Nummeraanduiding ID']
     bag_record = BAG.query.filter_by(nummeraanduiding=bag_nummer).first()
 
     if bag_record is not None:
         bag_conversions = {
-            'verblijfsobjectgebruiksdoel': 'Gebruikersdoel het gebouw',
+            'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
             'openbareruimte': 'Straatnaam',
             'huisnummer': 'Huisnummer',
             'huisletter': 'Huisletter',
@@ -909,8 +896,8 @@ def _create_record(form, stemlokaal_id, gemeente, election):
         #wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
         #    bag_nummer,
         #    gemeente.gemeente_code,
-        #    bag_record.lon,
-        #    bag_record.lat
+        #    bag_record.lat,
+        #    bag_record.lon
         #)
         #if wk_naam:
         #    record['Wijknaam'] = wk_naam
