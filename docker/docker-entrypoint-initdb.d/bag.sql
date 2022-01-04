@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
   y DECIMAL(25,9),
   lon decimal(24, 16),
   lat decimal(24, 16),
-  index qidx (openbareruimte, huisnummer, huisnummertoevoeging, woonplaats)
+  index qidx (openbareruimte, huisnummer, huisnummertoevoeging, woonplaats),
+  index opbr (openbareruimte)
 ) CHARACTER SET=utf8;
 CREATE TABLE IF NOT EXISTS `stembureaus`.`bagtemp` LIKE `stembureaus`.`bag`;
 
