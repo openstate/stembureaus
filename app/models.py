@@ -5,6 +5,7 @@ from time import time
 from ckanapi import RemoteCKAN
 from ckanapi.errors import CKANAPIError
 import jwt
+import json
 
 
 class CKAN():
@@ -220,6 +221,21 @@ class BAG(db.Model):
     y = db.Column(db.Numeric(precision=25, scale=9))
     lat = db.Column(db.Numeric(precision=24, scale=16))
     lon = db.Column(db.Numeric(precision=24, scale=16))
+
+    def to_json(self):
+        # an SQLAlchemy class
+        fields = {}
+        fields_not = [
+            'query', 'query_class', 'to_json', 'registry', 'metadata']
+        for field in [x for x in dir(self) if not x.startswith('_') and x not in fields_not]:
+            data = self.__getattribute__(field)
+            try:
+                json.dumps(data) # this will fail on non-encodable values, like other classes
+                fields[field] = data
+            except TypeError:
+                fields[field] = None
+        # a json-encodable dict
+        return fields
 
 
 class Record(object):

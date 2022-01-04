@@ -4,7 +4,8 @@ import re
 import sys
 
 from flask import (
-    render_template, request, redirect, url_for, flash, Markup, session
+    render_template, request, redirect, url_for, flash, Markup, session,
+    jsonify
 )
 from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user
@@ -267,6 +268,12 @@ def embed_alles():
         alle_gemeenten=alle_gemeenten,
         show_search=show_search
     )
+
+
+@app.route("/t/<query>")
+def perform_typeahead(query):
+    results = BAG.query.filter(BAG.openbareruimte.match('*' + query + '*'), BAG.gemeente == 'Amsterdam').limit(8).all()
+    return jsonify([x.to_json() for x in results])
 
 
 @app.route("/user-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
