@@ -21,7 +21,6 @@
     <br>
     Terug naar de <a href="/">homepage</a>.
   {% else %}
-
     {% if disclaimer %}
     <div class="col-xs-12">
       {{ disclaimer }}
@@ -102,8 +101,9 @@
 {{ super() }}
 {% include "map_scripts.html" %}
 <script>
+
   $(document).ready(function() {
-    if (StembureausApp.show) {
+    if ($('#map').length) {
       StembureausApp.show(StembureausApp.filtered_locations);
     }
 

@@ -18,7 +18,13 @@
 
   <br>
 
-  Er zijn twee methoden om stembureaus toe te voegen, <a href="{{ url_for('gemeente_instructies') }}">zie de help-pagina voor meer informatie en instructies</a>.
+  Er zijn twee methoden om stembureaus toe te voegen:
+  <ol>
+    <li>Door de stembureaus direct op deze website in te voeren via een webformulier.</li>
+    <li>Door een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
+  </ol>
+
+  <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
 
   <br>
   <br>
@@ -50,9 +56,6 @@
   <div class="row">
     <div class="col-md-8 background-lighter-grey block-padding">
       <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
-      <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in het 'Extra adresaanduiding'-veld aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
-      <br>
-      <br>
       {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba'] %}
       - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Europese Parlementsverkiezingen 2019:
       {% else %}
