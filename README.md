@@ -70,6 +70,7 @@ Development
 ## CLI
 To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:
 
+- `flask flask mysql add-admin-user <email>` add a new admin user with the specified email
 - `flask ckan add-new-datastore <ID_of_resource>` add a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource, see the 'Create new CKAN datasets and resources for new elections' section below
 - `flask mysql add-gemeenten-verkiezingen-users` add all gemeenten, verkiezingen and users specified in 'app/data/gemeenten.json' to the MySQL database and send new users an invitation email
 
