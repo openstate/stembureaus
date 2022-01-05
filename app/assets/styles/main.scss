@@ -9,6 +9,8 @@
 // @import "~some-node-module";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "leaflet";
+@import "~leaflet.markercluster/dist/MarkerCluster.css";
+@import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 @import "common/_global";
 @import "components/_buttons";
