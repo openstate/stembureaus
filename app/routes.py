@@ -305,9 +305,22 @@ def perform_typeahead(query):
 
     # finally, treat it as a street name
     if results is None:
+        m = re.match('^(.+)\s+(\d+)([a-zA-Z]+)?\s*$', query)
+        street = query
+        huisnr = None
+        huisnr_toev = None
+        if m is not None:
+            street = m.group(1)
+            huisnr = m.group(2)
+            if m.group(3) is not None:
+                huisnr_toev = m.group(3)
         results = BAG.query.filter(
-            BAG.openbareruimte.match('*' + query + '*'),
+            BAG.openbareruimte.match('*' + street + '*'),
             BAG.gemeente == gemeente.gemeente_naam)
+        if huisnr is not None:
+            results = results.filter(BAG.huisnummer.like(huisnr + '%'))
+        if huisnr_toev is not None:
+            results = results.filter(BAG.huisnummertoevoeging.like(huisnr_toev + '%'))
 
     if results is not None:
         results = results.order_by(
