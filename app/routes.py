@@ -274,11 +274,15 @@ def embed_alles():
 
 @app.route("/t/<query>")
 def perform_typeahead(query):
+    try:
+        limit = int(request.args.get('limit', '8'))
+    except ValueError as e:
+        limit = 8
     results = BAG.query.filter(
         BAG.openbareruimte.match('*' + query + '*'),
         BAG.gemeente == 'Amsterdam').order_by(
             cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
-        ).limit(8).all()
+        ).limit(limit).all()
     return jsonify([x.to_json() for x in results])
 
 
