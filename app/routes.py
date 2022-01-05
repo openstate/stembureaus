@@ -287,12 +287,35 @@ def perform_typeahead(query):
         gemeente_code=session['selected_gemeente_code']
     ).first()
 
-    results = BAG.query.filter(
-        BAG.openbareruimte.match('*' + query + '*'),
-        BAG.gemeente == gemeente.gemeente_naam).order_by(
+    results = None
+    # first try postcode
+    m = re.match('^(\d{4})\s*([a-zA-z]{2})\s*$', query)
+    if m is not None:
+        postcode = m.group(1) + m.group(2).upper()
+        results = BAG.query.filter(
+            BAG.postcode == postcode,
+            BAG.gemeente == gemeente.gemeente_naam)
+
+    # then try if it is a nummeraanduiding
+    m = re.match('^(\d{16})\s*$', query)
+    if m is not None:
+        results = BAG.query.filter(
+            BAG.nummeraanduiding == m.group(1),
+            BAG.gemeente == gemeente.gemeente_naam)
+
+    # finally, treat it as a street name
+    if results is None:
+        results = BAG.query.filter(
+            BAG.openbareruimte.match('*' + query + '*'),
+            BAG.gemeente == gemeente.gemeente_naam)
+
+    if results is not None:
+        results = results.order_by(
             cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
         ).limit(limit).all()
-    return jsonify([x.to_json() for x in results])
+        return jsonify([x.to_json() for x in results])
+    else:
+        return jsinfy([])
 
 
 @app.route("/user-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
