@@ -427,63 +427,14 @@ class EditForm(FlaskForm):
         }
     )
 
-    website_locatie = URLStringField(
-        'Website locatie',
-        description=(
-            'Website van de locatie van het stembureau, indien '
-            'aanwezig.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> Volledige URL (dit begint met "http://" of '
-            '"https://")'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
-            '/bestuur-en-organisatie/contact-met-de-gemeente'
-            '/stadhuis-den-haag.htm'
-        ),
-        validators=[
-            Optional(),
-            URL(
-                message='Ongeldige URL. Correct is bv. '
-                '"https://www.voorbeeld.nl"'
-            )
-        ],
-        render_kw={
-            'placeholder': 'bv. https://www.denhaag.nl/nl'
-            '/bestuur-en-organisatie/contact-met-de-gemeente'
-            '/stadhuis-den-haag.htm'
-        }
-    )
-
     bag_nummeraanduiding_id = StringField(
-        'BAG Nummeraanduiding ID',
+        'Adres stembureau',
         description=(
-            'BAG Nummeraanduiding ID, vindbaar door het adres van het '
-            'stembureau op <a href="https://bagviewer.kadaster.nl/" '
-            'target="_blank" rel="noopener">bagviewer.kadaster.nl</a> in te '
-            'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
+            'Het adres van het stembureau, inclusief huisnummer en evt. '
+            'toevoging'
             '<br>'
             '<br>'
-            'Vermeld voor mobiele stembureaus of locaties zonder BAG '
-            'Nummeraanduiding ID het dichtstbijzijnde BAG '
-            'Nummeraanduiding ID en gebruik eventueel het "Extra '
-            'adresaanduiding"-veld om de locatie van het stembureau te '
-            'beschrijven. NB: de precieze locatie geeft u aan met de '
-            '"Latitude" en "Longitude"-velden of met de "X" en '
-            '"Y"-velden.'
-            '<br>'
-            '<br>'
-            'Bonaire, Sint Eustatius en Saba moeten hier "0000000000000000" '
-            '(zestien keer het getal "0") invullen. Het adres van het '
-            'stembureau moet vervolgens in het "Extra adresaanduiding"-veld '
-            'ingevuld worden.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> cijfers'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 0518200000747446'
+            '<b>Voorbeeld:</b> Kattenburgerstraat 5'
         ),
         validators=[
             DataRequired(),
@@ -499,7 +450,7 @@ class EditForm(FlaskForm):
             valid_bag
         ],
         render_kw={
-            'placeholder': 'bv. 0518200000747446'
+            'placeholder': 'bv. Kattenburgerstraat 5'
         }
     )
 
@@ -532,6 +483,35 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'placeholder': 'bv. "Niet open voor algemeen publiek"'
+        }
+    )
+
+    website_locatie = URLStringField(
+        'Website locatie',
+        description=(
+            'Website van de locatie van het stembureau, indien '
+            'aanwezig.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Volledige URL (dit begint met "http://" of '
+            '"https://")'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
+            '/bestuur-en-organisatie/contact-met-de-gemeente'
+            '/stadhuis-den-haag.htm'
+        ),
+        validators=[
+            Optional(),
+            URL(
+                message='Ongeldige URL. Correct is bv. '
+                '"https://www.voorbeeld.nl"'
+            )
+        ],
+        render_kw={
+            'placeholder': 'bv. https://www.denhaag.nl/nl'
+            '/bestuur-en-organisatie/contact-met-de-gemeente'
+            '/stadhuis-den-haag.htm'
         }
     )
 
