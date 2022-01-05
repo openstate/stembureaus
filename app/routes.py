@@ -278,9 +278,18 @@ def perform_typeahead(query):
         limit = int(request.args.get('limit', '8'))
     except ValueError as e:
         limit = 8
+
+    # Select a gemeente if none is currently selected
+    if not 'selected_gemeente_code' in session:
+        return redirect(url_for('gemeente_selectie'))
+
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
+
     results = BAG.query.filter(
         BAG.openbareruimte.match('*' + query + '*'),
-        BAG.gemeente == 'Amsterdam').order_by(
+        BAG.gemeente == gemeente.gemeente_naam).order_by(
             cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
         ).limit(limit).all()
     return jsonify([x.to_json() for x in results])
