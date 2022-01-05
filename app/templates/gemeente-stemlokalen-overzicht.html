@@ -49,9 +49,20 @@
   {% endif %}
 
   <br>
-
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-condensed table-bordered fixed-header fixed-first-column">
+    <div id="toolbar">
+      <button id="remove" class="btn btn-danger" disabled>
+        <i class="fa fa-trash"></i> Verwijder
+      </button>
+    </div>
+    <div style="overflow-x: auto;">
+    <table
+        data-search="true" 
+        data-toggle="table"
+        data-show-export="true"
+        data-pagination="true"
+        data-page-list="[10, 25, 50, 100, all]"
+        data-show-toggle="true"
+      >
       <thead>
         <tr>
             <th>
@@ -86,22 +97,10 @@
 
   <br>
 
-  {% if previous_url %}
-  <a href="{{ previous_url }}">Vorige pagina</a>
-  {% else %}
-  Vorige pagina
-  {% endif %}
-  &nbsp;|&nbsp;
-  {% if next_url %}
-  <a href="{{ next_url }}">Volgende pagina</a>
-  {% else %}
-  Volgende pagina
-  {% endif %}
-
   <br>
   <br>
 
-  Pagina {{ page }} van {{ total_pages }} (stembureaus {{ start_record }} t/m {{ end_record }} van in totaal {{ total_records }} stembureaus)
+  In totaal {{ total_records }} stembureaus.
 
 {% endblock %}
 {% block scripts %}
