@@ -11,6 +11,8 @@ from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user
 )
 from werkzeug.utils import secure_filename
+import sqlalchemy
+from sqlalchemy.sql.expression import cast
 
 from app import app, db
 from app.forms import (
@@ -272,7 +274,11 @@ def embed_alles():
 
 @app.route("/t/<query>")
 def perform_typeahead(query):
-    results = BAG.query.filter(BAG.openbareruimte.match('*' + query + '*'), BAG.gemeente == 'Amsterdam').limit(8).all()
+    results = BAG.query.filter(
+        BAG.openbareruimte.match('*' + query + '*'),
+        BAG.gemeente == 'Amsterdam').order_by(
+            cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
+        ).limit(8).all()
     return jsonify([x.to_json() for x in results])
 
 
