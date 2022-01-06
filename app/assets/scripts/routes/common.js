@@ -14,8 +14,20 @@ export default {
 };
 
 var run_editform = function () {
+  // https://stackoverflow.com/questions/1909441/how-to-delay-the-keyup-handler-until-the-user-stops-typing
+  function delay(callback, ms) {
+    var timer = 0;
+    return function() {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        callback.apply(context, args);
+      }, ms || 0);
+    };
+  }
+
   console.log('attaching to edit form now!');
-  $('#adres_stembureau').on('keyup', function (e) {
+  $('#adres_stembureau').on('keyup', delay(function (e) {
     var query = $(this).val();
 
     if (query.length < 3) {
@@ -33,5 +45,5 @@ var run_editform = function () {
       output += '</ul>';
       $('#bag-results').html($(output));
     }, 'json');
-  });
+  }, 200));
 };
