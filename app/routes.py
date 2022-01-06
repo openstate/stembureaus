@@ -928,6 +928,9 @@ def _create_record(form, stemlokaal_id, gemeente, election):
                 f.type != 'CSRFTokenField' and f.type != 'RadioField'):
             record[f.label.text[:62]] = f.data
 
+    # prevent this field from being saved as it is not a real form field.
+    del record['Adres stembureau']
+
     bag_nummer = record['BAG Nummeraanduiding ID']
     bag_record = BAG.query.filter_by(nummeraanduiding=bag_nummer).first()
 
