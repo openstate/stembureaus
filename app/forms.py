@@ -308,6 +308,12 @@ class EditForm(FlaskForm):
             )
             valid = False
 
+        if not self.bag_nummeraanduiding_id.data:
+            self.adres_stembureau.errors.append(
+                "U heeft niet op een adres uit de lijst geklikt"
+            )
+            valid = False
+
         # If BAG ID 0000000000000000 we require Extra adresaanduiding
         if (self.bag_nummeraanduiding_id.data == "0000000000000000" and
                 not self.extra_adresaanduiding.data):
@@ -483,7 +489,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> Kattenburgerstraat 5'
         ),
         validators=[
-            Optional(),
+            DataRequired(),
         ],
         render_kw={
             'placeholder': 'bv. Kattenburgerstraat 5'
