@@ -428,13 +428,33 @@ class EditForm(FlaskForm):
     )
 
     bag_nummeraanduiding_id = StringField(
-        'Adres stembureau',
+        'BAG Nummeraanduiding ID',
         description=(
-            'Het adres van het stembureau, inclusief huisnummer en evt. '
-            'toevoging'
+            'BAG Nummeraanduiding ID, vindbaar door het adres van het '
+            'stembureau op <a href="https://bagviewer.kadaster.nl/" '
+            'target="_blank" rel="noopener">bagviewer.kadaster.nl</a> in te '
+            'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> Kattenburgerstraat 5'
+            'Vermeld voor mobiele stembureaus of locaties zonder BAG '
+            'Nummeraanduiding ID het dichtstbijzijnde BAG '
+            'Nummeraanduiding ID en gebruik eventueel het "Extra '
+            'adresaanduiding"-veld om de locatie van het stembureau te '
+            'beschrijven. NB: de precieze locatie geeft u aan met de '
+            '"Latitude" en "Longitude"-velden of met de "X" en '
+            '"Y"-velden.'
+            '<br>'
+            '<br>'
+            'Bonaire, Sint Eustatius en Saba moeten hier "0000000000000000" '
+            '(zestien keer het getal "0") invullen. Het adres van het '
+            'stembureau moet vervolgens in het "Extra adresaanduiding"-veld '
+            'ingevuld worden.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> cijfers'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> 0518200000747446'
         ),
         validators=[
             DataRequired(),
@@ -448,6 +468,22 @@ class EditForm(FlaskForm):
                 message='Elk karakter moet een nummer tussen 0 en 9 zijn.'
             ),
             valid_bag
+        ],
+        render_kw={
+            'placeholder': 'bv. 0518200000747446'
+        }
+    )
+
+    adres_stembureau = StringField(
+        'Adres stembureau',
+        description=(
+            'Het adres van het stembureau, inclusief huisnummer en evt. '
+            'toevoeging.'
+            '<br>'
+            '<b>Voorbeeld:</b> Kattenburgerstraat 5'
+        ),
+        validators=[
+            Optional(),
         ],
         render_kw={
             'placeholder': 'bv. Kattenburgerstraat 5'

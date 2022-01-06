@@ -15,7 +15,7 @@ export default {
 
 var run_editform = function () {
   console.log('attaching to edit form now!');
-  $('#bag_nummeraanduiding_id').on('keyup', function (e) {
+  $('#adres_stembureau').on('keyup', function (e) {
     var query = $(this).val();
 
     if (query.length < 3) {
