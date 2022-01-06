@@ -249,7 +249,7 @@ class Record(object):
             'nummer_stembureau': record['nummer stembureau'],
             'naam_stembureau': record['naam stembureau'],
             'website_locatie': record['website locatie'],
-            'bag_nummeraanduiding_id': record['bag_nummeraanduiding_id'],
+            'bag_nummeraanduiding_id': record['bag nummeraanduiding id'],
             'extra_adresaanduiding': record['extra adresaanduiding'],
             'latitude': record['latitude'],
             'longitude': record['longitude'],
