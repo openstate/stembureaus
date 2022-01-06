@@ -9,7 +9,7 @@ from wtforms.validators import (
 from wtforms import (
     BooleanField, StringField, IntegerField, FloatField, PasswordField,
     SubmitField, FormField, FieldList, SelectField, SelectMultipleField,
-    RadioField
+    RadioField, HiddenField
 )
 import re
 
@@ -427,7 +427,7 @@ class EditForm(FlaskForm):
         }
     )
 
-    bag_nummeraanduiding_id = StringField(
+    bag_nummeraanduiding_id = HiddenField(
         'BAG Nummeraanduiding ID',
         description=(
             'BAG Nummeraanduiding ID, vindbaar door het adres van het '

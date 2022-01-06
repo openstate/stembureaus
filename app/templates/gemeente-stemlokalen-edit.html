@@ -112,6 +112,10 @@
              </div>
           {% endif %}
 
+          {% if f.widget.input_type == 'hidden' %}
+          {{ f }}
+          {% endif %}
+
           {% if f.label.text == 'Y' %}
           <hr>
           {% endif %}
