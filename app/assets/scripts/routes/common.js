@@ -24,14 +24,14 @@ var run_editform = function () {
     }
 
     $.get('/t/' + encodeURIComponent(query), function (data) {
-      $('#results').empty();
+      $('#bag-results').empty();
       var output = '<ul>';
       console.dir(data);
       $.each(data, function (idx, elem) {
         output += '<li>' + elem.openbareruimte + ' ' + elem.huisnummer + ' ' + elem.huisnummertoevoeging + '</li>';
       });
       output += '</ul>';
-      $('#results').html($(output));
+      $('#bag-results').html($(output));
     }, 'json');
   });
 };

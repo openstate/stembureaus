@@ -111,3 +111,19 @@ label {
 .margin30 {
   margin-left: 30%;
 }
+
+#bag-results {
+  border: 1px dotted #ccc;
+  padding: 3px;
+}
+#bag-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+#bag-results ul li {
+  padding: 5px 0;
+}
+#bag-results ul li:hover {
+  background: #eee;
+}
