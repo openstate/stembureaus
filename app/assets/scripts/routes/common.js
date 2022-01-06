@@ -40,10 +40,15 @@ var run_editform = function () {
       var output = '<ul>';
       console.dir(data);
       $.each(data, function (idx, elem) {
-        output += '<li>' + elem.openbareruimte + ' ' + elem.huisnummer + ' ' + elem.huisnummertoevoeging + '</li>';
+        output += '<li data-nummeraanduiding="' + elem.nummeraanduiding + '">' + elem.openbareruimte + ' ' + elem.huisnummer + ' ' + elem.huisnummertoevoeging + '</li>';
       });
       output += '</ul>';
       $('#bag-results').html($(output));
+      $('#bag-results ul li').on('click', function (e) {
+          console.log('li clicked!');
+          $('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
+          $('#bag-results').empty();
+      });
     }, 'json');
   }, 200));
 };
