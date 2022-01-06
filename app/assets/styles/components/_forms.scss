@@ -113,16 +113,18 @@ label {
 }
 
 #bag-results {
-  border: 1px dotted #ccc;
-  padding: 3px;
 }
 #bag-results ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0 220px;
+  border: 1px dotted #ccc;
+  width: 374px;
+/*  padding: 3px; */
 }
+
 #bag-results ul li {
-  padding: 5px 0;
+  padding: 6px 12px;
 }
 #bag-results ul li:hover {
   background: #eee;

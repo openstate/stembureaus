@@ -101,6 +101,10 @@
                 <span class="required">*</span>
               {% endif %}
 
+              {% if f.label.text == 'Adres stembureau' %}
+              <div id="bag-results"></div>
+              {% endif %}
+
               {% for error in f.errors %}
                 <span style="color: red;">- {{ error }}</span>
                 <br>
@@ -111,11 +115,6 @@
           {% if f.label.text == 'Y' %}
           <hr>
           {% endif %}
-
-          {% if f.label.text == 'Adres stembureau' %}
-          <div id="bag-results"></div>
-          {% endif %}
-
 
         {% endfor %}
 
