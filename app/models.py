@@ -272,6 +272,13 @@ class Record(object):
             'verkiezingswebsite gemeente': record['verkiezingswebsite gemeente'],
             #'verkiezingen': record['verkiezingen']
         }
+        adres = BAG.query.filter_by(
+            nummeraanduiding=self.record['bag_nummeraanduiding_id']).first()
+        if adres is not None:
+            full_address =  adres.openbareruimte + ' ' + adres.huisnummer
+            if adres.huisnummertoevoeging is not None:
+                full_address += '-%s' % (adres.huisnummertoevoeging)
+            self.record['adres_stembureau'] = full_address
 
     def expand(self):
         record = BAG.query.get(self.record['bag_nummeraanduiding_id'])

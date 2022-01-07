@@ -40,12 +40,17 @@ var run_editform = function () {
       var output = '<ul>';
       console.dir(data);
       $.each(data, function (idx, elem) {
-        output += '<li data-nummeraanduiding="' + elem.nummeraanduiding + '">' + elem.openbareruimte + ' ' + elem.huisnummer + ' ' + elem.huisnummertoevoeging + '</li>';
+        output += '<li data-nummeraanduiding="' + elem.nummeraanduiding + '">' + elem.openbareruimte + ' ' + elem.huisnummer;
+        if (elem.huisnummertoevoeging != '') {
+          output += '-' + elem.huisnummertoevoeging;
+        }
+        output += '</li>';
       });
       output += '</ul>';
       $('#bag-results').html($(output));
       $('#bag-results ul li').on('click', function (e) {
           console.log('li clicked!');
+          $('#adres_stembureau').val($(this).text());
           $('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
           $('#bag-results').empty();
       });
