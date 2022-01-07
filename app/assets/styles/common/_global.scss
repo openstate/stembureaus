@@ -97,11 +97,19 @@ dd {
 
 .awesome-marker {
   background-image: url('../images/markers-soft.png');
+
+  .svg-inline--fa {
+    font-size: 1.2em;
+    color: white;
+    margin-top: 12px;
+    margin-left: 11px;
+  }
 }
 
 .awesome-marker-shadow {
   background-image: url('../images/markers-shadow.png');
 }
+
 
 .skip-link {
   position: absolute;
