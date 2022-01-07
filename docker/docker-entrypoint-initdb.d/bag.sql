@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
 ) CHARACTER SET=utf8;
 CREATE TABLE IF NOT EXISTS `stembureaus`.`bagtemp` LIKE `stembureaus`.`bag`;
 
-LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/bagadres-full.csv"
+LOAD DATA LOCAL INFILE "./docker-entrypoint-initdb.d/bagadres-full.csv"
 INTO TABLE `stembureaus`.`bagtemp`
 COLUMNS TERMINATED BY ';'
 OPTIONALLY ENCLOSED BY '"'

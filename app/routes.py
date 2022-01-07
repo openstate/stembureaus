@@ -305,15 +305,18 @@ def perform_typeahead(query):
 
     # finally, treat it as a street name
     if results is None:
-        m = re.match('^(.+)\s+(\d+)\-?([a-zA-Z]+)?\s*$', query)
+        m = re.match('^(.+)\s+(\d+)\-?([a-zA-Z]+)?\s*(\,\s*.*)?$', query)
         street = query
         huisnr = None
         huisnr_toev = None
+        woonplaats = None
         if m is not None:
             street = m.group(1)
             huisnr = m.group(2)
             if m.group(3) is not None:
                 huisnr_toev = m.group(3)
+            if m.group(4) is not None:
+                woonplaats = m.group(4)
         results = BAG.query.filter(
             BAG.openbareruimte.match('*' + street + '*'),
             BAG.gemeente == gemeente.gemeente_naam)
@@ -321,10 +324,12 @@ def perform_typeahead(query):
             results = results.filter(BAG.huisnummer.like(huisnr + '%'))
         if huisnr_toev is not None:
             results = results.filter(BAG.huisnummertoevoeging.like(huisnr_toev + '%'))
+        if woonplaats is not None:
+            results = results.filter(BAG.woonplaats.like(woonplaats[1:].strip() + '%'))
 
     if results is not None:
         results = results.order_by(
-            cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
+            BAG.woonplaats, cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
         ).limit(limit).all()
         return jsonify([x.to_json() for x in results])
     else:
