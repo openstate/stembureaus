@@ -1,11 +1,14 @@
-from app import app, db, login_manager
+from time import time
+from decimal import Decimal
+import json
+
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from time import time
 from ckanapi import RemoteCKAN
 from ckanapi.errors import CKANAPIError
 import jwt
-import json
+
+from app import app, db, login_manager
 
 
 class CKAN():
@@ -229,6 +232,9 @@ class BAG(db.Model):
             'query', 'query_class', 'to_json', 'registry', 'metadata']
         for field in [x for x in dir(self) if not x.startswith('_') and x not in fields_not]:
             data = self.__getattribute__(field)
+            # do this so we can convert the lat,lon,x and y fields
+            if isinstance(data, Decimal):
+                data = float(data)
             try:
                 json.dumps(data) # this will fail on non-encodable values, like other classes
                 fields[field] = data
