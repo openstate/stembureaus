@@ -36,11 +36,23 @@ var run_editform = function () {
     }
 
     $.get('/t/' + encodeURIComponent(query), function (data) {
+      var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
+      var attrs_conversions = {
+        nummeraanduiding: 'bag_nummeraanduiding_id',
+        lat: 'latitude',
+        lon: 'longitude',
+        x: 'x',
+        y: 'y'
+      }
       $('#bag-results').empty();
       var output = '<ul>';
       console.dir(data);
       $.each(data, function (idx, elem) {
-        output += '<li><a href="javascript:void(0);" data-nummeraanduiding="' + elem.nummeraanduiding + '">' + elem.openbareruimte + ' ' + elem.huisnummer;
+        output += '<li><a href="javascript:void(0);"';
+        attrs_as_data.forEach(function (a) {
+          output += ' data-' + a +'="' + elem[a] + '"';
+        });
+        output += '>' + elem.openbareruimte + ' ' + elem.huisnummer;
         if (elem.huisnummertoevoeging != '') {
           output += '-' + elem.huisnummertoevoeging;
         }
@@ -52,8 +64,16 @@ var run_editform = function () {
       $('#bag-results ul li a').on('click', function (e) {
           e.preventDefault();
           console.log('li clicked!');
+          var adres = $(this).text();
+          var clicked_elem = $(this);
           $('#adres_stembureau').val($(this).text());
-          $('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
+          //$('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
+          attrs_as_data.forEach(function (a) {
+            console.log('updating attribute : ' + a + ' => ' + attrs_conversions[a] + ' : ' + clicked_elem.attr('data-'+a));
+            if ($('#' + attrs_conversions[a]).val() == '') {
+              $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
+            }
+          });
           $('#bag-results').empty();
           return false;
       });
