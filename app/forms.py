@@ -489,7 +489,7 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> Kattenburgerstraat 5'
         ),
         validators=[
-            DataRequired(),
+            Optional(),
         ],
         render_kw={
             'placeholder': 'bv. Kattenburgerstraat 5'
