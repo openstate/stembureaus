@@ -2,6 +2,7 @@ import csv
 import os
 import re
 import sys
+from decimal import Decimal
 
 from flask import (
     render_template, request, redirect, url_for, flash, Markup, session,
@@ -948,14 +949,23 @@ def _create_record(form, stemlokaal_id, gemeente, election):
             'huisnummertoevoeging': 'Huisnummertoevoeging',
             'postcode': 'Postcode',
             'woonplaats': 'Plaats',
+            'lat': 'Latitude',
+            'lon': 'Longitude',
+            'x': 'X',
+            'y': 'Y'
         }
 
         for bag_field, record_field in bag_conversions.items():
             bag_field_value = getattr(bag_record, bag_field, None)
             if bag_field_value is not None:
-                record[record_field] = bag_field_value.encode(
-                    'utf-8'
-                ).decode()
+                if isinstance(bag_field_value, Decimal):
+                    # do not overwrite geocoordinates if they were otherwise specified
+                    if not record.get(record_field):
+                        record[record_field] = float(bag_field_value)
+                else:
+                    record[record_field] = bag_field_value.encode(
+                        'utf-8'
+                    ).decode()
             else:
                 record[record_field] = None
 
