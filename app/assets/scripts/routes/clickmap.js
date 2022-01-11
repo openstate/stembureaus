@@ -17,7 +17,15 @@ var cmap;
 
 var run_clickmap = function() {
   console.log('gonna init the clickmap now!');
-  cmap = L.map('clickmap', {zoomSnap: 0.2}).setView([52.2, 5.3], 7);
+
+  var lat = $('#latitude').val();
+  var lon = $('#longitude').val();
+
+  var coords = [52.2, 5.3];
+  if (lat && lon) {
+    coords = [lat, lon];
+  }
+  cmap = L.map('clickmap', {zoomSnap: 0.2}).setView(coords, 13);
   cmap.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
   // Basisregistratie Topografie (BRT) map used when viewing 'Europees Nederland' on our map
@@ -88,15 +96,19 @@ var run_clickmap = function() {
     }
   });
 
-  var lat = $('#latitude').val();
-  var lon = $('#longitude').val();
   var marker;
   if (lat && lon) {
     marker = new L.marker(
       new L.LatLng(lat, lon), {
         draggable:'true',
+        autoPan: true,
         icon: markerIcons['Stembureau']
       });
+    marker.on('dragend', function (e) {
+      document.getElementById('latitude').value = marker.getLatLng().lat;
+      document.getElementById('longitude').value = marker.getLatLng().lng;
+    });
     cmap.addLayer(marker);
+    cmap.panTo(new L.LatLng(lat, lon));
   }
 };
