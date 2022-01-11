@@ -278,16 +278,25 @@ class Record(object):
             'verkiezingswebsite gemeente': record['verkiezingswebsite gemeente'],
             #'verkiezingen': record['verkiezingen']
         }
-        adres = BAG.query.filter_by(
-            nummeraanduiding=self.record['bag_nummeraanduiding_id']).first()
-        if adres is not None:
-            full_address =  adres.openbareruimte + ' ' + adres.huisnummer
-            if adres.huisnummertoevoeging is not None:
-                full_address += '-%s' % (adres.huisnummertoevoeging)
-            self.record['adres_stembureau'] = full_address
 
     def expand(self):
         record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
+
+        if record is not None:
+            full_address =  record.openbareruimte + ' ' + record.huisnummer
+            if record.huisnummertoevoeging is not None:
+                full_address += '-%s' % (record.huisnummertoevoeging)
+            self.record['adres_stembureau'] = full_address
+
+            geofields = {
+                'lat': 'latitude',
+                'lon': 'longitude',
+                'x': 'x',
+                'y': 'y'
+            }
+            for f, rf in geofields.items():
+                if not self.record.get(rf):
+                    self.record[rf] = getattr(record, f)
 
         for fld in [
             'gemeente',
