@@ -39,6 +39,30 @@ var run_clickmap = function() {
     }
   );
 
+  // Icons
+  var icons = {
+    'Stembureau': '<i class="fa fa-pencil-alt text-red"></i> ',
+    'Stembureau-orange': '<i class="fa fa-pencil-alt text-orange"></i> ',
+  };
+
+  // Icons for the map markers
+  var markerIcons = {
+    'Stembureau': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'pencil-alt',
+        markerColor: 'red'
+      }
+    ),
+    'Stembureau-orange': L.AwesomeMarkers.icon(
+      {
+        prefix: 'fa',
+        icon: 'pencil-alt',
+        markerColor: 'orange'
+      }
+    )
+  };
+
   // Use BRT in 'Europees Nederland' and OSM for the rest
   var zoom = cmap.getZoom();
   var center = cmap.getCenter();
@@ -64,4 +88,15 @@ var run_clickmap = function() {
     }
   });
 
+  var lat = $('#latitude').val();
+  var lon = $('#longitude').val();
+  var marker;
+  if (lat && lon) {
+    marker = new L.marker(
+      new L.LatLng(lat, lon), {
+        draggable:'true',
+        icon: markerIcons['Stembureau']
+      });
+    cmap.addLayer(marker);
+  }
 };
