@@ -1,3 +1,5 @@
+import clickmap from './clickmap';
+
 export default {
   init() {
     // JavaScript to be fired on all pages
@@ -7,6 +9,7 @@ export default {
       run_editform();
     }
 
+    clickmap.init();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
