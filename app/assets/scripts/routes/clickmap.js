@@ -14,12 +14,13 @@ export default {
 };
 
 var cmap;
+var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null};
 
 var run_clickmap = function() {
   console.log('gonna init the clickmap now!');
-
-  var lat = $('#latitude').val();
-  var lon = $('#longitude').val();
+  console.dir('Gemeente:', StembureausApp.gemeente);
+  var lat = document.getElementById('latitude').value;
+  var lon = document.getElementById('longitude').value;
 
   var coords = [52.2, 5.3];
   if (lat && lon) {

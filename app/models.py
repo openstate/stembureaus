@@ -129,6 +129,24 @@ class Gemeente(db.Model):
     def __repr__(self):
         return '<Gemeente {}>'.format(self.gemeente_naam)
 
+    def to_json(self):
+        # an SQLAlchemy class
+        fields = {}
+        fields_not = [
+            'query', 'query_class', 'to_json', 'registry', 'metadata']
+        for field in [x for x in dir(self) if not x.startswith('_') and x not in fields_not]:
+            data = self.__getattribute__(field)
+            # do this so we can convert the lat,lon,x and y fields
+            if isinstance(data, Decimal):
+                data = float(data)
+            try:
+                json.dumps(data) # this will fail on non-encodable values, like other classes
+                fields[field] = data
+            except TypeError:
+                fields[field] = None
+        # a json-encodable dict
+        return fields
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

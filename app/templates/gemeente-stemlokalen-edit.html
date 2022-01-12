@@ -136,6 +136,9 @@
 {% block scripts %}
   {{ super() }}
   <script>
+    var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null};
+    StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
+
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
       setTimeout(
