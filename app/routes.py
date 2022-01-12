@@ -777,6 +777,11 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     ).first()
     elections = gemeente.elections.all()
 
+    # need this to get a starting point for the clickmap
+    bag_record = BAG.query.filter_by(
+        gemeente=gemeente.gemeente_naam
+    ).order_by('openbareruimte').first()
+
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
     # both elections are the same (at least the GR2018 + referendum
@@ -861,6 +866,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
         'gemeente-stemlokalen-edit.html',
         form=form,
         gemeente=gemeente,
+        bag_record=bag_record,
         upload_deadline_passed=check_deadline_passed()
     )
 

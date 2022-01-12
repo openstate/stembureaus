@@ -3,18 +3,20 @@ export default {
     // JavaScript to be fired on the home page
     console.log('clickmap init!');
 
+
+  },
+  finalize() {
+    // JavaScript to be fired on the home page, after the init JS
+
     if ($('#clickmap').length) {
       run_clickmap();
     }
 
   },
-  finalize() {
-    // JavaScript to be fired on the home page, after the init JS
-  },
 };
 
 var cmap;
-var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null};
+var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
 
 var run_clickmap = function() {
   console.log('gonna init the clickmap now!');
@@ -23,9 +25,16 @@ var run_clickmap = function() {
   var lon = document.getElementById('longitude').value;
 
   var coords = [52.2, 5.3];
+  console.log('BAG Record:', StembureausApp.bag_record);
+  if (StembureausApp.bag_record) {
+    console.log('setting coords to bag record', StembureausApp.bag_record);
+    coords = [StembureausApp.bag_record.lat, StembureausApp.bag_record.lon];
+  }
+  console.log('init coords: ', coords);
   if (lat && lon) {
     coords = [lat, lon];
   }
+  console.log('final coords: ', coords);
   cmap = L.map('clickmap', {zoomSnap: 0.2}).setView(coords, 13);
   cmap.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
