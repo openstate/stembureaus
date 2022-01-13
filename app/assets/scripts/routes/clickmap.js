@@ -33,6 +33,9 @@ var run_clickmap = function() {
   console.log('init coords: ', coords);
   if (lat && lon) {
     coords = [lat, lon];
+  } else {
+    lat = coords[0];
+    lon = coords[1];
   }
   console.log('final coords: ', coords);
   cmap = L.map('clickmap', {zoomSnap: 0.2}).setView(coords, 13);
@@ -120,5 +123,30 @@ var run_clickmap = function() {
     });
     cmap.addLayer(marker);
     cmap.panTo(new L.LatLng(lat, lon));
+
+    var update_marker = function() {
+      var new_lat = document.getElementById('latitude').value;
+      var new_lon = document.getElementById('longitude').value;
+      var newLatLng = new L.LatLng(new_lat, new_lon);
+      console.log('updating marker! ' + new_lat + ',' + new_lon);
+      marker.setLatLng(newLatLng);
+      cmap.panTo(newLatLng);
+    };
+
+    $(document).ready(function () {
+      $('#latitude').on('input', function (e) {
+          update_marker();
+      });
+      $('#longitude').on('input', function (e) {
+          update_marker();
+      });
+      // $('#adres_stembureau').on('input', function (e) {
+      //   update_marker();
+      // });
+      $(document).on('stm:address', function (e) {
+        console.log('stm:address trigger was fired!');
+        update_marker();
+      });
+    });
   }
 };
