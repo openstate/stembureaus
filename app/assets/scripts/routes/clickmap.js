@@ -120,6 +120,9 @@ var run_clickmap = function() {
     marker.on('dragend', function (e) {
       document.getElementById('latitude').value = marker.getLatLng().lat;
       document.getElementById('longitude').value = marker.getLatLng().lng;
+      document.getElementById('x').value = '';
+      document.getElementById('y').value = '';
+
     });
     cmap.addLayer(marker);
     cmap.panTo(new L.LatLng(lat, lon));
