@@ -334,7 +334,7 @@ def perform_typeahead(query):
         ).limit(limit).all()
         return jsonify([x.to_json() for x in results])
     else:
-        return jsinfy([])
+        return jsonify([])
 
 
 @app.route("/user-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
