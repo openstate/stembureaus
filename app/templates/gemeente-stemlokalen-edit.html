@@ -59,6 +59,12 @@
           {% if f.label.text == 'Latitude' %}
           <hr>
           <span><i>Als er geen 'BAG Nummeraanduiding ID' beschikbaar is of er een 'BAG Nummeraanduiding ID' gekozen is dat niet precies het adres/de locatie van het stembureau betreft vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in om de coördinaten van het stembureau door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span>
+          <div id="clickmap" style="margin-left: 221px; width: 374px; height: 201px;"></div>
+          <script>
+            var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
+            StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
+            StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
+          </script>
           {% endif %}
 
           {% if f.label.text == 'X' %}
@@ -119,7 +125,7 @@
 
           {% if f.label.text == 'Y' %}
           <hr>
-          <div id="clickmap" style="height: 500px;"></div>
+          <div id="clickmap" style="margin-left: 221px; width: 374px; height: 201px;"></div>
           <script>
             var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
             StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
