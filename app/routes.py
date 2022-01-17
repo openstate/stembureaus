@@ -13,6 +13,7 @@ from flask_login import (
 )
 from werkzeug.utils import secure_filename
 import sqlalchemy
+from sqlalchemy import or_
 from sqlalchemy.sql.expression import cast
 
 from app import app, db
@@ -324,7 +325,9 @@ def perform_typeahead(query):
         if huisnr is not None:
             results = results.filter(BAG.huisnummer.like(huisnr + '%'))
         if huisnr_toev is not None:
-            results = results.filter(BAG.huisnummertoevoeging.like(huisnr_toev + '%'))
+            results = results.filter(or_(
+                BAG.huisnummertoevoeging.like(huisnr_toev + '%'),
+                BAG.huisletter == huisnr_toev))
         if woonplaats is not None:
             results = results.filter(BAG.woonplaats.like(woonplaats[1:].strip() + '%'))
 

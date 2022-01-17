@@ -56,7 +56,7 @@ var run_editform = function () {
         attrs_as_data.forEach(function (a) {
           output += ' data-' + a +'="' + elem[a] + '"';
         });
-        output += '>' + elem.openbareruimte + ' ' + elem.huisnummer;
+        output += '>' + elem.openbareruimte + ' ' + elem.huisnummer +elem.huisletter;
         if (elem.huisnummertoevoeging != '') {
           output += '-' + elem.huisnummertoevoeging;
         }
