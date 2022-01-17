@@ -112,29 +112,29 @@ label {
   margin-left: 30%;
 }
 
-#bag-results {
-}
 #bag-results ul {
   list-style-type: none;
   padding: 0;
   margin: 0 0 0 220px;
   border: 1px dotted #ccc;
   width: 374px;
-/*  padding: 3px; */
-}
+  /*  padding: 3px; */
 
-#bag-results ul li {
-  padding: 6px 12px;
-  cursor: pointer;
-}
+  li {
+    cursor: pointer;
+    padding: 0;
 
-#bag-results ul li a {
-  color: inherit;
-  text-decoration: none;
-}
+    &:hover {
+      background: #eee;
+    }
 
-#bag-results ul li:hover {
-  background: #eee;
+    a {
+      display: block;
+      padding: 6px 12px;
+      color: inherit;
+      text-decoration: none;
+    }
+  }
 }
 
 #adres_stembureau {

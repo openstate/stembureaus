@@ -292,8 +292,8 @@ class Record(object):
                 'gehandicaptentoilet'
             ],
             'tellocatie': record['tellocatie'],
-            'contactgegevens gemeente': record['contactgegevens gemeente'],
-            'verkiezingswebsite gemeente': record['verkiezingswebsite gemeente'],
+            'contactgegevens_gemeente': record['contactgegevens gemeente'],
+            'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente'],
             #'verkiezingen': record['verkiezingen']
         }
 
