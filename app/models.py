@@ -302,7 +302,7 @@ class Record(object):
 
         if record is not None:
             full_address =  record.openbareruimte + ' ' + record.huisnummer + record.huisletter
-            if record.huisnummertoevoeging is not None:
+            if (record.huisnummertoevoeging is not None) and (record.huisnummertoevoeging != ''):
                 full_address += '-%s' % (record.huisnummertoevoeging)
             self.record['adres_stembureau'] = full_address
 
