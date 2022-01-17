@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <div>
     {% if current_user.gemeenten|length > 1 %}
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
@@ -49,26 +50,22 @@
   {% endif %}
 
   <br>
-    <div id="toolbar">
-      <button id="remove" class="btn btn-danger" disabled>
-        <i class="fa fa-trash"></i> Verwijder
-      </button>
-    </div>
     <div style="overflow-x: auto;">
     <table
         data-search="true" 
         data-toggle="table"
-        data-show-export="true"
         data-pagination="true"
         data-page-list="[10, 25, 50, 100, all]"
         data-show-toggle="true"
+        data-detail-formatter="detailFormatter"
+        data-response-handler="responseHandler"
       >
       <thead>
         <tr>
-            <th>
+            <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
             </th>
           {% for field in field_order %}
-            <th>
+            <th data-field="{{ field }}" data-sortable="true">
               {{ field }}
             </th>
           {% endfor %}
@@ -76,12 +73,12 @@
       </thead>
       <tbody>
       {% for record in draft_records %}
-        <tr>
-          {% if not upload_deadline_passed %}
-            <td>
-              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-            </td>
-          {% endif %}
+      <tr>
+      {% if not upload_deadline_passed %}
+      <td>
+        <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
+      </td>
+      {% endif %}        
           {% for field in field_order %}
             <td>
               {% if record[field[:62]] != None %}
