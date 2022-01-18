@@ -3,6 +3,7 @@ import 'jquery';
 import 'bootstrap-sass';
 import 'bootstrap-table';
 import '../node_modules/bootstrap-table/dist/locale/bootstrap-table-nl-NL.min.js';
+import '../node_modules/bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min.js';
 import 'floatthead';
 import L from 'leaflet';
 import 'leaflet.awesome-markers';
