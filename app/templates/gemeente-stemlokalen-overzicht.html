@@ -49,48 +49,46 @@
   {% endif %}
 
   <br>
-  <div>
-    <table
-      data-toggle="table"
-      data-locale="nl-NL"
-      data-search="true"
-      data-show-toggle="true"
-      data-show-fullscreen="true"
-      data-pagination="true"
-      data-page-list="[10, 25, 50, 100, all]"
-      data-cookie="true"
-      data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
-    >
-      <thead>
-        <tr>
-          <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
-          {% for field in field_order %}
-            <th data-field="{{ field }}" data-sortable="true">
-              {{ field }}
-            </th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-      {% for record in draft_records %}
+  <table
+    data-toggle="table"
+    data-locale="nl-NL"
+    data-search="true"
+    data-show-toggle="true"
+    data-show-fullscreen="true"
+    data-pagination="true"
+    data-page-list="[10, 25, 50, 100, all]"
+    data-cookie="true"
+    data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
+  >
+    <thead>
       <tr>
-      {% if not upload_deadline_passed %}
-      <td>
-        <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-      </td>
-      {% endif %}        
+        <th id="bewerk-kolom"></th>
+        {% for field in field_order %}
+          <th data-field="{{ field }}" data-sortable="true">
+            {{ field }}
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in draft_records %}
+        <tr>
+          {% if not upload_deadline_passed %}
+            <td>
+              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
+            </td>
+          {% endif %}
           {% for field in field_order %}
             <td>
               {% if record[field[:62]] != None %}
-              {{ record[field[:62]] }}
+                {{ record[field[:62]] }}
               {% endif %}
             </td>
           {% endfor %}
         </tr>
       {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
   <br>
   <br>
 {% endblock %}
