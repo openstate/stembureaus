@@ -72,12 +72,24 @@ var run_editform = function () {
           var clicked_elem = $(this);
           $('#adres_stembureau').val($(this).text());
           //$('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
+          var all_empty = true;
+          var should_replace = true;
           attrs_as_data.forEach(function (a) {
-            console.log('updating attribute : ' + a + ' => ' + attrs_conversions[a] + ' : ' + clicked_elem.attr('data-'+a));
-            if ($('#' + attrs_conversions[a]).val() == '') {
-              $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
-            }
+            all_empty = all_empty && ($('#' + attrs_conversions[a]).val() == '');
           });
+          if (!all_empty) {
+            if (window.confirm("Wilt u de lokatie van het stemburo aanpassen?")) {
+              should_replace = true;
+            } else {
+              should_replace = false;
+            }
+          }
+          if (should_replace) {
+            attrs_as_data.forEach(function (a) {
+              console.log('updating attribute : ' + a + ' => ' + attrs_conversions[a] + ' : ' + clicked_elem.attr('data-'+a));
+              $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
+            });
+          }
           $('#bag-results').empty();
           $(document).trigger('stm:address');
           return false;
