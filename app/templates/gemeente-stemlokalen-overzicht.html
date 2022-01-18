@@ -6,14 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
-
-<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table-locale-all.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/export/bootstrap-table-export.min.js"></script>
-
   <div>
     {% if current_user.gemeenten|length > 1 %}
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
@@ -58,25 +50,17 @@
 
   <br>
     <div style="overflow-x: auto;">
-      <!-- TODO: make table paginate server side -->
     <table
         data-search="true"
         data-show-fullscreen="true"
-        data-show-export="true"
         data-toggle="table"
         data-pagination="true"
         data-page-list="[10, 25, 50, 100, all]"
         data-show-toggle="true"
-        data-click-to-select="true"
-        data-detail-formatter="detailFormatter"
-        data-show-pagination-switch="true"
-        data-id-field="BAG Nummeraanduiding ID"
-        data-response-handler="responseHandler"
       >
       <thead>
         <tr>
-            <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
-            </th>
+          <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
           {% for field in field_order %}
             <th data-field="{{ field }}" data-sortable="true">
               {{ field }}

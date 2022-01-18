@@ -15,6 +15,8 @@ require('laravel-mix-imagemin');
 
 mix.setPublicPath('../static/dist');
 
+mix.copyDirectory('node_modules/bootstrap-sass/assets/fonts/bootstrap/', '../static/dist/fonts/');
+
 mix.js('scripts/main.js', '../static/dist/scripts/');
 
 mix.sass('styles/main.scss', '../static/dist/styles/')
