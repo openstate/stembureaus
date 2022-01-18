@@ -239,14 +239,6 @@ export default {
     }
 
     var run_stembureaus = function () {
-      // Stick the header of the overzicht table to the top
-      $('.fixed-header').floatThead({
-        responsiveContainer: function($table){
-          return $table.closest('.table-responsive');
-        },
-        top: 54
-      });
-
       StembureausApp.init();
 
       // Icons for the map markers
