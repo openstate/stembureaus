@@ -49,15 +49,15 @@
   {% endif %}
 
   <br>
-    <div style="overflow-x: auto;">
+  <div>
     <table
-        data-search="true"
-        data-show-fullscreen="true"
-        data-toggle="table"
-        data-pagination="true"
-        data-page-list="[10, 25, 50, 100, all]"
-        data-show-toggle="true"
-      >
+      data-search="true"
+      data-show-fullscreen="true"
+      data-toggle="table"
+      data-pagination="true"
+      data-page-list="[10, 25, 50, 100, all]"
+      data-show-toggle="true"
+    >
       <thead>
         <tr>
           <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
@@ -88,14 +88,8 @@
       </tbody>
     </table>
   </div>
-
-  <br>
-
   <br>
   <br>
-
-  In totaal {{ total_records }} stembureaus.
-
 {% endblock %}
 {% block scripts %}
   {{ super() }}
