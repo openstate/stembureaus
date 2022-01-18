@@ -192,9 +192,9 @@ def valid_bag(form, field):
                 'nummer onjuist is of verouderd. Gebruik '
                 'https://bagviewer.kadaster.nl/ om het juiste BAG '
                 'Nummeraanduiding ID te vinden. Als dit niet beschikbaar is '
-                'vul dan "0000000000000000" (zestien keer het getal "0") in '
+                'vul dan \'0000000000000000\' (zestien keer het getal \'0\') in '
                 'en voer het adres of andere verduidelijking van de locatie '
-                'in het "Extra adresaanduiding"-veld in.'
+                'in het \'Extra adresaanduiding\'-veld in.'
             )
 
 
@@ -318,8 +318,8 @@ class EditForm(FlaskForm):
         if (self.bag_nummeraanduiding_id.data == "0000000000000000" and
                 not self.extra_adresaanduiding.data):
             self.extra_adresaanduiding.errors.append(
-                'Aangezien u "0000000000000000" in het "bag '
-                'nummeraanduiding id"-veld heeft ingevuld moet u het adres of '
+                'Aangezien u \'0000000000000000\' in het \'bag '
+                'nummeraanduiding id\'-veld heeft ingevuld moet u het adres of '
                 'andere verduidelijking van de locatie van stembureau in dit '
                 'veld invullen.'
             )
@@ -330,26 +330,26 @@ class EditForm(FlaskForm):
                 not ((self.latitude.data and self.longitude.data) or
                 (self.x.data and self.y.data))):
             self.latitude.errors.append(
-                'Aangezien u "0000000000000000" in het "bag '
-                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'Aangezien u \'0000000000000000\' in het \'bag '
+                'nummeraanduiding id\'-veld heeft ingevuld moet u '
                 'minimaal Latitude én Longitude of X én Y invullen, '
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.longitude.errors.append(
-                'Aangezien u "0000000000000000" in het "bag '
-                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'Aangezien u \'0000000000000000\' in het \'bag '
+                'nummeraanduiding id\'-veld heeft ingevuld moet u '
                 'minimaal Latitude én Longitude of X én Y invullen, '
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.x.errors.append(
-                'Aangezien u "0000000000000000" in het "bag '
-                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'Aangezien u \'0000000000000000\' in het \'bag '
+                'nummeraanduiding id\'-veld heeft ingevuld moet u '
                 'minimaal Latitude én Longitude of X én Y invullen, '
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
             self.y.errors.append(
-                'Aangezien u "0000000000000000" in het "bag '
-                'nummeraanduiding id"-veld heeft ingevuld moet u '
+                'Aangezien u \'0000000000000000\' in het \'bag '
+                'nummeraanduiding id\'-veld heeft ingevuld moet u '
                 'minimaal Latitude én Longitude of X én Y invullen, '
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
@@ -439,21 +439,21 @@ class EditForm(FlaskForm):
             'BAG Nummeraanduiding ID, vindbaar door het adres van het '
             'stembureau op <a href="https://bagviewer.kadaster.nl/" '
             'target="_blank" rel="noopener">bagviewer.kadaster.nl</a> in te '
-            'voeren en rechts onder het kopje "Nummeraanduiding" te kijken.'
+            'voeren en rechts onder het kopje \'Nummeraanduiding\' te kijken.'
             '<br>'
             '<br>'
             'Vermeld voor mobiele stembureaus of locaties zonder BAG '
             'Nummeraanduiding ID het dichtstbijzijnde BAG '
-            'Nummeraanduiding ID en gebruik eventueel het "Extra '
-            'adresaanduiding"-veld om de locatie van het stembureau te '
+            'Nummeraanduiding ID en gebruik eventueel het \'Extra '
+            'adresaanduiding\'-veld om de locatie van het stembureau te '
             'beschrijven. NB: de precieze locatie geeft u aan met de '
-            '"Latitude" en "Longitude"-velden of met de "X" en '
-            '"Y"-velden.'
+            '\'Latitude\' en \'Longitude\'-velden of met de \'X\' en '
+            '\'Y\'-velden.'
             '<br>'
             '<br>'
-            'Bonaire, Sint Eustatius en Saba moeten hier "0000000000000000" '
-            '(zestien keer het getal "0") invullen. Het adres van het '
-            'stembureau moet vervolgens in het "Extra adresaanduiding"-veld '
+            'Bonaire, Sint Eustatius en Saba moeten hier \'0000000000000000\' '
+            '(zestien keer het getal \'0\') invullen. Het adres van het '
+            'stembureau moet vervolgens in het \'Extra adresaanduiding\'-veld '
             'ingevuld worden.'
             '<br>'
             '<br>'
@@ -500,15 +500,15 @@ class EditForm(FlaskForm):
         'Extra adresaanduiding',
         description=(
             'Eventuele extra informatie over de locatie van het '
-            'stembureau. Bv. "Ingang aan achterkant gebouw" of '
-            '"Mobiel stembureau op het midden van het plein".'
+            'stembureau. Bv. \'Ingang aan achterkant gebouw\' of '
+            '\'Mobiel stembureau op het midden van het plein\'.'
             '<br>'
             '<br>'
             'Sommige stembureaus zijn niet open voor algemeen publiek '
             'vanwege coronamaatregelen. Bijvoorbeeld een '
             'stembureau in een verzorgingshuis. Geef dat in dit veld '
-            'aan door exact de tekst "Niet open voor algemeen '
-            'publiek" in te voeren.'
+            'aan door exact de tekst \'Niet open voor algemeen '
+            'publiek\' in te voeren.'
             '<br>'
             '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
@@ -518,13 +518,13 @@ class EditForm(FlaskForm):
             '<b>Format:</b> tekst'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> "Niet open voor algemeen publiek" of "Ingang aan achterkant gebouw"'
+            '<b>Voorbeeld:</b> \'Niet open voor algemeen publiek\' of \'Ingang aan achterkant gebouw\''
         ),
         validators=[
             Optional(),
         ],
         render_kw={
-            'placeholder': 'bv. "Niet open voor algemeen publiek"'
+            'placeholder': 'bv. \'Niet open voor algemeen publiek\''
         }
     )
 
@@ -535,8 +535,8 @@ class EditForm(FlaskForm):
             'aanwezig.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Volledige URL (dit begint met "http://" of '
-            '"https://")'
+            '<b>Format:</b> Volledige URL (dit begint met \'http://\' of '
+            '\'https://\')'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
@@ -547,7 +547,7 @@ class EditForm(FlaskForm):
             Optional(),
             URL(
                 message='Ongeldige URL. Correct is bv. '
-                '"https://www.voorbeeld.nl"'
+                '\'https://www.voorbeeld.nl\''
             )
         ],
         render_kw={
@@ -567,7 +567,7 @@ class EditForm(FlaskForm):
             'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
             'het stembureau, klik op de juiste locatie met de '
-            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
+            'rechtermuisknop en selecteer \'Show address\'/\'Toon adres\'. De '
             'latitude en longitude (in die volgorde) staan nu linksboven in '
             'de zoekbalk.'
             '<br>'
@@ -596,7 +596,7 @@ class EditForm(FlaskForm):
             'kunt u dit vinden via <a href="https://www.openstreetmap.org/" '
             'target="_blank" rel="noopener">openstreetmap.org</a>. Zoom in op '
             'het stembureau, klik op de juiste locatie met de '
-            'rechtermuisknop en selecteer "Show address"/"Toon adres". De '
+            'rechtermuisknop en selecteer \'Show address\'/\'Toon adres\'. De '
             'latitude en longitude (in die volgorde) staan nu linksboven in '
             'de zoekbalk.'
             '<br>'
@@ -662,7 +662,7 @@ class EditForm(FlaskForm):
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
@@ -680,7 +680,7 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2022-03-14T07:30:00 tot 2022-03-14T21:00:00".'
+                    '\'2022-03-14T07:30:00 tot 2022-03-14T21:00:00\'.'
                 )
             )
         ]
@@ -691,7 +691,7 @@ class EditForm(FlaskForm):
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
@@ -709,7 +709,7 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2022-03-15T07:30:00 tot 2022-03-15T21:00:00".'
+                    '\'2022-03-15T07:30:00 tot 2022-03-15T21:00:00\'.'
                 )
             )
         ]
@@ -720,7 +720,7 @@ class EditForm(FlaskForm):
         description=(
             'Sommige gemeenten werken met mobiele stembureaus die gedurende '
             'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw "stembureau" aangemaakt worden '
+            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
             '(zodat de locatie en openingstijden apart worden opgeslagen).'
             '<br>'
             '<br>'
@@ -739,7 +739,7 @@ class EditForm(FlaskForm):
                 ),
                 message=(
                     'Dit veld hoort ingevuld te worden zoals '
-                    '"2022-03-16T07:30:00 tot 2022-03-16T21:00:00".'
+                    '\'2022-03-16T07:30:00 tot 2022-03-16T21:00:00\'.'
                 )
             )
         ]
@@ -751,8 +751,8 @@ class EditForm(FlaskForm):
             'Is deze locatie ook een locatie waar de stemmen worden geteld?'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "ja" in als er op deze locatie ook stemmen '
-            'worden geteld. Vul "nee" in als dat niet zo is. '
+            '<b>Format:</b> Vul \'ja\' in als er op deze locatie ook stemmen '
+            'worden geteld. Vul \'nee\' in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
@@ -802,8 +802,8 @@ class EditForm(FlaskForm):
             'stembureaus (of verkiezing).'
             '<br>'
             '<br>'
-            '<b>Format:</b> Volledige URL (dit begint met "http://" of '
-            '"https://")'
+            '<b>Format:</b> Volledige URL (dit begint met \'http://\' of '
+            '\'https://\')'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> https://www.stembureaus<br>indenhaag.nl/'
@@ -812,7 +812,7 @@ class EditForm(FlaskForm):
             DataRequired(),
             URL(
                 message='Ongeldige URL. Correct is bv. '
-                '"https://www.stembureausindenhaag.nl"'
+                '\'https://www.stembureausindenhaag.nl\''
             )
         ],
         render_kw={
@@ -848,7 +848,7 @@ class EditForm(FlaskForm):
     #        '<b>Format:</b> keuze uit:'
     #        '<ul>'
     #        '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
-    #        'zonder "Waterschap" of "Hoogheemraadschap" voor de naam&gt;</li>'
+    #        'zonder \'Waterschap\' of \'Hoogheemraadschap\' voor de naam&gt;</li>'
     #        '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
     #        '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
     #        '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
@@ -867,8 +867,8 @@ class EditForm(FlaskForm):
     #            'waterschapsverkiezingen voor Fryslân'
     #        ),
     #        (
-    #            "waterschapsverkiezingen voor Hunze en Aa's",
-    #            "waterschapsverkiezingen voor Hunze en Aa's"
+    #            \'waterschapsverkiezingen voor Hunze en Aa's\',
+    #            \'waterschapsverkiezingen voor Hunze en Aa's\'
     #        ),
     #        (
     #            'waterschapsverkiezingen voor Drents Overijsselse Delta',
@@ -967,8 +967,8 @@ class EditForm(FlaskForm):
             'rel="noopener">zie deze pagina op rijksoverheid.nl</a>.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "ja" in als het stembureau toegankelijk is '
-            'voor mensen met een lichamelijke beperking. Vul "nee" in als dat '
+            '<b>Format:</b> Vul \'ja\' in als het stembureau toegankelijk is '
+            'voor mensen met een lichamelijke beperking. Vul \'nee\' in als dat '
             'niet zo is.'
             '<br>'
             '<br>'
@@ -993,8 +993,8 @@ class EditForm(FlaskForm):
             'target="_blank" rel="noopener">deze website</a>.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul "ja" in als de akoestiek in het stembureau '
-            'geschikt is voor slechthorenden. Vul "nee" in als dat niet zo is. '
+            '<b>Format:</b> Vul \'ja\' in als de akoestiek in het stembureau '
+            'geschikt is voor slechthorenden. Vul \'nee\' in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
@@ -1053,8 +1053,8 @@ class EditForm(FlaskForm):
     gehandicaptentoilet = CustomSelectField(
         'Gehandicaptentoilet',
         description=(
-            '<b>Format:</b> Vul "ja" in als er een gehandicaptentoilet '
-            'aanwezig is in het stembureau. Vul "nee" in als dat niet zo is. '
+            '<b>Format:</b> Vul \'ja\' in als er een gehandicaptentoilet '
+            'aanwezig is in het stembureau. Vul \'nee\' in als dat niet zo is. '
             'Laat het veld leeg als het onbekend is.'
             '<br>'
             '<br>'

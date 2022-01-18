@@ -7,7 +7,7 @@
 
 {% block content %}
   <h1>Data</h1>
-  <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data word direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
+  <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data wordt direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
   <h2>Embedden/Insluiten</h2>
   <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>).</p>
@@ -33,7 +33,7 @@
         <td>Gemeenteraadsverkiezingen 2022</td>
         <td>Stembureaus ODS v1.3</td>
         <td><a href="https://ckan.dataplatform.nl/dataset/stembureaus-gemeenteraadsverkiezingen-2022" target="_blank" rel="noopener">Metadata</a>, <a href="https://ckan.dataplatform.nl/dataset/stembureaus-gemeenteraadsverkiezingen-2022/resource/TODO" target="_blank" rel="noopener">Data Explorer en API</a>, <a href="https://ckan.dataplatform.nl/datastore/dump/TODO">CSV</a> en JSON (TODO)</td>
-        <td><a href="/files/niet-deelnemende-gemeenten-2022-gr.csv">Deze gemeenten</a> hebben hun gegevens niet zelf aangeleverd en zijn verzameld door Open State Foundation</td>
+        <td>Vlak voor de verkiezingen plaatsen we in <a href="/files/niet-deelnemende-gemeenten-2022-gr.csv">dit bestand</a> de namen van de gemeenten die hun gegevens niet zelf aangeleverd hebben en zijn verzameld door Open State Foundation</td>
       </tr>
     </table>
   </div>
@@ -120,7 +120,7 @@
       </tr>
     </table>
   </div>
-  Voor eerdere verkiezingen kan bepaalde informatie over stembureaus (zoals naam en postcode) gevonden worden in de <a href="https://data.overheid.nl/dataset?facet_authority%5B0%5D=http%3A//standaarden.overheid.nl/owms/terms/Kiesraad" target="_blank" rel="noopener">verkiezingsuitslagen van de Kiesraad</a>.
+  Voor eerdere verkiezingen kan bepaalde informatie over stembureaus (zoals naam en postcode) gevonden worden in de <a href="https://data.overheid.nl/community/organization/kiesraad" target="_blank" rel="noopener">verkiezingsuitslagen van de Kiesraad</a>.
 
   <h2 id="veldbeschrijving">Veldbeschrijving</h2>
   Dit is een beknopt overzicht van de velden. Bekijk voor meer informatie ook de Stembureaus Open Data Standaard (ODS) op de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a>.
@@ -133,7 +133,7 @@
     <li><b>Gemeente</b>: De officiële gemeentenaam zoals gebruikt door het CBS.</li>
     <li><b>CBS gemeentecode *</b>: Unieke code voor de gemeente zoals gebruikt door het CBS.</li>
     <li><b>Stembureau of Afgiftepunt *</b>: Voor de Tweede Kamerverkiezingen van 2021 waren er vanwege de maatregelen rondom het coronavirus naast stembureaus ook afgiftepunten beschikbaar. Iedereen ouder dan 70 ontving een stempluspas die op de post gedaan kon worden maar ook in de dagen voor en op de verkiezingsdag ingeleverd kan worden bij een afgiftepunt. <i>[Enkel beschikbaar in Stembureaus ODS v1.2]</i></li>
-    <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. <i>[Dit veld is niet altijd ingevuld; enkel in Stembureaus ODS v1.2 heette dit veld 'Nummber stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
+    <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. <i>[Dit veld is niet altijd ingevuld; enkel in Stembureaus ODS v1.2 heette dit veld 'Nummer stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
     <li><b>Naam stembureau *</b>: De naam van het stembureau. <i>[Enkel in Stembureaus ODS v1.2 heette dit veld 'Naam stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
     <li><b>Gebruiksdoel van het gebouw *</b>: Gebruiksdoel volgens de BAG. Voor uitgebreidere beschrijving van bovenstaande gebruiksdoelen <a href="https://www.amsterdam.nl/stelselpedia/bag-index/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" target="_blank" rel="noopener">klik hier</a>. <i>[Sinds Stembureaus ODS v1.3 is de naam van 'Gebruikersdoel het gebouw' veranderd naar 'Gebruiksdoel van het gebouw']</i></li>
     <li><b>Website locatie</b>: Website van de locatie van het stembureau.</li>

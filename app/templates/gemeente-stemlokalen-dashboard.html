@@ -11,7 +11,7 @@
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
     {% endif %}
     > Dashboard
-    <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
+    <a class="btn btn-warning pull-right text-black" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
   </div>
 
   <h1 class="title-pad">{{ gemeente.gemeente_naam }}</h1>
@@ -20,8 +20,8 @@
 
   Er zijn twee methoden om stembureaus toe te voegen:
   <ol>
-    <li>Door de stembureaus direct op deze website in te voeren via een webformulier.</li>
-    <li>Door een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
+    <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
+    <li>Door onderaan deze pagina een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
   </ol>
 
   <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
@@ -86,8 +86,6 @@
           <b>Let op</b>: uploaden vervangt alle stembureaus die u eerder heeft toegevoegd!
           <br>
           {{ form.submit }}
-          <br>
-          <b>NB</b>: Het uploaden van een bestand met vele tientallen of honderden stembureaus kan enkele minuten duren.
         </form>
       {% endif %}
 
