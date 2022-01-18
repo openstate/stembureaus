@@ -125,12 +125,6 @@
 
           {% if f.label.text == 'Y' %}
           <hr>
-          <div id="clickmap" style="margin-left: 221px; width: 374px; height: 201px;"></div>
-          <script>
-            var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
-            StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
-            StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
-          </script>
           {% endif %}
 
         {% endfor %}
