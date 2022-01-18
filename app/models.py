@@ -301,8 +301,8 @@ class Record(object):
         record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
 
         if record is not None:
-            full_address =  record.openbareruimte + ' ' + record.huisnummer
-            if record.huisnummertoevoeging is not None:
+            full_address =  record.openbareruimte + ' ' + record.huisnummer + record.huisletter
+            if (record.huisnummertoevoeging is not None) and (record.huisnummertoevoeging != ''):
                 full_address += '-%s' % (record.huisnummertoevoeging)
             self.record['adres_stembureau'] = full_address
 

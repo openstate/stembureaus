@@ -307,7 +307,7 @@ def perform_typeahead(query):
 
     # finally, treat it as a street name
     if results is None:
-        m = re.match('^(.+)\s+(\d+)\-?([a-zA-Z]+)?\s*(\,\s*.*)?$', query)
+        m = re.match('^(.+)\s+(\d+)\-?([a-zA-Z0-9]+)?\s*(\,\s*.*)?$', query)
         street = query
         huisnr = None
         huisnr_toev = None
