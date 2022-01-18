@@ -49,26 +49,23 @@
   {% endif %}
 
   <br>
-    <div id="toolbar">
-      <button id="remove" class="btn btn-danger" disabled>
-        <i class="fa fa-trash"></i> Verwijder
-      </button>
-    </div>
-    <div style="overflow-x: auto;">
+  <div>
     <table
-        data-search="true" 
-        data-toggle="table"
-        data-show-export="true"
-        data-pagination="true"
-        data-page-list="[10, 25, 50, 100, all]"
-        data-show-toggle="true"
-      >
+      data-toggle="table"
+      data-locale="nl-NL"
+      data-search="true"
+      data-show-toggle="true"
+      data-show-fullscreen="true"
+      data-pagination="true"
+      data-page-list="[10, 25, 50, 100, all]"
+      data-cookie="true"
+      data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
+    >
       <thead>
         <tr>
-            <th>
-            </th>
+          <th data-field="operate" clickToSelect="false" events="window.operateEvents" formatter="operateFormatter"></th>
           {% for field in field_order %}
-            <th>
+            <th data-field="{{ field }}" data-sortable="true">
               {{ field }}
             </th>
           {% endfor %}
@@ -76,12 +73,12 @@
       </thead>
       <tbody>
       {% for record in draft_records %}
-        <tr>
-          {% if not upload_deadline_passed %}
-            <td>
-              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-            </td>
-          {% endif %}
+      <tr>
+      {% if not upload_deadline_passed %}
+      <td>
+        <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
+      </td>
+      {% endif %}        
           {% for field in field_order %}
             <td>
               {% if record[field[:62]] != None %}
@@ -94,14 +91,8 @@
       </tbody>
     </table>
   </div>
-
-  <br>
-
   <br>
   <br>
-
-  In totaal {{ total_records }} stembureaus.
-
 {% endblock %}
 {% block scripts %}
   {{ super() }}
