@@ -823,6 +823,57 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     )
 
 
+@app.route(
+    "/gemeente-stemlokaal-delete",
+    methods=['GET', 'POST']
+)
+@app.route(
+    "/gemeente-stemlokaal-delete/<stemlokaal_id>",
+    methods=['GET', 'POST']
+)
+@login_required
+def gemeente_stemlokaal_delete(stemlokaal_id=None):
+    # Select a gemeente if none is currently selected
+    if not session['selected_gemeente_code']:
+        return redirect(url_for('gemeente_selectie'))
+
+    gemeente = Gemeente.query.filter_by(
+        gemeente_code=session['selected_gemeente_code']
+    ).first()
+    elections = gemeente.elections.all()
+
+    # need this to get a starting point for the clickmap
+    bag_record = BAG.query.filter_by(
+        gemeente=gemeente.gemeente_naam
+    ).order_by('openbareruimte').first()
+
+    # Pick the first election. In the case of multiple elections we only
+    # retrieve the stembureaus of the first election as the records for
+    # both elections are the same (at least the GR2018 + referendum
+    # elections on March 21st 2018).
+    verkiezing = elections[0].verkiezing
+
+    all_draft_records = ckan.get_records(
+        ckan.elections[verkiezing]['draft_resource']
+    )
+
+    gemeente_draft_records = [
+        record for record in all_draft_records['records']
+        if record['CBS gemeentecode'] == gemeente.gemeente_code
+    ]
+    if stemlokaal_id:
+        for election in [x.verkiezing for x in elections]:
+            ckan.delete_records(
+                ckan.elections[election]['draft_resource'],
+                {'UUID': stemlokaal_id}
+            )
+            flash('Stembureau verwijderd')
+            return redirect(
+                url_for(
+                    'gemeente_stemlokalen_overzicht'
+                )
+            )
+
 @app.route("/gemeente-instructies")
 @login_required
 def gemeente_instructies():
