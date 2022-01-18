@@ -94,9 +94,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Beekdaelen</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Beemster</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Beesel</loc>
     </url>
     <url>
@@ -157,9 +154,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Borsele</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Boxmeer</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Boxtel</loc>
     </url>
     <url>
@@ -199,9 +193,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Cranendonck</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Cuijk</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Culemborg</loc>
     </url>
     <url>
@@ -229,12 +220,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Delft</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Den%20Bosch</loc>
-    </url>
-    <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Den%20Haag</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Den%20Helder</loc>
     </url>
     <url>
@@ -245,6 +230,9 @@
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Diemen</loc>
+    </url>
+    <url>
+        <loc>https://waarismijnstemlokaal.nl/s/Dijk%20en%20Waard</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Dinkelland</loc>
@@ -355,9 +343,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Gouda</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Grave</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Groningen</loc>
     </url>
     <url>
@@ -401,9 +386,6 @@
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Heerenveen</loc>
-    </url>
-    <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Heerhugowaard</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Heerlen</loc>
@@ -505,16 +487,13 @@
         <loc>https://waarismijnstemlokaal.nl/s/Laarbeek</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Landerd</loc>
+        <loc>https://waarismijnstemlokaal.nl/s/Land%20van%20Cuijk</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Landgraaf</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Landsmeer</loc>
-    </url>
-    <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Langedijk</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Lansingerland</loc>
@@ -568,6 +547,9 @@
         <loc>https://waarismijnstemlokaal.nl/s/Maasgouw</loc>
     </url>
     <url>
+        <loc>https://waarismijnstemlokaal.nl/s/Maashorst</loc>
+    </url>
+    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Maassluis</loc>
     </url>
     <url>
@@ -596,9 +578,6 @@
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Midden-Groningen</loc>
-    </url>
-    <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Mill%20en%20Sint%20Hubert</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Moerdijk</loc>
@@ -805,9 +784,6 @@
         <loc>https://waarismijnstemlokaal.nl/s/Simpelveld</loc>
     </url>
     <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Sint%20Anthonis</loc>
-    </url>
-    <url>
         <loc>https://waarismijnstemlokaal.nl/s/Sint%20Eustatius</loc>
     </url>
     <url>
@@ -890,9 +866,6 @@
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Tytsjerksteradiel</loc>
-    </url>
-    <url>
-        <loc>https://waarismijnstemlokaal.nl/s/Uden</loc>
     </url>
     <url>
         <loc>https://waarismijnstemlokaal.nl/s/Uitgeest</loc>

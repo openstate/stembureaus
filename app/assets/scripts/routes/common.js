@@ -78,7 +78,7 @@ var run_editform = function () {
             all_empty = all_empty && ($('#' + attrs_conversions[a]).val() == '');
           });
           if (!all_empty) {
-            if (window.confirm("Wilt u de lokatie van het stemburo aanpassen?")) {
+            if (window.confirm("Wilt u de al ingevulde coördinaten (Latitude/Longitude en X/Y) van het stembureau automatisch laten bijwerken naar die van het geselecteerde adres?")) {
               should_replace = true;
             } else {
               should_replace = false;
