@@ -60,7 +60,7 @@ var run_editform = function () {
         if (elem.huisnummertoevoeging != '') {
           output += '-' + elem.huisnummertoevoeging;
         }
-        output += ' (' + elem.woonplaats + ')';
+        output += ' (' + elem.woonplaats + ') [' + elem.nummeraanduiding + ']';
         output += '</a></li>';
       });
       output += '</ul>';
