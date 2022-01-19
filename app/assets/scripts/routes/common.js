@@ -34,7 +34,7 @@ var run_editform = function () {
   $('#adres_stembureau').on('keyup', delay(function (e) {
     var query = $(this).val();
 
-    if (query.length < 3) {
+    if (query.length < 1) {
       $('#bag-results').empty();
       console.log('query not long enough');
       return;
