@@ -129,6 +129,12 @@ dd {
   top: 0;
 }
 
+.loading {
+  background: url('/static/dist/images/loading.svg');
+  width: 32px;
+  height: 32px;
+}
+
 @media(min-width:1200px) {
   .no-gutter-xl {
     padding-left: 0;

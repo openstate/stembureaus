@@ -35,10 +35,13 @@ var run_editform = function () {
     var query = $(this).val();
 
     if (query.length < 3) {
+      $('#bag-results').empty();
       console.log('query not long enough');
       return;
     }
 
+    $('#bag-results').prepend($('<ul class="loading-list"><li><div class="loading"></div></li></ul>'));
+    delay(console.log('blah'), 3000);
     $.get('/t/' + encodeURIComponent(query), function (data) {
       var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
       var attrs_conversions = {
@@ -48,7 +51,6 @@ var run_editform = function () {
         x: 'x',
         y: 'y'
       }
-      $('#bag-results').empty();
       var output = '<ul>';
       console.dir(data);
       $.each(data, function (idx, elem) {
@@ -64,6 +66,7 @@ var run_editform = function () {
         output += '</a></li>';
       });
       output += '</ul>';
+      $('#bag-results .loading-list').remove();
       $('#bag-results').html($(output));
       $('#bag-results ul li a').on('click', function (e) {
           e.preventDefault();
