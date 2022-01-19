@@ -41,7 +41,7 @@ var run_editform = function () {
     }
 
     $('#bag-results').prepend($('<ul class="loading-list"><li><div class="loading"></div></li></ul>'));
-    delay(console.log('blah'), 3000);
+    delay(console.log('loading'), 3000);
     $.get('/t/' + encodeURIComponent(query), function (data) {
       var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
       var attrs_conversions = {
@@ -59,7 +59,7 @@ var run_editform = function () {
         output += ' data-lat="' + StembureausApp.bag_record.lat + '"';
         output += ' data-lon="' + StembureausApp.bag_record.lon + '"';
         output += ' data-x="' + StembureausApp.bag_record.x + '"';
-        output += ' data-y="' + StembureausApp.bag_record.y +'">0000000000000000</a></li>';
+        output += ' data-y="' + StembureausApp.bag_record.y +'">0000000000000000 (geen adres beschikbaar in de BAG; kies deze optie voor Bonaire, Sint Eustatius en Saba)</a></li>';
       } else {
         $.each(data, function (idx, elem) {
           output += '<li><a href="javascript:void(0);"';
@@ -83,7 +83,6 @@ var run_editform = function () {
           var adres = $(this).text();
           var clicked_elem = $(this);
           $('#adres_stembureau').val($(this).text());
-          //$('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
           var all_empty = true;
           var should_replace = true;
           attrs_as_data.forEach(function (a) {
@@ -102,6 +101,9 @@ var run_editform = function () {
               $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
             });
           }
+          // Always replace the BAG Nummeraanduiding ID with the one belonging to the newly selected address
+          $('#bag_nummeraanduiding_id').val(clicked_elem.attr('data-nummeraanduiding'));
+
           $('#bag-results').empty();
           $(document).trigger('stm:address');
           return false;
