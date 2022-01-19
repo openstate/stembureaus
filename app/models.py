@@ -136,15 +136,16 @@ class Gemeente(db.Model):
             'query', 'query_class', 'to_json', 'registry', 'metadata']
         for field in [x for x in dir(self) if not x.startswith('_') and x not in fields_not]:
             data = self.__getattribute__(field)
-            # do this so we can convert the lat,lon,x and y fields
+            # Do this so we can convert the lat, lon, x and y fields
             if isinstance(data, Decimal):
                 data = float(data)
             try:
-                json.dumps(data) # this will fail on non-encodable values, like other classes
+                # This will fail on non-encodable values, like other classes
+                json.dumps(data)
                 fields[field] = data
             except TypeError:
                 fields[field] = None
-        # a json-encodable dict
+        # A json-encodable dict
         return fields
 
 
@@ -250,15 +251,16 @@ class BAG(db.Model):
             'query', 'query_class', 'to_json', 'registry', 'metadata']
         for field in [x for x in dir(self) if not x.startswith('_') and x not in fields_not]:
             data = self.__getattribute__(field)
-            # do this so we can convert the lat,lon,x and y fields
+            # Do this so we can convert the lat, lon, x and y fields
             if isinstance(data, Decimal):
                 data = float(data)
             try:
-                json.dumps(data) # this will fail on non-encodable values, like other classes
+                # This will fail on non-encodable values, like other classes
+                json.dumps(data)
                 fields[field] = data
             except TypeError:
                 fields[field] = None
-        # a json-encodable dict
+        # A json-encodable dict
         return fields
 
 
