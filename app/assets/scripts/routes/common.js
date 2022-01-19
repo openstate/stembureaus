@@ -53,18 +53,27 @@ var run_editform = function () {
       }
       var output = '<ul>';
       console.dir(data);
-      $.each(data, function (idx, elem) {
+      if (query == '0000000000000000') {
         output += '<li><a href="javascript:void(0);"';
-        attrs_as_data.forEach(function (a) {
-          output += ' data-' + a +'="' + elem[a] + '"';
+        output += ' data-nummeraanduiding="0000000000000000"'
+        output += ' data-lat="' + StembureausApp.bag_record.lat + '"';
+        output += ' data-lon="' + StembureausApp.bag_record.lon + '"';
+        output += ' data-x="' + StembureausApp.bag_record.x + '"';
+        output += ' data-y="' + StembureausApp.bag_record.y +'">0000000000000000</a></li>';
+      } else {
+        $.each(data, function (idx, elem) {
+          output += '<li><a href="javascript:void(0);"';
+          attrs_as_data.forEach(function (a) {
+            output += ' data-' + a +'="' + elem[a] + '"';
+          });
+          output += '>' + elem.openbareruimte + ' ' + elem.huisnummer +elem.huisletter;
+          if (elem.huisnummertoevoeging != '') {
+            output += '-' + elem.huisnummertoevoeging;
+          }
+          output += ' (' + elem.woonplaats + ') [' + elem.nummeraanduiding + ']';
+          output += '</a></li>';
         });
-        output += '>' + elem.openbareruimte + ' ' + elem.huisnummer +elem.huisletter;
-        if (elem.huisnummertoevoeging != '') {
-          output += '-' + elem.huisnummertoevoeging;
-        }
-        output += ' (' + elem.woonplaats + ') [' + elem.nummeraanduiding + ']';
-        output += '</a></li>';
-      });
+      }
       output += '</ul>';
       $('#bag-results .loading-list').remove();
       $('#bag-results').html($(output));
