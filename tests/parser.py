@@ -14,7 +14,7 @@ test_record1 = {
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
-    'extra_adresaanduiding': 'Ingang aan achterkant gebouw',
+    'extra_adresaanduiding': 'Via de deur links',
     'x': '81611.0',
     'y': '454909.0',
     'latitude': '52.0775912',
@@ -28,11 +28,11 @@ test_record1 = {
     'visuele_hulpmiddelen': 'leesloep, stemmal, vrijwilliger/host aanwezig',
     'gehandicaptentoilet': 'ja',
     'tellocatie': 'ja',
-    'contactgegevens gemeente': (
+    'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
     #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }
 
@@ -58,11 +58,11 @@ test_record2 = {
     'visuele_hulpmiddelen': '',
     'gehandicaptentoilet': 'nee',
     'tellocatie': 'nee',
-    'contactgegevens gemeente': (
+    'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
     #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }
 
@@ -85,17 +85,15 @@ class TestExcelParser(unittest.TestCase):
         )
         self.records = [test_record1, test_record2]
 
-    # After running _get_headers and _clean_headers the list
+    # After running _get_headers the list
     # of headers should contain all values from column A in
     # the spreadsheet, even the ones that don't hold values
-    # (e.g. 'bereikbaarheid')
     def test_get_headers_good(self):
         wb = open_workbook(self.file_path)
         sh = wb.sheet_by_index(1)
         headers = self.parser._get_headers(sh)
-        clean_headers = self.parser._clean_headers(headers)
         self.assertListEqual(
-            clean_headers,
+            headers,
             [
                 'nummer_stembureau',
                 'naam_stembureau',
@@ -115,8 +113,8 @@ class TestExcelParser(unittest.TestCase):
                 'visuele_hulpmiddelen',
                 'gehandicaptentoilet',
                 'tellocatie',
-                'contactgegevens',
-                'verkiezingswebsite gemeente',
+                'contactgegevens_gemeente',
+                'verkiezingswebsite_gemeente',
                 #'verkiezingen'
             ]
         )

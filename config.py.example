@@ -4,7 +4,7 @@ import os
 # a copy of this file called 'config.py' and change 'False' for
 # SECRET_KEY to a newly generated string using these python commands:
 # $ import os
-# $ os.urandom(24)
+# $ os.urandom(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
