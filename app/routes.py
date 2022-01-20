@@ -559,6 +559,11 @@ def gemeente_stemlokalen_dashboard():
                     )
                     error_flash += '<ul>'
                     for column_name, error in col_result['errors'].items():
+                        # adres_stembureau is only relevant in the webform
+                        # so skip any errors it might produce for the
+                        # spreadsheet
+                        if column_name == 'adres_stembureau':
+                            continue
                         error_flash += '<li>%s: %s</li>' % (
                             column_name, error[0]
                         )

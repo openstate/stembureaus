@@ -306,6 +306,7 @@ class Record(object):
             full_address =  record.openbareruimte + ' ' + record.huisnummer + record.huisletter
             if (record.huisnummertoevoeging is not None) and (record.huisnummertoevoeging != ''):
                 full_address += '-%s' % (record.huisnummertoevoeging)
+            full_address += f' ({record.woonplaats}) [{record.nummeraanduiding}]'
             self.record['adres_stembureau'] = full_address
 
             geofields = {
