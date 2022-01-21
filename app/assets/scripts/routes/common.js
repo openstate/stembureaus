@@ -31,7 +31,14 @@ var run_editform = function () {
   }
 
   console.log('attaching to edit form now!');
+  var req;
   $('#adres_stembureau').on('keyup', delay(function (e) {
+    // if any previous ajaxRequest is running, abort
+    if (req) {
+      req.abort();
+      $('#bag-results .loading-list').remove();
+    }
+
     var query = $(this).val();
 
     if (query.length < 1) {
@@ -42,7 +49,8 @@ var run_editform = function () {
 
     $('#bag-results').prepend($('<ul class="loading-list"><li><div class="loading"></div></li></ul>'));
     delay(console.log('loading'), 3000);
-    $.get('/t/' + encodeURIComponent(query), function (data) {
+
+    req = $.get('/t/' + encodeURIComponent(query), function (data) {
       var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
       var attrs_conversions = {
         nummeraanduiding: 'bag_nummeraanduiding_id',
@@ -70,7 +78,7 @@ var run_editform = function () {
           if (elem.huisnummertoevoeging != '') {
             output += '-' + elem.huisnummertoevoeging;
           }
-          output += ' (' + elem.woonplaats + ') [' + elem.nummeraanduiding + ']';
+          output += ', ' + elem.woonplaats + ' [' + elem.nummeraanduiding + ']';
           output += '</a></li>';
         });
       }
