@@ -291,12 +291,27 @@ def perform_typeahead(query):
 
     results = None
     # first try postcode
-    m = re.match('^(\d{4})\s*([a-zA-z]{2})\s*$', query)
+    m = re.match('^(\d{4})\s*([a-zA-z]{2})\s*(\d+)?\-?([a-zA-Z0-9]+)?\s*$', query)
     if m is not None:
         postcode = m.group(1) + m.group(2).upper()
+        huisnr = None
+        huisnr_toev = None
+
+        if m.group(3) is not None:
+            huisnr = m.group(3)
+        if m.group(4) is not None:
+            huisnr_toev = m.group(4)
+
         results = BAG.query.filter(
             BAG.postcode == postcode,
             BAG.gemeente == gemeente.gemeente_naam)
+
+        if huisnr is not None:
+            results = results.filter(BAG.huisnummer.like(huisnr + '%'))
+            if huisnr_toev is not None:
+                results = results.filter(or_(
+                    BAG.huisnummertoevoeging.like(huisnr_toev + '%'),
+                    BAG.huisletter == huisnr_toev))
 
     # then try if it is a nummeraanduiding
     m = re.match('^(\d{16})\s*$', query)
@@ -320,7 +335,7 @@ def perform_typeahead(query):
             if m.group(4) is not None:
                 woonplaats = m.group(4)
         results = BAG.query.filter(
-            BAG.openbareruimte.match('*' + street + '*'),
+            BAG.openbareruimte.match('+' + re.sub('\s+', '* +', street.strip()) + '*'),
             BAG.gemeente == gemeente.gemeente_naam)
         if huisnr is not None:
             results = results.filter(BAG.huisnummer.like(huisnr + '%'))
