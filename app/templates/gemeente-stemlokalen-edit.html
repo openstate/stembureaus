@@ -59,7 +59,7 @@
           {% if f.label.text == 'Latitude' %}
           <hr>
           <span><i>Vul eerst het 'Adres stembureau'-veld hierboven in, zodat de coördinaten hieronder automatisch worden ingevuld. Als de locatie van het stembureau op de kaart hieronder niet klopt, <b>sleep dan het rode icoontje naar de precieze locatie van het stembureau</b>. De coördinaten in de Latitude/Longitude- en X/Y-velden worden dan automatisch aangepast. Wilt u handmatig coördinaten aanleveren vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
-          <div id="clickmap" style="margin-left: 221px; width: 374px; height: 201px;"></div>
+          <div id="clickmap"></div>
           <script>
             var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
             StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};

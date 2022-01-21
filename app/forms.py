@@ -549,7 +549,7 @@ class EditForm(FlaskForm):
             '<b>Format:</b>'
             '<ul>'
             '<li>&lt;straatnaam&gt; &lt;huisnummer&gt;[huisletter]-[huisnummertoevoeging], &lt;woonplaats&gt;</li>'
-            '<li>&lt;postcode&gt;</li>'
+            '<li>&lt;postcode&gt; &lt;huisnummer&gt;[huisletter]-[huisnummertoevoeging]</li>'
             '<li>&lt;BAG Nummeraanduiding ID&gt;</li>'
             '</ul>'
             '<br>'
@@ -565,7 +565,7 @@ class EditForm(FlaskForm):
             Optional(),
         ],
         render_kw={
-            'placeholder': 'bv. Spui 70, \'s-Gravenhage'
+            'placeholder': 'Straatnaam óf Postcode óf BAG ID'
         }
     )
 
@@ -727,7 +727,10 @@ class EditForm(FlaskForm):
                     '\'2022-03-14T07:30:00 tot 2022-03-14T21:00:00\'.'
                 )
             )
-        ]
+        ],
+        render_kw={
+            'placeholder': 'bv. 2022-03-14T07:30:00 tot 2022-03-14T21:00:00'
+        }
     )
 
     openingstijden_15_03_2022 = StringField(
@@ -756,7 +759,10 @@ class EditForm(FlaskForm):
                     '\'2022-03-15T07:30:00 tot 2022-03-15T21:00:00\'.'
                 )
             )
-        ]
+        ],
+        render_kw={
+            'placeholder': 'bv. 2022-03-15T07:30:00 tot 2022-03-15T21:00:00'
+        }
     )
 
     openingstijden_16_03_2022 = StringField(
@@ -786,7 +792,10 @@ class EditForm(FlaskForm):
                     '\'2022-03-16T07:30:00 tot 2022-03-16T21:00:00\'.'
                 )
             )
-        ]
+        ],
+        render_kw={
+            'placeholder': 'bv. 2022-03-16T07:30:00 tot 2022-03-16T21:00:00'
+        }
     )
 
     tellocatie = CustomSelectField(
