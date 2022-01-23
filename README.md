@@ -40,7 +40,7 @@ Collecting and presenting stembureaus
       - To set a daily cronjob at 03:46
          - `sudo crontab -e` and add the following line (change the path below to your `stembureaus/docker` directory path)
          - `46 3 * * * (cd <PATH_TO_stembureaus/docker> && sudo ./backup.sh)`
-      - The resulting SQL backup files are saved in `docker/docker-entrypoint-initdb.d`
+      - The resulting SQL backup files are saved in `docker/docker-entrypoint-initdb.d` and the CKAN exports in `exports`
 - Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
    - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
