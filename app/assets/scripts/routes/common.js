@@ -31,18 +31,26 @@ var run_editform = function () {
   }
 
   console.log('attaching to edit form now!');
+  var req;
   $('#adres_stembureau').on('keyup', delay(function (e) {
+    // if any previous ajaxRequest is running, abort
+    if (req) {
+      req.abort();
+      $('#bag-results .loading-list').remove();
+    }
+
     var query = $(this).val();
 
-    if (query.length < 3) {
+    if (query.length < 1) {
       $('#bag-results').empty();
       console.log('query not long enough');
       return;
     }
 
     $('#bag-results').prepend($('<ul class="loading-list"><li><div class="loading"></div></li></ul>'));
-    delay(console.log('blah'), 3000);
-    $.get('/t/' + encodeURIComponent(query), function (data) {
+    delay(console.log('loading'), 3000);
+
+    req = $.get('/t/' + encodeURIComponent(query), function (data) {
       var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
       var attrs_conversions = {
         nummeraanduiding: 'bag_nummeraanduiding_id',
@@ -53,18 +61,27 @@ var run_editform = function () {
       }
       var output = '<ul>';
       console.dir(data);
-      $.each(data, function (idx, elem) {
+      if (query == '0000000000000000') {
         output += '<li><a href="javascript:void(0);"';
-        attrs_as_data.forEach(function (a) {
-          output += ' data-' + a +'="' + elem[a] + '"';
+        output += ' data-nummeraanduiding="0000000000000000"'
+        output += ' data-lat="' + StembureausApp.bag_record.lat + '"';
+        output += ' data-lon="' + StembureausApp.bag_record.lon + '"';
+        output += ' data-x="' + StembureausApp.bag_record.x + '"';
+        output += ' data-y="' + StembureausApp.bag_record.y +'">0000000000000000 (geen adres beschikbaar in de BAG; kies deze optie voor Bonaire, Sint Eustatius en Saba)</a></li>';
+      } else {
+        $.each(data, function (idx, elem) {
+          output += '<li><a href="javascript:void(0);"';
+          attrs_as_data.forEach(function (a) {
+            output += ' data-' + a +'="' + elem[a] + '"';
+          });
+          output += '>' + elem.openbareruimte + ' ' + elem.huisnummer +elem.huisletter;
+          if (elem.huisnummertoevoeging != '') {
+            output += '-' + elem.huisnummertoevoeging;
+          }
+          output += ', ' + elem.woonplaats + ' [' + elem.nummeraanduiding + ']';
+          output += '</a></li>';
         });
-        output += '>' + elem.openbareruimte + ' ' + elem.huisnummer +elem.huisletter;
-        if (elem.huisnummertoevoeging != '') {
-          output += '-' + elem.huisnummertoevoeging;
-        }
-        output += ' (' + elem.woonplaats + ') [' + elem.nummeraanduiding + ']';
-        output += '</a></li>';
-      });
+      }
       output += '</ul>';
       $('#bag-results .loading-list').remove();
       $('#bag-results').html($(output));
@@ -74,7 +91,6 @@ var run_editform = function () {
           var adres = $(this).text();
           var clicked_elem = $(this);
           $('#adres_stembureau').val($(this).text());
-          //$('#bag_nummeraanduiding_id').val($(this).attr('data-nummeraanduiding'));
           var all_empty = true;
           var should_replace = true;
           attrs_as_data.forEach(function (a) {
@@ -93,6 +109,9 @@ var run_editform = function () {
               $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
             });
           }
+          // Always replace the BAG Nummeraanduiding ID with the one belonging to the newly selected address
+          $('#bag_nummeraanduiding_id').val(clicked_elem.attr('data-nummeraanduiding'));
+
           $('#bag-results').empty();
           $(document).trigger('stm:address');
           return false;

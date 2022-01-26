@@ -11,7 +11,7 @@
     > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
     {% endif %}
     > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
-    <a class="btn btn-default pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
+    <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
   </div>
 
   <h1 class="title-pad">Stembureau</h1>
@@ -53,13 +53,13 @@
         {{ form.csrf_token }}
         {% for f in form %}
           {% if f.label.text == 'Extra adresaanduiding' %}
-          <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in dit veld aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
+          <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in het 'Extra adresaanduiding'-veld hieronder aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
           {% endif %}
 
           {% if f.label.text == 'Latitude' %}
           <hr>
-          <span><i>Als er geen 'BAG Nummeraanduiding ID' beschikbaar is of er een 'BAG Nummeraanduiding ID' gekozen is dat niet precies het adres/de locatie van het stembureau betreft vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in om de coördinaten van het stembureau door te geven. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span>
-          <div id="clickmap" style="margin-left: 221px; width: 374px; height: 201px;"></div>
+          <span><i>Vul eerst het 'Adres stembureau'-veld hierboven in, zodat de coördinaten hieronder automatisch worden ingevuld. Als de locatie van het stembureau op de kaart hieronder niet klopt, <b>sleep dan het rode icoontje naar de precieze locatie van het stembureau</b>. De coördinaten in de Latitude/Longitude- en X/Y-velden worden dan automatisch aangepast. Wilt u handmatig coördinaten aanleveren vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
+          <div id="clickmap"></div>
           <script>
             var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
             StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};

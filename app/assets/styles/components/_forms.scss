@@ -23,7 +23,7 @@ input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select {
   border-color: black;
 }
 
-#data_file + .bootstrap-filestyle > input {
+input#data_file.filestyle {
   width: 100% !important;
 }
 
@@ -38,16 +38,6 @@ input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select {
 .edit-form input[type="checkbox"] {
   padding: 5px;
   margin: 7px;
-}
-
-@media(max-width:767px) {
-  .login-forms input {
-    width: 100%;
-  }
-
-  .top-form {
-    padding-bottom: 20px;
-  }
 }
 
 .width-max input {
@@ -73,30 +63,6 @@ input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select {
 
   input[type="submit"] {
     margin-right: 10px;
-  }
-}
-
-@media(max-width:767px) {
-  select {
-    width: 80% !important;
-  }
-
-  .edit-form {
-    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), select, .bootstrap-select {
-      width: 80% !important;
-    }
-
-    input[type="submit"] {
-      margin-bottom: 20px;
-    }
-
-    label {
-      text-align: left;
-    }
-
-    .edit-entry {
-      padding-bottom: 20px;
-    }
   }
 }
 
@@ -139,4 +105,47 @@ label {
 
 #adres_stembureau {
   margin-bottom: 0;
+}
+
+#clickmap {
+  margin-left: 221px;
+  width: 374px;
+  height: 201px;
+}
+
+@media(max-width:767px) {
+  select {
+    width: 80% !important;
+  }
+
+  .edit-form {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), select, .bootstrap-select {
+      width: 80% !important;
+    }
+
+    input[type="submit"] {
+      margin-bottom: 20px;
+    }
+
+    label {
+      text-align: left;
+    }
+
+    .edit-entry {
+      padding-bottom: 20px;
+    }
+  }
+
+    #clickmap {
+      margin-left: 0;
+      width: 290px;
+    }
+
+  .login-forms input {
+    width: 100%;
+  }
+
+  .top-form {
+    padding-bottom: 20px;
+  }
 }
