@@ -749,9 +749,11 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     ).first()
     elections = gemeente.elections.all()
 
-    # need this to get a starting point for the clickmap
+    # Need this to get a starting point for the clickmap;
+    # Uses re.sub to remove provinces from some gemeenten which is how we write
+    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'
     bag_record = BAG.query.filter_by(
-        gemeente=gemeente.gemeente_naam
+        gemeente=re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
     ).order_by('openbareruimte').first()
 
     # Pick the first election. In the case of multiple elections we only
