@@ -58,8 +58,6 @@
     data-search="true"
     data-show-toggle="true"
     data-show-fullscreen="true"
-    data-sort-name="Nummer-stembureau"
-    data-sort-order="desc"
     data-pagination="true"
     data-page-list="[10, 25, 50, 100, all]"
     data-cookie="true"
@@ -69,7 +67,7 @@
       <tr>
         <th id="bewerk-kolom"></th>
         {% for field in field_order %}
-          <th data-field="{{ field|replace(' ', '-') }}" data-sortable="true">
+          <th data-field="{{ field }}" data-sortable="true">
             {{ field }}
           </th>
         {% endfor %}
@@ -125,13 +123,5 @@
       $('[data-toggle="tooltip"]').tooltip();
       $('[data-toggle="popover"]').popover();
     })
-
-    $(document).ready(function () {
-        $("#sort").DataTable({
-          columnDefs: [
-            { type: 'Nummer-stembureau', targets: [3] }
-          ],
-        });
-      });
   </script>
 {% endblock %}
