@@ -35,8 +35,6 @@
     <br>
     <br>
 
-    
-
     <form method="POST" action="">
       {{ publish_form.csrf_token }}
     {% if disable_publish_form %}
@@ -79,35 +77,30 @@
     </thead>
     <tbody>
       {% for record in draft_records %}
-      <div class="edit-form">
-        <form method="POST" action="">
-          <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog"
-            aria-labelledby="remove-confirmation-label">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                      aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
-                </div>
-                <div class="modal-body">
-                  Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                  <a href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">
-                    Verwijderen</a>
-                  </form>
-                </div>
+        <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+              </div>
+              <div class="modal-body">
+                Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                <a class="btn btn-danger" role="button" href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">Verwijderen</a>
               </div>
             </div>
           </div>
+        </div>
         <tr>
           {% if not upload_deadline_passed %}
             <td>
-              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">[bewerk]</a>
-              <button type="button" class="btn btn-danger" data-toggle="modal"
-                data-target="#remove-confirmation">Verwijderen</button>
+              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
+              <a id="remove-stembureau-link" href="" data-toggle="modal" data-target="#remove-confirmation">verwijderen</a>
             </td>
           {% endif %}
           {% for field in field_order %}
@@ -124,6 +117,7 @@
   <br>
   <br>
 {% endblock %}
+
 {% block scripts %}
   {{ super() }}
   <script>
@@ -131,6 +125,7 @@
       $('[data-toggle="tooltip"]').tooltip();
       $('[data-toggle="popover"]').popover();
     })
+
     $(document).ready(function () {
         $("#sort").DataTable({
           columnDefs: [
@@ -139,6 +134,4 @@
         });
       });
   </script>
-
-
 {% endblock %}
