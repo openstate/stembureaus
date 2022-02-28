@@ -96,7 +96,9 @@
           </p>
           {% if niet_open_voor_algemeen_publiek %}
           <h2 class="color: text-red">NB: {{ record['Extra adresaanduiding'] }}
-            <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
+            <span class="color: text-black">
+              <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
+            </span>
           </h2>
           {% else %}
             <p>{{ record['Extra adresaanduiding'] }}</p>
@@ -208,8 +210,21 @@
   {% include "map_scripts.html" %}
   <script>
     $(function () {
-      $('[data-toggle="popover"]').popover();
+      $('[data-toggle="tooltip"]').tooltip();
+      setTimeout(
+        function() {$('[data-toggle="popover"]').popover()},
+        1
+      );
     })
+
+    /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
+    $('body').on('click', function (e) {
+      $('[data-toggle=popover]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
+        }
+      });
+    });
 
     $(document).ready(function() {
       $('#model-embed').on('shown.bs.modal', function () {
