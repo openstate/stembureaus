@@ -458,7 +458,7 @@ def gemeente_stemlokalen_dashboard():
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
-    # both elections are the same (at least the GR2018 + referendum
+    # both elections are the same (at least for the GR2018 + referendum
     # elections on March 21st 2018).
     verkiezing = elections[0].verkiezing
 
@@ -666,7 +666,7 @@ def gemeente_stemlokalen_overzicht():
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
-    # both elections are the same (at least the GR2018 + referendum
+    # both elections are the same (at least for the GR2018 + referendum
     # elections on March 21st 2018).
     verkiezing = elections[0].verkiezing
 
@@ -752,13 +752,16 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # Need this to get a starting point for the clickmap;
     # Uses re.sub to remove provinces from some gemeenten which is how we write
     # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'
+    # TODO this won't work for BES-eilanden as they don't exist in the BAG, so
+    # exclude them from the filter below and initialize a custom bag_record
+    # with coordinates for the BES-eilanden.
     bag_record = BAG.query.filter_by(
         gemeente=re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
     ).order_by('openbareruimte').first()
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
-    # both elections are the same (at least the GR2018 + referendum
+    # both elections are the same (at least for the GR2018 + referendum
     # elections on March 21st 2018).
     verkiezing = elections[0].verkiezing
 

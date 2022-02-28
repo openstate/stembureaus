@@ -299,8 +299,8 @@ class EditForm(FlaskForm):
         # Stembureaus require a nummer and naam
         if not self.nummer_stembureau.data:
             self.nummer_stembureau.errors.append(
-                    'Vul het nummer van het stembureau in.'
-                )
+                'Vul het nummer van het stembureau in.'
+            )
             valid = False
         if not self.naam_stembureau.data:
             self.naam_stembureau.errors.append(
@@ -310,7 +310,8 @@ class EditForm(FlaskForm):
 
         if not self.bag_nummeraanduiding_id.data:
             self.adres_stembureau.errors.append(
-                "U heeft niet op een adres uit de lijst geklikt"
+                "Vul het adres van het stembureau in; zoek op straatnaam of "
+                "postcode of BAG ID en selecteer het adres uit de lijst"
             )
             valid = False
 
