@@ -6,33 +6,35 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Selecteer gemeente</h1>
+  <div class="container">
+    <h1 class="text-center">Selecteer gemeente</h1>
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  Met uw account heeft u toegang tot meerdere gemeenten. Selecteer de gemeente die u nu wilt bekijken:
+    Met uw account heeft u toegang tot meerdere gemeenten. Selecteer de gemeente die u nu wilt bekijken:
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  <div>
-    <form method="POST" action="">
-      {{ gemeente_selection_form.csrf_token }}
+    <div>
+      <form method="POST" action="">
+        {{ gemeente_selection_form.csrf_token }}
 
-      <div>
-        {{ gemeente_selection_form.gemeente.label }} {{ gemeente_selection_form.gemeente }}
-        {% for error in gemeente_selection_form.gemeente.errors %}
-          <span style="color: red;">- {{ error }}</span>
-          <br>
-        {% endfor %}
-      </div>
+        <div>
+          {{ gemeente_selection_form.gemeente.label }} {{ gemeente_selection_form.gemeente }}
+          {% for error in gemeente_selection_form.gemeente.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
 
-      <br>
+        <br>
 
-      <div>
-        {{ gemeente_selection_form.submit }}
-      </div>
-    </form>
+        <div>
+          {{ gemeente_selection_form.submit }}
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}

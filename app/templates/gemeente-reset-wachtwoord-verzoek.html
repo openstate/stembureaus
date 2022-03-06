@@ -6,33 +6,35 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Wachtwoord veranderen</h1>
+  <div class="container">
+    <h1 class="text-center">Wachtwoord veranderen</h1>
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  Voer je e-mailadres in en ontvang een e-mail waarmee je je wachtwoord kunt veranderen.
+    Voer je e-mailadres in en ontvang een e-mail waarmee je je wachtwoord kunt veranderen.
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  <div class="edit-form">
-    <form method="POST" action="">
-      {{ form.csrf_token }}
+    <div class="edit-form">
+      <form method="POST" action="">
+        {{ form.csrf_token }}
 
-      <div class="login-forms">
-        {{ form.email.label }} {{ form.email }}
-        {% for error in form.email.errors %}
-          <span style="color: red;">- {{ error }}</span>
-          <br>
-        {% endfor %}
-      </div>
+        <div class="login-forms">
+          {{ form.email.label }} {{ form.email }}
+          {% for error in form.email.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
 
-      <br>
+        <br>
 
-      <div>
-        {{ form.submit }}
-      </div>
-    </form>
+        <div>
+          {{ form.submit }}
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}

@@ -656,7 +656,7 @@ def gemeente_stemlokalen_dashboard():
 @login_required
 def gemeente_stemlokalen_overzicht():
     # Select a gemeente if none is currently selected
-    if not session['selected_gemeente_code']:
+    if not 'selected_gemeente_code' in session:
         return redirect(url_for('gemeente_selectie'))
 
     gemeente = Gemeente.query.filter_by(
@@ -741,7 +741,7 @@ def gemeente_stemlokalen_overzicht():
 @login_required
 def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
-    if not session['selected_gemeente_code']:
+    if not 'selected_gemeente_code' in session:
         return redirect(url_for('gemeente_selectie'))
 
     gemeente = Gemeente.query.filter_by(
@@ -855,7 +855,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 @login_required
 def gemeente_stemlokaal_delete(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
-    if not session['selected_gemeente_code']:
+    if not 'selected_gemeente_code' in session:
         return redirect(url_for('gemeente_selectie'))
 
     gemeente = Gemeente.query.filter_by(
@@ -879,6 +879,10 @@ def gemeente_stemlokaal_delete(stemlokaal_id=None):
 @app.route("/gemeente-instructies")
 @login_required
 def gemeente_instructies():
+    # Select a gemeente if none is currently selected
+    if not 'selected_gemeente_code' in session:
+        return redirect(url_for('gemeente_selectie'))
+
     gemeente = Gemeente.query.filter_by(
         gemeente_code=session['selected_gemeente_code']
     ).first()

@@ -7,7 +7,7 @@ select {
   margin: 7px;
 }
 
-input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select, .bootstrap-select {
+input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select, .bootstrap-select {
   width: 374px !important;
 }
 
@@ -147,5 +147,10 @@ label {
 
   .top-form {
     padding-bottom: 20px;
+  }
+
+  #bag-results ul {
+    margin-left: 7px;
+    width: 315px;
   }
 }

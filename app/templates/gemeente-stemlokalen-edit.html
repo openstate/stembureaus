@@ -6,137 +6,139 @@
 {% endblock %}
 
 {% block content %}
-  <div>
-    {% if current_user.gemeenten|length > 1 %}
-    > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
-    {% endif %}
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
-    <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
-  </div>
+  <div class="container">
+    <div>
+      {% if current_user.gemeenten|length > 1 %}
+      > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
+      {% endif %}
+      > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
+      <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
+    </div>
 
-  <h1 class="title-pad">Stembureau</h1>
-
-  <br>
-
-  Hieronder kunt alle gegevens van een stembureau invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
-
-  <br>
-  <br>
-
-  {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
-  {% else %}
-    <span class="required">*</span> = vereist veld
+    <h1 class="text-center">Stembureau</h1>
 
     <br>
 
-    <div class="edit-form">
-      <form method="POST" action="">
-        <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
-              </div>
-              <div class="modal-body">
-                Weet u zeker dat u dit stembureau wilt verwijderen?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                {{ form.submit_verwijderen }}
+    Hieronder kunt alle gegevens van een stembureau invullen. Klik op het vraagteken naast het veld om te zien hoe de gegevens ingevuld dienen te worden. Voor meer informatie kunt u terecht op de <a href="{{ url_for('gemeente_instructies') }}">help/instructiepagina</a>. Voor verdere vragen kunt u contact opnemen met <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
+
+    <br>
+    <br>
+
+    {% if upload_deadline_passed %}
+      <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+    {% else %}
+      <span class="required">*</span> = vereist veld
+
+      <br>
+
+      <div class="edit-form">
+        <form method="POST" action="">
+          <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                </div>
+                <div class="modal-body">
+                  Weet u zeker dat u dit stembureau wilt verwijderen?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                  {{ form.submit_verwijderen }}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {{ form.csrf_token }}
-        {% for f in form %}
-          {% if f.label.text == 'Extra adresaanduiding' %}
-          <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in het 'Extra adresaanduiding'-veld hieronder aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
-          {% endif %}
+          {{ form.csrf_token }}
+          {% for f in form %}
+            {% if f.label.text == 'Extra adresaanduiding' %}
+            <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in het 'Extra adresaanduiding'-veld hieronder aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
+            {% endif %}
 
-          {% if f.label.text == 'Latitude' %}
-          <hr>
-          <span><i>Vul eerst het 'Adres stembureau'-veld hierboven in, zodat de coördinaten hieronder automatisch worden ingevuld. Als de locatie van het stembureau op de kaart hieronder niet klopt, <b>sleep dan het rode icoontje naar de precieze locatie van het stembureau</b>. De coördinaten in de Latitude/Longitude- en X/Y-velden worden dan automatisch aangepast. Wilt u handmatig coördinaten aanleveren vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
-          <div id="clickmap"></div>
-          <script>
-            var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
-            StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
-            StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
-          </script>
-          {% endif %}
+            {% if f.label.text == 'Latitude' %}
+            <hr>
+            <span><i>Vul eerst het 'Adres stembureau'-veld hierboven in, zodat de coördinaten hieronder automatisch worden ingevuld. Als de locatie van het stembureau op de kaart hieronder niet klopt, <b>sleep dan het rode icoontje naar de precieze locatie van het stembureau</b>. De coördinaten in de Latitude/Longitude- en X/Y-velden worden dan automatisch aangepast. Wilt u handmatig coördinaten aanleveren vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
+            <div id="clickmap"></div>
+            <script>
+              var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
+              StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
+              StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
+            </script>
+            {% endif %}
 
-          {% if f.label.text == 'X' %}
-          <span class="margin30"><b>of</b></span>
-          <br>
-          {% endif %}
+            {% if f.label.text == 'X' %}
+            <span class="margin30"><b>of</b></span>
+            <br>
+            {% endif %}
 
-          {% if f.label.text == 'Verkiezingen' %}
-          <br>
-          <i>Indien in uw gemeente voor de waterschapsverkiezingen niet in elk willekeurig stemlokaal kan worden gestemd, vul dan het 'Verkiezingen'-veld hieronder in (klik op het vraagteken ernaast voor meer informatie).</i>
-          <br>
-          {% endif %}
+            {% if f.label.text == 'Verkiezingen' %}
+            <br>
+            <i>Indien in uw gemeente voor de waterschapsverkiezingen niet in elk willekeurig stemlokaal kan worden gestemd, vul dan het 'Verkiezingen'-veld hieronder in (klik op het vraagteken ernaast voor meer informatie).</i>
+            <br>
+            {% endif %}
 
-          {% if f.label.text == 'Toegankelijk voor mensen met een lichamelijke beperking' %}
-          <hr>
-          {% endif %}
+            {% if f.label.text == 'Toegankelijk voor mensen met een lichamelijke beperking' %}
+            <hr>
+            {% endif %}
 
-          {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
-            <div class="edit-entry">
-              {{ f.label }}
+            {% if f.widget.input_type != 'hidden' and f.widget.input_type != 'submit' %}
+              <div class="edit-entry">
+                {{ f.label }}
 
-              {% if f.type == "RadioField" %}
-                {% for subfield in f %}
-                    <tr>
-                        <td>{{ subfield.label }}</td>
-                        <td>{{ subfield }}</td>
-                    </tr>
-                {% endfor %}
-              {% elif f.type != "CustomSelectField" and f.type != "SelectMultipleField" %}
-              {{ f(size=35) }}
-              {% else %}
-              {{ f }}
-              {% endif %}
+                {% if f.type == "RadioField" %}
+                  {% for subfield in f %}
+                      <tr>
+                          <td>{{ subfield.label }}</td>
+                          <td>{{ subfield }}</td>
+                      </tr>
+                  {% endfor %}
+                {% elif f.type != "CustomSelectField" and f.type != "SelectMultipleField" %}
+                {{ f(size=35) }}
+                {% else %}
+                {{ f }}
+                {% endif %}
 
-              {% if f.description %}
-              <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
-              {% endif %}
+                {% if f.description %}
+                <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
+                {% endif %}
 
-              {% if f.flags.required %}
+                {% if f.flags.required %}
+                  <span class="required">*</span>
+                {% endif %}
+
+                {% if f.label.text == 'Adres stembureau' %}
                 <span class="required">*</span>
-              {% endif %}
+                <div id="bag-results"></div>
+                {% endif %}
 
-              {% if f.label.text == 'Adres stembureau' %}
-              <span class="required">*</span>
-              <div id="bag-results"></div>
-              {% endif %}
+                {% for error in f.errors %}
+                  <span style="color: red;">- {{ error }}</span>
+                  <br>
+                {% endfor %}
+               </div>
+            {% endif %}
 
-              {% for error in f.errors %}
-                <span style="color: red;">- {{ error }}</span>
-                <br>
-              {% endfor %}
-             </div>
-          {% endif %}
+            {% if f.widget.input_type == 'hidden' %}
+              {{ f }}
+            {% endif %}
 
-          {% if f.widget.input_type == 'hidden' %}
-            {{ f }}
-          {% endif %}
+            {% if f.label.text == 'Y' %}
+            <hr>
+            {% endif %}
 
-          {% if f.label.text == 'Y' %}
-          <hr>
-          {% endif %}
+          {% endfor %}
 
-        {% endfor %}
+          <br>
+          <br>
 
-        <br>
-        <br>
+          {{ form.submit }} {{ form.submit_annuleren }} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#remove-confirmation">Verwijderen</button>
 
-        {{ form.submit }} {{ form.submit_annuleren }} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#remove-confirmation">Verwijderen</button>
-
-      </form>
-    </div>
-  {% endif %}
+        </form>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
 {% block scripts %}
   {{ super() }}

@@ -19,12 +19,12 @@ import map from './routes/map';
 // Import the needed Font Awesome functionality
 import { config, library, dom } from '@fortawesome/fontawesome-svg-core';
 // Import required icons
-import { faPencilAlt, faEnvelope, faExternalLinkAlt, faQuestionCircle, faWheelchair, faBan, faDeaf, faCode, faMapMarkerAlt, faSearch, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faEnvelope, faExternalLinkAlt, faQuestionCircle, faWheelchair, faBan, faCode, faMapMarkerAlt, faSearch, faCheck, faQuestion, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faLinkedin, faFacebookF, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope as faEnvelopeR } from '@fortawesome/free-regular-svg-icons';
 
 // Add the imported icons to the library
-library.add(faPencilAlt, faEnvelope, faExternalLinkAlt, faQuestionCircle, faWheelchair, faBan, faDeaf, faCode, faLinkedin, faTwitter, faFacebookF, faGithub, faEnvelopeR, faMapMarkerAlt, faSearch, faCheck);
+library.add(faPencilAlt, faEnvelope, faExternalLinkAlt, faQuestionCircle, faWheelchair, faBan, faCode, faLinkedin, faTwitter, faFacebookF, faGithub, faEnvelopeR, faMapMarkerAlt, faSearch, faCheck, faQuestion, faVolumeMute);
 
 // Tell FontAwesome to watch the DOM and add the SVGs when it detects icon markup
 dom.watch();

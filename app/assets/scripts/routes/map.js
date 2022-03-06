@@ -1,5 +1,24 @@
 import Fuse from 'fuse.js';
 
+var weelchair_labels = {
+  'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;'
+}
+
+var akoestiek_labels = {
+  'ja': '<span class="fa-stack" title="Akoestiek geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i></span><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Akoestiek niet geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>&nbsp;',
+  '': '<span class="fa-stack" title="Onbekend of akoestiek geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
+  'undefined': '<span class="fa-stack" title="Onbekend of akoestiek niet geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
+}
+
+var gehandicaptentoilet_labels = {
+  'ja': '<span class="fa-stack" title="Gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i></span><span class="wc" title="Geen gehandicaptentoilet" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Gehandicaptentoilet</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Geen gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x stack" style="color: Tomato; opacity: 0.6;"></i></span><span class="wc" title="Geen gehandicaptentoilet" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Geen gehandicaptentoilet</span>&nbsp;',
+  '': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
+  'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
+}
+
 export default {
   // JavaScript to be fired on pages that contain the map
   init() {
@@ -36,9 +55,9 @@ export default {
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
         $('#results-search-gemeenten').append($(
-          '<div class="result">' +
-          '<h2><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a></h2>' +
-          '</div>'
+          '<ul>' +
+          '<li><h3><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a><h3></li>' +
+          '</ul>'
         ))
       }
 
@@ -56,35 +75,14 @@ export default {
       for (var i=0; i < matches.length; i++) {
         var opinfo = matches[i]['Openingstijden 16-03-2022'].split(' tot ');
 
-        var weelchair_labels = {
-          'ja': 'Toegankelijk voor mensen met een lichamelijke beperking',
-          'nee': 'Niet toegankelijk voor mensen met een lichamelijke beperking',
-          '': '',
-          undefined: ''
-        }
-
-        var akoestiek_labels = {
-          'ja': 'Akoestiek geschikt voor slechthorenden',
-          'nee': '',
-          '': '',
-          undefined: ''
-        }
-
-        var gehandicaptentoilet_labels = {
-          'ja': 'Gehandicaptentoilet',
-          'nee': '',
-          '': '',
-          undefined: ''
-        }
-
         var extra_adresaanduiding = '';
         var orange_icon = '';
         if (matches[i]['Extra adresaanduiding'].trim()) {
           if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-            extra_adresaanduiding = '<h4 class="color: text-red">NB: ' + matches[i]['Extra adresaanduiding'] + '</h4>';
+            extra_adresaanduiding = '<p style="color: #D63E2A"><b>NB: ' + matches[i]['Extra adresaanduiding'] + ' <span style="color: dimgrey"><i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico\'s van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i></span></b></p>';
             orange_icon = '-orange';
           } else {
-            extra_adresaanduiding = '<h5>' + matches[i]['Extra adresaanduiding'] + '</h5>';
+            extra_adresaanduiding = '<p>' + matches[i]['Extra adresaanduiding'] + '</p>';
           }
         }
 
@@ -109,20 +107,33 @@ export default {
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
         $('#results-search').append($(
-          '<div class="result row">' +
-            '<div class="col-xs-12"><hr style="margin: 0; height: 1px; border-color: #888;"></div>' +
-            '<div class="col-xs-12 col-sm-7">' +
-              '<h2><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h2>' +
-              '<h5>' + adres + '</h5>' +
-              '<h5>' + plaats_naam + '</h5>' +
-              extra_adresaanduiding +
-            '</div>' +
-            '<div class="col-xs-12 col-sm-5" style="padding-top: 24px;">' +
-              '<p style="font-size: 12px">' + weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] + '</p>' +
-              '<p style="font-size: 12px">' + akoestiek_labels[matches[i]["Akoestiek"]] + '</p>' +
-              '<p style="font-size: 12px">' + gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] + '</p>' +
-            '</div>' +
-          '</div>'
+          '<ul style="padding: 0">' +
+            '<li>' +
+              '<div class="col-xs-12" style="margin-bottom: 15px;">' +
+                '<h3><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
+
+                '<div style="padding-left: 26px; color: dimgrey;">' +
+                  '<p>' +
+                    adres + '<br>' +
+                    plaats_naam +
+                  '</p>' +
+                  extra_adresaanduiding +
+
+                  '<span class="stembureau-info-icons">' +
+                    weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
+                    akoestiek_labels[matches[i]["Akoestiek"]] +
+                    gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
+                  '</span>' +
+                  '<br>' +
+                  '<b>Visuele hulpmiddelen</b> <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" data-content="Er is verplicht een leesloep aanwezig in elk stembureau"></i>: ' +
+                  matches[i]["Visuele hulpmiddelen"] +
+                  '<br>' +
+                  '<b>Auditieve hulpmiddelen</b>: ' + matches[i]["Auditieve hulpmiddelen"] +
+                '</div>' +
+              '</div>' +
+              '<div class="col-xs-12"><hr style="margin: 0; height: 1px;"></div>' +
+            '</li>' +
+          '</ul>'
         ))
       }
 
@@ -219,7 +230,7 @@ export default {
         var opinfo = loc['Openingstijden ' + dag + '-03-2022'].split(' tot ');
         opinfo_output += '<dt style="text-align: left;">' + datum + '</dt>'
         if (opinfo[0].trim()) {
-          opinfo_output += '<dd>' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
+          opinfo_output += '<dd style="color: green">' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
         } else {
           opinfo_output += '<dd>gesloten</dd>'
         }
@@ -284,7 +295,7 @@ export default {
               ],
               {icon: markerIcons['Stembureau' + orange_icon]}
             ).bindPopup(
-              StembureausApp.getPopup(loc, orange_icon)
+              StembureausApp.getPopup(loc, orange_icon), {maxWidth: 240}
             )
           );
         });
@@ -330,12 +341,12 @@ export default {
 
         var output = "<p><b>" + icons['Stembureau' + orange_icon] + "</b>";
 
-        output += " <a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
+        output += " <b><a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
         if (loc['Nummer stembureau']) {
           output += "#" + loc['Nummer stembureau']  + " ";
         }
         output += loc['Naam stembureau'];
-        output += "</a><br />";
+        output += "</a></b><br>";
 
         if (loc['Straatnaam']) {
           output += loc['Straatnaam'];
@@ -356,7 +367,7 @@ export default {
         }
         if (loc['Extra adresaanduiding']) {
           if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-            output += '<br><h2 class="color: text-red">NB: ' + loc['Extra adresaanduiding'] + '</h2>';
+            output += '<br><span style="color: #D63E2A"><b>NB: ' + loc['Extra adresaanduiding'] + '</b></span>';
           } else {
             output += '<br>' + loc['Extra adresaanduiding'];
           }
@@ -366,22 +377,27 @@ export default {
 
         output += opinfo_output;
 
-        if (loc["Toegankelijk voor mensen met een lichamelijke beperking"] == 'ja') {
-          output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Toegankelijk voor mensen met een lichamelijke beperking"></i><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;';
-        } else {
-          output += '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.75;"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;';
-        }
-        if (loc["Akoestiek"] == 'ja') {
-          output += '<i class="fa fa-deaf fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Akoestiek geschikt voor slechthorenden"></i><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;';
-        }
-        if (loc["Gehandicaptentoilet"] == 'ja') {
-          output += '<i class="fa fa-wheelchair fa-2x" style="vertical-align: middle;" aria-hidden="true" title="Gehandicaptentoilet"></i><span title="Gehandicaptentoilet" style="position: relative; top: -8px; left: -10px" aria-hidden="true">WC</span><span class="sr-only">Gehandicaptentoilet</span>&nbsp;';
-        }
-        output += '</p>';
+        output += '<span class="stembureau-info-icons">'
+
+        output += weelchair_labels[loc["Toegankelijk voor mensen met een lichamelijke beperking"]];
+        output += akoestiek_labels[loc["Akoestiek"]];
+        output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
+
+        output += '</br>';
+        output += '<b>Visuele hulpmiddelen</b> (NB: er is verplicht een leesloep aanwezig in elk stembureau): ' + loc["Visuele hulpmiddelen"] ;
+        output += '</br>';
+        output += '<b>Auditieve hulpmiddelen</b>: ' + loc["Auditieve hulpmiddelen"];
+
+        output += '</span>';
+
         return output;
       };
 
-      StembureausApp.map = L.map('map', {zoomSnap: 0.2}).setView([52.2, 5.3], 7);
+      StembureausApp.map = L.map('map', {zoomSnap: 0.2, zoomControl: false}).setView([52.2, 5.3], 7);
+
+      L.control.zoom({
+        position: 'bottomright'
+      }).addTo(StembureausApp.map);
 
       StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 

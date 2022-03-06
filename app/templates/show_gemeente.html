@@ -6,116 +6,133 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col-xs-12">
-    <ol class="breadcrumb">
-      <li><a href="/">Nederland</a></li>
-      <li class="active">{{ gemeente }}</li>
-    </ol>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 title-row">
+        <ol class="breadcrumb">
+          <li><a href="/">Nederland</a></li>
+          <li class="active">{{ gemeente }}</li>
+        </ol>
+        <div class="center-block title-name">
+          <h1>Gemeente {{ gemeente }}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      {% if not records %}
+        Geen stembureaus gevonden voor {{ gemeente }}.
+        <br>
+        <br>
+        Terug naar de <a href="/">homepage</a>.
+      {% else %}
+        {% if disclaimer %}
+          <div class="col-xs-12">
+            {{ disclaimer }}
+            <br>
+            <br>
+          </div>
+        {% endif %}
+
+        <div class="col-xs-12 col-sm-12 col-md-9">
+          {% include "map.html" %}
+          <div class="row">
+            <span class="pull-right" style="padding-top: 13px; padding-bottom: 13px; padding-right: 15px;">
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+                <i class="fa fa-code"></i> Insluiten
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3">
+          <hr class="visible-xs-block visible-sm-block">
+          <h2>Stembureaus</h2>
+          <div class="row">
+            <div class="col-xs-12">
+              <form action="" method="get" class="form-inline" id="form-search">
+                  <div class="form-group">
+                    <label for="zoek-stembureau">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    </label>
+                    <input id="zoek-stembureau" type="text" class="form-control" name="query" value="" placeholder="Zoek stembureau">
+                  </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12" id="results-search">
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
   </div>
-</div>
-<div class="row">
-  {% if not records %}
-    Geen stembureaus gevonden voor {{ gemeente }}.
-    <br>
-    <br>
-    Terug naar de <a href="/">homepage</a>.
-  {% else %}
-    {% if disclaimer %}
-    <div class="col-xs-12">
-      {{ disclaimer }}
-      <br>
-      <br>
-    </div>
-    {% endif %}
 
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      {% include "map.html" %}
-      <div class="row">
-        <div class="col-xs-6" style="padding-top: 20px; padding-bottom: 20px;">
-          <a href="#" id ="btn-location">
-            <i class="fa fa-map-marker-alt" aria-hidden="true"></i> Gebruik mijn locatie
-          </a>
+  <div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Insluiten</h4>
         </div>
-        <p class="pull-right" style="padding-top: 13px; padding-bottom: 13px; padding-right: 15px;">
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
-            <i class="fa fa-code"></i> Insluiten
-          </button>
-        </p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      <div class="row">
-        <div class="col-xs-12">
-          <form action="" method="get" class="form-inline" id="form-search">
-              <div class="form-group">
-                <label for="zoek-stembureau">
-                Zoek straat/naam van een stembureau <i class="fa fa-search" aria-hidden="true"></i>
-                </label>
-                <input id="zoek-stembureau" type="text" class="form-control" name="query" value="" placeholder="stembureau">
-              </div>
+        <div class="modal-body">
+          <p>Om de kaart in te sluiten in een andere pagina dient u de onderstaande code te kopi&euml;ren en te plakken in uw CMS.</p>
+          <p><input type="checkbox" id="form-embed-search-checkbox" checked> Met zoekfunctie</p>
+          <form id="form-embed-search">
+            <textarea style="width: 100%; height: 80px;" id="form-embed-text-search">
+              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True) }}" width="500" height="735" /&gt;
+            </textarea>
           </form>
+
+          <form id="form-embed-no-search" style="display: none;">
+            <textarea style="width: 100%; height: 80px;" id="form-embed-text-no-search">
+              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True, search='0') }}" width="500" height="735" /&gt;
+            </textarea>
+          </form>
+
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12" id="results-search">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
         </div>
-      </div>
-    </div>
-  {% endif %}
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Insluiten</h4>
-      </div>
-      <div class="modal-body">
-        <p>Om de kaart in te sluiten in een andere pagina dient u de onderstaande code te kopi&euml;ren en te plakken in uw CMS.</p>
-        <p><input type="checkbox" id="form-embed-search-checkbox" checked> Met zoekfunctie</p>
-        <form id="form-embed-search">
-          <textarea style="width: 100%; height: 80px;" id="form-embed-text-search">
-            &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True) }}" width="500" height="735" /&gt;
-          </textarea>
-        </form>
-
-        <form id="form-embed-no-search" style="display: none;">
-          <textarea style="width: 100%; height: 80px;" id="form-embed-text-no-search">
-            &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True, search='0') }}" width="500" height="735" /&gt;
-          </textarea>
-        </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-{% include "map_scripts.html" %}
-<script>
+  {{ super() }}
+  {% include "map_scripts.html" %}
+  <script>
+    $(document).ready(function() {
+      if ($('#map').length) {
+        StembureausApp.show(StembureausApp.filtered_locations);
+      }
 
-  $(document).ready(function() {
-    if ($('#map').length) {
-      StembureausApp.show(StembureausApp.filtered_locations);
-    }
+      $('#model-embed').on('shown.bs.modal', function () {
+        $('textarea:visible').select().focus();
+      });
 
-    $('#model-embed').on('shown.bs.modal', function () {
-      $('textarea:visible').select().focus();
+      $('#form-embed-search-checkbox').on('click', function (e) {
+        $('#form-embed-search').toggle();
+        $('#form-embed-no-search').toggle();
+        $('textarea:visible').select().focus();
+      });
     });
 
-    $('#form-embed-search-checkbox').on('click', function (e) {
-      $('#form-embed-search').toggle();
-      $('#form-embed-no-search').toggle();
-      $('textarea:visible').select().focus();
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      setTimeout(
+        function() {$('[data-toggle="popover"]').popover()},
+        1
+      );
+    })
+
+    /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
+    $('body').on('click', function (e) {
+      $('[data-toggle=popover]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
+        }
+      });
     });
-  });
-</script>
+  </script>
 {% endblock %}

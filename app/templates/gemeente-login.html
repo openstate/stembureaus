@@ -6,47 +6,49 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Inloggen</h1>
+  <div class="container">
+    <h1 class="text-center">Inloggen</h1>
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  Inlogpagina voor gemeenten. Heeft uw gemeente nog geen inloggegevens stuur dan een bericht naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
+    Inlogpagina voor gemeenten. Heeft uw gemeente nog geen inloggegevens stuur dan een bericht naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.
 
-  <br>
-  <br>
+    <br>
+    <br>
 
-  <div class="edit-form">
-    <form method="POST" action="">
-      {{ form.csrf_token }}
+    <div class="edit-form">
+      <form method="POST" action="">
+        {{ form.csrf_token }}
 
-      <div class="login-forms top-form">
-        {{ form.email.label }} {{ form.email }}
-        {% for error in form.email.errors %}
-          <span style="color: red;">- {{ error }}</span>
-          <br>
-        {% endfor %}
-      </div>
+        <div class="login-forms top-form">
+          {{ form.email.label }} {{ form.email }}
+          {% for error in form.email.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
 
-      <div class="login-forms">
-        {{ form.Wachtwoord.label }} {{ form.Wachtwoord }}
-        {% for error in form.Wachtwoord.errors %}
-          <span style="color: red;">- {{ error }}</span>
-          <br>
-        {% endfor %}
-      </div>
+        <div class="login-forms">
+          {{ form.Wachtwoord.label }} {{ form.Wachtwoord }}
+          {% for error in form.Wachtwoord.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
 
-      <br>
+        <br>
 
-      <div>
-        {{ form.submit }}
-      </div>
+        <div>
+          {{ form.submit }}
+        </div>
 
-      <br>
+        <br>
 
-      <div>
-        <p><a href="{{ url_for('user_reset_wachtwoord_verzoek') }}">Wachtwoord vergeten</a></p>
-      </div>
-    </form>
+        <div>
+          <p><a href="{{ url_for('user_reset_wachtwoord_verzoek') }}">Wachtwoord vergeten</a></p>
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}

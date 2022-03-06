@@ -1,8 +1,10 @@
 {% extends "embed.html" %}
 
 {% block content %}
-  {% include "show_alles.html" %}
-  {% include "search_gemeenten.html" %}
+  <div class="container-fluid">
+    {% include "show_alles.html" %}
+    {% include "search_gemeenten.html" %}
+  </div>
 {% endblock %}
 
 {% block scripts %}

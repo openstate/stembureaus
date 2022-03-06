@@ -1,11 +1,26 @@
-<label>
-  geopend op
-  <select class="form-control" id="dag-filter">
-    <option value="alles">(toon alle dagen)</option>
-    <option value="14">maandag 14 maart</option>
-    <option value="15">dinsdag 15 maart</option>
-    <option value="16" selected>woensdag 16 maart</option>
-  </select>
-</label>
-<br>
-<div id="map" style="height: 500px;"></div>
+<div class="row">
+  <div class="col-xs-12 col-md-4 col-lg-3 filters">
+    <h2>Filters</h2>
+    <div style="padding-left: 10px">
+      <label>
+        geopend op
+        <select class="form-control" id="dag-filter">
+          <option value="alles">(toon alle dagen)</option>
+          <option value="14">maandag 14 maart</option>
+          <option value="15">dinsdag 15 maart</option>
+          <option value="16" selected>woensdag 16 maart</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-8 col-lg-9">
+    <h2>Kaart</h2>
+    <div style="padding-bottom: 20px;">
+      <a href="#" id ="btn-location">
+        <i class="fa fa-map-marker-alt" aria-hidden="true"></i> Gebruik mijn locatie
+      </a>
+    </div>
+
+    <div id="map" style="height: 500px;"></div>
+  </div>
+</div>

@@ -1,6 +1,13 @@
-#results-search-gemeenten, #results-search {
-  .result {
-    h2 {
+#results-search-gemeenten {
+  ul {
+    list-style-type: none;
+    margin-top: 10px;
+
+    li {
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+
       a {
         color: inherit;
         text-decoration: none;
@@ -10,22 +17,64 @@
         text-decoration: underline;
       }
     }
+  }
+}
 
-    margin-bottom: 10px;
+#results-search {
+  ul {
+    margin-bottom: 0;
 
-    h5 {
-      clear: both;
-      color: #888;
+    list-style-type: none;
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .pull-right {
-      margin-top: 20px;
-    }
-
-    p {
-      color: #888;
+    a:hover {
+      text-decoration: underline;
     }
   }
+
+  .pull-right {
+    margin-top: 20px;
+  }
+
+  p {
+    color: dimgrey;
+  }
+}
+
+.stembureau-info-icons {
+  .svg-inline--fa {
+    font-size: 20px;
+    color: dimgrey;
+    width: 26px;
+    margin: 1px 4.5px;
+  }
+
+  .fa-wheelchair {
+    top: 2px;
+  }
+
+  .fa-ban, .fa-question {
+    font-size: 26px;
+  }
+
+  .wc {
+    font-family: $font-family-title;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .stack {
+    z-index: 10;
+  }
+}
+
+.leaflet-popup .wc {
+  top: -17px !important;
+  left: -14px !important;
 }
 
 #form-search, #form-gemeente-search {
@@ -40,7 +89,11 @@
   input {
     border: 0;
     box-shadow: none;
-    width: 70% !important;
+    width: 91% !important;
+  }
+
+  .form-control {
+    display: inline-block;
   }
 }
 
@@ -48,6 +101,10 @@
   background-color: inherit;
   padding-left: 0;
   padding-right: 0;
+
+  .active {
+    color: dimgrey;
+  }
 }
 
 #remove-stembureau-link {

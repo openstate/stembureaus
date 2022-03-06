@@ -1,69 +1,85 @@
 {% extends "embed.html" %}
 {% block content %}
-<div class="row">
-  <div class="col-xs-12">
-    <ol class="breadcrumb">
-      <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
-      <li class="active">{{ gemeente }}</li>
-    </ol>
-  </div>
-</div>
-<div class="row">
-  {% if not records %}
-    Geen stembureaus gevonden voor {{ gemeente }}.
-    <br>
-    <br>
-    Terug naar de <a href="/">homepage</a>.
-  {% else %}
-
-    {% if disclaimer %}
-    <div class="col-xs-12">
-      {{ disclaimer }}
-      <br>
-      <br>
-    </div>
-    {% endif %}
-
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      {% include "map.html" %}
-      <div class="row">
-        <div class="col-xs-6" style="padding-top: 20px; padding-bottom: 20px;">
-          <a href="#" id ="btn-location">
-            <i class="fa fa-map-marker-alt" aria-hidden="true"></i> Gebruik mijn locatie
-          </a>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 title-row">
+        <ol class="breadcrumb">
+          <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
+          <li class="active">{{ gemeente }}</li>
+        </ol>
+        <div class="center-block title-name">
+          <h1>Gemeente {{ gemeente }}</h1>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      {% if show_search %}
-      <div class="row">
-        <div class="col-xs-12">
-          <form action="" method="get" class="form-inline" id="form-search">
-              <div class="form-group">
-                <label>
-                Zoek straat/naam van een stembureau <i class="fa fa-search" aria-hidden="true"></i>
-                </label>
-                <input type="text" class="form-control" name="query" value="" placeholder="stembureau">
-              </div>
-          </form>
+    <div class="row">
+      {% if not records %}
+        Geen stembureaus gevonden voor {{ gemeente }}.
+        <br>
+        <br>
+        Terug naar de <a href="/">homepage</a>.
+      {% else %}
+        {% if disclaimer %}
+          <div class="col-xs-12">
+            {{ disclaimer }}
+            <br>
+            <br>
+          </div>
+        {% endif %}
+
+        <div class="col-xs-12 col-sm-12 col-md-9">
+          {% include "map.html" %}
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12" id="results-search">
+        <div class="col-xs-12 col-sm-12 col-md-3">
+          {% if show_search %}
+          <hr class="visible-xs-block visible-sm-block">
+          <h2>Stembureaus</h2>
+          <div class="row">
+            <div class="col-xs-12">
+              <form action="" method="get" class="form-inline" id="form-search">
+                  <div class="form-group">
+                    <label for="zoek-stembureau">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    </label>
+                    <input id="zoek-stembureau" type="text" class="form-control" name="query" value="" placeholder="Zoek stembureau">
+                  </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12" id="results-search">
+            </div>
+          </div>
+          {% endif %}
         </div>
-      </div>
       {% endif %}
     </div>
-  {% endif %}
-</div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-{% include "map_scripts.html" %}
-<script>
-  $(document).ready(function() {
-    StembureausApp.show(StembureausApp.filtered_locations);
-  });
-</script>
+  {{ super() }}
+  {% include "map_scripts.html" %}
+  <script>
+    $(document).ready(function() {
+      StembureausApp.show(StembureausApp.filtered_locations);
+    });
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      setTimeout(
+        function() {$('[data-toggle="popover"]').popover()},
+        1
+      );
+    })
+
+    /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
+    $('body').on('click', function (e) {
+      $('[data-toggle=popover]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
+        }
+      });
+    });
+  </script>
 {% endblock %}

@@ -6,101 +6,103 @@
 {% endblock %}
 
 {% block content %}
-  <div>
-    {% if current_user.gemeenten|length > 1 %}
-    > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
-    {% endif %}
-    > Dashboard
-    <a class="btn btn-warning pull-right text-black" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
-  </div>
-
-  <h1 class="title-pad">{{ gemeente.gemeente_naam }}</h1>
-
-  <br>
-
-  Er zijn twee methoden om stembureaus toe te voegen:
-  <ol>
-    <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
-    <li>Door onderaan deze pagina een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
-  </ol>
-
-  <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
-
-  <br>
-  <br>
-
-  <div class="action-bar block-padding">
-    U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus opgeslagen en {{total_publish_records}} gepubliceerd.
-    {% if show_publish_note %}
-    <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
-    {% endif %}
-
-    <br>
-    <br>
-
-    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
-
-    <br>
-    <br>
-
-    {% if toon_stembureaus_pagina %}
-      <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
-    {% else %}
-      <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
-    {% endif %}
-  </div>
-
-  <br>
-  <br>
-
-  <div class="row">
-    <div class="col-md-8 background-lighter-grey block-padding">
-      <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
-      {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba'] %}
-      - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
-      {% else %}
-      - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
+  <div class="container">
+    <div>
+      {% if current_user.gemeenten|length > 1 %}
+      > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
       {% endif %}
-      {% if vooringevuld %}
-      <a href="{{ vooringevuld }}">.xlsx</a>
-      {% else %}
-      <b>niet beschikbaar voor uw gemeente</b>
-      {% endif %}
-      <br>
-      <br>
-      - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx">.xlsx</a>
+      > Dashboard
+      <a class="btn btn-warning pull-right text-black" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
     </div>
 
-    <div class="col-md-4 background-light-blue block-padding upload-block">
-      <h2 class="text-white">Upload stembureau-spreadsheet</h2>
+    <h1 class="text-center">Dashboard gemeente {{ gemeente.gemeente_naam }}</h1>
+
+    <br>
+
+    Er zijn twee methoden om stembureaus toe te voegen:
+    <ol>
+      <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
+      <li>Door onderaan deze pagina een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
+    </ol>
+
+    <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
+
+    <br>
+    <br>
+
+    <div class="action-bar block-padding">
+      U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus opgeslagen en {{total_publish_records}} gepubliceerd.
+      {% if show_publish_note %}
+      <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
+      {% endif %}
 
       <br>
+      <br>
 
-      {% if upload_deadline_passed %}
-        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+      <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
+
+      <br>
+      <br>
+
+      {% if toon_stembureaus_pagina %}
+        <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
       {% else %}
-        <form method="POST" enctype="multipart/form-data">
-          {{ form.csrf_token }}
-          {{ form.data_file }}
-          <br>
-          <b>Let op</b>: uploaden vervangt alle stembureaus die u eerder heeft toegevoegd!
-          <br>
-          {{ form.submit }}
-        </form>
+        <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
       {% endif %}
-
     </div>
-  </div>
-  <div class="row">
-    <hr>
-    Gebruikers met toegang tot deze gemeente:
-    <ul>
-    {% for user in gemeente.users %}
-      {% if not user.admin %}
-      <li>{{ user.email }}</li>
-      {% endif %}
-    {% endfor %}
-    </ul>
+
+    <br>
+    <br>
+
+    <div class="row">
+      <div class="col-md-8 background-lighter-grey block-padding">
+        <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
+        {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba'] %}
+        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
+        {% else %}
+        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
+        {% endif %}
+        {% if vooringevuld %}
+        <a href="{{ vooringevuld }}">.xlsx</a>
+        {% else %}
+        <b>niet beschikbaar voor uw gemeente</b>
+        {% endif %}
+        <br>
+        <br>
+        - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx">.xlsx</a>
+      </div>
+
+      <div class="col-md-4 background-light-blue block-padding upload-block">
+        <h2 class="text-white">Upload stembureau-spreadsheet</h2>
+
+        <br>
+
+        {% if upload_deadline_passed %}
+          <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+        {% else %}
+          <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ form.data_file }}
+            <br>
+            <b>Let op</b>: uploaden vervangt alle stembureaus die u eerder heeft toegevoegd!
+            <br>
+            {{ form.submit }}
+          </form>
+        {% endif %}
+
+      </div>
+    </div>
+    <div class="row">
+      <hr>
+      Gebruikers met toegang tot deze gemeente:
+      <ul>
+      {% for user in gemeente.users %}
+        {% if not user.admin %}
+        <li>{{ user.email }}</li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    </div>
   </div>
 {% endblock %}
 {% block scripts %}

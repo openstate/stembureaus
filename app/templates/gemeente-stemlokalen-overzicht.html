@@ -6,114 +6,116 @@
 {% endblock %}
 
 {% block content %}
-  <div>
-    {% if current_user.gemeenten|length > 1 %}
-    > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
-    {% endif %}
-    > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
-    <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
-  </div>
-
-  <h1 class="title-pad">Stembureaus</h1>
-
-  <br>
-
-  Overzicht van de stembureaus van de gemeente {{ gemeente.gemeente_naam }} voor {{ verkiezing_string | safe }}.
-
-  <br>
-  <br>
-
-  {% if upload_deadline_passed %}
-    <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
-    <br>
-  {% else %}
-    {% if not draft_records %}
-    <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
-    {% endif %}
-    <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
-
-    <br>
-    <br>
-
-    <form method="POST" action="">
-      {{ publish_form.csrf_token }}
-    {% if disable_publish_form %}
-      {{ publish_form.submit(disabled=True) }}
-      {% if draft_records %}
-        [de stembureaus zijn gepubliceerd]
+  <div class="container">
+    <div>
+      {% if current_user.gemeenten|length > 1 %}
+      > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
       {% endif %}
-    {% else %}
-      {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
-    {% endif %}
-    </form>
-  {% endif %}
+      > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
+      <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
+    </div>
 
-  <br>
-  <table
-    id="table"
-    data-toggle="table"
-    data-locale="nl-NL"
-    data-sticky-header="true"
-    data-sticky-header-offset-y=54
-    data-search="true"
-    data-show-toggle="true"
-    data-show-fullscreen="true"
-    data-pagination="true"
-    data-page-list="[10, 25, 50, 100, all]"
-    data-cookie="true"
-    data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
-  >
-    <thead>
-      <tr>
-        <th id="bewerk-kolom"></th>
-        {% for field in field_order %}
-          <th data-field="{{ field }}" data-sortable="true">
-            {{ field }}
-          </th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for record in draft_records %}
-        <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
-              </div>
-              <div class="modal-body">
-                Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                <a class="btn btn-danger" role="button" href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">Verwijderen</a>
+    <h1 class="text-center">Stembureaus</h1>
+
+    <br>
+
+    Overzicht van de stembureaus van de gemeente {{ gemeente.gemeente_naam }} voor {{ verkiezing_string | safe }}.
+
+    <br>
+    <br>
+
+    {% if upload_deadline_passed %}
+      <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+      <br>
+    {% else %}
+      {% if not draft_records %}
+      <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
+      {% endif %}
+      <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
+
+      <br>
+      <br>
+
+      <form method="POST" action="">
+        {{ publish_form.csrf_token }}
+      {% if disable_publish_form %}
+        {{ publish_form.submit(disabled=True) }}
+        {% if draft_records %}
+          [de stembureaus zijn gepubliceerd]
+        {% endif %}
+      {% else %}
+        {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
+      {% endif %}
+      </form>
+    {% endif %}
+
+    <br>
+    <table
+      id="table"
+      data-toggle="table"
+      data-locale="nl-NL"
+      data-sticky-header="true"
+      data-sticky-header-offset-y=54
+      data-search="true"
+      data-show-toggle="true"
+      data-show-fullscreen="true"
+      data-pagination="true"
+      data-page-list="[10, 25, 50, 100, all]"
+      data-cookie="true"
+      data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
+    >
+      <thead>
+        <tr>
+          <th id="bewerk-kolom"></th>
+          {% for field in field_order %}
+            <th data-field="{{ field }}" data-sortable="true">
+              {{ field }}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in draft_records %}
+          <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                </div>
+                <div class="modal-body">
+                  Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                  <a class="btn btn-danger" role="button" href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">Verwijderen</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <tr>
-          {% if not upload_deadline_passed %}
-            <td>
-              <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
-              <a id="remove-stembureau-link" href="" data-toggle="modal" data-target="#remove-confirmation">verwijderen</a>
-            </td>
-          {% endif %}
-          {% for field in field_order %}
-            <td>
-              {% if record[field[:62]] != None %}
-                {{ record[field[:62]] }}
-              {% endif %}
-            </td>
-          {% endfor %}
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <br>
-  <br>
+          <tr>
+            {% if not upload_deadline_passed %}
+              <td>
+                <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
+                <a id="remove-stembureau-link" href="" data-toggle="modal" data-target="#remove-confirmation">verwijderen</a>
+              </td>
+            {% endif %}
+            {% for field in field_order %}
+              <td>
+                {% if record[field[:62]] != None %}
+                  {{ record[field[:62]] }}
+                {% endif %}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    <br>
+  </div>
 {% endblock %}
 
 {% block scripts %}

@@ -93,11 +93,8 @@
   </header>
 
   <main>
-  {% include 'flashed-messages.html' %}
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
+    {% include 'flashed-messages.html' %}
+    {% block content %}{% endblock %}
   </main>
 
   <footer>
@@ -115,11 +112,11 @@
         </div>
         <div id="contact" class="footer-item col-xs-12 col-sm-4 col-md-3">
           <ul class="list-inline text-grey right-footer-list-padding" style="margin-top: 15px;">
-            <li><a class="right-footer-padding" title="Open State Foundation Twitter" href="https://twitter.com/OpenStateEU" target="_blank" rel="noopener"><i class="fab fa-twitter fa-2x text-grey"></i></a></li>
-            <li><a class="right-footer-padding" title="Open State Foundation LinkedIn" href="https://www.linkedin.com/company/open-state-foundation/" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-2x text-grey"></i></a></li>
-            <li><a class="right-footer-padding" title="Open State Foundation Facebook" href="https://www.facebook.com/OpenStateFoundation/" target="_blank" rel="noopener"><i class="fab fa-facebook-f fa-2x text-grey"></i></a></li>
-            <li><a class="right-footer-padding" title="Waar is mijn stemlokaal Github" href="https://github.com/openstate/stembureaus" target="_blank" rel="noopener"><i class="fab fa-github fa-2x text-grey"></i></a></li>
-            <li><a class="right-footer-padding" title="stemlokaal@openstate.eu" href="mailto:stemlokaal@openstate.eu" target="_blank" rel="noopener"><i class="far fa-envelope fa-2x text-grey"></i></a></li>
+            <li><a class="right-footer-padding" href="https://twitter.com/OpenStateEU" title="Open State Foundation Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter fa-2x text-grey" title="Open State Foundation Twitter"></i></a></li>
+            <li><a class="right-footer-padding" href="https://www.linkedin.com/company/open-state-foundation/" title="Open State Foundation LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-2x text-grey" title="Open State Foundation LinkedIn"></i></a></li>
+            <li><a class="right-footer-padding" href="https://www.facebook.com/OpenStateFoundation/" title="Open State Foundation Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f fa-2x text-grey" title="Open State Foundation Facebook"></i></a></li>
+            <li><a class="right-footer-padding" href="https://github.com/openstate/stembureaus" title="Waar is mijn stemlokaal Github" target="_blank" rel="noopener"><i class="fab fa-github fa-2x text-grey" title="Waar is mijn stemlokaal Github"></i></a></li>
+            <li><a class="right-footer-padding" href="mailto:stemlokaal@openstate.eu" title="e-mail stemlokaal@openstate.eu" target="_blank" rel="noopener"><i class="far fa-envelope fa-2x text-grey" title="e-mail stemlokaal@openstate.eu"></i></a></li>
           </ul>
         </div>
       </div>

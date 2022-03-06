@@ -26,7 +26,12 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-32274817-14', { 'anonymize_ip': true });
+    gtag('config', 'UA-32274817-14', {
+      cookie_flags: 'max-age=7200;secure;samesite=none'
+    },
+    {
+      'anonymize_ip': true
+    });
   </script>
 
   <!-- H1ML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,19 +41,15 @@
   <![endif]-->
   {% endblock %}
 </head>
-<body>
+<body style="background-color: white">
   <script>
-
       var StembureausApp = window.StembureausApp || {stembureaus: [],links_external: true};
       StembureausApp.links_external = true;
   </script>
 
   <main>
-  {% include 'flashed-messages.html' %}
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
   </main>
 
   {% block scripts %}
