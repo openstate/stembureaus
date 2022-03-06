@@ -29,10 +29,6 @@ a {
   text-decoration: underline;
 }
 
-.title-row {
-  display: flex;
-}
-
 #dag-filter {
   display: inline-block;
   width: 180px !important;
@@ -68,10 +64,6 @@ a {
 
 .text-grey {
   color: grey;
-}
-
-.title-pad {
-  padding: 0 30px;
 }
 
 .action-bar {
@@ -143,11 +135,6 @@ dd {
   height: 32px;
 }
 
-.title-name {
-  position: relative;
-  left: -90px;
-}
-
 @media(min-width:1200px) {
   .no-gutter-xl {
     padding-left: 0;
@@ -159,16 +146,6 @@ dd {
   .vertical-align {
     display: flex;
     align-items: center;
-  }
-}
-
-@media(max-width:992px) {
-  .title-row {
-    display: block;
-  }
-
-  .title-name {
-    position: static;
   }
 }
 

@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid breadcrump-page">
   <div class="row">
-    <div class="col-xs-12 title-row">
+    <div class="col-xs-12">
       <ol class="breadcrumb">
         <li><a href="/">Nederland</a></li>
         <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
@@ -23,7 +23,12 @@
           <li class="active">{{ records[0]['Naam stembureau'] }}</li>
         {% endif %}
       </ol>
-      <div class="center-block title-name">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="text-center">
         {% set niet_open_voor_algemeen_publiek = false %}
         {% if 'niet open voor algemeen publiek' in records[0]['Extra adresaanduiding'].lower() %}
           {% set niet_open_voor_algemeen_publiek = true %}
@@ -43,6 +48,7 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     {% if not records %}
     Kan stembureau met UUID "{{ primary_key }}" niet vinden.

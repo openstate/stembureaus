@@ -6,18 +6,24 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
+  <div class="container-fluid breadcrump-page">
     <div class="row">
-      <div class="col-xs-12 title-row">
+      <div class="col-xs-12">
         <ol class="breadcrumb">
           <li><a href="/">Nederland</a></li>
           <li class="active">{{ gemeente }}</li>
         </ol>
-        <div class="center-block title-name">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="text-center">
           <h1>Gemeente {{ gemeente }}</h1>
         </div>
       </div>
     </div>
+
     <div class="row">
       {% if not records %}
         Geen stembureaus gevonden voor {{ gemeente }}.
