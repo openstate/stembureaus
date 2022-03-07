@@ -43,7 +43,7 @@
     </div>
     {% endif %}
     <div class="col-xs-12 col-sm-12 col-md-8">
-      <h2>Kaart</h2>
+      <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
       <div id="map" style="height: 500px;"></div>
     </div>
     {% if show_infobar %}
@@ -55,7 +55,7 @@
             {% if 'niet open voor algemeen publiek' in record['Extra adresaanduiding'].lower() %}
               {% set niet_open_voor_algemeen_publiek = true %}
             {% endif %}
-            <h2>Stembureau informatie</h2>
+            <h2><i class="fa fa-info text-purple"></i> Stembureau informatie</h2>
             <h3>Adres</h3>
             <p>
               {% if record['Straatnaam'] %}
