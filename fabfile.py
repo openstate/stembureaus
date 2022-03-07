@@ -40,6 +40,7 @@ def deploy(c):
                 NODE_CONTAINER
             )
         )
+    c.sudo('docker exec %s yarn' % (NODE_CONTAINER))
     c.sudo('docker exec %s yarn prod' % (NODE_CONTAINER))
 
     # Reload app
