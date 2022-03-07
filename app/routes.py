@@ -274,6 +274,7 @@ def embed_alles():
     )
 
 
+@app.route("/t/", defaults={"query": None})
 @app.route("/t/<query>")
 def perform_typeahead(query):
     try:
@@ -288,6 +289,13 @@ def perform_typeahead(query):
     gemeente = Gemeente.query.filter_by(
         gemeente_code=session['selected_gemeente_code']
     ).first()
+
+    # Uses re.sub to remove provinces from some gemeenten which is how we write
+    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'
+    gemeente_naam = re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+
+    if not query:
+        return jsonify([])
 
     results = None
     # first try postcode
@@ -304,7 +312,7 @@ def perform_typeahead(query):
 
         results = BAG.query.filter(
             BAG.postcode == postcode,
-            BAG.gemeente == gemeente.gemeente_naam)
+            BAG.gemeente == gemeente_naam)
 
         if huisnr is not None:
             results = results.filter(BAG.huisnummer.like(huisnr + '%'))
@@ -318,7 +326,7 @@ def perform_typeahead(query):
     if m is not None:
         results = BAG.query.filter(
             BAG.nummeraanduiding == m.group(1),
-            BAG.gemeente == gemeente.gemeente_naam)
+            BAG.gemeente == gemeente_naam)
 
     # finally, treat it as a street name
     if results is None:
@@ -336,7 +344,7 @@ def perform_typeahead(query):
                 woonplaats = m.group(4)
         results = BAG.query.filter(
             BAG.openbareruimte.match('+' + re.sub('\s+', '* +', street.strip()) + '*'),
-            BAG.gemeente == gemeente.gemeente_naam)
+            BAG.gemeente == gemeente_naam)
         if huisnr is not None:
             results = results.filter(BAG.huisnummer.like(huisnr + '%'))
         if huisnr_toev is not None:
