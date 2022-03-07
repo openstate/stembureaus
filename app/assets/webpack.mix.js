@@ -16,6 +16,7 @@ require('laravel-mix-imagemin');
 mix.setPublicPath('../static/dist');
 
 mix.copyDirectory('node_modules/bootstrap-sass/assets/fonts/bootstrap/', '../static/dist/fonts/');
+mix.copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts/', '../static/dist/webfonts/');
 
 mix.js('scripts/main.js', '../static/dist/scripts/');
 

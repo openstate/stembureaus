@@ -13,15 +13,6 @@ footer {
     margin: 0;
     padding-left: 5px;
   }
-  ul.dashed {
-    list-style-type: none;
-  }
-  ul.dashed > li {
-    text-indent: -5px;
-  }
-  ul.dashed > li:before {
-    content: "- ";
-  }
 
   .osf-logo {
     width: 115px;

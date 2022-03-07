@@ -1,20 +1,137 @@
 <div class="row">
   <div class="col-xs-12 col-md-4 col-lg-3 filters">
-    <h2>Filters</h2>
+    <h2><i class="fa fa-filter text-orange"></i> Filters</h2>
     <div style="padding-left: 10px">
+      <h3>Datum & tijdstip</h3>
       <label>
-        Geopend op
-        <select class="form-control" id="dag-filter">
-          <option value="alles" selected>(toon alle dagen)</option>
+        Verkiezingsdag
+        <select class="form-control filter" id="dag-filter">
+          <option value="" selected>(toon alle dagen)</option>
           <option value="14">maandag 14 maart</option>
           <option value="15">dinsdag 15 maart</option>
           <option value="16">woensdag 16 maart</option>
         </select>
       </label>
+      <label>
+        Openingstijden
+        <select class="form-control filter" id="openingstijden-filter">
+          <option value="" selected>(toon alles)</option>
+          <option value="regulier">Regulier (07:30 - 21:00)</option>
+          <option value="afwijkend">Afwijkend</option>
+        </select>
+      </label>
+      <br>
+
+      <div class="visible-md-block visible-lg-block">
+        <h3>Toegankelijkheid</h3>
+        <label>
+          Toegankelijk voor mensen met een lichamelijke beperking
+          <br>
+          <select class="form-control filter toegankelijk-filter">
+            <option value="" selected></option>
+            <option value="ja">Ja</option>
+            <option value="nee">Nee</option>
+          </select>
+        </label>
+        <br>
+        <label>
+          Visuele hulpmiddelen
+          <br>
+          <select class="form-control filter visuele-hulpmiddelen-filter">
+            <option value="" selected></option>
+            <option value="ja">Ja</option>
+          </select>
+        </label>
+        <br>
+        <label>
+          Auditieve hulpmiddelen
+          <br>
+          <select class="form-control filter auditieve-hulpmiddelen-filter">
+            <option value="" selected></option>
+            <option value="ja">Ja</option>
+          </select>
+        </label>
+        <br>
+        <label>
+          Akoestiek
+          <br>
+          <select class="form-control filter akoestiek-filter">
+            <option value="" selected></option>
+            <option value="ja">Ja</option>
+            <option value="nee">Nee</option>
+          </select>
+        </label>
+        <br>
+        <label>
+          Gehandicaptentoilet
+          <br>
+          <select class="form-control filter gehandicaptentoilet-filter">
+            <option value="" selected></option>
+            <option value="ja">Ja</option>
+            <option value="nee">Nee</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="visible-xs-block visible-sm-block">
+        <button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+          Meer filters
+        </button>
+        <div class="collapse" id="collapseFilter">
+          <h3>Toegankelijkheid</h3>
+          <label>
+            Toegankelijk voor mensen met een lichamelijke beperking
+            <br>
+            <select class="form-control filter toegankelijk-filter">
+              <option value="" selected></option>
+              <option value="ja">Ja</option>
+              <option value="nee">Nee</option>
+            </select>
+          </label>
+          <br>
+          <label>
+            Visuele hulpmiddelen
+            <br>
+            <select class="form-control filter visuele-hulpmiddelen-filter">
+              <option value="" selected></option>
+              <option value="ja">Ja</option>
+            </select>
+          </label>
+          <br>
+          <label>
+            Auditieve hulpmiddelen
+            <br>
+            <select class="form-control filter auditieve-hulpmiddelen-filter">
+              <option value="" selected></option>
+              <option value="ja">Ja</option>
+            </select>
+          </label>
+          <br>
+          <label>
+            Akoestiek
+            <br>
+            <select class="form-control filter akoestiek-filter">
+              <option value="" selected></option>
+              <option value="ja">Ja</option>
+              <option value="nee">Nee</option>
+            </select>
+          </label>
+          <br>
+          <label>
+            Gehandicaptentoilet
+            <br>
+            <select class="form-control filter gehandicaptentoilet-filter">
+              <option value="" selected></option>
+              <option value="ja">Ja</option>
+              <option value="nee">Nee</option>
+            </select>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-xs-12 col-md-8 col-lg-9">
-    <h2>Kaart</h2>
+    <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
     <div style="padding-bottom: 20px;">
       <a href="#" id ="btn-location">
         <i class="fa fa-map-marker-alt" aria-hidden="true"></i> Gebruik mijn locatie

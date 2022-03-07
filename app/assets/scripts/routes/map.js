@@ -1,22 +1,22 @@
 import Fuse from 'fuse.js';
 
 var weelchair_labels = {
-  'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;'
+  'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;'
 }
 
 var akoestiek_labels = {
-  'ja': '<span class="fa-stack" title="Akoestiek geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i></span><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Akoestiek niet geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>&nbsp;',
-  '': '<span class="fa-stack" title="Onbekend of akoestiek geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
-  'undefined': '<span class="fa-stack" title="Onbekend of akoestiek niet geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
+  'ja': '<span class="fa-stack" title="Akoestiek geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i></span><span class="sr-only">Akoestiek geschikt voor slechthorenden</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Akoestiek niet geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x" style="color: Tomato; opacity: 0.6;"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>&nbsp;',
+  '': '<span class="fa-stack" title="Onbekend of akoestiek geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-2x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
+  'undefined': '<span class="fa-stack" title="Onbekend of akoestiek niet geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-2x" style="color: orange; opacity: 0.9;"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
 }
 
 var gehandicaptentoilet_labels = {
-  'ja': '<span class="fa-stack" title="Gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i></span><span class="wc" title="Geen gehandicaptentoilet" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Gehandicaptentoilet</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Geen gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-1x stack" style="color: Tomato; opacity: 0.6;"></i></span><span class="wc" title="Geen gehandicaptentoilet" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Geen gehandicaptentoilet</span>&nbsp;',
-  '': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
-  'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-1x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" style="position: relative; top: -21px; left: -19px; color: dimgrey;" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
+  'ja': '<span class="fa-stack" title="Gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i></span><span class="wc" title="Geen gehandicaptentoilet" aria-hidden="true">WC</span><span class="sr-only">Gehandicaptentoilet</span>&nbsp;',
+  'nee': '<span class="fa-stack" title="Geen gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-ban fa-stack-2x stack" style="color: Tomato; opacity: 0.6;"></i></span><span class="wc" title="Geen gehandicaptentoilet" aria-hidden="true">WC</span><span class="sr-only">Geen gehandicaptentoilet</span>&nbsp;',
+  '': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-2x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
+  'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-2x stack" style="color: orange; opacity: 0.9;"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
 }
 
 export default {
@@ -36,27 +36,27 @@ export default {
       for (var i=0; i < matches.length; i++) {
 
         // Deal with alternative municipality names
-        var gemeente_uri = matches[i]['gemeente_naam']
-        if (matches[i]['gemeente_naam'] == 'Den Haag') {
+        var gemeente_uri = matches[i]['item']['gemeente_naam']
+        if (matches[i]['item']['gemeente_naam'] == 'Den Haag') {
           gemeente_uri = "'s-Gravenhage"
         }
-        else if (matches[i]['gemeente_naam'] == 'Den Bosch') {
+        else if (matches[i]['item']['gemeente_naam'] == 'Den Bosch') {
           gemeente_uri = "'s-Hertogenbosch"
         }
-        else if (matches[i]['gemeente_naam'] == 'De Friese Meren') {
+        else if (matches[i]['item']['gemeente_naam'] == 'De Friese Meren') {
           gemeente_uri = "De Fryske Marren"
         }
-        else if (matches[i]['gemeente_naam'] == 'Noordoost-Friesland') {
+        else if (matches[i]['item']['gemeente_naam'] == 'Noordoost-Friesland') {
           gemeente_uri = "Noardeast-Fryslân"
         }
-        else if (matches[i]['gemeente_naam'] == 'Zuidwest-Friesland') {
+        else if (matches[i]['item']['gemeente_naam'] == 'Zuidwest-Friesland') {
           gemeente_uri = "Súdwest-Fryslân"
         }
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
         $('#results-search-gemeenten').append($(
           '<ul>' +
-          '<li><h3><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['gemeente_naam'] + '</a><h3></li>' +
+          '<li><h3><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['item']['gemeente_naam'] + '</a><h3></li>' +
           '</ul>'
         ))
       }
@@ -175,7 +175,15 @@ export default {
       //console.log('matches:');
       //console.dir(stembureau_matches);
 
-      StembureausApp.show(stembureau_matches, query);
+      // Flatten the matches array a bit by removing the 'item' level;
+      // this is needed to match our 'filtered_locations' array which we
+      // also pass to the 'StembureausApp.show' function
+      var cleaned_stembureau_matches = [];
+      stembureau_matches.forEach(function(match) {
+        cleaned_stembureau_matches.push(match['item']);
+      });
+
+      StembureausApp.show(cleaned_stembureau_matches, query);
     };
 
     StembureausApp.init = function() {
@@ -240,11 +248,6 @@ export default {
       return opinfo_output;
     }
 
-    // Get the value of currently selected dag for the map filter
-    var get_dag = function() {
-      return $('#dag-filter').val();
-    }
-
     var get_query = function() {
       return $('#form-search input[type="text"]').val();
     }
@@ -273,12 +276,12 @@ export default {
       var dag;
 
       // Apply filters to the map
-      StembureausApp.filter_map = function (dag) {
+      StembureausApp.filter_map = function (filters) {
         if (StembureausApp.clustermarkers) {
           StembureausApp.map.removeLayer(StembureausApp.clustermarkers);
         }
         StembureausApp.clustermarkers = L.markerClusterGroup({maxClusterRadius: 50});
-        StembureausApp.filter_locations(dag);
+        StembureausApp.filter_locations(filters);
         // Save markers to filtered_markers as we use it later to fit bounds
         StembureausApp.filtered_markers = [];
         StembureausApp.filtered_locations.forEach(function (loc) {
@@ -303,24 +306,143 @@ export default {
           marker.addTo(StembureausApp.clustermarkers);
         });
         StembureausApp.map.addLayer(StembureausApp.clustermarkers);
+
       };
 
       // Filter locations
-      StembureausApp.filter_locations = function (dag) {
+      StembureausApp.filter_locations = function (filters) {
         StembureausApp.filtered_locations = [];
+
+        // Filter: dag
         StembureausApp.stembureaus.forEach(function (loc) {
-          // When you only view a single location, there is no dag filter as
-          // all the information is shown on the page
+          var dag = filters['dag'];
           if (dag) {
-            if (dag == 'alles') {
+            if (dag === '') {
               StembureausApp.filtered_locations.push(loc);
             } else if (loc['Openingstijden ' + dag + '-03-2022'].split(' tot ')[0].trim()) {
               StembureausApp.filtered_locations.push(loc);
             }
           } else {
+            // When you only view a single location, there is no dag filter as
+            // all the information is shown on the page
             StembureausApp.filtered_locations.push(loc);
           }
         });
+
+        // Filter: openingstijden
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var openingstijden = filters['openingstijden'];
+          var dag = filters['dag'];
+          if (openingstijden) {
+            if (openingstijden === '') {
+              temp_filtered_locations.push(loc);
+            } else if (openingstijden === 'regulier') {
+              if (dag) {
+                if (loc['Openingstijden ' + dag + '-03-2022'] === '2022-03-' + dag + 'T07:30:00 tot 2022-03-' + dag + 'T21:00:00') {
+                  temp_filtered_locations.push(loc);
+                }
+              } else {
+                if (loc['Openingstijden 14-03-2022'] !== '' && loc['Openingstijden 14-03-2022'] === '2022-03-14T07:30:00 tot 2022-03-14T21:00:00' || loc['Openingstijden 15-03-2022'] !== '' && loc['Openingstijden 15-03-2022'] === '2022-03-15T07:30:00 tot 2022-03-15T21:00:00' || loc['Openingstijden 16-03-2022'] !== '' && loc['Openingstijden 16-03-2022'] === '2022-03-16T07:30:00 tot 2022-03-16T21:00:00') {
+                  temp_filtered_locations.push(loc);
+                }
+              }
+            } else if (openingstijden === 'afwijkend') {
+              if (dag) {
+                if (loc['Openingstijden ' + dag + '-03-2022'] !== '2022-03-' + dag + 'T07:30:00 tot 2022-03-' + dag + 'T21:00:00') {
+                  temp_filtered_locations.push(loc);
+                }
+              } else {
+                if (loc['Openingstijden 14-03-2022'] !== '' && loc['Openingstijden 14-03-2022'] !== '2022-03-14T07:30:00 tot 2022-03-14T21:00:00' || loc['Openingstijden 15-03-2022'] !== '' && loc['Openingstijden 15-03-2022'] !== '2022-03-15T07:30:00 tot 2022-03-15T21:00:00' || loc['Openingstijden 16-03-2022'] !== '' && loc['Openingstijden 16-03-2022'] !== '2022-03-16T07:30:00 tot 2022-03-16T21:00:00') {
+                  temp_filtered_locations.push(loc);
+                }
+              }
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
+
+        // Filter: toegankelijk voor mensen met een lichamelijke beperking
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var toegankelijk = filters['toegankelijk'];
+          if (toegankelijk) {
+            if (toegankelijk === '') {
+              temp_filtered_locations.push(loc);
+            } else if (loc['Toegankelijk voor mensen met een lichamelijke beperking'] === toegankelijk) {
+              temp_filtered_locations.push(loc);
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
+
+        // Filter: visuele hulpmiddelen
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var this_filter = filters['visuele-hulpmiddelen'];
+          if (this_filter) {
+            if (this_filter === '') {
+              temp_filtered_locations.push(loc);
+            } else if (loc['Visuele hulpmiddelen']) {
+              temp_filtered_locations.push(loc);
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
+
+        // Filter: auditieve hulpmiddelen
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var this_filter = filters['auditieve-hulpmiddelen'];
+          if (this_filter) {
+            if (this_filter === '') {
+              temp_filtered_locations.push(loc);
+            } else if (loc['Auditieve hulpmiddelen']) {
+              temp_filtered_locations.push(loc);
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
+
+        // Filter: gehandicaptentoilet
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var this_filter = filters['gehandicaptentoilet'];
+          if (this_filter) {
+            if (this_filter === '') {
+              temp_filtered_locations.push(loc);
+            } else if (loc['Gehandicaptentoilet'] === this_filter) {
+              temp_filtered_locations.push(loc);
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
+
+        // Filter: akoestiek
+        var temp_filtered_locations = [];
+        StembureausApp.filtered_locations.forEach(function (loc) {
+          var this_filter = filters['akoestiek'];
+          if (this_filter) {
+            if (this_filter === '') {
+              temp_filtered_locations.push(loc);
+            } else if (loc['Akoestiek'] === this_filter) {
+              temp_filtered_locations.push(loc);
+            }
+          } else {
+            temp_filtered_locations.push(loc);
+          }
+        });
+        StembureausApp.filtered_locations = temp_filtered_locations;
       };
 
       var datums = [
@@ -445,18 +567,56 @@ export default {
         }
       });
 
-      // Apply updates to the map if the dag filter is clicked
-      $('#dag-filter').change(function() {
-        StembureausApp.filter_map(
-          dag=this.value
-        );
+      // Initialize the filters
+      var filters = {
+        'dag': $('#dag-filter').val(),
+        'openingstijden': $('#openingstijden-filter').val(),
+        'toegankelijk': $('.toegankelijk-filter').val(),
+        'visuele-hulpmiddelen': $('.visuele-hulpmiddelen-filter').val(),
+        'auditieve-hulpmiddelen': $('.auditieve-hulpmiddelen-filter').val(),
+        'gehandicapten': $('.gehandicapten-filter').val(),
+        'akoestiek': $('.akoestiek-filter').val(),
+      };
+
+      // The toegankelijkheidsfilter fields exist twice because of
+      // responsiveness (one is always hidden); make sure that both fields
+      // have the same value when one of them is changed.
+      $(".toegankelijk-filter").change(function() {
+        $(".toegankelijk-filter").val($(this).val());
+      });
+
+      $(".visuele-hulpmiddelen-filter").change(function() {
+        $(".visuele-hulpmiddelen-filter").val($(this).val());
+      });
+
+      $(".auditieve-hulpmiddelen-filter").change(function() {
+        $(".auditieve-hulpmiddelen-filter").val($(this).val());
+      });
+
+      $(".gehandicaptentoilet-filter").change(function() {
+        $(".gehandicaptentoilet-filter").val($(this).val());
+      });
+
+      $(".akoestiek-filter").change(function() {
+        $(".akoestiek-filter").val($(this).val());
+      });
+
+      // Apply updates to the map if a filter is clicked
+      $('.filter').change(function() {
+        filters['dag'] = $('#dag-filter').val();
+        filters['openingstijden'] = $('#openingstijden-filter').val();
+        filters['toegankelijk'] = $('.toegankelijk-filter').val();
+        filters['visuele-hulpmiddelen'] = $('.visuele-hulpmiddelen-filter').val();
+        filters['auditieve-hulpmiddelen'] = $('.auditieve-hulpmiddelen-filter').val();
+        filters['gehandicaptentoilet'] = $('.gehandicaptentoilet-filter').val();
+        filters['akoestiek'] = $('.akoestiek-filter').val();
+
+        StembureausApp.filter_map(filters);
         StembureausApp.search(get_query());
       });
 
-      // Default view: show all stembureaus on the 16th of March
-      StembureausApp.filter_map(
-        dag=get_dag()
-      );
+      // Default view: based on which option is selected by default in map.html
+      StembureausApp.filter_map(filters);
 
       // Select the location to fit the bounds of the map to; use all locations if
       // there are less than 50 (useful for debugging), otherwise only show

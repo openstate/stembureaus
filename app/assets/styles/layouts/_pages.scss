@@ -45,36 +45,26 @@
   }
 }
 
-.stembureau-info-icons {
-  .svg-inline--fa {
-    font-size: 20px;
-    color: dimgrey;
-    width: 26px;
-    margin: 1px 4.5px;
-  }
+.stembureau-info-icons .fa {
+  color: dimgrey;
+}
 
-  .fa-wheelchair {
-    top: 2px;
-  }
+.fa-stack {
+  z-index: 10;
+}
 
-  .fa-ban, .fa-question {
-    font-size: 26px;
-  }
-
-  .wc {
-    font-family: $font-family-title;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .stack {
-    z-index: 10;
-  }
+.wc {
+  color: dimgrey;
+  font-family: $font-family-title;
+  font-size: 14px;
+  position: relative;
+  top: -9px !important;
+  left: -18px !important;
 }
 
 .leaflet-popup .wc {
-  top: -17px !important;
-  left: -14px !important;
+  top: -8px !important;
+  left: -16px !important;
 }
 
 #form-search, #form-gemeente-search {

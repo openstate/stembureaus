@@ -29,7 +29,7 @@ a {
   text-decoration: underline;
 }
 
-#dag-filter {
+.filter {
   display: inline-block;
   width: 180px !important;
 }
@@ -56,6 +56,10 @@ a {
 
 .text-orange {
   color: $orange;
+}
+
+.text-green {
+  color: green;
 }
 
 .text-white {
@@ -169,7 +173,7 @@ dd {
     font-size: 12px;
   }
 
-  #dag-filter {
+  .filter {
     margin: 7px 0;
     padding: 6px 0;
     width: 160px !important;
