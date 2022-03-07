@@ -211,6 +211,10 @@ def show_stembureau(gemeente, primary_key):
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
+
+    if not records:
+        return render_template('404.html'), 404
+
     return render_template(
         'show_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
@@ -227,6 +231,7 @@ def show_gemeente(gemeente):
         disclaimer = disclaimer_text
 
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+
     return render_template(
         'show_gemeente.html',
         records=[_hydrate(record, 'default') for record in records],
@@ -237,28 +242,45 @@ def show_gemeente(gemeente):
 
 @app.route("/e/<gemeente>/<primary_key>")
 def embed_stembureau(gemeente, primary_key):
+    disclaimer = ''
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
+
     records = get_stembureaus(
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
+
+    if not records:
+        return render_template('404.html'), 404
+
     show_infobar = (request.args.get('infobar', 1, type=int) == 1)
+
     return render_template(
         'embed_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
         primary_key=primary_key,
-        show_infobar=show_infobar
+        show_infobar=show_infobar,
+        disclaimer=disclaimer
     )
 
 
 @app.route("/e/<gemeente>")
 def embed_gemeente(gemeente):
+    disclaimer = ''
+    if gemeente in disclaimer_gemeenten:
+        disclaimer = disclaimer_text
+
     records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+
     show_search = (request.args.get('search', 1, type=int) == 1)
+
     return render_template(
         'embed_gemeente.html',
         records=[_hydrate(record, 'default') for record in records],
         gemeente=gemeente,
-        show_search=show_search
+        show_search=show_search,
+        disclaimer=disclaimer
     )
 
 
