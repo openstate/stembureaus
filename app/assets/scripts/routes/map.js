@@ -52,6 +52,10 @@ export default {
         else if (matches[i]['item']['gemeente_naam'] == 'Zuidwest-Friesland') {
           gemeente_uri = "Súdwest-Fryslân"
         }
+        // TODO: only needed during 2022GR because of herindeling with Amsterdam, remove for next election
+        else if (matches[i]['item']['gemeente_naam'] == 'Weesp') {
+          gemeente_uri = "Amsterdam"
+        }
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
         $('#results-search-gemeenten').append($(

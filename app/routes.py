@@ -114,7 +114,9 @@ alternative_names = [
     {'gemeente_naam': 'Den Bosch'},
     {'gemeente_naam': 'De Friese Meren'},
     {'gemeente_naam': 'Noordoost-Friesland'},
-    {'gemeente_naam': 'Zuidwest-Friesland'}
+    {'gemeente_naam': 'Zuidwest-Friesland'},
+    # TODO: only needed during 2022GR because of herindeling with Amsterdam, remove for next election
+    {'gemeente_naam': 'Weesp'}
 ]
 alle_gemeenten = [
     {'gemeente_naam': row[2]} for row in kieskringen
