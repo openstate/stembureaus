@@ -315,8 +315,10 @@ def perform_typeahead(query):
     ).first()
 
     # Uses re.sub to remove provinces from some gemeenten which is how we write
-    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'
-    gemeente_naam = re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'.
+    # But keep 'Bergen (NH.)' and 'Bergen (L.)' as the BAG also uses that
+    # spelling.
+    gemeente_naam = gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
 
     if not query:
         return jsonify([])
@@ -783,12 +785,14 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 
     # Need this to get a starting point for the clickmap;
     # Uses re.sub to remove provinces from some gemeenten which is how we write
-    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'
+    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)',
+    # but keep 'Bergen (NH.)' and 'Bergen (L.)' as the BAG also uses that
+    # spelling.
     # TODO this won't work for BES-eilanden as they don't exist in the BAG, so
     # exclude them from the filter below and initialize a custom bag_record
     # with coordinates for the BES-eilanden.
     bag_record = BAG.query.filter_by(
-        gemeente=re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+        gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
     ).order_by('openbareruimte').first()
 
     # Pick the first election. In the case of multiple elections we only
