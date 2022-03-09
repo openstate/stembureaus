@@ -36,12 +36,24 @@
 
   <div class="row">
     {% if disclaimer %}
-    <div class="col-xs-12">
-      {{ disclaimer }}
-      <br>
-      <br>
-    </div>
+      <div class="col-xs-12 text-center">
+        {{ disclaimer }}
+        <br>
+        <br>
+      </div>
     {% endif %}
+
+    {% if gemeente == 'Amsterdam' %}
+      <div class="col-xs-12 text-center">
+        NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
+      </div>
+    {% endif %}
+    {% if gemeente == 'Rotterdam' %}
+      <div class="col-xs-12 text-center">
+        NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
+      </div>
+    {% endif %}
+
     <div class="col-xs-12 col-sm-12 col-md-8">
       <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
       <div id="map" style="height: 500px;"></div>

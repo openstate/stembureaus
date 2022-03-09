@@ -465,7 +465,14 @@ export default {
         // Create the final HTML output
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-        var output = "<p><b>" + icons['Stembureau' + orange_icon] + "</b>";
+        var output = '<p>'
+
+        // Show which gemeente this stembureau belongs to only on the homepage map
+        if (StembureausApp.homepage) {
+          output += '<i class="fa fa-users text-dark-blue"></i> <a href=\"/s/' + loc['Gemeente'] + '\"' + target + ">Gemeente " + loc['Gemeente'] + "</a><br><br>";
+        }
+
+        output += "<b>" + icons['Stembureau' + orange_icon] + "</b>";
 
         output += " <b><a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
         if (loc['Nummer stembureau']) {
@@ -499,11 +506,19 @@ export default {
           }
         }
 
-        output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=Stembureau ' + loc['Naam stembureau'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>'
+        output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=Stembureau ' + loc['Naam stembureau'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>';
+
+        if (loc['Gemeente'] == 'Amsterdam') {
+          output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
+        }
+
+        if (loc['Gemeente'] == 'Rotterdam') {
+          output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
+        }
 
         output += opinfo_output;
 
-        output += '<span class="stembureau-info-icons">'
+        output += '<span class="stembureau-info-icons">';
 
         output += weelchair_labels[loc["Toegankelijk voor mensen met een lichamelijke beperking"]];
         output += akoestiek_labels[loc["Akoestiek"]];
