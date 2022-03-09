@@ -50,12 +50,20 @@ a {
   color: $blue;
 }
 
+.text-dark-blue {
+  color: $dark-blue;
+}
+
 .text-red {
   color: $red;
 }
 
 .text-orange {
   color: $orange;
+}
+
+.text-dark-orange {
+  color: $dark-orange;
 }
 
 .text-purple {
@@ -85,6 +93,10 @@ a {
 
 .upload-block {
   color: $light-grey;
+}
+
+.leaflet-popup-close-button {
+  color: dimgrey !important;
 }
 
 table.floatThead-table {

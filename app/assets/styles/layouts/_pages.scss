@@ -53,6 +53,24 @@
   z-index: 10;
 }
 
+.fa-check, .fa-xmark, .fa-question {
+  position: relative;
+  top: -12px;
+  left: -12px;
+}
+
+.fa-check {
+  color: green !important;
+}
+
+.fa-xmark {
+  color: $red !important;
+}
+
+.fa-question {
+  color: $dark-orange !important;
+}
+
 .wc {
   color: dimgrey;
   font-family: $font-family-title;
@@ -100,6 +118,10 @@
   background-color: inherit;
   padding: 0;
   margin-bottom: 0;
+
+  li::before {
+    color: #757575 !important;
+  }
 
   .active {
     color: dimgrey;
