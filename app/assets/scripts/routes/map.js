@@ -546,6 +546,11 @@ export default {
         search: true
       };
       StembureausApp.map = nlmaps.createMap(opts);
+
+      if (StembureausApp.homepage) {
+        StembureausApp.map.setZoom(7);
+      }
+
       StembureausApp.map.options.zoomSnap = 0.2;
 
       // Clear the default attributions set by nlmaps
