@@ -3,7 +3,7 @@ import clickmap from './clickmap';
 export default {
   init() {
     // JavaScript to be fired on all pages
-    console.log('javascript common loaded!');
+    //console.log('Common init');
     // JavaScript to be fired on pages that contain the map
     if ($('.edit-form').length) {
       run_editform();
@@ -30,7 +30,7 @@ var run_editform = function () {
     };
   }
 
-  console.log('attaching to edit form now!');
+  //console.log('Attaching to edit form now');
   var req;
   $('#adres_stembureau').on('keyup', delay(function (e) {
     // if any previous ajaxRequest is running, abort
@@ -43,12 +43,11 @@ var run_editform = function () {
 
     if (query.length < 1) {
       $('#bag-results').empty();
-      console.log('query not long enough');
+      //console.log('Query not long enough');
       return;
     }
 
     $('#bag-results').prepend($('<ul class="loading-list"><li><div class="loading"></div></li></ul>'));
-    delay(console.log('loading'), 3000);
 
     req = $.get('/t/' + encodeURIComponent(query), function (data) {
       var attrs_as_data = ['nummeraanduiding', 'lat', 'lon', 'x', 'y'];
@@ -60,7 +59,7 @@ var run_editform = function () {
         y: 'y'
       }
       var output = '<ul>';
-      console.dir(data);
+      //console.dir(data);
       if (query == '0000000000000000') {
         output += '<li><a href="javascript:void(0);"';
         output += ' data-nummeraanduiding="0000000000000000"'
@@ -87,7 +86,7 @@ var run_editform = function () {
       $('#bag-results').html($(output));
       $('#bag-results ul li a').on('click', function (e) {
           e.preventDefault();
-          console.log('li clicked!');
+          //console.log('li clicked');
           var adres = $(this).text();
           var clicked_elem = $(this);
           $('#adres_stembureau').val($(this).text());
@@ -105,7 +104,7 @@ var run_editform = function () {
           }
           if (should_replace) {
             attrs_as_data.forEach(function (a) {
-              console.log('updating attribute : ' + a + ' => ' + attrs_conversions[a] + ' : ' + clicked_elem.attr('data-'+a));
+              //console.log('Updating attribute: ' + a + ' => ' + attrs_conversions[a] + ' : ' + clicked_elem.attr('data-'+a));
               $('#' + attrs_conversions[a]).val(clicked_elem.attr('data-'+a));
             });
           }

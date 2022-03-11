@@ -1,9 +1,7 @@
 export default {
   init() {
     // JavaScript to be fired on the home page
-    console.log('clickmap init!');
-
-
+    //console.log('Clickmap init');
   },
   finalize() {
     // JavaScript to be fired on the home page, after the init JS
@@ -11,7 +9,6 @@ export default {
     if ($('#clickmap').length) {
       run_clickmap();
     }
-
   },
 };
 
@@ -19,25 +16,24 @@ var cmap;
 var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
 
 var run_clickmap = function() {
-  console.log('gonna init the clickmap now!');
-  console.dir('Gemeente:', StembureausApp.gemeente);
+  //console.log('Initializing the clickmap now');
   var lat = document.getElementById('latitude').value;
   var lon = document.getElementById('longitude').value;
 
   var coords = [52.2, 5.3];
-  console.log('BAG Record:', StembureausApp.bag_record);
+  //console.log('BAG record:', StembureausApp.bag_record);
   if (StembureausApp.bag_record) {
-    console.log('setting coords to bag record', StembureausApp.bag_record);
+    //console.log('Setting coordinates to BAG record', StembureausApp.bag_record);
     coords = [StembureausApp.bag_record.lat, StembureausApp.bag_record.lon];
   }
-  console.log('init coords: ', coords);
+  //console.log('Initialize coords: ', coords);
   if (lat && lon) {
     coords = [lat, lon];
   } else {
     lat = coords[0];
     lon = coords[1];
   }
-  console.log('final coords: ', coords);
+  //console.log('Final coords: ', coords);
   cmap = L.map('clickmap', {zoomSnap: 0.2}).setView(coords, 13);
   cmap.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
 
@@ -131,7 +127,7 @@ var run_clickmap = function() {
       var new_lat = document.getElementById('latitude').value;
       var new_lon = document.getElementById('longitude').value;
       var newLatLng = new L.LatLng(new_lat, new_lon);
-      console.log('updating marker! ' + new_lat + ',' + new_lon);
+      //console.log('Updating marker: ' + new_lat + ',' + new_lon);
       marker.setLatLng(newLatLng);
       cmap.panTo(newLatLng);
     };
@@ -147,7 +143,7 @@ var run_clickmap = function() {
       //   update_marker();
       // });
       $(document).on('stm:address', function (e) {
-        console.log('stm:address trigger was fired!');
+        //console.log('stm:address trigger was fired');
         update_marker();
       });
     });
