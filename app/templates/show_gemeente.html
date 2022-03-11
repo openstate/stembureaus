@@ -96,13 +96,13 @@
           <p><input type="checkbox" id="form-embed-search-checkbox" checked> Met zoekfunctie</p>
           <form id="form-embed-search">
             <textarea style="width: 100%; height: 80px;" id="form-embed-text-search">
-              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True) }}" width="500" height="735" /&gt;
+              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True) }}" allow="geolocation 'self' https://waarismijnstemlokaal.nl/" width="500" height="1500" /&gt;
             </textarea>
           </form>
 
           <form id="form-embed-no-search" style="display: none;">
             <textarea style="width: 100%; height: 80px;" id="form-embed-text-no-search">
-              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True, search='0') }}" width="500" height="735" /&gt;
+              &lt;iframe src="{{ url_for('embed_gemeente', gemeente=gemeente, _external=True, search='0') }}" allow="geolocation 'self' https://waarismijnstemlokaal.nl/" width="500" height="930" /&gt;
             </textarea>
           </form>
 
