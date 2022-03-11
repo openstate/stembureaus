@@ -302,7 +302,7 @@ export default {
               ],
               {icon: markerIcons['Stembureau' + orange_icon]}
             ).bindPopup(
-              StembureausApp.getPopup(loc, orange_icon), {maxWidth: 240}
+              StembureausApp.getPopup(loc, orange_icon), {maxWidth: 240, autoPanPaddingTopLeft: L.point(5,75)}
             )
           );
         });
@@ -534,13 +534,22 @@ export default {
         return output;
       };
 
-      StembureausApp.map = L.map('map', {zoomSnap: 0.2, zoomControl: false}).setView([52.2, 5.3], 7);
+      var opts = {
+        style: 'standaard',
+        target: 'map',
+        center: {
+          latitude: 52.2,
+          longitude: 5.3
+        },
+        overlay: 'false',
+        marker: false,
+        search: true
+      };
+      StembureausApp.map = nlmaps.createMap(opts);
+      StembureausApp.map.options.zoomSnap = 0.2;
 
-      L.control.zoom({
-        position: 'bottomright'
-      }).addTo(StembureausApp.map);
-
-      StembureausApp.map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>');
+      // Clear the default attributions set by nlmaps
+      StembureausApp.map.attributionControl._attributions = {};
 
       // Basisregistratie Topografie (BRT) map used when viewing 'Europees Nederland' on our map
       var brt = L.tileLayer(
@@ -550,6 +559,20 @@ export default {
           attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
         }
       );
+
+      // Alternative for BRT, luchtfoto
+      var hwh = L.tileLayer(
+        'https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.png',
+        {
+          id: 'hwh',
+          attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
+        }
+      );
+
+      var baseLayers = {
+        "Kaart": brt,
+        "Luchtfoto": hwh
+      };
 
       // OpenStreetMap map used when viewing all other places outside 'Europees Nederland' on our map,
       // because BRT doesn't have that data
@@ -561,14 +584,15 @@ export default {
         }
       );
 
+      var chooseLayers = L.control.layers(baseLayers, {}, {position: 'bottomright', collapsed: false})
+
       // Use BRT in 'Europees Nederland' and OSM for the rest
       var zoom = StembureausApp.map.getZoom();
       var center = StembureausApp.map.getCenter();
-      if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
-        StembureausApp.map.removeLayer(osm);
+      if (zoom >= 7 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
         StembureausApp.map.addLayer(brt);
+        chooseLayers.addTo(StembureausApp.map);
       } else {
-        StembureausApp.map.removeLayer(brt);
         StembureausApp.map.addLayer(osm);
       }
 
@@ -577,11 +601,14 @@ export default {
       StembureausApp.map.on('zoom move', function() {
         var zoom = StembureausApp.map.getZoom();
         var center = StembureausApp.map.getCenter();
-        if (zoom >= 6 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
+        if (zoom >= 7 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
           StembureausApp.map.removeLayer(osm);
           StembureausApp.map.addLayer(brt);
+          chooseLayers.addTo(StembureausApp.map);
         } else {
+          chooseLayers.remove(StembureausApp.map);
           StembureausApp.map.removeLayer(brt);
+          StembureausApp.map.removeLayer(hwh);
           StembureausApp.map.addLayer(osm);
         }
       });
@@ -663,5 +690,6 @@ export default {
   },
   // JavaScript to be fired on pages that contain the map, after the init JS
   finalize() {
+    $('#nlmaps-geocoder-control-input').attr('placeholder', 'Zoeken (bv. straat of postcode)');
   },
 };
