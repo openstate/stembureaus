@@ -7,7 +7,7 @@ select {
   margin: 7px;
 }
 
-input:not(#nlmaps-geocoder-control-input):not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select, .bootstrap-select {
+input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select, .bootstrap-select {
   width: 374px !important;
 }
 

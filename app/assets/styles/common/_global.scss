@@ -304,6 +304,6 @@ dd {
 @media(max-width:450px) {
   .nlmaps-geocoder-control-container,
   #nlmaps-geocoder-control-input {
-    width: 210px;
+    width: 210px !important;
   }
 }
