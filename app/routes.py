@@ -351,8 +351,8 @@ def perform_typeahead(query):
     m = re.match('^(\d{16})\s*$', query)
     if m is not None:
         results = BAG.query.filter(
-            BAG.nummeraanduiding == m.group(1),
-            BAG.gemeente == gemeente_naam)
+            BAG.nummeraanduiding == m.group(1)
+        )
 
     # finally, treat it as a street name
     if results is None:
