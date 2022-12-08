@@ -691,7 +691,7 @@ def test_datastore_upsert(resource_id):
         "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
         "Akoestiek": "ja",
         "Auditieve hulpmiddelen": "gebarentolk",
-        "Visuele hulpmiddelen": "leesloep, stemmal, vrijwilliger/host aanwezig",
+        "Visuele hulpmiddelen": "stemmal, vrijwilliger/host aanwezig",
         "Gehandicaptentoilet": "nee",
         "Kieskring ID": "'s-Gravenhage",
         "Hoofdstembureau": "Nederland",

@@ -1094,13 +1094,13 @@ class EditForm(FlaskForm):
             '<b>Format:</b> tekst'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> leesloep, stemmal, vrijwilliger/host aanwezig'
+            '<b>Voorbeeld:</b> stemmal, vrijwilliger/host aanwezig'
         ),
         validators=[
             Optional()
         ],
         render_kw={
-            'placeholder': 'bv. leesloep, stemmal, vrijwilliger/host aanwezig'
+            'placeholder': 'bv. stemmal, vrijwilliger/host aanwezig'
         }
     )
 
