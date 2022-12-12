@@ -1088,7 +1088,8 @@ class EditForm(FlaskForm):
         'Visuele hulpmiddelen',
         description=(
             'Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij '
-            'tekstveld.'
+            'tekstveld. NB: een leesloep is verplicht op elk '
+            'stembureau en moet hier dus niet vermeld worden.'
             '<br>'
             '<br>'
             '<b>Format:</b> tekst'
