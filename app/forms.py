@@ -589,7 +589,8 @@ class EditForm(FlaskForm):
             'stembureau invullen.'
             '<br>'
             '<br>'
-            '<b>Format:</b> tekst'
+            '<b>Format:</b> tekst; als er geen extra informatie is, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> \'Niet open voor algemeen publiek\' of \'Ingang aan achterkant gebouw\''
@@ -1016,8 +1017,8 @@ class EditForm(FlaskForm):
             'Is het stembureau toegankelijk voor mensen met een lichamelijke beperking?'
             '<br>'
             'Voor meer informatie, <a '
-            'href="https://www.rijksoverheid.nl/documenten/publicaties/2021/'
-            '10/14/toegankelijkheid-verkiezingen" target="_blank" '
+            'href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/'
+            'verkiezingentoolkit/toegankelijkheid-verkiezingen" target="_blank" '
             'rel="noopener">zie deze pagina op rijksoverheid.nl</a>.'
             '<br>'
             '<br>'
@@ -1071,16 +1072,17 @@ class EditForm(FlaskForm):
             'tekstveld.'
             '<br>'
             '<br>'
-            '<b>Format:</b> tekst'
+            '<b>Format:</b> tekst; als er geen hulpmiddelen zijn, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> gebarentolk'
+            '<b>Voorbeeld:</b> gebarentolk, schrijftolk'
         ),
         validators=[
             Optional()
         ],
         render_kw={
-            'placeholder': 'bv. gebarentolk'
+            'placeholder': 'bv. gebarentolk, schrijftolk'
         }
     )
 
@@ -1088,20 +1090,22 @@ class EditForm(FlaskForm):
         'Visuele hulpmiddelen',
         description=(
             'Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij '
-            'tekstveld. NB: een leesloep is verplicht op elk '
-            'stembureau en moet hier dus niet vermeld worden.'
+            'tekstveld.'
             '<br>'
             '<br>'
-            '<b>Format:</b> tekst'
+            '<b>Format:</b> tekst; als er geen hulpmiddelen zijn, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd). NB: '
+            'een leesloep is verplicht op elk stembureau en moet hier dus niet '
+            'vermeld worden.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> stemmal, vrijwilliger/host aanwezig'
+            '<b>Voorbeeld:</b> stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
         ),
         validators=[
             Optional()
         ],
         render_kw={
-            'placeholder': 'bv. stemmal, vrijwilliger/host aanwezig'
+            'placeholder': 'bv. stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
         }
     )
 
