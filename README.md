@@ -20,7 +20,7 @@ Collecting and presenting stembureaus
    - Fill in the email addresses of the gemeenten
    - Add the name(s) of the election(s) for each gemeenten in which it participates. NOTE: make sure that these names are exactly the same as the name(s) of the election(s) in `app/config.py`
 - Buy and download the most recent 'BAG Adressen - Uitgebreid - CSV' from https://geotoko.nl/datasets?rid=24b6070d-5a92-4109-8fcd-a1d7cc000801 (NB: from the moment that gemeenten start to update the stembureaus till election day you need to buy and download the latest monthly released version of this file)
-   - download the 'bag-adressen-full-nl.csv' file into `docker/docker-entrypoint-initdb.d/`
+   - download the 'bag-adressen-full-nl.csv.zip' file into `docker/docker-entrypoint-initdb.d/`
    - `unzip bag-adressen-full-laatst.csv.zip`
    - `bag.sql` will automatically load the data when docker starts for the first time; if you want to update the data later the you can simply go to the `docker` folder and run `sudo ./update_bag.sh`
       - Copy `docker/update_bag.sh.example` to `docker/update_bag.sh` and edit it
@@ -29,7 +29,7 @@ Collecting and presenting stembureaus
    - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
    - `sudo docker-compose up -d`
-   - Compile the assets, see the section below
+   - [Compile the assets](#compile-assets)
    - The `docker-compose up` command above also loads the BAG data in MySQL, this can take more than 1 hour on a server (without SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Set up daily backups for MySQL and CKAN
@@ -44,16 +44,16 @@ Collecting and presenting stembureaus
 - Development; Flask debug will be turned on which automatically reloads any changes made to Flask files so you don't have to restart the whole application manually
    - Make sure to extract the latest MySQL backup in `docker/docker-entrypoint-initdb.d` if you want to import it: `gunzip latest-mysqldump-daily.sql.gz`
    - `cd docker`
-   - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
-   - Compile the assets, see the section below
-   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 10 minutes (with an SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
+   - [Compile the assets](#compile-assets)
+   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 15 minutes (with an SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
    - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
-   - Retrieve the IP address of the nginx container `docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
+   - Retrieve the IP address of the nginx container `sudo docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Run the tests: `sudo docker exec -it stm_app_1 nosetests`
    - Remove and rebuild everything (this also removes the MySQL volume containing all gemeente, verkiezingen and BAG data (this is required if you want to load the .sql files from `docker/docker-entrypoint-initdb.d` again), but not the stembureaus data stored in CKAN)
-      - Production: `docker-compose down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose up -d`
-      - Development: `docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && docker volume rm stm_stm-mysql-volume && docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
+      - Production: `sudo docker-compose down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose up -d`
+      - Development: `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - Reload Nginx: `sudo docker exec stm_nginx_1 nginx -s reload`
    - Reload uWSGI (only for production as development environment doesn't use uWSGI and automatically reloads changes): `touch uwsgi-touch-reload`
 
@@ -71,7 +71,7 @@ Development
 To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:
 
 - `flask mysql add-admin-user <email>` add a new admin user with the specified email
-- `flask ckan add-new-datastore <ID_of_resource>` add a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource, see the 'Create new CKAN datasets and resources for new elections' section below
+- `flask ckan add-new-datastore <ID_of_resource>` add a new datastore in a CKAN resource; this needs to be run once after you've created a new CKAN resource, see [Create new CKAN datasets and resources for new elections](#create-new-ckan-datasets-and-resources-for-new-elections)
 - `flask mysql add-gemeenten-verkiezingen-users` add all gemeenten, verkiezingen and users specified in 'app/data/gemeenten.json' to the MySQL database and send new users an invitation email
 
 ## Create new CKAN datasets and resources for new elections
@@ -85,28 +85,28 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 
 ## Update Nginx
 - On development:
-   - docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --pull nginx
-   - docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d nginx
+   - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --pull nginx`
+   - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d nginx`
 - On production:
-   - docker-compose build --pull nginx
-   - docker-compose up -d nginx
+   - `sudo docker-compose build --pull nginx`
+   - `sudo docker-compose up -d nginx`
 
 ## Update App (Python)
 - On development:
-   - docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --pull app
-   - docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d app
+   - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --pull app`
+   - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d app`
 - On production:
-   - docker-compose build --pull app
-   - docker-compose up -d app
+   - `sudo docker-compose build --pull app`
+   - `sudo docker-compose up -d app`
 
 ## Update MySQL
-- docker-compose pull mysql
-- docker-compose up -d mysql
+- `sudo docker-compose pull mysql`
+- `sudo docker-compose up -d mysql`
 
 ## Deploying
 Use Fabric 2.x on your development machine to pull new changes from GitHub on a server and compile assets
 
-- fab deploy
+- `fab deploy`
 
 ## Troubleshooting
 If you try to visit waarismijnstemlokaal.nl and get a '502 Bad Gateway', then open the console in your browser. If you see a message like (this is in Firefox):
@@ -119,4 +119,4 @@ or if you see something like this in your Docker logs:
 > nginx_1   | 2021/12/20 16:12:40 [error] 30#30: *1 upstream prematurely closed connection while reading response header from upstream, client: 172.18.0.1, server: waarismijnstemlokaal.nl, request: "GET / HTTP/1.1", upstream: "http://172.18.0.3:5000/", host: "waarismijnstemlokaal.nl"
 
 
-then you are probably mixing up development and production images for the `app` and `nginx` services (to be precise, nginx uses a normal HTTP request in the development environment, but uses uwsgi in production). Stop and remove the app and nginx containers and remove the app and nginx images. Build again (use the `--no-cache` option) and *make sure* that you use `docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --no-cache app nginx` for development and simply `docker-compose build --no-cache app nginx` for production.
+then you are probably mixing up development and production images for the `app` and `nginx` services (to be precise, nginx uses a normal HTTP request in the development environment, but uses uwsgi in production). Stop and remove the app and nginx containers and remove the app and nginx images. Build again (use the `--no-cache` option) and *make sure* that you use `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --no-cache app nginx` for development and simply `sudo docker-compose build --no-cache app nginx` for production.
