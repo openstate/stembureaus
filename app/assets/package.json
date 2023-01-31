@@ -20,7 +20,7 @@
     "bootstrap-filestyle": "1.2.1",
     "bootstrap-sass": "3.3.6",
     "bootstrap-select": "1.13.5",
-    "bootstrap-table": "1.19.1",
+    "bootstrap-table": "1.20.2",
     "cross-env": "^5.2.1",
     "fuse.js": "^6.5.3",
     "jquery": "2.2.4",
