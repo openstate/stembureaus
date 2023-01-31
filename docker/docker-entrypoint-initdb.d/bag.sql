@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
   y DECIMAL(25,9),
   lon decimal(24, 16),
   lat decimal(24, 16),
+  verkorteopenbareruimte varchar(255),
   index qidx (openbareruimte, huisnummer, huisnummertoevoeging, woonplaats),
   index postcode (postcode),
   fulltext(openbareruimte),

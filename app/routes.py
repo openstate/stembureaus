@@ -35,6 +35,7 @@ import uuid
 field_order = [
     'Nummer stembureau',
     'Naam stembureau',
+    'Type stembureau',
     'Website locatie',
     'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
@@ -42,26 +43,28 @@ field_order = [
     'Longitude',
     'X',
     'Y',
-    'Openingstijden 14-03-2022',
-    'Openingstijden 15-03-2022',
-    'Openingstijden 16-03-2022',
+    'Openingstijd',
+    'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
+    'Toegankelijke ov-halte',
     'Akoestiek',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Gehandicaptentoilet',
+    'Extra toegankelijkheidsinformatie',
     'Tellocatie',
     'Contactgegevens gemeente',
     'Verkiezingswebsite gemeente',
-    #'Verkiezingen'
+    'Verkiezingen'
 ]
 
-# Used
+# Fields that are required on all pages
 default_minimal_fields = [
     'UUID',
     'Gemeente',
     'Nummer stembureau',
     'Naam stembureau',
+    'Type stembureau',
     'Straatnaam',
     'Huisnummer',
     'Huisletter',
@@ -71,18 +74,20 @@ default_minimal_fields = [
     'Extra adresaanduiding',
     'Latitude',
     'Longitude',
-    'Openingstijden 14-03-2022',
-    'Openingstijden 15-03-2022',
-    'Openingstijden 16-03-2022',
+    'Openingstijd',
+    'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
+    'Toegankelijke ov-halte',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Akoestiek',
-    'Gehandicaptentoilet'
+    'Gehandicaptentoilet',
+    'Extra toegankelijkheidsinformatie'
 ]
 
+# Additional fields that are required on stembureau pages
 extended_minimal_fields = default_minimal_fields + [
-    #'Verkiezingen',
+    'Verkiezingen',
     'Tellocatie',
     'Website locatie',
     'Contactgegevens gemeente',
@@ -97,7 +102,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2022-gr.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2023.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
@@ -115,8 +120,6 @@ alternative_names = [
     {'gemeente_naam': 'De Friese Meren'},
     {'gemeente_naam': 'Noordoost-Friesland'},
     {'gemeente_naam': 'Zuidwest-Friesland'},
-    # TODO: only needed during 2022GR because of herindeling with Amsterdam, remove for next election
-    {'gemeente_naam': 'Weesp'}
 ]
 alle_gemeenten = [
     {'gemeente_naam': row[2]} for row in kieskringen
@@ -784,16 +787,26 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     elections = gemeente.elections.all()
 
     # Need this to get a starting point for the clickmap;
-    # Uses re.sub to remove provinces from some gemeenten which is how we write
-    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)',
-    # but keep 'Bergen (NH.)' and 'Bergen (L.)' as the BAG also uses that
-    # spelling.
-    # TODO this won't work for BES-eilanden as they don't exist in the BAG, so
-    # exclude them from the filter below and initialize a custom bag_record
-    # with coordinates for the BES-eilanden.
-    bag_record = BAG.query.filter_by(
-        gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
-    ).order_by('openbareruimte').first()
+    # Uses re.sub to remove provinces from some gemeenten which is how
+    # we write gemeenten in WIMS, but which are not used in the BAG,
+    # e.g. 'Beek (L.)', but keep 'Bergen (NH.)' and 'Bergen (L.)' as
+    # the BAG also uses that spelling.
+    # Note: BES-eilanden don't exist in the BAG, so exclude them from
+    # the BAG filter below and initialize a custom bag_record dict with
+    # coordinates for the BES-eilanden.
+    bag_record = {'lat': 52.24, 'lon': 5.63} # Init to center of NL
+    if (gemeente.gemeente_naam == 'Bonaire'):
+        bag_record = {'lat': 12.1743, 'lon': -68.2725}
+    elif (gemeente.gemeente_naam == 'Saba'):
+        bag_record = {'lat': 17.6327, 'lon': -63.2383}
+    elif (gemeente.gemeente_naam == 'Sint Eustatius'):
+        bag_record = {'lat': 17.4912, 'lon': -62.9747}
+    else:
+        bag_result = BAG.query.filter_by(
+            gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+        ).order_by('openbareruimte').first()
+        if bag_result:
+            bag_record = bag_result
 
     # Pick the first election. In the case of multiple elections we only
     # retrieve the stembureaus of the first election as the records for
@@ -905,12 +918,13 @@ def gemeente_stemlokaal_delete(stemlokaal_id=None):
                 ckan.elections[election]['draft_resource'],
                 {'UUID': stemlokaal_id}
             )
-            flash('Stembureau verwijderd')
-            return redirect(
-                url_for(
-                    'gemeente_stemlokalen_overzicht'
-                )
+
+        flash('Stembureau verwijderd')
+        return redirect(
+            url_for(
+                'gemeente_stemlokalen_overzicht'
             )
+        )
 
 @app.route("/gemeente-instructies")
 @login_required

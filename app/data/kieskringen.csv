@@ -165,24 +165,21 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 10;Haarlem;Ouder-Amstel
 10;Haarlem;Uithoorn
 10;Haarlem;Velsen
-10;Haarlem;Weesp
 10;Haarlem;Wijdemeren
 10;Haarlem;Zandvoort
 11;Den Helder;Alkmaar
-11;Den Helder;Beemster
 11;Den Helder;Bergen (NH.)
 11;Den Helder;Castricum
+11;Den Helder;Dijk en Waard
 11;Den Helder;Drechterland
 11;Den Helder;Edam-Volendam
 11;Den Helder;Enkhuizen
-11;Den Helder;Heerhugowaard
 11;Den Helder;Heiloo
 11;Den Helder;Den Helder
 11;Den Helder;Hollands Kroon
 11;Den Helder;Hoorn
 11;Den Helder;Koggenland
 11;Den Helder;Landsmeer
-11;Den Helder;Langedijk
 11;Den Helder;Medemblik
 11;Den Helder;Oostzaan
 11;Den Helder;Opmeer
@@ -199,13 +196,11 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 14;Dordrecht;Alblasserdam
 14;Dordrecht;Albrandswaard
 14;Dordrecht;Barendrecht
-14;Dordrecht;Brielle
 14;Dordrecht;Delft
 14;Dordrecht;Dordrecht
 14;Dordrecht;Goeree-Overflakkee
 14;Dordrecht;Gorinchem
 14;Dordrecht;Hardinxveld-Giessendam
-14;Dordrecht;Hellevoetsluis
 14;Dordrecht;Hendrik-Ido-Ambacht
 14;Dordrecht;Hoeksche Waard
 14;Dordrecht;Maassluis
@@ -218,8 +213,8 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 14;Dordrecht;Schiedam
 14;Dordrecht;Sliedrecht
 14;Dordrecht;Vlaardingen
+14;Dordrecht;Voorne aan Zee
 14;Dordrecht;Westland
-14;Dordrecht;Westvoorne
 14;Dordrecht;Zwijndrecht
 15;Leiden;Alphen aan den Rijn
 15;Leiden;Bodegraven-Reeuwijk
@@ -289,33 +284,28 @@ kieskring_nummer;hoofdstembureau_gemeente;gemeente_naam
 18;'s-Hertogenbosch;Best
 18;'s-Hertogenbosch;Bladel
 18;'s-Hertogenbosch;Boekel
-18;'s-Hertogenbosch;Boxmeer
 18;'s-Hertogenbosch;Boxtel
 18;'s-Hertogenbosch;Cranendonck
-18;'s-Hertogenbosch;Cuijk
 18;'s-Hertogenbosch;Deurne
 18;'s-Hertogenbosch;Eersel
 18;'s-Hertogenbosch;Eindhoven
 18;'s-Hertogenbosch;Geldrop-Mierlo
 18;'s-Hertogenbosch;Gemert-Bakel
-18;'s-Hertogenbosch;Grave
 18;'s-Hertogenbosch;Heeze-Leende
 18;'s-Hertogenbosch;Helmond
 18;'s-Hertogenbosch;'s-Hertogenbosch
 18;'s-Hertogenbosch;Heusden
 18;'s-Hertogenbosch;Laarbeek
-18;'s-Hertogenbosch;Landerd
+18;'s-Hertogenbosch;Land van Cuijk
+18;'s-Hertogenbosch;Maashorst
 18;'s-Hertogenbosch;Meierijstad
-18;'s-Hertogenbosch;Mill en Sint Hubert
 18;'s-Hertogenbosch;Nuenen, Gerwen en Nederwetten
 18;'s-Hertogenbosch;Oirschot
 18;'s-Hertogenbosch;Oss
 18;'s-Hertogenbosch;Reusel-De Mierden
-18;'s-Hertogenbosch;Sint Anthonis
 18;'s-Hertogenbosch;Sint-Michielsgestel
 18;'s-Hertogenbosch;Someren
 18;'s-Hertogenbosch;Son en Breugel
-18;'s-Hertogenbosch;Uden
 18;'s-Hertogenbosch;Valkenswaard
 18;'s-Hertogenbosch;Veldhoven
 18;'s-Hertogenbosch;Vught

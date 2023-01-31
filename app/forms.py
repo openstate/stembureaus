@@ -198,6 +198,16 @@ def valid_bag(form, field):
             )
 
 
+# Checks if 'nee' or similar is entered in a text field where we don't allow
+# that. See https://github.com/openstate/stembureaus/issues/65 for more info.
+def no_no(form, field):
+    if re.match(r'^\s*\bnee\b|\bgeen\b|-|/|_|\bniks\b\s*$', str(field.data), re.IGNORECASE):
+        raise ValidationError(
+            'Vul geen \'nee\', \'geen\' en dergelijke in; laat dit veld in '
+            'zo\'n geval leeg'
+        )
+
+
 # Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
     if not re.match('^-?\d+\.\d{4,}', str(field.data)):
@@ -285,9 +295,12 @@ class EditForm(FlaskForm):
         # values to calculate x and y. Otherwise use x and y to calculate
         # the latitude and longitude values.
         if self.latitude.data and self.longitude.data:
-            self.x.data, self.y.data = convert_latlong_to_xy(
-                self.latitude.data, self.longitude.data
-            )
+            # Only convert lat/long to x/y for Europees Nederland, because
+            # Caribisch Nederland doesn't have x/y
+            if self.latitude.data > 50 and self.longitude.data > 3:
+                self.x.data, self.y.data = convert_latlong_to_xy(
+                    self.latitude.data, self.longitude.data
+                )
         elif self.x.data and self.y.data:
             self.latitude.data, self.longitude.data = convert_xy_to_latlong(
                 self.x.data, self.y.data
@@ -355,21 +368,6 @@ class EditForm(FlaskForm):
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
             valid = False
-
-        # Require that at least one relevant openingstijden field is
-        # filled in for a stembureau
-        if not (self.openingstijden_14_03_2022.data
-                or self.openingstijden_15_03_2022.data
-                or self.openingstijden_16_03_2022.data):
-            error_text_one = (
-                "Een stembureau moet op minimaal één van deze dagen open "
-                "zijn"
-            )
-            self.openingstijden_14_03_2022.errors.append(error_text_one)
-            self.openingstijden_15_03_2022.errors.append(error_text_one)
-            self.openingstijden_16_03_2022.errors.append(error_text_one)
-            valid = False
-
         return valid
 
     submit = SubmitField(
@@ -399,6 +397,11 @@ class EditForm(FlaskForm):
             'stembureaus. Elk stembureau moet apart ingevoerd worden ook al '
             'is de locatie (het stemlokaal) hetzelfde aangezien elk '
             'stembureau een ander nummer heeft.'
+            #'<br>'
+            #'<br>'
+            #'Als een stembureau meerdere dagen open is dan moet deze voor '
+            #'elke dag een ander stembureaunummer hebben. Elk '
+            #'stembureau(nummer) moet dus apart ingevoerd worden.'
             '<br>'
             '<br>'
             '<b>Format:</b> cijfers'
@@ -431,6 +434,47 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'placeholder': 'bv. Stadhuis'
+        }
+    )
+
+    type_stembureau = CustomSelectField(
+        'Type stembureau',
+        description=(
+            'Kies \'regulier\' als dit een normaal stembureau betreft. Kies '
+            '\'bijzonder\' als het stembureau afwijkende openingstijden heeft. '
+            'Kies \'mobiel\' als het stembureau meerdere locaties heeft.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> keuze uit:'
+            '<ul>'
+            '  <li>regulier</li>'
+            '  <li>bijzonder</li>'
+            '  <li>mobiel</li>'
+            '</ul>'
+            '<b>Voorbeeld:</b> regulier'
+        ),
+        choices=[
+            (
+                'regulier',
+                'regulier'
+            ),
+            (
+                'bijzonder',
+                'bijzonder'
+            ),
+            (
+                'mobiel',
+                'mobiel'
+            )
+        ],
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': (
+                'Selecteer het type stembureau'
+            )
         }
     )
 
@@ -515,7 +559,7 @@ class EditForm(FlaskForm):
         description=(
             'Voer de <b>straatnaam inclusief huisnummer</b> van het '
             'stembureau in en eventueel een '
-            '<b>huisletter/huisnummertoevoeging</b> en, gescheiden met een '
+            '<b>huisletter / huisnummertoevoeging</b> en, gescheiden met een '
             'komma, de <b>plaatsnaam</b>. U kunt ook zoeken op '
             '<b>postcode</b> en huisnummer. En u kunt ook zoeken op '
             '<b>BAG Nummeraanduiding ID</b>, vindbaar door het adres van het '
@@ -533,20 +577,24 @@ class EditForm(FlaskForm):
             'of de locatie klopt.'
             '<br>'
             '<br>'
-            'Vermeld voor mobiele stembureaus of locaties zonder adres het '
-            'dichtstbijzijnde adres en gebruik eventueel het \'Extra '
-            'adresaanduiding\'-veld om de locatie van het stembureau te '
-            'beschrijven. NB: de precieze locatie geeft u dan aan met de '
+            'Vermeld voor mobiele stembureaus die vlakbij een gebouw staan of '
+            'locaties zonder BAG Nummeraanduiding ID het BAG Nummeraanduiding '
+            'ID van het dichtstbijzijnde gebouw en gebruik eventueel het '
+            '\'Extra adresaanduiding\'-veld om de locatie van stembureau te '
+            'beschrijven. Mocht een (mobiel) stembureau niet in de buurt van '
+            'een gebouw staan, voer dan \'0000000000000000\' (zestien keer het '
+            'getal \'0\') in; \'Extra adresaanduiding\'-attribuut is dan '
+            'verplicht. NB: de precieze locatie geeft u aan met de '
             '\'Latitude\' en \'Longitude\'-velden óf met de \'X\' en '
             '\'Y\'-velden.'
             '<br>'
             '<br>'
-            #'Bonaire, Sint Eustatius en Saba moeten hier \'0000000000000000\' '
-            #'(zestien keer het getal \'0\') invullen. Het adres van het '
-            #'stembureau moet vervolgens in het \'Extra adresaanduiding\'-veld '
-            #'ingevuld worden.'
-            #'<br>'
-            #'<br>'
+            'Bonaire, Sint Eustatius en Saba moeten hier \'0000000000000000\' '
+            '(zestien keer het getal \'0\') invullen. Het adres van het '
+            'stembureau moet vervolgens in het \'Extra adresaanduiding\'-veld '
+            'ingevuld worden.'
+            '<br>'
+            '<br>'
             '<b>Format:</b>'
             '<ul>'
             '<li>&lt;straatnaam&gt; &lt;huisnummer&gt;[huisletter]-[huisnummertoevoeging], &lt;woonplaats&gt;</li>'
@@ -555,7 +603,7 @@ class EditForm(FlaskForm):
             '</ul>'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b>'
+            '<b>Voorbeelden:</b>'
             '<ul>'
             '<li>Spui 70, \'s-Gravenhage</li>'
             '<li>2511BT 70</li>'
@@ -578,13 +626,6 @@ class EditForm(FlaskForm):
             '\'Mobiel stembureau op het midden van het plein\'.'
             '<br>'
             '<br>'
-            'Sommige stembureaus zijn niet open voor algemeen publiek '
-            'vanwege coronamaatregelen. Bijvoorbeeld een '
-            'stembureau in een verzorgingshuis. Geef dat in dit veld '
-            'aan door exact de tekst \'Niet open voor algemeen '
-            'publiek\' in te voeren.'
-            '<br>'
-            '<br>'
             'Bonaire, Sint Eustatius en Saba moeten hier het adres van het '
             'stembureau invullen.'
             '<br>'
@@ -593,13 +634,14 @@ class EditForm(FlaskForm):
             'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> \'Niet open voor algemeen publiek\' of \'Ingang aan achterkant gebouw\''
+            '<b>Voorbeeld:</b> Ingang aan achterkant gebouw'
         ),
         validators=[
             Optional(),
+            no_no
         ],
         render_kw={
-            'placeholder': 'bv. \'Niet open voor algemeen publiek\''
+            'placeholder': 'bv. Ingang aan achterkant gebouw'
         }
     )
 
@@ -703,100 +745,63 @@ class EditForm(FlaskForm):
         }
     )
 
-    openingstijden_14_03_2022 = StringField(
-        'Openingstijden 14-03-2022',
+    openingstijd = StringField(
+        'Openingstijd',
         description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            'In sommige gevallen heeft een stembureau meerdere openingstijden, '
+            'bijvoorbeeld een mobiel stemburea of een stembureau dat '
+            '‘s middags even dicht is. In zulke gevallen moeten voor alle '
+            'openingstijden alle attributen apart ingevuld worden.'
             '<br>'
             '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2022-03-14T07:30:00 tot 2022-03-14T21:00:00'
+            '<b>Voorbeeld:</b> 2023-03-15T07:30:00'
         ),
+        default='2023-03-15T07:30:00',
         validators=[
-            Optional(),
+            DataRequired(),
             Regexp(
-                (
-                    '^2022-03-14T\d{2}:\d{2}:\d{2} tot '
-                    '2022-03-14T\d{2}:\d{2}:\d{2}$'
-                ),
+                '^2023-03-15T\d{2}:\d{2}:\d{2}$',
                 message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '\'2022-03-14T07:30:00 tot 2022-03-14T21:00:00\'.'
+                    'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
+                    'worden zoals bv. \'2023-03-15T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2022-03-14T07:30:00 tot 2022-03-14T21:00:00'
+            'placeholder': 'bv. 2023-03-15T07:30:00'
         }
     )
 
-    openingstijden_15_03_2022 = StringField(
-        'Openingstijden 15-03-2022',
+    sluitingstijd = StringField(
+        'Sluitingstijd',
         description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
+            'In sommige gevallen heeft een stembureau meerdere openingstijden, '
+            'bijvoorbeeld een mobiel stemburea of een stembureau dat '
+            '‘s middags even dicht is. In zulke gevallen moeten voor alle '
+            'openingstijden alle attributen apart ingevuld worden.'
             '<br>'
             '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
+            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2022-03-15T07:30:00 tot 2022-03-15T21:00:00'
+            '<b>Voorbeeld:</b> 2023-03-15T21:00:00'
         ),
+        default='2023-03-15T21:00:00',
         validators=[
-            Optional(),
+            DataRequired(),
             Regexp(
-                (
-                    '^2022-03-15T\d{2}:\d{2}:\d{2} tot '
-                    '2022-03-15T\d{2}:\d{2}:\d{2}$'
-                ),
+                '^2023-03-15T\d{2}:\d{2}:\d{2}$',
                 message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '\'2022-03-15T07:30:00 tot 2022-03-15T21:00:00\'.'
+                    'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
+                    'worden zoals bv. \'2023-03-15T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2022-03-15T07:30:00 tot 2022-03-15T21:00:00'
-        }
-    )
-
-    openingstijden_16_03_2022 = StringField(
-        'Openingstijden 16-03-2022',
-        description=(
-            'Sommige gemeenten werken met mobiele stembureaus die gedurende '
-            'de dag op verschillende locaties staan. Voor mobiele stembureaus '
-            'moet voor elke locatie een nieuw \'stembureau\' aangemaakt worden '
-            '(zodat de locatie en openingstijden apart worden opgeslagen).'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> YYYY-MM-DDTHH:MM:SS tot YYYY-MM-DDTHH:MM:SS'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> 2022-03-16T07:30:00 tot 2022-03-16T21:00:00'
-        ),
-        default='2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
-        validators=[
-            Optional(),
-            Regexp(
-                (
-                    '^2022-03-16T\d{2}:\d{2}:\d{2} tot '
-                    '2022-03-16T\d{2}:\d{2}:\d{2}$'
-                ),
-                message=(
-                    'Dit veld hoort ingevuld te worden zoals '
-                    '\'2022-03-16T07:30:00 tot 2022-03-16T21:00:00\'.'
-                )
-            )
-        ],
-        render_kw={
-            'placeholder': 'bv. 2022-03-16T07:30:00 tot 2022-03-16T21:00:00'
+            'placeholder': 'bv. 2023-03-15T21:00:00'
         }
     )
 
@@ -861,7 +866,7 @@ class EditForm(FlaskForm):
             '\'https://\')'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> https://www.stembureaus<br>indenhaag.nl/'
+            '<b>Voorbeeld:</b> <span style="word-break: break-word;">https://www.stembureausindenhaag.nl/</span>'
         ),
         validators=[
             DataRequired(),
@@ -875,141 +880,139 @@ class EditForm(FlaskForm):
         }
     )
 
-    #verkiezingen = CustomSelectMultipleField(
-    #    'Verkiezingen',
-    #    description=(
-    #        'In het geval van waterschapsverkiezingen en verkiezingen van '
-    #        'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
-    #        'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
-    #        'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
-    #        'waterschappen en er kan enkel voor een waterschap gestemd worden '
-    #        'bij stembureaus die in het gebied van het waterschap liggen. '
-    #        'Alle gemeenten vragen we daarom in het geval van deze '
-    #        'verkiezingen per stembureau specifiek aan te geven voor welke '
-    #        'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-    #        'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
-    #        'één keuze is (bv. als er in de hele gemeente maar voor één '
-    #        'waterschap gekozen kan worden) en ook als er in de gemeente bij '
-    #        'elk stembureau voor alle verkiezingen gestemd kan worden.'
-    #        '<br>'
-    #        '<br>'
-    #        'In het geval dat er in dit stembureau voor meerdere '
-    #        'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-    #        'wijkraden gestemd kan worden dan scheidt u deze met een '
-    #        'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
-    #        'waterschapsverkiezingen voor Rijnland'
-    #        '<br>'
-    #        '<br>'
-    #        '<b>Format:</b> keuze uit:'
-    #        '<ul>'
-    #        '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
-    #        'zonder \'Waterschap\' of \'Hoogheemraadschap\' voor de naam&gt;</li>'
-    #        '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
-    #        '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
-    #        '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
-    #        'stadsdeelcommissie&gt;</li>'
-    #        '</ul>'
-    #        '<br>'
-    #        '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
-    #    ),
-    #    choices=[
-    #        (
-    #            'waterschapsverkiezingen voor Noorderzijlvest',
-    #            'waterschapsverkiezingen voor Noorderzijlvest'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Fryslân',
-    #            'waterschapsverkiezingen voor Fryslân'
-    #        ),
-    #        (
-    #            \'waterschapsverkiezingen voor Hunze en Aa's\',
-    #            \'waterschapsverkiezingen voor Hunze en Aa's\'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Drents Overijsselse Delta',
-    #            'waterschapsverkiezingen voor Drents Overijsselse Delta'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Vechtstromen',
-    #            'waterschapsverkiezingen voor Vechtstromen'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Vallei en Veluwe',
-    #            'waterschapsverkiezingen voor Vallei en Veluwe'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Rijn en IJssel',
-    #            'waterschapsverkiezingen voor Rijn en IJssel'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor De Stichtse Rijnlanden',
-    #            'waterschapsverkiezingen voor De Stichtse Rijnlanden'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
-    #            'waterschapsverkiezingen voor Amstel, Gooi en Vecht'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Hollands Noorderkwartier',
-    #            'waterschapsverkiezingen voor Hollands Noorderkwartier'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Rijnland',
-    #            'waterschapsverkiezingen voor Rijnland'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Delfland',
-    #            'waterschapsverkiezingen voor Delfland'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
-    #            'waterschapsverkiezingen voor Schieland en de Krimpenerwaard'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Rivierenland',
-    #            'waterschapsverkiezingen voor Rivierenland'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Hollandse Delta',
-    #            'waterschapsverkiezingen voor Hollandse Delta'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Scheldestromen',
-    #            'waterschapsverkiezingen voor Scheldestromen'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Brabantse Delta',
-    #            'waterschapsverkiezingen voor Brabantse Delta'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor De Dommel',
-    #            'waterschapsverkiezingen voor De Dommel'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Aa en Maas',
-    #            'waterschapsverkiezingen voor Aa en Maas'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Limburg',
-    #            'waterschapsverkiezingen voor Limburg'
-    #        ),
-    #        (
-    #            'waterschapsverkiezingen voor Zuiderzeeland',
-    #            'waterschapsverkiezingen voor Zuiderzeeland'
-    #        )
-    #    ],
-    #    validators=[
-    #        Optional(),
-    #    ],
-    #    render_kw={
-    #        'class': 'selectpicker',
-    #        'data-icon-base': 'fa',
-    #        'data-tick-icon': 'fa-check',
-    #        'data-none-selected-text': (
-    #            'Selecteer één of meerdere waterschappen'
-    #        )
-    #    }
-    #)
+    verkiezingen = CustomSelectMultipleField(
+        'Verkiezingen',
+        description=(
+            'In het geval van waterschapsverkiezingen en verkiezingen van '
+            'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
+            'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
+            'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
+            'waterschappen en er kan enkel voor een waterschap gestemd worden '
+            'bij stembureaus die in het gebied van het waterschap liggen. '
+            'Alle gemeenten vragen we daarom in het geval van deze '
+            'verkiezingen per stembureau specifiek aan te geven voor welke '
+            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+            'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
+            'één keuze is (bv. als er in de hele gemeente maar voor één '
+            'waterschap gekozen kan worden) en ook als er in de gemeente bij '
+            'elk stembureau voor alle verkiezingen gestemd kan worden.'
+            '<br>'
+            '<br>'
+            'In het geval dat er in dit stembureau voor meerdere '
+            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+            'wijkraden gestemd kan worden dan scheidt u deze met een '
+            'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
+            'waterschapsverkiezingen voor Rijnland'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> keuze uit:'
+            '<ul>'
+            '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
+            'zonder \'Waterschap\' of \'Hoogheemraadschap\' voor de naam&gt;</li>'
+            '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
+            '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
+            '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
+            'stadsdeelcommissie&gt;</li>'
+            '</ul>'
+            '<br>'
+            '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
+        ),
+        choices=[
+            (
+                'waterschapsverkiezingen voor Noorderzijlvest',
+                'Noorderzijlvest'
+            ),
+            (
+                'waterschapsverkiezingen voor Fryslân',
+                'Fryslân'
+            ),
+            (
+                'waterschapsverkiezingen voor Hunze en Aa\'s',
+                'Hunze en Aa\'s'
+            ),
+            (
+                'waterschapsverkiezingen voor Drents Overijsselse Delta',
+                'Drents Overijsselse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor Vechtstromen',
+                'Vechtstromen'
+            ),
+            (
+                'waterschapsverkiezingen voor Vallei en Veluwe',
+                'Vallei en Veluwe'
+            ),
+            (
+                'waterschapsverkiezingen voor Rijn en IJssel',
+                'Rijn en IJssel'
+            ),
+            (
+                'waterschapsverkiezingen voor De Stichtse Rijnlanden',
+                'De Stichtse Rijnlanden'
+            ),
+            (
+                'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
+                'Amstel, Gooi en Vecht'
+            ),
+            (
+                'waterschapsverkiezingen voor Hollands Noorderkwartier',
+                'Hollands Noorderkwartier'
+            ),
+            (
+                'waterschapsverkiezingen voor Rijnland',
+                'Rijnland'
+            ),
+            (
+                'waterschapsverkiezingen voor Delfland',
+                'Delfland'
+            ),
+            (
+                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
+                'Schieland en de Krimpenerwaard'
+            ),
+            (
+                'waterschapsverkiezingen voor Rivierenland',
+                'Rivierenland'
+            ),
+            (
+                'waterschapsverkiezingen voor Hollandse Delta',
+                'Hollandse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor Scheldestromen',
+                'Scheldestromen'
+            ),
+            (
+                'waterschapsverkiezingen voor Brabantse Delta',
+                'Brabantse Delta'
+            ),
+            (
+                'waterschapsverkiezingen voor De Dommel',
+                'De Dommel'
+            ),
+            (
+                'waterschapsverkiezingen voor Aa en Maas',
+                'Aa en Maas'
+            ),
+            (
+                'waterschapsverkiezingen voor Limburg',
+                'Limburg'
+            ),
+            (
+                'waterschapsverkiezingen voor Zuiderzeeland',
+                'Zuiderzeeland'
+            )
+        ],
+        validators=[
+            Optional(),
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': (
+                'Selecteer één of meerdere waterschappen'
+            )
+        }
+    )
 
     toegankelijk_voor_mensen_met_een_lichamelijke_beperking = CustomSelectField(
         'Toegankelijk voor mensen met een lichamelijke beperking',
@@ -1039,6 +1042,28 @@ class EditForm(FlaskForm):
         }
     )
 
+    toegankelijke_ov_halte = StringField(
+        'Toegankelijke ov-halte',
+        description=(
+            'Is er een toegankelijke ov-halte in de buurt? Beschrijf hoe ver '
+            'deze van het stembureau ligt en hoe deze toegankelijk is.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst; als er geen toegankelijke ov-halte is, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> binnen 100 meter, rolstoeltoegankelijk, geleidelijnen'
+        ),
+        validators=[
+            Optional(),
+            no_no
+        ],
+        render_kw={
+            'placeholder': 'bv. binnen 100 meter'
+        }
+    )
+
     akoestiek = CustomSelectField(
         'Akoestiek',
         description=(
@@ -1057,7 +1082,7 @@ class EditForm(FlaskForm):
         ),
         choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
-            Optional()
+            Optional(),
         ],
         render_kw={
             'class': 'selectpicker',
@@ -1079,7 +1104,8 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> gebarentolk, schrijftolk'
         ),
         validators=[
-            Optional()
+            Optional(),
+            no_no
         ],
         render_kw={
             'placeholder': 'bv. gebarentolk, schrijftolk'
@@ -1102,7 +1128,8 @@ class EditForm(FlaskForm):
             '<b>Voorbeeld:</b> stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
         ),
         validators=[
-            Optional()
+            Optional(),
+            no_no
         ],
         render_kw={
             'placeholder': 'bv. stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
@@ -1126,5 +1153,29 @@ class EditForm(FlaskForm):
         render_kw={
             'class': 'selectpicker',
             'data-none-selected-text': ''
+        }
+    )
+
+    extra_toegankelijkheidsinformatie = StringField(
+        'Extra toegankelijkheidsinformatie',
+        description=(
+            'Eventuele extra informatie over de toegankelijkheid van dit '
+            'stembureau.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst; als er geen extra informatie is, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> prikkelarm stembureau, stembureau is volledig '
+            'toegankelijk voor mensen met een lichamelijke beperking er is '
+            'echter geen gehandicaptenparkeerplaats'
+        ),
+        validators=[
+            Optional(),
+            no_no
+        ],
+        render_kw={
+            'placeholder': 'bv. prikkelarm stembureau'
         }
     )

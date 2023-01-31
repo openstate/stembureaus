@@ -17,4 +17,8 @@ class TestEditForm(unittest.TestCase):
             r = Record(**test_record)
             form = EditForm(MultiDict(r.record))
             result = form.validate()
+            for field, errors in form.errors.items():
+                print(field)
+                print(errors)
+                print()
             self.assertEqual(result, True)

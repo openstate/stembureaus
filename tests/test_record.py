@@ -3,6 +3,7 @@ test_record = {
     'cbs gemeentecode': 'GM0518',
     'nummer stembureau': 517,
     'naam stembureau': 'Stadhuis',
+    'type stembureau': 'regulier',
     'gebruiksdoel van het gebouw': 'Kantoor',
     'website locatie': (
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
@@ -24,14 +25,15 @@ test_record = {
     'y': '454909',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijden 14-03-2022': '2022-03-14T07:30:00 tot 2022-03-14T21:00:00',
-    'openingstijden 15-03-2022': '2022-03-15T07:30:00 tot 2022-03-15T21:00:00',
-    'openingstijden 16-03-2022': '2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
+    'openingstijd': '2023-03-15T07:30:00',
+    'sluitingstijd': '2023-03-15T21:00:00',
     'toegankelijk voor mensen met een lichamelijke beperking': 'ja',
+    'toegankelijke ov-halte': 'binnen 100 meter, rolstoeltoegankelijk, geleidelijnen',
     'akoestiek': 'nee',
-    'auditieve hulpmiddelen': 'gebarentolk',
-    'visuele hulpmiddelen': 'leesloep, stemmal, vrijwilliger/host aanwezig',
+    'auditieve hulpmiddelen': 'gebarentolk, schrijftolk',
+    'visuele hulpmiddelen': 'stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen',
     'gehandicaptentoilet': 'ja',
+    'extra toegankelijkheidsinformatie': 'prikkelarm stembureau, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats',
     'kieskring id': "'s-Gravenhage",
     'hoofdstembureau': '',
     'tellocatie': 'ja',
@@ -39,6 +41,6 @@ test_record = {
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/'
-    #'verkiezingen': 'waterschapsverkiezingen voor Delfland'
+    'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/',
+    'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }

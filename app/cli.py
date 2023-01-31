@@ -138,6 +138,10 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
+            "id": "Type stembureau",
+            "type": "text"
+        },
+        {
             "id": "Gebruiksdoel van het gebouw",
             "type": "text"
         },
@@ -210,19 +214,19 @@ def add_new_datastore(resource_id):
             "type": "float"
         },
         {
-            "id": "Openingstijden 14-03-2022",
-            "type": "text"
+            "id": "Openingstijd",
+            "type": "timestamp"
         },
         {
-            "id": "Openingstijden 15-03-2022",
-            "type": "text"
-        },
-        {
-            "id": "Openingstijden 16-03-2022",
-            "type": "text"
+            "id": "Sluitingstijd",
+            "type": "timestamp"
         },
         {
             "id": "Toegankelijk voor mensen met een lichamelijke beperking",
+            "type": "text"
+        },
+        {
+            "id": "Toegankelijke ov-halte",
             "type": "text"
         },
         {
@@ -239,6 +243,10 @@ def add_new_datastore(resource_id):
         },
         {
             "id": "Gehandicaptentoilet",
+            "type": "text"
+        },
+        {
+            "id": "Extra toegankelijkheidsinformatie",
             "type": "text"
         },
         {
@@ -664,6 +672,7 @@ def test_datastore_upsert(resource_id):
         "CBS gemeentecode": "GM0518",
         "Nummer stembureau": "517",
         "Naam stembureau": "Stadhuis",
+        "Type stembureau": "regulier",
         "Gebruiksdoel van het gebouw": "kantoor",
         "Website locatie": (
             "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
@@ -685,21 +694,22 @@ def test_datastore_upsert(resource_id):
         "Y": 454909,
         "Latitude": 52.0775912,
         "Longitude": 4.3166395,
-        "Openingstijden 14-03-2022": "2022-03-14T07:30:00 tot 2022-03-14T21:00:00",
-        "Openingstijden 15-03-2022": "2022-03-15T07:30:00 tot 2022-03-15T21:00:00",
-        "Openingstijden 16-03-2022": "2022-03-16T07:30:00 tot 2022-03-16T21:00:00",
+        "Openingstijd": "2023-03-15T07:30:00",
+        "Sluitingstijd": "2023-03-15T21:00:00",
         "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
+        "Toegankelijke ov-halte": "binnen 100 meter, rolstoeltoegankelijk, geleidelijnen",
         "Akoestiek": "ja",
-        "Auditieve hulpmiddelen": "gebarentolk",
-        "Visuele hulpmiddelen": "stemmal, vrijwilliger/host aanwezig",
+        "Auditieve hulpmiddelen": "gebarentolk, schrijftolk",
+        "Visuele hulpmiddelen": "stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen",
         "Gehandicaptentoilet": "nee",
+        "Extra toegankelijkheidsinformatie": "prikkelarm stembureau, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats",
         "Kieskring ID": "'s-Gravenhage",
         "Hoofdstembureau": "Nederland",
         "Tellocatie": "ja",
         "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
         "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-        #"Verkiezingen": "",
-        "ID": "NLODSGM0518stembureaus20220316009",
+        "Verkiezingen": "waterschapsverkiezingen voor Delfland",
+        "ID": "NLODSGM0518stembureaus20230315010",
         "UUID": uuid.uuid4().hex
     }
     ckan.save_records(

@@ -112,12 +112,22 @@ dl {
 }
 
 dt {
-  width: 150px !important;
+  width: 180px !important;
 }
 
 dd {
   width: 120px;
-  margin-left: 150px !important;
+  margin-left: 180px !important;
+}
+
+.leaflet-popup-content {
+  dt {
+    width: 120px !important;
+  }
+
+  dd {
+    margin-left: 120px !important;
+  }
 }
 
 .awesome-marker {

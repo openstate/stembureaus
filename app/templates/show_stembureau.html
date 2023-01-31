@@ -25,16 +25,22 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="text-center">
+        {# ONLY RELEVANT DURING COVID
         {% set niet_open_voor_algemeen_publiek = false %}
         {% if 'niet open voor algemeen publiek' in records[0]['Extra adresaanduiding'].lower() %}
           {% set niet_open_voor_algemeen_publiek = true %}
         {% endif %}
+        #}
         <h1>
+          {# ONLY RELEVANT DURING COVID
           {% if niet_open_voor_algemeen_publiek %}
             <i class="fa fa-pencil-alt text-orange"></i>
           {% else %}
+          #}
             <i class="fa fa-pencil-alt text-red"></i>
+          {#
           {% endif %}
+          #}
           Stembureau
           {% if records[0]['Nummer stembureau'] %}
             #{{ records[0]['Nummer stembureau'] }}
@@ -54,6 +60,7 @@
       </div>
     {% endif %}
 
+    {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
     {% if gemeente == 'Amsterdam' %}
       <div class="col-xs-12 text-center">
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
@@ -64,6 +71,7 @@
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
       </div>
     {% endif %}
+    #}
 
     <div class="col-xs-12 col-sm-12 col-md-8">
       <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
@@ -78,10 +86,12 @@
       <div class="row">
         <div class="col-xs-12">
           {% for record in records %}
+            {# ONLY RELEVANT DURING COVID
             {% set niet_open_voor_algemeen_publiek = false %}
             {% if 'niet open voor algemeen publiek' in record['Extra adresaanduiding'].lower() %}
               {% set niet_open_voor_algemeen_publiek = true %}
             {% endif %}
+            #}
             <h2><i class="fa fa-info text-purple"></i> Stembureau informatie</h2>
             <h3>Adres</h3>
             <p>
@@ -107,14 +117,18 @@
                 <i>Gemeente {{ record['Gemeente']}}</i>
               {% endif %}
             </p>
+            {# ONLY RELEVANT DURING COVID
             {% if niet_open_voor_algemeen_publiek %}
               <p class="color: text-red" style="display: inline"><b>NB: {{ record['Extra adresaanduiding'] }}</b></p>
               <span class="color: text-black">
                 <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
               </span>
             {% else %}
+            #}
               <p>{{ record['Extra adresaanduiding'] }}</p>
+            {#
             {% endif %}
+            #}
 
             <p>
               <a href="https://geohack.toolforge.org/geohack.php?language=en&params={{ record['Latitude'] }}_N_{{ record['Longitude'] }}_E_type:landmark&pagename=Stembureau {{ record['Naam stembureau'] }}" target="_blank" rel="noopener">route (via externe dienst)</a>
@@ -124,27 +138,17 @@
               <b>Website van de stembureaulocatie</b>: <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener">{{ record['Website locatie'] }}</a>
             {% endif %}
 
-            {% set datums = [
-              'maandag 14 maart:',
-              'dinsdag 15 maart:',
-              'woensdag 16 maart:'
-            ] %}
             <h3>Openingstijden</h3>
-            {% for datum in datums %}
-              {% set dag = datum.split(' ')[1] %}
-              {% set tijden = record['Openingstijden ' + dag + '-03-2022'].split(' tot ', 1) %}
-              <dl class="dl-horizontal">
-                <dt style="text-align: left;">{{ datum }}</dt>
-                {% if tijden[0].strip() %}
-                  <dd style="color: green">{{ tijden[0].split('T')[1][0:5] }} &dash; {{ tijden[1].split('T')[1][0:5] }}</dd>
-                {% else %}
-                  <dd>gesloten</dd>
-                {% endif %}
-              </dl>
-            {% endfor %}
+            <dl class="dl-horizontal">
+              <dt style="text-align: left;">woensdag 15 maart:</dt>
+              <dd style="color: green">{{ record['Openingstijd'].split('T')[1][0:5] }} &dash; {{ record['Sluitingstijd'].split('T')[1][0:5] }}</dd>
+            </dl>
+
             <h3>Toegankelijkheid</h3>
             <ul>
               <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b>: {% if record['Toegankelijk voor mensen met een lichamelijke beperking'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
+
+              <li><b>Toegankelijke ov-halte</b>: {{ record['Toegankelijke ov-halte'] }}</li>
 
               <li><b>Auditieve hulpmiddelen</b>: {{ record['Auditieve hulpmiddelen'] }}</li>
 
@@ -160,22 +164,24 @@
               <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek'] == 'ja' %}Ja{% elif record['Akoestiek'] == 'nee' %}Nee{% else %}{% endif %}</li>
 
               <li><b>Gehandicaptentoilet</b>: {% if record['Gehandicaptentoilet'] == 'ja' %}Ja{% elif record['Gehandicaptentoilet'] == 'nee' %}Nee{% else %}{% endif %}</li>
+
+              <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
             </ul>
 
             <h3>Bijzonderheden</h3>
             <b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% elif record['Tellocatie'] == 'nee' %}Nee{% else %}{% endif %}
 
-            {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen
+            {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen #}
             {% if record['Verkiezingen'] %}
             <br>
-            In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen:
+            <b>In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen</b>:
               <ul>
                 {% for verkiezing in record['Verkiezingen'].split(';') %}
                 <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
                 {% endfor %}
               </ul>
             {% endif %}
-            #}
+            {# #}
 
             <h3>Gemeente {{ gemeente }}</h3>
             <p>

@@ -39,6 +39,7 @@
           </div>
         {% endif %}
 
+        {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
         {% if gemeente == 'Amsterdam' %}
           <div class="col-xs-12 text-center">
             NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
@@ -49,6 +50,7 @@
             NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
           </div>
         {% endif %}
+        #}
 
         <div class="col-xs-12 col-sm-12 col-md-9">
           {% include "map.html" %}

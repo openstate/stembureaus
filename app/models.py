@@ -243,6 +243,7 @@ class BAG(db.Model):
     y = db.Column(db.Numeric(precision=25, scale=9))
     lat = db.Column(db.Numeric(precision=24, scale=16))
     lon = db.Column(db.Numeric(precision=24, scale=16))
+    verkorteopenbareruimte = db.Column(db.String(255))
 
     def to_json(self):
         # an SQLAlchemy class
@@ -274,6 +275,7 @@ class Record(object):
         self.record = {
             'nummer_stembureau': record['nummer stembureau'],
             'naam_stembureau': record['naam stembureau'],
+            'type_stembureau': record['type stembureau'],
             'website_locatie': record['website locatie'],
             'bag_nummeraanduiding_id': record['bag nummeraanduiding id'],
             'extra_adresaanduiding': record['extra adresaanduiding'],
@@ -281,22 +283,23 @@ class Record(object):
             'longitude': record['longitude'],
             'x': record['x'],
             'y': record['y'],
-            'openingstijden_14_03_2022': record['openingstijden 14-03-2022'],
-            'openingstijden_15_03_2022': record['openingstijden 15-03-2022'],
-            'openingstijden_16_03_2022': record['openingstijden 16-03-2022'],
+            'openingstijd': record['openingstijd'],
+            'sluitingstijd': record['sluitingstijd'],
             'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': record[
                 'toegankelijk voor mensen met een lichamelijke beperking'
             ],
+            'toegankelijke_ov_halte': record['toegankelijke ov-halte'],
             'akoestiek': record['akoestiek'],
             'auditieve_hulpmiddelen': record['auditieve hulpmiddelen'],
             'visuele_hulpmiddelen': record['visuele hulpmiddelen'],
             'gehandicaptentoilet': record[
                 'gehandicaptentoilet'
             ],
+            'extra_toegankelijkheidsinformatie': record['extra toegankelijkheidsinformatie'],
             'tellocatie': record['tellocatie'],
             'contactgegevens_gemeente': record['contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente'],
-            #'verkiezingen': record['verkiezingen']
+            'verkiezingen': record['verkiezingen']
         }
 
     def expand(self):

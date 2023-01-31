@@ -57,10 +57,10 @@
     <div class="row">
       <div class="col-md-8 background-lighter-grey block-padding">
         <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
-        {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba'] %}
+        {% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba', 'Vught', 'Eemsdelta', 'Purmerend', 'Maashorst', 'Dijk en Waard', 'Voorne aan Zee ', 'Land van Cuijk', 'Oisterwijk', 'Boxtel'] %}
         - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
         {% else %}
-        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
+        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de gemeenteraadsverkiezingen 2022:
         {% endif %}
         {% if vooringevuld %}
         <a href="{{ vooringevuld }}">.xlsx</a>

@@ -9,6 +9,7 @@ from app.parser import BaseParser, ExcelParser
 test_record1 = {
     'nummer_stembureau': 516.0,
     'naam_stembureau': 'Stadhuis',
+    'type_stembureau': 'regulier',
     'website_locatie': (
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
@@ -19,26 +20,28 @@ test_record1 = {
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijden_14_03_2022': '2022-03-14T07:30:00 tot 2022-03-14T21:00:00',
-    'openingstijden_15_03_2022': '2022-03-15T07:30:00 tot 2022-03-15T21:00:00',
-    'openingstijden_16_03_2022': '2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
+    'openingstijd': '2023-03-15T07:30:00',
+    'sluitingstijd': '2023-03-15T21:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'ja',
+    'toegankelijke_ov_halte': 'binnen 100 meter, rolstoeltoegankelijk, geleidelijnen',
     'akoestiek': 'ja',
-    'auditieve_hulpmiddelen': 'gebarentolk',
-    'visuele_hulpmiddelen': 'leesloep, stemmal, vrijwilliger/host aanwezig',
+    'auditieve_hulpmiddelen': 'gebarentolk, schrijftolk',
+    'visuele_hulpmiddelen': 'stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen',
     'gehandicaptentoilet': 'ja',
+    'extra_toegankelijkheidsinformatie': 'prikkelarm stembureau, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats',
     'tellocatie': 'ja',
     'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
-    #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/',
+    'verkiezingen': ['waterschapsverkiezingen voor Delfland']
 }
 
 test_record2 = {
     'nummer_stembureau': 517.0,
     'naam_stembureau': 'Stadhuis',
+    'type_stembureau': 'bijzonder',
     'website_locatie': (
         'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
@@ -49,21 +52,22 @@ test_record2 = {
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijden_14_03_2022': '2022-03-14T07:30:00 tot 2022-03-14T21:00:00',
-    'openingstijden_15_03_2022': '2022-03-15T07:30:00 tot 2022-03-15T21:00:00',
-    'openingstijden_16_03_2022': '2022-03-16T07:30:00 tot 2022-03-16T21:00:00',
+    'openingstijd': '2023-03-15T02:30:00',
+    'sluitingstijd': '2023-03-15T22:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'nee',
+    'toegankelijke_ov_halte': '',
     'akoestiek': 'nee',
     'auditieve_hulpmiddelen': '',
     'visuele_hulpmiddelen': '',
     'gehandicaptentoilet': 'nee',
+    'extra_toegankelijkheidsinformatie': '',
     'tellocatie': 'nee',
     'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
-    #'verkiezingen': ['waterschapsverkiezingen voor Delfland']
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/',
+    'verkiezingen': ''
 }
 
 
@@ -97,6 +101,7 @@ class TestExcelParser(unittest.TestCase):
             [
                 'nummer_stembureau',
                 'naam_stembureau',
+                'type_stembureau',
                 'website_locatie',
                 'bag_nummeraanduiding_id',
                 'extra_adresaanduiding',
@@ -104,18 +109,19 @@ class TestExcelParser(unittest.TestCase):
                 'y',
                 'latitude',
                 'longitude',
-                'openingstijden_14_03_2022',
-                'openingstijden_15_03_2022',
-                'openingstijden_16_03_2022',
+                'openingstijd',
+                'sluitingstijd',
                 'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
+                'toegankelijke_ov_halte',
                 'akoestiek',
                 'auditieve_hulpmiddelen',
                 'visuele_hulpmiddelen',
                 'gehandicaptentoilet',
+                'extra_toegankelijkheidsinformatie',
                 'tellocatie',
                 'contactgegevens_gemeente',
                 'verkiezingswebsite_gemeente',
-                #'verkiezingen'
+                'verkiezingen'
             ]
         )
 

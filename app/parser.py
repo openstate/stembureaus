@@ -13,6 +13,7 @@ from xlrd import open_workbook
 valid_headers = [
     'Nummer stembureau',
     'Naam stembureau',
+    'Type stembureau',
     'Website locatie',
     'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
@@ -20,18 +21,19 @@ valid_headers = [
     'Longitude',
     'X',
     'Y',
-    'Openingstijden 14-03-2022',
-    'Openingstijden 15-03-2022',
-    'Openingstijden 16-03-2022',
+    'Openingstijd',
+    'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
+    'Toegankelijke ov-halte',
     'Akoestiek',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Gehandicaptentoilet',
+    'Extra toegankelijkheidsinformatie',
     'Tellocatie',
     'Contactgegevens gemeente',
-    'Verkiezingswebsite gemeente'
-    #'Verkiezingen'
+    'Verkiezingswebsite gemeente',
+    'Verkiezingen'
 ]
 
 parse_as_integer = [

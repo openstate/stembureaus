@@ -53,10 +53,6 @@
 
           {{ form.csrf_token }}
           {% for f in form %}
-            {% if f.label.text == 'Extra adresaanduiding' %}
-            <span><i>Sommige stembureaus zijn niet open voor algemeen publiek vanwege de coronamaatregelen. Bijvoorbeeld een stembureau in een verzorgingshuis. Geef dat in het 'Extra adresaanduiding'-veld hieronder aan door exact de tekst <b>'Niet open voor algemeen publiek'</b> in te voeren.</i></span>
-            {% endif %}
-
             {% if f.label.text == 'Latitude' %}
             <hr>
             <span><i>Vul eerst het 'Adres stembureau'-veld hierboven in, zodat de coördinaten hieronder automatisch worden ingevuld. Als de locatie van het stembureau op de kaart hieronder niet klopt, <b>sleep dan het rode icoontje naar de precieze locatie van het stembureau</b>. De coördinaten in de Latitude/Longitude- en X/Y-velden worden dan automatisch aangepast. Wilt u handmatig coördinaten aanleveren vul dan <b>óf</b> Latitude en Longitude <b>óf</b> X en Y (Rijksdriehoeksstelsel) in. (Als echter alle vier de velden zijn ingevuld dan worden de waarden van Latitude en Longitude gebruikt om X en Y te berekenen als er een verschil is tussen de coördinaten).</i></span> <span class="required">*</span>
@@ -64,7 +60,12 @@
             <script>
               var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
               StembureausApp.muni = {{ gemeente.to_json() |tojson |safe }};
-              StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
+              {# Bonaire, Saba and Sint Eustatius don't exist in the BAG, so we simply return hard coded lat/lon coordinates in a dict; so if bag_record is a dict (i.e. mapping) then don't apply to_json(), which only works for an SQLAlchemy query result #}
+              {% if bag_record is mapping %}
+                StembureausApp.bag_record = {{ bag_record |tojson |safe }};
+              {% else %}
+                StembureausApp.bag_record = {{ bag_record.to_json() |tojson |safe }};
+              {% endif %}
             </script>
             {% endif %}
 
@@ -95,7 +96,7 @@
                       </tr>
                   {% endfor %}
                 {% elif f.type != "CustomSelectField" and f.type != "SelectMultipleField" %}
-                {{ f(size=35) }}
+                {{ f(size=21) }}
                 {% else %}
                 {{ f }}
                 {% endif %}

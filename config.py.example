@@ -19,7 +19,7 @@ class Config(object):
 
     BABEL_DEFAULT_LOCALE = 'nl'
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:<DB_PASSWORD>@stm_mysql_1:3306/stembureaus'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:<DB_PASSWORD>@mysql:3306/stembureaus'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # If 'False', allows gemeenten to add stembureaus. Set to 'True' 5

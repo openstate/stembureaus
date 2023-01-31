@@ -29,6 +29,26 @@
           <th>Data</th>
           <th>Opmerkingen</th>
         </tr>
+        <tr>
+          <td>2023-03-15</td>
+          <td>Provinciale Statenverkiezingen 2023</td>
+          <td>Stembureaus ODS v1.4</td>
+        </tr>
+        <tr>
+          <td>2023-03-15</td>
+          <td>waterschapsverkiezingen 2023</td>
+          <td>Stembureaus ODS v1.4</td>
+        </tr>
+        <tr>
+          <td>2023-03-15</td>
+          <td>eilandsraadsverkiezingen 2023</td>
+          <td>Stembureaus ODS v1.4</td>
+        </tr>
+        <tr>
+          <td>2023-03-15</td>
+          <td>kiescollegeverkiezingen 2023</td>
+          <td>Stembureaus ODS v1.4</td>
+        </tr>
       </table>
     </div>
 
@@ -134,34 +154,39 @@
       <li><b>Gemeente</b>: De officiële gemeentenaam zoals gebruikt door het CBS.</li>
       <li><b>CBS gemeentecode *</b>: Unieke code voor de gemeente zoals gebruikt door het CBS.</li>
       <li><b>Stembureau of Afgiftepunt *</b>: Voor de Tweede Kamerverkiezingen van 2021 waren er vanwege de maatregelen rondom het coronavirus naast stembureaus ook afgiftepunten beschikbaar. Iedereen ouder dan 70 ontving een stempluspas die op de post gedaan kon worden maar ook in de dagen voor en op de verkiezingsdag ingeleverd kan worden bij een afgiftepunt. <i>[Enkel beschikbaar in Stembureaus ODS v1.2]</i></li>
-      <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. <i>[Dit veld is niet altijd ingevuld; enkel in Stembureaus ODS v1.2 heette dit veld 'Nummer stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
+      <li><b>Nummer stembureau *</b>: Elke stembureau heeft een nummer. Deze zijn uniek binnen een gemeente. Er kunnen op dezelfde locatie meerdere stembureaus zijn. Als een stembureau meerdere dagen open is dan moet deze voor elke dag een ander stembureaunummer hebben. Elke stembureau(nummer) moet dus apart ingevoerd worden. <i>[Dit veld is niet altijd ingevuld; enkel in Stembureaus ODS v1.2 heette dit veld 'Nummer stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
       <li><b>Naam stembureau *</b>: De naam van het stembureau. <i>[Enkel in Stembureaus ODS v1.2 heette dit veld 'Naam stembureau of afgiftepunt' en was het niet verplicht voor afgiftepunten]</i></li>
+      <li><b>Type stembureau *</b>: Het type stembureau. Keuze uit 'regulier', ‘bijzonder’ en ‘mobiel’. <i>[Beschikbaar sinds Stembureaus ODS v1.4]</i></li>
       <li><b>Gebruiksdoel van het gebouw *</b>: Gebruiksdoel volgens de BAG. Voor uitgebreidere beschrijving van bovenstaande gebruiksdoelen <a href="https://www.amsterdam.nl/stelselpedia/bag-index/handboek-inwinnen/introductie-bag/registratie/gebruiksdoel/" target="_blank" rel="noopener">klik hier</a>. <i>[Sinds Stembureaus ODS v1.3 is de naam van 'Gebruikersdoel het gebouw' veranderd naar 'Gebruiksdoel van het gebouw']</i></li>
       <li><b>Website locatie</b>: Website van de locatie van het stembureau.</li>
       <li><b>Wijknaam</b>: Naam van de wijk waar het stembureau in ligt. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
       <li><b>CBS wijknummer</b>: Nummer van de wijk waar het stembureau in ligt zoals gebruikt door het CBS. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
       <li><b>Buurtnaam</b>: Naam van de buurt waar het stembureau in ligt. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
       <li><b>CBS buurtnummer</b>: Nummer van de buurt waar het stembureau in ligt zoals gebruikt door het CBS. <i>[Dit wordt vanaf 2019 niet meer ingevuld omdat deze informatie niet up-to-date beschikbaar is bij het CBS]</i></li>
-      <li><b>BAG Nummeraanduiding ID *</b>: BAG Nummeraanduiding ID waarmee het adres van het stembureau op te halen is (o.a. via de <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">BAG viewer</a>). Voor mobiele stembureaus staat het dichtstbijzijnde BAG Nummeraanduiding ID vermeld en wordt eventueel het 'Extra adresaanduiding'-veld gebruikt om de locatie van stembureau te beschrijven. NB: de precieze locatie van het stembureau is beschikbaar via de 'Latitude' en 'Longitude'-velden. Dit veld is niet altijd ingevuld. Caribisch Nederland (BES-eilanden) staat niet in de BAG. Deze gemeenten moeten '0000000000000000' (zestien keer het getal '0') invullen en het adres verplicht invullen in het 'Extra adresaanduiding'-attribuut. <i>[Sinds Stembureaus ODS v1.3 is de naam van 'BAG referentie nummer' veranderd naar 'Bag Nummeraanduiding ID']</i></li>
+      <li><b>BAG Nummeraanduiding ID *</b>: BAG Nummeraanduiding ID waarmee het adres van het stembureau op te halen is (o.a. via de <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">BAG viewer</a>). Voor mobiele stembureaus staat het dichtstbijzijnde BAG Nummeraanduiding ID vermeld en wordt eventueel het 'Extra adresaanduiding'-veld gebruikt om de locatie van stembureau te beschrijven. Mocht een (mobiel) stembureau niet in de buurt van een gebouw staan, dan wordt '0000000000000000' (zestien keer het getal '0') ingevoerd ('Extra adresaanduiding'-attribuut is dan verplicht). NB: de precieze locatie van het stembureau is beschikbaar via de 'Latitude' en 'Longitude'-velden. Dit veld is niet altijd ingevuld. Caribisch Nederland (BES-eilanden) staat niet in de BAG. Deze gemeenten moeten '0000000000000000' (zestien keer het getal '0') invullen en het adres verplicht invullen in het 'Extra adresaanduiding'-attribuut. <i>[Sinds Stembureaus ODS v1.3 is de naam van 'BAG referentie nummer' veranderd naar 'Bag Nummeraanduiding ID']</i></li>
       <li><b>Straatnaam</b>: De naam van de straat waar het stembureau ligt.</li>
       <li><b>Huisnummer</b>: Huisnummer van het stembureau.</li>
       <li><b>Huisletter</b>: Huisletter van het stembureau. <i>[Beschikbaar sinds Stembureaus ODS v1.1]</i></li>
       <li><b>Huisnummertoevoeging</b>: Huisnummertoevoeging van het stembureau.</li>
       <li><b>Postcode</b>: Postcode van het stembureau.</li>
       <li><b>Plaats</b>: Plaats waar het stembureau in ligt.</li>
-      <li><b>Extra adresaanduiding</b>: Eventuele extra informatie over de locatie van het stembureau. Bv. 'Niet open voor algemeen publiek', 'Ingang aan achterkant gebouw' of 'Mobiel stembureau op het midden van het plein'. Caribisch Nederland (BES-eilanden) vult verplicht hier het hele adres in.</li>
+      <li><b>Extra adresaanduiding</b>: Eventuele extra informatie over de locatie van het stembureau. Bv. 'Ingang aan achterkant gebouw' of 'Mobiel stembureau op het midden van het plein'. Caribisch Nederland (BES-eilanden) vult verplicht hier het hele adres in. Als er geen extra informatie is, laat dit veld dan leeg (‘nee’ e.d. worden automatisch verwijderd).</li>
       <li><b>X</b>: Rijksdriehoekscoördinaat X van het stembureau (minimaal in meters).</li>
       <li><b>Y</b>: Rijksdriehoekscoördinaat Y van het stembureau (minimaal in meters).</li>
       <li><b>Latitude</b>: Breedtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen. <i>[Sinds Stembureaus ODS v1.3 is de volgorde omgekeerd en staat het 'Latitude'-veld voor het 'Longitude'-veld en zijn deze velden niet meer verplicht als er een BAG Nummeraanduiding ID is ingevuld aangezien de locatie dan ook bekend is]</i></li>
       <li><b>Longitude</b>: Lengtegraad van het stembureau (DD.dddddd notatie) met minimaal 4 decimalen. <i>[Sinds Stembureaus ODS v1.3 is de volgorde omgekeerd en staat het 'Latitude'-veld voor het 'Longitude'-veld en zijn deze velden niet meer verplicht als er een BAG Nummeraanduiding ID is ingevuld aangezien de locatie dan ook bekend is]</i></li>
       <li><b>Districtcode</b>: <i>[Verwijderd sinds Stembureaus ODS v1.1]</i></li>
-      <li><b>Openingstijden *</b>: Openingstijden van het stembureau. Als een stembureau meerdere openingstijden heeft (bijvoorbeeld in het geval van een mobiel stembureau) dan wordt het stembureau in meerdere rijen beschreven met elk een andere openingstijd. Als er gedurende meerdere dagen wordt gestemd in stembureaus (<i>[Mogelijk sinds Stembureaus ODS v1.2]</i>), dan is er voor elke dag een rij met openingstijden in de vorm van 'Openingstijden DD-MM-YYYY', bv. 'Openingstijden 16-03-2022'.</li>
+      <li><b>Openingstijden *</b>: Openingstijden van het stembureau. Als een stembureau meerdere openingstijden heeft (bijvoorbeeld in het geval van een mobiel stembureau) dan wordt het stembureau in meerdere rijen beschreven met elk een andere openingstijd. Als er gedurende meerdere dagen wordt gestemd in stembureaus (<i>[Mogelijk sinds Stembureaus ODS v1.2]</i>), dan is er voor elke dag een rij met openingstijden in de vorm van 'Openingstijden DD-MM-YYYY', bv. 'Openingstijden 16-03-2022'. <i>[Verwijderd sinds Stembureaus ODS v1.4]</i></li>
+      <li><b>Openingstijd *</b>: Openingstijd van het stembureau. In sommige gevallen heeft een stembureau meerdere openingstijden, bijvoorbeeld een mobiel stemburea of een stembureau dat ‘s middags even dicht is. In zulke gevallen moeten voor alle openingstijden alle attributen apart ingevuld worden. <i>[Beschikbaar sinds Stembureaus ODS v1.4]</i></li>
+      <li><b>Sluitingstijd *</b>: Sluitingstijd van het stembureau. In sommige gevallen heeft een stembureau meerdere openingstijden, bijvoorbeeld een mobiel stemburea of een stembureau dat ‘s middags even dicht is. In zulke gevallen moeten voor alle openingstijden alle attributen apart ingevuld worden. <i>[Beschikbaar sinds Stembureaus ODS v1.4]</i></li>
       <li><b>Toegankelijk voor mensen met een lichamelijke beperking *</b>: Het gebouw van het stembureau en minstens één stemhokje is goed toegankelijk en bereikbaar voor mensen met een lichamelijke beperking. Voor meer informatie, zie: <a href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/verkiezingentoolkit/toegankelijkheid-verkiezingen" target="_blank" rel="noopener">https://www.rijksoverheid.nl/onderwerpen/verkiezingen/verkiezingentoolkit/toegankelijkheid-verkiezingen</a>. Waarden: 'ja' en 'nee'. <i>[Verplicht sinds Stembureaus ODS v1.1; Sinds Stembureaus ODS v1.3 is de naam van 'Mindervaliden toegankelijk' veranderd naar 'Toegankelijk voor mensen met een lichamelijke beperking'; sinds Stembureaus ODS v1.3 zijn 'Y' en 'N' veranderd naar 'ja' en 'nee']</i></li>
+      <li><b>Toegankelijke ov-halte</b>: Is er een toegankelijke ov-halte in de buurt? Beschrijf hoe ver deze van het stembureau ligt en hoe deze toegankelijk is. Dit is een vrij tekstveld. Als er geen toegankelijke ov-halte is, laat dit veld dan leeg (‘nee’ e.d. worden automatisch verwijderd). <i>[Beschikbaar sinds Stembureaus ODS v1.4]</i></li>
       <li><b>Invalidenparkeerplaatsen</b>: Waarden: 'ja', 'nee' en leeg/'' als het onbekend is. <i>[Enkel beschikbaar in Stembureaus ODS v1.0; daarna vervangen door het veld '1.2.a GPA aanwezig' enkel in Stembureaus ODS v1.1]</i></li>
       <li><b>Akoestiek</b>: Is de akoestiek van het stembureau geschikt voor slechthorenden? Voor meer informatie, zie <a href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" target="_blank" rel="noopener">deze website</a>. Waarden: 'ja', 'nee' en leeg/'' als het onbekend is. <i>[Sinds Stembureaus ODS v1.3 zijn 'Y' en 'N' veranderd naar 'ja' en 'nee']</i></li>
-      <li><b>Auditieve hulpmiddelen</b>: Welke auditieve hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
-      <li><b>Visuele hulpmiddelen</b>: Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. NB: een leesloep is verplicht op elk stembureau en moet hier dus niet vermeld worden. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
+      <li><b>Auditieve hulpmiddelen</b>: Welke auditieve hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. Als er geen hulpmiddelen zijn, laat dit veld dan leeg (‘nee’ e.d. worden automatisch verwijderd). <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
+      <li><b>Visuele hulpmiddelen</b>: Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij tekstveld. Als er geen hulpmiddelen zijn, laat dit veld dan leeg (‘nee’ e.d. worden automatisch verwijderd). NB: een leesloep is verplicht op elk stembureau en moet hier dus niet vermeld worden. <i>[Beschikbaar sinds Stembureaus ODS v1.2]</i></li>
       <li><b>Gehandicaptentoilet</b>: Waarden: 'ja', 'nee' en leeg/'' als het onbekend is. <i>[Sinds Stembureaus ODS v1.3 is de naam van 'Mindervalide toilet aanwezig' veranderd naar 'Gehandicaptentoilet'; sinds Stembureaus ODS v1.3 zijn 'Y' en 'N' veranderd naar 'ja' en 'nee']</i></li>
+      <li><b>Extra toegankelijkheidsinformatie</b>: Eventuele extra informatie over de toegankelijkheid van dit stembureau. Dit is een vrij tekstveld. Als er geen extra informatie is, laat dit veld dan leeg (‘nee’ e.d. worden automatisch verwijderd). <i>[Beschikbaar sinds Stembureaus ODS v1.4]</i></li>
       <li><b>Kieskring ID</b>: Afhankelijk van het type verkiezing het nummer of de naam van de kieskring waar het stembureau in valt:
         <ul>
           <li>Tweede Kamerverkiezing: kieskringnummer</li>

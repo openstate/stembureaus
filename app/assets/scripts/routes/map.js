@@ -52,10 +52,6 @@ export default {
         else if (matches[i]['item']['gemeente_naam'] == 'Zuidwest-Friesland') {
           gemeente_uri = "Súdwest-Fryslân"
         }
-        // TODO: only needed during 2022GR because of herindeling with Amsterdam, remove for next election
-        else if (matches[i]['item']['gemeente_naam'] == 'Weesp') {
-          gemeente_uri = "Amsterdam"
-        }
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
         $('#results-search-gemeenten').append($(
@@ -77,17 +73,17 @@ export default {
       matches.sort(function (a,b) {return (a['Nummer stembureau'] > b['Nummer stembureau']) ? 1 : ((b['Nummer stembureau'] > a['Nummer stembureau']) ? -1 : 0)});
 
       for (var i=0; i < matches.length; i++) {
-        var opinfo = matches[i]['Openingstijden 16-03-2022'].split(' tot ');
 
         var extra_adresaanduiding = '';
         var orange_icon = '';
         if (matches[i]['Extra adresaanduiding'].trim()) {
-          if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-            extra_adresaanduiding = '<p style="color: #D63E2A"><b>NB: ' + matches[i]['Extra adresaanduiding'] + ' <span style="color: dimgrey"><i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico\'s van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i></span></b></p>';
-            orange_icon = '-orange';
-          } else {
+          // CODE BELOW WAS ONLY NEEDED IN 2021/2022 DUE TO COVID, UNCOMMENT IF IT IS NEEDED AGAIN
+          //if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+          //  extra_adresaanduiding = '<p style="color: #D63E2A"><b>NB: ' + matches[i]['Extra adresaanduiding'] + ' <span style="color: dimgrey"><i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico\'s van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i></span></b></p>';
+          //  orange_icon = '-orange';
+          //} else {
             extra_adresaanduiding = '<p>' + matches[i]['Extra adresaanduiding'] + '</p>';
-          }
+          //}
         }
 
         var adres = '';
@@ -234,19 +230,11 @@ export default {
     };
 
     // Creates a list of openingstijden
-    var create_opinfo = function(datums, loc) {
+    var create_opinfo = function(loc) {
       var opinfo_output = '<dl class="dl-horizontal">';
 
-      datums.forEach(function(datum) {
-        var dag = datum.split(' ')[1];
-        var opinfo = loc['Openingstijden ' + dag + '-03-2022'].split(' tot ');
-        opinfo_output += '<dt style="text-align: left;">' + datum + '</dt>'
-        if (opinfo[0].trim()) {
-          opinfo_output += '<dd style="color: green">' + opinfo[0].split('T')[1].slice(0, 5) + ' &dash; ' + opinfo[1].split('T')[1].slice(0, 5) + '</dd>';
-        } else {
-          opinfo_output += '<dd>gesloten</dd>'
-        }
-      });
+      opinfo_output += '<dt style="text-align: left;">woensdag 15 maart</dt>'
+      opinfo_output += '<dd style="color: green">' + loc['Openingstijd'].split('T')[1].slice(0, 5) + ' &dash; ' + loc['Sluitingstijd'].split('T')[1].slice(0, 5) + '</dd>';
 
       opinfo_output += '</dl>';
       return opinfo_output;
@@ -277,7 +265,7 @@ export default {
         )
       };
 
-      var dag;
+      //var dag;
 
       // Apply filters to the map
       StembureausApp.filter_map = function (filters) {
@@ -317,49 +305,37 @@ export default {
       StembureausApp.filter_locations = function (filters) {
         StembureausApp.filtered_locations = [];
 
-        // Filter: dag
+        // Might be used again if elections last multiple days
+        //// Filter: dag
         StembureausApp.stembureaus.forEach(function (loc) {
-          var dag = filters['dag'];
-          if (dag) {
-            if (dag === '') {
-              StembureausApp.filtered_locations.push(loc);
-            } else if (loc['Openingstijden ' + dag + '-03-2022'].split(' tot ')[0].trim()) {
-              StembureausApp.filtered_locations.push(loc);
-            }
-          } else {
+        //  var dag = filters['dag'];
+        //  if (dag) {
+        //    if (dag === '') {
+        //      StembureausApp.filtered_locations.push(loc);
+        //    } else if (loc['Openingstijden ' + dag + '-03-2022'].split(' tot ')[0].trim()) {
+        //      StembureausApp.filtered_locations.push(loc);
+        //    }
+        //  } else {
             // When you only view a single location, there is no dag filter as
             // all the information is shown on the page
             StembureausApp.filtered_locations.push(loc);
-          }
+        //  }
         });
 
         // Filter: openingstijden
         var temp_filtered_locations = [];
         StembureausApp.filtered_locations.forEach(function (loc) {
           var openingstijden = filters['openingstijden'];
-          var dag = filters['dag'];
           if (openingstijden) {
             if (openingstijden === '') {
               temp_filtered_locations.push(loc);
             } else if (openingstijden === 'regulier') {
-              if (dag) {
-                if (loc['Openingstijden ' + dag + '-03-2022'] === '2022-03-' + dag + 'T07:30:00 tot 2022-03-' + dag + 'T21:00:00') {
-                  temp_filtered_locations.push(loc);
-                }
-              } else {
-                if (loc['Openingstijden 14-03-2022'] !== '' && loc['Openingstijden 14-03-2022'] === '2022-03-14T07:30:00 tot 2022-03-14T21:00:00' || loc['Openingstijden 15-03-2022'] !== '' && loc['Openingstijden 15-03-2022'] === '2022-03-15T07:30:00 tot 2022-03-15T21:00:00' || loc['Openingstijden 16-03-2022'] !== '' && loc['Openingstijden 16-03-2022'] === '2022-03-16T07:30:00 tot 2022-03-16T21:00:00') {
-                  temp_filtered_locations.push(loc);
-                }
+              if (loc['Openingstijd'] === '2023-03-15T07:30:00' && loc['Sluitingstijd'] === '2023-03-15T21:00:00') {
+                temp_filtered_locations.push(loc);
               }
             } else if (openingstijden === 'afwijkend') {
-              if (dag) {
-                if (loc['Openingstijden ' + dag + '-03-2022'] !== '2022-03-' + dag + 'T07:30:00 tot 2022-03-' + dag + 'T21:00:00') {
-                  temp_filtered_locations.push(loc);
-                }
-              } else {
-                if (loc['Openingstijden 14-03-2022'] !== '' && loc['Openingstijden 14-03-2022'] !== '2022-03-14T07:30:00 tot 2022-03-14T21:00:00' || loc['Openingstijden 15-03-2022'] !== '' && loc['Openingstijden 15-03-2022'] !== '2022-03-15T07:30:00 tot 2022-03-15T21:00:00' || loc['Openingstijden 16-03-2022'] !== '' && loc['Openingstijden 16-03-2022'] !== '2022-03-16T07:30:00 tot 2022-03-16T21:00:00') {
-                  temp_filtered_locations.push(loc);
-                }
+              if (loc['Openingstijd'] !== '2023-03-15T07:30:00' || loc['Sluitingstijd'] !== '2023-03-15T21:00:00') {
+                temp_filtered_locations.push(loc);
               }
             }
           } else {
@@ -449,17 +425,11 @@ export default {
         StembureausApp.filtered_locations = temp_filtered_locations;
       };
 
-      var datums = [
-        'maandag 14 maart:',
-        'dinsdag 15 maart:',
-        'woensdag 16 maart:'
-      ]
-
       // Create the popup which you see when you click on a marker
       StembureausApp.getPopup = function(loc, orange_icon) {
         // First create the openingstijden HTML
         var opinfo_output = '</p><i>Openingstijden</i>';
-        opinfo_output += create_opinfo(datums, loc);
+        opinfo_output += create_opinfo(loc);
         opinfo_output += '<br><br>';
 
         // Create the final HTML output
@@ -508,13 +478,14 @@ export default {
 
         output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=Stembureau ' + loc['Naam stembureau'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>';
 
-        if (loc['Gemeente'] == 'Amsterdam') {
-          output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
-        }
+        // ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
+        //if (loc['Gemeente'] == 'Amsterdam') {
+        //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
+        //}
 
-        if (loc['Gemeente'] == 'Rotterdam') {
-          output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
-        }
+        //if (loc['Gemeente'] == 'Rotterdam') {
+        //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
+        //}
 
         output += opinfo_output;
 
@@ -597,8 +568,10 @@ export default {
       if (zoom >= 7 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
         StembureausApp.map.addLayer(brt);
         chooseLayers.addTo(StembureausApp.map);
+        StembureausApp.map.setMaxZoom(19);
       } else {
         StembureausApp.map.addLayer(osm);
+        StembureausApp.map.setMaxZoom(18);
       }
 
       // Show BRT only when zoomed in on European Netherlands, use OSM for
@@ -610,17 +583,19 @@ export default {
           StembureausApp.map.removeLayer(osm);
           StembureausApp.map.addLayer(brt);
           chooseLayers.addTo(StembureausApp.map);
+          StembureausApp.map.setMaxZoom(19);
         } else {
           chooseLayers.remove(StembureausApp.map);
           StembureausApp.map.removeLayer(brt);
           StembureausApp.map.removeLayer(hwh);
           StembureausApp.map.addLayer(osm);
+          StembureausApp.map.setMaxZoom(18);
         }
       });
 
       // Initialize the filters
       var filters = {
-        'dag': $('#dag-filter').val(),
+        //'dag': $('#dag-filter').val(),
         'openingstijden': $('#openingstijden-filter').val(),
         'toegankelijk': $('.toegankelijk-filter').val(),
         'visuele-hulpmiddelen': $('.visuele-hulpmiddelen-filter').val(),
@@ -654,7 +629,7 @@ export default {
 
       // Apply updates to the map if a filter is clicked
       $('.filter').change(function() {
-        filters['dag'] = $('#dag-filter').val();
+        //filters['dag'] = $('#dag-filter').val();
         filters['openingstijden'] = $('#openingstijden-filter').val();
         filters['toegankelijk'] = $('.toegankelijk-filter').val();
         filters['visuele-hulpmiddelen'] = $('.visuele-hulpmiddelen-filter').val();
