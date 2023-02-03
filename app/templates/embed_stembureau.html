@@ -123,6 +123,18 @@
               <b>Website van de stembureaulocatie</b>: <a href="{{ record['Website locatie'] }}" target="_blank" rel="noopener">{{ record['Website locatie'] }}</a>
             {% endif %}
 
+            {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen #}
+            {% if record['Verkiezingen'] %}
+            <br>
+            <b>In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen</b>:
+              <ul>
+                {% for verkiezing in record['Verkiezingen'].split(';') %}
+                <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {# #}
+
             <h3>Openingstijden</h3>
             <dl class="dl-horizontal">
               <dt style="text-align: left;">woensdag 15 maart</dt>
@@ -155,18 +167,6 @@
 
             <h3>Bijzonderheden</h3>
             <b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% elif record['Tellocatie'] == 'nee' %}Nee{% else %}{% endif %}
-
-            {# TODO: should only be included in elections for waterschapsverkiezingen or stadsdelen #}
-            {% if record['Verkiezingen'] %}
-            <br>
-            <b>In dit stembureau kunt u voor de waterschapsverkiezingen op de volgende waterschappen stemmen</b>:
-              <ul>
-                {% for verkiezing in record['Verkiezingen'].split(';') %}
-                <li>{{ verkiezing.lstrip('waterschapsverkiezingen voor ') }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-            {# #}
 
             <h3>Gemeente {{ gemeente }}</h3>
             <p>

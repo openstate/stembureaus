@@ -82,12 +82,12 @@ default_minimal_fields = [
     'Visuele hulpmiddelen',
     'Akoestiek',
     'Gehandicaptentoilet',
-    'Extra toegankelijkheidsinformatie'
+    'Extra toegankelijkheidsinformatie',
+    'Verkiezingen',
 ]
 
 # Additional fields that are required on stembureau pages
 extended_minimal_fields = default_minimal_fields + [
-    'Verkiezingen',
     'Tellocatie',
     'Website locatie',
     'Contactgegevens gemeente',

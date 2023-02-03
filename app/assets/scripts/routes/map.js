@@ -97,6 +97,14 @@ export default {
           }
         }
 
+        var verkiezingen = '';
+        if (matches[i]['Verkiezingen'].trim()) {
+            verkiezingen = '<b>Waterschapsverkiezingen voor</b>: <br>';
+            verkiezingen += '<ul style="list-style-type: disc;">';
+            matches[i]['Verkiezingen'].trim().split(';').forEach(el => verkiezingen += '<li>' + el.replace('waterschapsverkiezingen voor ', '') + '</li>');
+            verkiezingen += '</ul><br>';
+        }
+
         var plaats_naam = matches[i]['Plaats'] || '<i>Gemeente ' + matches[i]['Gemeente'] + '</i>';
 
         var nummer_stembureau = '';
@@ -118,6 +126,8 @@ export default {
                     plaats_naam +
                   '</p>' +
                   extra_adresaanduiding +
+
+                  verkiezingen +
 
                   '<span class="stembureau-info-icons">' +
                     weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
@@ -279,9 +289,10 @@ export default {
         StembureausApp.filtered_locations.forEach(function (loc) {
           var icon = markerIcons['Stembureau'];
           var orange_icon = '';
-          if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-            var orange_icon = '-orange';
-          }
+          // CODE BELOW WAS ONLY NEEDED IN 2021/2022 DUE TO COVID, UNCOMMENT IF IT IS NEEDED AGAIN
+          //if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+          //  var orange_icon = '-orange';
+          //}
           StembureausApp.filtered_markers.push(
             L.marker(
               [
@@ -435,7 +446,7 @@ export default {
         // Create the final HTML output
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-        var output = '<p>'
+        var output = '';
 
         // Show which gemeente this stembureau belongs to only on the homepage map
         if (StembureausApp.homepage) {
@@ -469,11 +480,12 @@ export default {
           output += "<i>Gemeente " + loc['Gemeente'] + "</i>";
         }
         if (loc['Extra adresaanduiding']) {
-          if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-            output += '<br><span style="color: #D63E2A"><b>NB: ' + loc['Extra adresaanduiding'] + '</b></span>';
-          } else {
+          // CODE BELOW WAS ONLY NEEDED IN 2021/2022 DUE TO COVID, UNCOMMENT IF IT IS NEEDED AGAIN
+          //if (loc['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
+          //  output += '<br><span style="color: #D63E2A"><b>NB: ' + loc['Extra adresaanduiding'] + '</b></span>';
+          //} else {
             output += '<br>' + loc['Extra adresaanduiding'];
-          }
+          //}
         }
 
         output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=Stembureau ' + loc['Naam stembureau'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>';
@@ -486,6 +498,13 @@ export default {
         //if (loc['Gemeente'] == 'Rotterdam') {
         //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
         //}
+
+        if (loc['Verkiezingen'].trim()) {
+            output += '<br><br><b>Waterschapsverkiezingen voor</b>:';
+            output += '<ul style="list-style-type: disc; margin: 0;">';
+            loc['Verkiezingen'].trim().split(';').forEach(el => output += '<li>' + el.replace('waterschapsverkiezingen voor ', '') + '</li>');
+            output += '</ul>';
+        }
 
         output += opinfo_output;
 
