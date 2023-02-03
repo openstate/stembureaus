@@ -13,7 +13,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
 def send_password_reset_email(user):
     token = user.get_reset_password_token()
     send_email(
-        '[waarismijnstemlokaal.nl] Wachtwoord aanpassen',
+        '[WaarIsMijnStemlokaal.nl] Wachtwoord aanpassen',
         sender=app.config['FROM'],
         recipients=[user.email],
         text_body=render_template(
@@ -33,20 +33,18 @@ def send_password_reset_email(user):
 def send_invite(user):
     token = user.get_reset_password_token()
     send_email(
-        'Uitnodiging deelname waarismijnstemlokaal.nl',
+        'Uitnodiging deelname WaarIsMijnStemlokaal.nl',
         sender=app.config['FROM'],
         recipients=[user.email],
         text_body=render_template(
             'email/uitnodiging.txt',
             user=user,
-            token=token,
-            signup_form_url=app.config['SIGNUP_FORM_URL']
+            token=token
         ),
         html_body=render_template(
             'email/uitnodiging.html',
             user=user,
-            token=token,
-            signup_form_url=app.config['SIGNUP_FORM_URL']
+            token=token
         )
     )
 
@@ -54,7 +52,7 @@ def send_invite(user):
 # Sends an update email to all users
 def send_update(user):
     send_email(
-        "Publiceer uw stemlokalen weer op waarismijnstemlokaal.nl",
+        "Publiceer uw stemlokalen weer op WaarIsMijnStemlokaal.nl",
         sender=app.config['FROM'],
         recipients=[user.email],
         text_body=render_template(

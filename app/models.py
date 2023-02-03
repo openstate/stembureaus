@@ -1,6 +1,7 @@
 from time import time
 from decimal import Decimal
 import json
+import os
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,6 +10,7 @@ from ckanapi.errors import CKANAPIError
 import jwt
 
 from app import app, db, login_manager
+from app.email import send_email, send_invite
 
 
 class CKAN():
@@ -205,6 +207,72 @@ class Gemeente_user(db.Model):
 
     gemeente = db.relationship(Gemeente, backref="Gemeente_user")
     user = db.relationship(User, backref="Gemeente_user")
+
+
+# Add a user and link it to a gemeente by specifying the gemeente,
+# user's email address and name. Also allow to enable or disable sending
+# of a logging mail to the admins.
+def add_user(gemeente_id, email, name='', send_logging_mail=True):
+    user_created = 0
+
+    # Add user
+    user = User.query.filter_by(
+        email=email
+    ).first()
+
+    # Make sure the user doesn't exist already
+    if not user:
+        user = User(
+            email=email
+        )
+        user.set_password(os.urandom(24))
+        db.session.add(user)
+        db.session.commit()
+        user_created = 1
+
+        # Send the new user an invitation email
+        send_invite(user)
+
+        # Send logging mail
+        if send_logging_mail:
+            selected_gemeente = Gemeente.query.filter_by(id=gemeente_id).first()
+            body = (
+                f"Gemeente: {selected_gemeente.gemeente_naam}<br>"
+                f"E-mailadres: {email}<br>"
+                f"Naam contactpersoon: {name}"
+            )
+            send_email(
+                '[WIMS] New account signup request',
+                sender=app.config['FROM'],
+                recipients=app.config['ADMINS'],
+                text_body=body,
+                html_body=body
+            )
+    else:
+        print(
+            "User already exists (might be because it is part of "
+            "multiple municipalities): %s" % (email)
+        )
+
+    # Add record to the Gemeente_user association table
+    gemeente_user = Gemeente_user.query.filter_by(
+        gemeente_id=gemeente_id,
+        user_id=user.id
+    ).first()
+
+    # Make sure the record doesn't exist already
+    if not gemeente_user:
+        gemeente_user = Gemeente_user(
+            gemeente_id=gemeente_id,
+            user_id=user.id
+        )
+        db.session.add(gemeente_user)
+        db.session.commit()
+
+    # 1 if yes, otherwise 0. This is used by
+    # add_gemeenten_verkiezingen_users to count the total number of
+    # users created.
+    return user_created
 
 
 @login_manager.user_loader

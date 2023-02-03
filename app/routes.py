@@ -19,12 +19,12 @@ from sqlalchemy.sql.expression import cast
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    FileUploadForm, PubliceerForm, GemeenteSelectionForm
+    FileUploadForm, PubliceerForm, GemeenteSelectionForm, SignupForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import Gemeente, User, ckan, Record, BAG
+from app.models import Gemeente, User, ckan, Record, BAG, add_user
 from app.utils import find_buurt_and_wijk
 from math import ceil
 from time import sleep
@@ -198,12 +198,35 @@ def data():
     return render_template('data.html')
 
 
-@app.route("/" + app.config['SIGNUP_FORM_PATH'])
+@app.route("/" + app.config['SIGNUP_FORM_PATH'], methods=['GET', 'POST'])
 def signup_form():
+    signup_form = SignupForm()
+    signup_form.gemeente.choices = [
+        (
+            gemeente.id, gemeente.gemeente_naam
+        ) for gemeente in Gemeente.query.all()
+    ]
+
+    # Process account signup request
+    if signup_form.validate_on_submit():
+        if signup_form.submit.data:
+            add_user(
+                signup_form.gemeente.data,
+                signup_form.email.data,
+                signup_form.naam_contactpersoon.data
+            )
+
+            flash(
+                'Dank voor het invullen! U ontvangt binnen enkele minuten een '
+                'uitnodigingsmail met inloggegevens en verdere instructies '
+                'het aanleveren van uw stembureaugegevens.'
+            )
+            return redirect(url_for('signup_form'))
+
     return render_template(
         'signup_form.html',
-        signup_form_url=app.config['SIGNUP_FORM_URL'],
-        signup_form_title=app.config['SIGNUP_FORM_TITLE']
+        signup_form_title=app.config['SIGNUP_FORM_TITLE'],
+        signup_form=signup_form
     )
 
 
@@ -938,8 +961,7 @@ def gemeente_instructies():
     ).first()
     return render_template(
         'gemeente-instructies.html',
-        gemeente=gemeente,
-        signup_form_url=app.config['SIGNUP_FORM_URL']
+        gemeente=gemeente
     )
 
 

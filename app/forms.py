@@ -115,6 +115,24 @@ class LoginForm(FlaskForm):
     )
 
 
+class SignupForm(FlaskForm):
+    email = StringField('E-mailadres', validators=[DataRequired(), Email()])
+    gemeente = SelectField('Gemeente', validators=[DataRequired()], choices=[])
+    # We don't store the name in the database, but it is sent in the
+    # logging email to the admins so they can verify if this user is
+    # allowed access to the specified gemeente (especially useful when
+    # a person doesn't use a gemeente email address, but e.g. a private
+    # email address)
+    naam_contactpersoon = StringField('Naam contactpersoon', validators=[Optional()])
+    submit = SubmitField(
+        'Vraag account aan',
+        render_kw={
+            'class': 'btn btn-info selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+
 class GemeenteSelectionForm(FlaskForm):
     gemeente = SelectField('Gemeente', validators=[DataRequired()], choices=[])
     submit = SubmitField(

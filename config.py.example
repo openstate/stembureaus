@@ -27,8 +27,6 @@ class Config(object):
     # stembureaus after this deadline.
     UPLOAD_DEADLINE_PASSED = False
 
-    # URL of the form where new users can sign up
-    SIGNUP_FORM_URL = ''
     # Path for waarismijnstemlokaal.nl/<SIGNUP_FORM_PATH>
     SIGNUP_FORM_PATH = ''
     # Title for waarismijnstemlokaal.nl/<SIGNUP_FORM_PATH>

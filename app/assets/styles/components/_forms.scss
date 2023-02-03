@@ -7,6 +7,20 @@ select {
   margin: 7px;
 }
 
+.signup-form {
+  label {
+    font-weight: bold;
+  }
+
+  input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select {
+    width: 280px !important;
+  }
+
+  select {
+    margin: 0;
+  }
+}
+
 input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select, .bootstrap-select {
   width: 374px !important;
 }

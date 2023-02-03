@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan
+from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_user
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
@@ -822,10 +822,20 @@ def remove_all_gemeenten_verkiezingen_users():
 
 
 @mysql.command()
+@click.argument('gemeente')
+@click.argument('email')
+def add_new_user(gemeente, email):
+    gemeente = Gemeente.query.filter_by(
+        gemeente_naam=gemeente
+    ).first()
+    add_user(gemeente.id, email, send_logging_mail=False)
+
+
+@mysql.command()
 @click.argument('email')
 def remove_user(email):
     """
-    Remove a user by specifying the users email address
+    Remove a user by specifying the user's email address
     """
     if not app.debug:
         result = input(
@@ -953,42 +963,9 @@ def add_gemeenten_verkiezingen_users(json_file):
 
             # Add users
             for email in item['email']:
-                user = User.query.filter_by(
-                    email=email
-                ).first()
-
-                # Make sure the user doesn't exist already
-                if not user:
-                    user = User(
-                        email=email
-                    )
-                    user.set_password(os.urandom(24))
-                    db.session.add(user)
-                    db.session.commit()
-                    total_users_created += 1
-
-                    # Send the new user an invitation email
-                    send_invite(user)
-                else:
-                    print(
-                        "User already exists (might be because it is part of "
-                        "multiple municipalities): %s" % (email)
-                    )
-
-                # Add records to the Gemeente_user association table
-                gemeente_user = Gemeente_user.query.filter_by(
-                    gemeente_id=gemeente.id,
-                    user_id=user.id
-                ).first()
-
-                # Make sure the record doesn't exist already
-                if not gemeente_user:
-                    gemeente_user = Gemeente_user(
-                        gemeente_id=gemeente.id,
-                        user_id=user.id
-                    )
-                    db.session.add(gemeente_user)
-            db.session.commit()
+                total_users_created += add_user(
+                    gemeente.id, email, send_logging_mail=False
+                )
 
             # Add admin users (they have access to all gemeenten)
             for admin in User.query.filter_by(admin=1):

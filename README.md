@@ -30,7 +30,7 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `sudo docker-compose up -d`
    - [Compile the assets](#compile-assets)
-   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take more than 1 hour on a server (without SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - The `docker-compose up` command above also loads the BAG data in MySQL, this can take more than 1 hour on a server (without SSD), so wait until `WaarIsMijnStemlokaal.nl` loads without errors before continuing with the commands below
    - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Set up daily backups for MySQL and CKAN
       - Copy `docker/backup.sh.example` to `docker/backup.sh` and edit it
@@ -46,7 +46,7 @@ Collecting and presenting stembureaus
    - `cd docker`
    - `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
    - [Compile the assets](#compile-assets)
-   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 15 minutes (with an SSD), so wait until `waarismijnstemlokaal.nl/` loads without errors before continuing with the commands below
+   - If you ran the `docker-compose up` command above for the first time or if you removed the `stm_stm-mysql-volume` then the BAG data will be loaded in MySQL, this can take something like 15 minutes (with an SSD), so wait until `WaarIsMijnStemlokaal.nl` loads without errors before continuing with the commands below
    - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `sudo docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
@@ -109,7 +109,7 @@ Use Fabric 2.x on your development machine to pull new changes from GitHub on a 
 - `fab deploy`
 
 ## Troubleshooting
-If you try to visit waarismijnstemlokaal.nl and get a '502 Bad Gateway', then open the console in your browser. If you see a message like (this is in Firefox):
+If you try to visit WaarIsMijnStemlokaal.nl and get a '502 Bad Gateway', then open the console in your browser. If you see a message like (this is in Firefox):
 
 > The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol.
 

@@ -7,7 +7,7 @@ Tijdens de afgelopen verkiezingen waren de stemlokalen van alle 358 (bijzondere)
 
 Wij hebben voor uw gemeente de gegevens al ingevuld op basis van de stembureaus van de Provinciale Statenverkiezingen 2019 (of op basis van de kiescollegeverkiezingen 2019 voor de BES-eilanden). Als uw stemlokalen hetzelfde zijn dan hoeft u enkel in te loggen en op de ‘Publiceer’-knop te klikken. Als er veranderingen zijn dan kunt u deze eenvoudig via de website doorvoeren.
 
-Publiceer of wijzig de stembureaus van uw gemeente: https://waarismijnstemlokaal.nl/gemeente-stemlokalen-overzicht
+Publiceer of wijzig de stembureaus van uw gemeente: https://WaarIsMijnStemlokaal.nl/gemeente-stemlokalen-overzicht
 
 Mocht u uw wachtwoord vergeten zijn dan kunt u een nieuw wachtwoord aanmaken: {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}
 
@@ -21,11 +21,11 @@ Op 23 mei vinden de Europese Parlementsverkiezingen plaats. Het ministerie van B
 Na het publiceren van de stembureaus kunt u de kaart insluiten/embedden op uw gemeentewebsite. Zo kunnen uw inwoners makkelijk een stembureau vinden.
 
 **Instructies**
-De volledige instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
+De volledige instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://WaarIsMijnStemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
 
 ** Vragen of contact? **
 Heeft u vragen? Neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.
 
 
 Met vriendelijke groet,
-Open State Foundation namens waarismijnstemlokaal.nl
+Open State Foundation namens WaarIsMijnStemlokaal.nl

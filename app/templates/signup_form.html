@@ -8,6 +8,68 @@
 
 {% block content %}
   <div class="container">
-    <iframe src="{{ signup_form_url }}" width="100%" height="1225" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    <h1 class="text-center">Aanvraagformulier gemeente account</h1>
+
+    <p>Het platform 'Waar is mijn stemlokaal' verzamelt net als vorige jaren de locaties van alle stembureau voor de aankomende verkiezingen van 15 maart 2023. Open State Foundation ontwikkelt dit platform voor het ministerie van Binnenlandse Zaken, de VNG en de Kiesraad.</p>
+
+    <p>We vragen elke gemeente één of meerdere e-mailadressen achter te laten via dit formulier. Als er meerdere mensen (met verschillende e-mailadressen) in uw gemeente toegang nodig hebben tot 'Waar is mijn stemlokaal', vul dit formulier dan meerdere keren in. Als uw gemeente tijdens vorige verkiezingen heeft meegedaan dan hebben wij al een uitnodigingsmail naar de bij ons bekende e-mailadressen van uw gemeente verstuurd.</p>
+
+    <p>U ontvangt binnen enkele minuten na het versturen van dit formulier een uitnodigingsmail met inloggegevens en verdere instructies voor het aanleveren van uw stembureaugegevens..</p>
+
+    <p>Vragen kunt e-mailen naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.</p>
+
+    <p>
+        <b>NB</b>: Als u voor meerdere gemeenten de stembureau gegevens aanlevert (in het geval van bv. een gemeentelijke samenwerking), dan dient u dit formulier voor elke gemeente apart in te vullen.
+        <br>
+        <b>NB2</b>: Heeft u al een account maar weet u uw wachtwoord niet meer? <a href="{{ url_for('user_reset_wachtwoord_verzoek') }}">Vraag dan een nieuw wachtwoord aan</a>.
+    </p>
+
+    <p><span style="color: red;">*</span> = verplicht veld</p>
+
+    <div class="signup-form text-center">
+      <form method="POST" action="">
+        {{ signup_form.csrf_token }}
+
+        <div>
+          {{ signup_form.gemeente.label }} <span style="color: red;">*</span>
+          <br>
+          {{ signup_form.gemeente }}
+          {% for error in signup_form.gemeente.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
+
+        <br>
+
+        <div>
+          {{ signup_form.email.label }} <span style="color: red;">*</span>
+          <br>
+          {{ signup_form.email }}
+          {% for error in signup_form.email.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
+
+        <br>
+
+        <div>
+          {{ signup_form.naam_contactpersoon.label }}
+          <br>
+          {{ signup_form.naam_contactpersoon }}
+          {% for error in signup_form.naam_contactpersoon.errors %}
+            <span style="color: red;">- {{ error }}</span>
+            <br>
+          {% endfor %}
+        </div>
+
+        <br>
+
+        <div>
+          {{ signup_form.submit }}
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}
