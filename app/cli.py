@@ -16,6 +16,20 @@ import sys
 import uuid
 
 
+@app.cli.group()
+def API():
+    "API related commands"
+    pass
+
+
+@API.command()
+def stembureaumanager():
+    """
+    Update data from municipalities that use stembureaumanager
+    """
+    print("Updating stembureaumanager ...")
+
+
 # CKAN (use uppercase to avoid conflict with 'ckan' import from
 # app.models)
 @app.cli.group()
