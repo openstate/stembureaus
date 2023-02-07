@@ -19,17 +19,26 @@ class StembureauManager(object):
         for kwarg, v in kwargs.items():
             setattr(self, kwarg, v)
 
-    def overview(self):
-        url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], 'overzicht')
+    def _request(self, method, params=None):
+        url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], method)
         print(url)
-        return requests.get(url, headers={
+        return requests.get(url, params=params, headers={
             'x-api-key': app.config['STEMBUREAUMANAGER_API_KEY']
         }).json()
+
+    def overview(self):
+        return self._request('overzicht')
+
+    def get_municipality(self, municipality_id):
+        #  https://test-opendata.stembureaumanager.nl/api/stembureau/gemeente?id=GM<code>
+        return self._request('gemeente', params={'id': municipality_id})
 
     def run(self):
         municipalities = self.overview()
         for m in municipalities:
             m_updated = parser.parse(m['gewijzigd'])
-            if m_updated > self.from_date:
-                pprint(m)
+            if m_updated <= self.from_date:
+                continue
+            data = self.get_municipality(m['gemeente_code'])
+            pprint(data)
         #pprint(result)
