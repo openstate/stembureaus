@@ -93,3 +93,9 @@ class StembureauManager(object):
             validator = Validator()
             results = validator.validate(records)
             pprint(results)
+            for idx, details in results['results'].items():
+                if len(details['errors'].keys()) > 0:
+                    print(idx)
+                    pprint(details['errors'])
+                    if idx < len(records):
+                        pprint(records[idx])
