@@ -5,7 +5,10 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
 from app.utils import find_buurt_and_wijk
-from datetime import datetime
+from app.stembureaumanager import StembureauManager
+
+from datetime import datetime, timedelta
+from dateutil import parser
 from flask import url_for
 from pprint import pprint
 import click
@@ -14,6 +17,7 @@ import json
 import os
 import sys
 import uuid
+import pytz
 
 
 @app.cli.group()
@@ -23,12 +27,17 @@ def API():
 
 
 @API.command()
-def stembureaumanager():
+@click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=1))
+def stembureaumanager(from_date):
     """
     Update data from municipalities that use stembureaumanager
     """
-    print("Updating stembureaumanager ...")
-
+    print("Updating stembureaumanager from %s ..." % (from_date,))
+    if isinstance(from_date, str):
+        if 'T' not in from_date:
+            from_date = '%sT00:00:00Z' % (from_date,)
+        from_date = parser.parse(from_date)
+    StembureauManager(from_date=from_date).run()
 
 # CKAN (use uppercase to avoid conflict with 'ckan' import from
 # app.models)
