@@ -121,6 +121,20 @@ class APIManager(object):
         for election in [x.verkiezing for x in elections]:
             ckan.publish(election, gemeente.gemeente_code, gemeente_draft_records)
 
+    def _send_error_email(self, gemeente, records, results):
+        output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s :\n\n' % (
+            gemeente.gemeente_naam,)
+        for idx, details in results['results'].items():
+            if len(details['errors'].keys()) > 0:
+                # the spreadsheet starts at row 5 ...
+                real_idx = idx - 6
+                s = records[real_idx]
+                output += 'Stembureau %s. %s :\n' % (s['nummer_stembureau'], s['naam_stembureau'])
+                for fld, fld_errors in details['errors'].items():
+                    output += '%s: %s\n' % (fld, fld_errors[0],)
+                output += '\n\n'
+        print(output)
+
 
 class StembureauManager(APIManager):
     def _request(self, method, params=None):
@@ -167,13 +181,10 @@ class StembureauManager(APIManager):
             validator = Validator()
             results = validator.validate(records)
             #pprint(results)
-            for idx, details in results['results'].items():
-                if len(details['errors'].keys()) > 0:
-                    # the spreadsheet starts at row 5 ...
-                    real_idx = idx - 6
-                    # print(real_idx)
-                    # pprint(details['errors'])
-                    # pprint(records[real_idx-6])
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_draft_records(gemeente, gemeente_draft_records, elections)
+
+            if not results['no_errors']:
+                print("Errors where found in the results")
+                self._send_error_email(gemeente, records, results)
             #print(results['results'])
