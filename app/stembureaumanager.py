@@ -87,6 +87,34 @@ class APIManager(object):
         ]
         return gemeente_draft_records, gemeente_publish_records
 
+    def _save_draft_records(self, gemeente, gemeente_draft_records, elections, results):
+        # Delete all stembureaus of current gemeente
+        if gemeente_draft_records:
+            for election in [x.verkiezing for x in elections]:
+                ckan.delete_records(
+                    ckan.elections[election]['draft_resource'],
+                    {
+                        'CBS gemeentecode': gemeente.gemeente_code
+                    }
+                )
+
+        # Create and save records
+        for election in [x.verkiezing for x in elections]:
+            records = []
+            for _, result in results['results'].items():
+                if result['form']:
+                    records.append(
+                        _create_record(
+                            result['form'],
+                            result['uuid'],
+                            gemeente,
+                            election
+                        )
+                    )
+            ckan.save_records(
+                ckan.elections[election]['draft_resource'],
+                records=records
+            )
 
 class StembureauManager(APIManager):
     def _request(self, method, params=None):
@@ -140,4 +168,5 @@ class StembureauManager(APIManager):
                     # print(real_idx)
                     # pprint(details['errors'])
                     # pprint(records[real_idx-6])
-            print(len(results['results']))
+            self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
+            #print(results['results'])
