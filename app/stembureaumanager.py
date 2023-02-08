@@ -14,7 +14,11 @@ from dateutil import parser
 import requests
 from flask import url_for
 
-class StembureauManagerParser(BaseParser):
+class BaseAPIParser(BaseParser):
+    pass
+
+
+class StembureauManagerParser(BaseAPIParser):
     def convert_to_record(self, data):
         return {
             'nummer_stembureau': data['Nummer stembureau'],
@@ -57,11 +61,34 @@ class StembureauManagerParser(BaseParser):
         return clean_records
 
 
-class StembureauManager(object):
+class APIManager(object):
     def __init__(self, *arg, **kwargs):
         for kwarg, v in kwargs.items():
             setattr(self, kwarg, v)
 
+    def _get_draft_and_publish_records_for_gemeente(self, verkiezing, gemeente_code):
+        """
+        Gets draft and published records for the speicified municipality
+        """
+        all_publish_records = ckan.get_records(
+            ckan.elections[verkiezing]['publish_resource']
+        )
+        all_draft_records = ckan.get_records(
+            ckan.elections[verkiezing]['draft_resource']
+        )
+
+        gemeente_publish_records = [
+            record for record in all_publish_records['records']
+            if record['CBS gemeentecode'] == gemeente_code
+        ]
+        gemeente_draft_records = [
+            record for record in all_draft_records['records']
+            if record['CBS gemeentecode'] == gemeente_code
+        ]
+        return gemeente_draft_records, gemeente_publish_records
+
+
+class StembureauManager(APIManager):
     def _request(self, method, params=None):
         url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], method)
         print(url)
@@ -85,14 +112,17 @@ class StembureauManager(object):
             gemeente = get_gemeente(m['gemeente_code'])
             print(gemeente)
             elections = gemeente.elections.all()
-
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
             # both elections are the same (at least for the GR2018 + referendum
             # elections on March 21st 2018).
             verkiezing = elections[0].verkiezing
-            print(elections)
-            print(verkiezing)
+            gemeente_draft_records, gemeente_publish_records = self._get_draft_and_publish_records_for_gemeente(
+                verkiezing, m['gemeente_code'])
+            print("Loaded %s draft records and %s published records" % (
+                len(gemeente_draft_records), len(gemeente_publish_records),))
+            # print(elections)
+            # print(verkiezing)
             data = self.get_municipality(m['gemeente_code'])
             if not isinstance(data, list):
             #if data.get('statusCode', 200) >= 400:
@@ -107,8 +137,7 @@ class StembureauManager(object):
                 if len(details['errors'].keys()) > 0:
                     # the spreadsheet starts at row 5 ...
                     real_idx = idx - 6
-                    print(real_idx)
-                    #print(idx)
-                    pprint(details['errors'])
-                    pprint(records[real_idx-6])
+                    # print(real_idx)
+                    # pprint(details['errors'])
+                    # pprint(records[real_idx-6])
             print(len(results['results']))
