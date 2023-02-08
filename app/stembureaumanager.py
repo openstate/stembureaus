@@ -116,6 +116,12 @@ class APIManager(object):
                 records=records
             )
 
+    def _publish_draft_records(self, gemeente, gemeente_draft_records, elections):
+        _remove_id(gemeente_draft_records)
+        for election in [x.verkiezing for x in elections]:
+            ckan.publish(election, gemeente.gemeente_code, gemeente_draft_records)
+
+
 class StembureauManager(APIManager):
     def _request(self, method, params=None):
         url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], method)
@@ -169,4 +175,5 @@ class StembureauManager(APIManager):
                     # pprint(details['errors'])
                     # pprint(records[real_idx-6])
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
+            self._publish_draft_records(gemeente, gemeente_draft_records, elections)
             #print(results['results'])
