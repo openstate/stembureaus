@@ -10,7 +10,7 @@ PyJWT==2.0.0
 pytz==2020.5
 uWSGI==2.0.19.1
 ckanapi==4.5
-cryptography==36.0.0
+cryptography==39.0.1
 xlrd==1.2.0
 Fiona==1.8.18
 Shapely==1.7.1
