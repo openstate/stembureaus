@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_user, Record
-from app.email import send_invite, send_update
+from app.email import send_invite, send_update, send_email
 from app.parser import BaseParser, UploadFileParser, valid_headers
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
@@ -134,6 +134,14 @@ class APIManager(object):
                     output += '%s: %s\n' % (fld, fld_errors[0],)
                 output += '\n\n'
         print(output)
+        send_email(
+            "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via API" % (
+                gemeente.gemeente_naam,),
+            sender=app.config['FROM'],
+            recipients=app.config['ADMINS'],
+            text_body=output,
+            html_body=None)
+
 
 
 class StembureauManager(APIManager):
