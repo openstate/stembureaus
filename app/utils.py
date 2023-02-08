@@ -6,6 +6,18 @@ import shapely
 import shapely.geometry
 from pyproj import Proj, transform
 
+from app.models import Gemeente
+
+def get_gemeente(gemeente_code):
+    current_gemeente = Gemeente.query.filter_by(
+        gemeente_code=gemeente_code
+    ).first()
+    if not current_gemeente:
+        print(
+            'Gemeentecode "%s" not found in the MySQL '
+            'database' % (gemeente_code)
+        )
+    return current_gemeente
 
 def get_shapes(shape_file):
     shapes = []

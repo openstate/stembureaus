@@ -4,7 +4,7 @@ from app.email import send_invite, send_update
 from app.parser import BaseParser, UploadFileParser, valid_headers
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk
+from app.utils import find_buurt_and_wijk, get_gemeente
 
 from datetime import datetime
 from urllib.parse import urljoin
@@ -45,7 +45,6 @@ class StembureauManagerParser(BaseParser):
 
     def _get_records(self, data, headers):
         result = []
-        pprint(data)
         for d in data:
             r = self.convert_to_record(d)
             result.append(r)
@@ -83,19 +82,33 @@ class StembureauManager(object):
             m_updated = parser.parse(m['gewijzigd'])
             if m_updated <= self.from_date:
                 continue
+            gemeente = get_gemeente(m['gemeente_code'])
+            print(gemeente)
+            elections = gemeente.elections.all()
+
+            # Pick the first election. In the case of multiple elections we only
+            # retrieve the stembureaus of the first election as the records for
+            # both elections are the same (at least for the GR2018 + referendum
+            # elections on March 21st 2018).
+            verkiezing = elections[0].verkiezing
+            print(elections)
+            print(verkiezing)
             data = self.get_municipality(m['gemeente_code'])
             if not isinstance(data, list):
             #if data.get('statusCode', 200) >= 400:
                 print("Could not get data for %s" % (m,))
                 continue
             records = StembureauManagerParser().parse(data)
-            pprint(records[0])
+            #pprint(records[0])
             validator = Validator()
             results = validator.validate(records)
-            pprint(results)
+            #pprint(results)
             for idx, details in results['results'].items():
                 if len(details['errors'].keys()) > 0:
-                    print(idx)
+                    # the spreadsheet starts at row 5 ...
+                    real_idx = idx - 6
+                    print(real_idx)
+                    #print(idx)
                     pprint(details['errors'])
-                    if idx < len(records):
-                        pprint(records[idx])
+                    pprint(records[real_idx-6])
+            print(len(results['results']))
