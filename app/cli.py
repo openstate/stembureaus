@@ -4,7 +4,7 @@ from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk
+from app.utils import find_buurt_and_wijk, get_gemeente
 from app.stembureaumanager import StembureauManager
 
 from datetime import datetime, timedelta
@@ -46,6 +46,25 @@ def CKAN():
     """ckan commands"""
     pass
 
+
+@CKAN.command()
+def fill_source():
+    draft_or_published = {}
+    for verkiezing in ckan.elections.keys():
+        all_publish_records = ckan.get_records(
+            ckan.elections[verkiezing]['publish_resource']
+        )
+        all_draft_records = ckan.get_records(
+            ckan.elections[verkiezing]['draft_resource']
+        )
+        for rl in [all_publish_records, all_draft_records]:
+            for r in rl['records']:
+                draft_or_published[r['CBS gemeentecode']] = 1
+    pprint(draft_or_published)
+    for gm_code, _ in draft_or_published.items():
+        gemeente = get_gemeente(gm_code)
+        gemeente.source = 'upload'
+        db.session.commit()
 
 @CKAN.command()
 def show_verkiezingen():
