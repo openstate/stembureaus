@@ -15,6 +15,8 @@
       <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
     </div>
 
+    <p>{{ gemeente.source }}</p>
+
     <h1 class="text-center">Stembureaus</h1>
 
     <br>
@@ -31,14 +33,15 @@
       {% if not draft_records %}
       <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
       {% endif %}
+      {% if not editing_disabled %}
       <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
-
+      {% endif %}
       <br>
       <br>
 
       <form method="POST" action="">
         {{ publish_form.csrf_token }}
-      {% if disable_publish_form %}
+      {% if disable_publish_form or editing_disabled %}
         {{ publish_form.submit(disabled=True) }}
         {% if draft_records %}
           [de stembureaus zijn gepubliceerd]
@@ -96,7 +99,7 @@
             </div>
           </div>
           <tr>
-            {% if not upload_deadline_passed %}
+            {% if not (upload_deadline_passed or editing_disabled) %}
               <td>
                 <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
                 <a id="remove-stembureau-link" href="" data-toggle="modal" data-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>

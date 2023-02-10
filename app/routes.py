@@ -777,7 +777,7 @@ def gemeente_stemlokalen_overzicht():
     disable_publish_form = True
     if gemeente_draft_records != gemeente_publish_records:
         disable_publish_form = False
-
+    editing_disabled = gemeente.source.startswith('api')
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing_string=_format_verkiezingen_string(elections),
@@ -786,7 +786,8 @@ def gemeente_stemlokalen_overzicht():
         field_order=field_order,
         publish_form=publish_form,
         disable_publish_form=disable_publish_form,
-        upload_deadline_passed=check_deadline_passed()
+        upload_deadline_passed=check_deadline_passed(),
+        editing_disabled=editing_disabled
     )
 
 
