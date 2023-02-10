@@ -195,4 +195,7 @@ class StembureauManager(APIManager):
             if not results['no_errors']:
                 print("Errors where found in the results")
                 self._send_error_email(gemeente, records, results)
+
+            gemeente.source = 'api[stembureaumanager]'
+            db.session.commit()
             #print(results['results'])
