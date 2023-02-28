@@ -73,7 +73,9 @@
     >
       <thead>
         <tr>
+          {% if not (upload_deadline_passed or editing_disabled) %}
           <th id="bewerk-kolom"></th>
+          {% endif %}
           {% for field in field_order %}
             <th data-field="{{ field }}" data-sortable="true">
               {{ field }}
