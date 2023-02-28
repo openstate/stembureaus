@@ -15,8 +15,6 @@
       <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
     </div>
 
-    <p>{{ gemeente.source }}</p>
-
     <h1 class="text-center">Stembureaus</h1>
 
     <br>
@@ -26,6 +24,9 @@
     <br>
     <br>
 
+    {% if gemeente.source and gemeente.source.startswith('api[') %}
+    <p>Dit overzicht is verkregen via {{ gemeente.source.split('[')[1][:-1].capitalize() }}. U kunt de stembureaus daar wijzigen.</p>
+    {% endif %}
     {% if upload_deadline_passed %}
       <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
       <br>
@@ -39,6 +40,8 @@
       <br>
       <br>
 
+      {% if not (gemeente.source and gemeente.source.startswith('api[')) %}
+
       <form method="POST" action="">
         {{ publish_form.csrf_token }}
       {% if disable_publish_form or editing_disabled %}
@@ -50,6 +53,7 @@
         {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
       {% endif %}
       </form>
+      {% endif %}
     {% endif %}
 
     <br>
