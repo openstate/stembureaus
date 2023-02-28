@@ -161,7 +161,13 @@ class StembureauManager(APIManager):
 
     def run(self):
         municipalities = self.overview()
+        pprint(app.config['STEMBUREAUMANAGER_API_KEY'])
+        if 'statusCode' in municipalities:
+            print("Er ging iets fout:")
+            pprint(municipalities)
+            return
         for m in municipalities:
+            pprint(m)
             m_updated = parser.parse(m['gewijzigd'])
             if m_updated <= self.from_date:
                 continue
