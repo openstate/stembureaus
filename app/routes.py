@@ -698,6 +698,7 @@ def gemeente_stemlokalen_dashboard():
                 )
             )
 
+    editing_disabled = gemeente.source and gemeente.source.startswith('api')
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing_string=_format_verkiezingen_string(elections),
@@ -708,7 +709,10 @@ def gemeente_stemlokalen_dashboard():
         show_publish_note=show_publish_note,
         vooringevuld=vooringevuld,
         toon_stembureaus_pagina=toon_stembureaus_pagina,
-        upload_deadline_passed=check_deadline_passed()
+        upload_deadline_passed=check_deadline_passed(),
+        editing_disabled=editing_disabled,
+        gemeente_publish_records=gemeente_publish_records,
+        gemeente_draft_records=gemeente_draft_records
     )
 
 
@@ -777,7 +781,7 @@ def gemeente_stemlokalen_overzicht():
     disable_publish_form = True
     if gemeente_draft_records != gemeente_publish_records:
         disable_publish_form = False
-    editing_disabled = gemeente.source.startswith('api')
+    editing_disabled = gemeente.source and gemeente.source.startswith('api')
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing_string=_format_verkiezingen_string(elections),

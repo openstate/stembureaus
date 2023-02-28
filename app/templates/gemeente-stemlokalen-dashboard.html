@@ -19,6 +19,7 @@
 
     <br>
 
+    {% if not editing_disabled %}
     Er zijn twee methoden om stembureaus toe te voegen:
     <ol>
       <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
@@ -26,11 +27,16 @@
     </ol>
 
     <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
+    {% else %}
+    De stembureaus worden voor uw gemeente beheerd via {{ gemeente.source.split('[')[1][:-1].capitalize() }}. U kunt de stembureaus daar wijzigen.</p>
+    {% endif %}
 
     <br>
     <br>
 
     <div class="action-bar block-padding">
+
+
       U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus opgeslagen en {{total_publish_records}} gepubliceerd.
       {% if show_publish_note %}
       <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
@@ -38,8 +44,9 @@
 
       <br>
       <br>
-
       <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
+
+      {% if not editing_disabled %}
 
       <br>
       <br>
@@ -49,11 +56,14 @@
       {% else %}
         <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
       {% endif %}
+
+      {% endif %}
     </div>
 
     <br>
     <br>
 
+    {% if not editing_disabled %}
     <div class="row">
       <div class="col-md-8 background-lighter-grey block-padding">
         <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
@@ -92,6 +102,7 @@
 
       </div>
     </div>
+    {% endif %}
     <div class="row">
       <hr>
       Gebruikers met toegang tot deze gemeente:
