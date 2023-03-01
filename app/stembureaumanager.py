@@ -4,7 +4,7 @@ from app.email import send_invite, send_update, send_email
 from app.parser import BaseParser, UploadFileParser, valid_headers
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk, get_gemeente
+from app.utils import find_buurt_and_wijk, get_gemeente, publish_gemeente_records
 
 from datetime import datetime
 from urllib.parse import urljoin
@@ -117,9 +117,7 @@ class APIManager(object):
             )
 
     def _publish_draft_records(self, gemeente, gemeente_draft_records, elections):
-        _remove_id(gemeente_draft_records)
-        for election in [x.verkiezing for x in elections]:
-            ckan.publish(election, gemeente.gemeente_code, gemeente_draft_records)
+        publish_gemeente_records(gemeente.gemeente_code)
 
     def _send_error_email(self, gemeente, records, results):
         output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s :\n\n' % (
@@ -147,7 +145,7 @@ class APIManager(object):
 class StembureauManager(APIManager):
     def _request(self, method, params=None):
         url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], method)
-        print(url)
+        print(url,params)
         return requests.get(url, params=params, headers={
             'x-api-key': app.config['STEMBUREAUMANAGER_API_KEY']
         }).json()
@@ -167,12 +165,10 @@ class StembureauManager(APIManager):
             pprint(municipalities)
             return
         for m in municipalities:
-            pprint(m)
             m_updated = parser.parse(m['gewijzigd'])
             if m_updated <= self.from_date:
                 continue
             gemeente = get_gemeente(m['gemeente_code'])
-            print(gemeente)
             elections = gemeente.elections.all()
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
@@ -189,11 +185,13 @@ class StembureauManager(APIManager):
             if not isinstance(data, list):
             #if data.get('statusCode', 200) >= 400:
                 print("Could not get data for %s" % (m,))
+                pprint(data)
                 continue
             records = StembureauManagerParser().parse(data)
             #pprint(records[0])
             validator = Validator()
             results = validator.validate(records)
+            print("%s: %s stembureaus" % (gemeente, len(results),))
             #pprint(results)
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_draft_records(gemeente, gemeente_draft_records, elections)

@@ -4,7 +4,7 @@ from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk, get_gemeente
+from app.utils import find_buurt_and_wijk, get_gemeente,publish_gemeente_records
 from app.stembureaumanager import StembureauManager
 
 from datetime import datetime, timedelta
@@ -434,20 +434,7 @@ def publish_gemeente(gemeente_code):
     """
     Publishes the saved (draft) stembureaus of a gemeente
     """
-    current_gemeente = _get_gemeente(gemeente_code)
-
-    elections = current_gemeente.elections.all()
-
-    for election in [x.verkiezing for x in elections]:
-        temp_all_draft_records = ckan.get_records(
-            ckan.elections[election]['draft_resource']
-        )
-        temp_gemeente_draft_records = [
-            record for record in temp_all_draft_records['records']
-            if record['CBS gemeentecode'] == current_gemeente.gemeente_code
-        ]
-        _remove_id(temp_gemeente_draft_records)
-        ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
+    publish_gemeente_records(gemeente_code)
 
 
 @CKAN.command()

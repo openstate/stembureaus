@@ -6,7 +6,15 @@ import shapely
 import shapely.geometry
 from pyproj import Proj, transform
 
-from app.models import Gemeente
+from app.models import Gemeente, ckan
+
+# Remove '_id' as CKAN doesn't accept this field in upsert when we
+# want to publish and '_id' is almost never the same in
+# publish_records and draft_records so we need to remove it in order
+# to compare them
+def _remove_id(records):
+    for record in records:
+        del record['_id']
 
 def get_gemeente(gemeente_code):
     current_gemeente = Gemeente.query.filter_by(
@@ -18,6 +26,25 @@ def get_gemeente(gemeente_code):
             'database' % (gemeente_code)
         )
     return current_gemeente
+
+def publish_gemeente_records(gemeente_code):
+    """
+    Publishes the saved (draft) stembureaus of a gemeente
+    """
+    current_gemeente = get_gemeente(gemeente_code)
+
+    elections = current_gemeente.elections.all()
+
+    for election in [x.verkiezing for x in elections]:
+        temp_all_draft_records = ckan.get_records(
+            ckan.elections[election]['draft_resource']
+        )
+        temp_gemeente_draft_records = [
+            record for record in temp_all_draft_records['records']
+            if record['CBS gemeentecode'] == current_gemeente.gemeente_code
+        ]
+        _remove_id(temp_gemeente_draft_records)
+        ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 
 def get_shapes(shape_file):
     shapes = []
