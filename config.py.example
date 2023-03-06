@@ -60,9 +60,9 @@ class Config(object):
         }
     }
 
-    # Stembureaumanager API key and URLs
-    STEMBUREAUMANAGER_API_KEY = 'xxxxxxxx'
-    STEMBUREAUMANAGER_BASE_URL = 'https://test-opendata.stembureaumanager.nl/api/stembureau/'
+    # Stembureaumanager URL and API key
+    STEMBUREAUMANAGER_BASE_URL = ''
+    STEMBUREAUMANAGER_API_KEY = ''
 
     MAIL_SERVER = ''
     MAIL_PORT = ''

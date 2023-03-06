@@ -28,15 +28,13 @@
 
     <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
     {% else %}
-    De stembureaus worden voor uw gemeente beheerd via {{ gemeente.source.split('[')[1][:-1].capitalize() }}. U kunt de stembureaus daar wijzigen.</p>
+    De stembureaus worden voor uw gemeente beheerd via <b>{{ gemeente.source.split('[')[1][:-1].capitalize() }}</b>. U kunt de stembureaus daar wijzigen.</p>
     {% endif %}
 
     <br>
     <br>
 
     <div class="action-bar block-padding">
-
-
       U heeft voor {{ verkiezing_string | safe }} {{total_draft_records}} stembureaus opgeslagen en {{total_publish_records}} gepubliceerd.
       {% if show_publish_note %}
       <span class="text-red">Let op: er zijn wijzigingen in de stembureaus die u nog niet gepubliceerd heeft.</span>
@@ -46,17 +44,13 @@
       <br>
       <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a>
 
-      {% if not editing_disabled %}
-
       <br>
       <br>
 
       {% if toon_stembureaus_pagina %}
         <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
       {% else %}
-        <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat u uw stembureaus heeft toegevoegd en gepubliceerd]
-      {% endif %}
-
+        <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat {% if editing_disabled %}uw stembureaus via {{ gemeente.source.split('[')[1][:-1].capitalize() }} correct zijn ingeladen{% else %}u uw stembureaus heeft toegevoegd en gepubliceerd{% endif %}]
       {% endif %}
     </div>
 

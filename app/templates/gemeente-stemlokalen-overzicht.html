@@ -24,35 +24,31 @@
     <br>
     <br>
 
-    {% if gemeente.source and gemeente.source.startswith('api[') %}
-    <p>Dit overzicht is verkregen via {{ gemeente.source.split('[')[1][:-1].capitalize() }}. U kunt de stembureaus daar wijzigen.</p>
-    {% endif %}
-    {% if upload_deadline_passed %}
-      <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
-      <br>
+    {% if editing_disabled %}
+      <p>Dit overzicht is verkregen via <b>{{ gemeente.source.split('[')[1][:-1].capitalize() }}</b>. U kunt de stembureaus daar wijzigen.</p>
     {% else %}
-      {% if not draft_records %}
-      <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
-      {% endif %}
-      {% if not editing_disabled %}
-      <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
-      {% endif %}
-      <br>
-      <br>
-
-      {% if not (gemeente.source and gemeente.source.startswith('api[')) %}
-
-      <form method="POST" action="">
-        {{ publish_form.csrf_token }}
-      {% if disable_publish_form or editing_disabled %}
-        {{ publish_form.submit(disabled=True) }}
-        {% if draft_records %}
-          [de stembureaus zijn gepubliceerd]
-        {% endif %}
+      {% if upload_deadline_passed %}
+        <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+        <br>
       {% else %}
-        {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
-      {% endif %}
-      </form>
+        {% if not draft_records %}
+        <p class="text-red">[Dit overzicht is nog leeg, maar op het <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard</a> kunt u een stembureau-spreadsheet downloaden dat al deels vooringevuld is]</p>
+        {% endif %}
+        <a class="btn btn-info" role="button" href="{{ url_for('gemeente_stemlokalen_edit') }}">Voeg nieuw stembureau toe</a>
+        <br>
+        <br>
+
+        <form method="POST" action="">
+          {{ publish_form.csrf_token }}
+        {% if disable_publish_form %}
+          {{ publish_form.submit(disabled=True) }}
+          {% if draft_records %}
+            [de stembureaus zijn gepubliceerd]
+          {% endif %}
+        {% else %}
+          {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
+        {% endif %}
+        </form>
       {% endif %}
     {% endif %}
 

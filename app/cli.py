@@ -3,8 +3,8 @@ from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_u
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
-from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk, get_gemeente,publish_gemeente_records
+from app.routes import create_record, kieskringen
+from app.utils import find_buurt_and_wijk, get_gemeente, publish_gemeente_records, remove_id
 from app.stembureaumanager import StembureauManager
 
 from datetime import datetime, timedelta
@@ -39,6 +39,7 @@ def stembureaumanager(from_date):
         from_date = parser.parse(from_date)
     StembureauManager(from_date=from_date).run()
 
+
 # CKAN (use uppercase to avoid conflict with 'ckan' import from
 # app.models)
 @app.cli.group()
@@ -46,25 +47,6 @@ def CKAN():
     """ckan commands"""
     pass
 
-
-@CKAN.command()
-def fill_source():
-    draft_or_published = {}
-    for verkiezing in ckan.elections.keys():
-        all_publish_records = ckan.get_records(
-            ckan.elections[verkiezing]['publish_resource']
-        )
-        all_draft_records = ckan.get_records(
-            ckan.elections[verkiezing]['draft_resource']
-        )
-        for rl in [all_publish_records, all_draft_records]:
-            for r in rl['records']:
-                draft_or_published[r['CBS gemeentecode']] = 1
-    pprint(draft_or_published)
-    for gm_code, _ in draft_or_published.items():
-        gemeente = get_gemeente(gm_code)
-        gemeente.source = 'upload'
-        db.session.commit()
 
 @CKAN.command()
 def show_verkiezingen():
@@ -335,7 +317,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
     """
     Uploads a stembureau spreadheet, specify full absolute file_path
     """
-    current_gemeente = _get_gemeente(gemeente_code)
+    current_gemeente = get_gemeente(gemeente_code)
 
     elections = current_gemeente.elections.all()
     # Pick the first election. In the case of multiple elections we only
@@ -350,7 +332,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
         record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_gemeente.gemeente_code
     ]
-    _remove_id(gemeente_draft_records)
+    remove_id(gemeente_draft_records)
 
     parser = UploadFileParser()
     app.logger.info(
@@ -413,7 +395,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
             for _, result in results['results'].items():
                 if result['form']:
                     records.append(
-                        _create_record(
+                        create_record(
                             result['form'],
                             result['uuid'],
                             current_gemeente,
@@ -459,7 +441,7 @@ def copy_gemeente_resource(gemeente_code, source_resource, dest_resource,
         record for record in all_resource_records['records']
         if record['CBS gemeentecode'] == gemeente_code
     ]
-    _remove_id(gemeente_resource_records)
+    remove_id(gemeente_resource_records)
 
     # If either one of these parameters is not set then try to get the
     # values from the dest_resource
@@ -769,18 +751,6 @@ def remove_datastore(resource_id):
     Remove the datastore table from a resource
     """
     ckan.delete_datastore(resource_id)
-
-
-def _get_gemeente(gemeente_code):
-    current_gemeente = Gemeente.query.filter_by(
-        gemeente_code=gemeente_code
-    ).first()
-    if not current_gemeente:
-        print(
-            'Gemeentecode "%s" not found in the MySQL '
-            'database' % (gemeente_code)
-        )
-    return current_gemeente
 
 
 # MySQL commands

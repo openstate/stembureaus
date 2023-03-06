@@ -1,18 +1,17 @@
 from app import app, db
-from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_user, Record
-from app.email import send_invite, send_update, send_email
-from app.parser import BaseParser, UploadFileParser, valid_headers
+from app.models import ckan
+from app.email import send_email
+from app.parser import BaseParser, valid_headers
 from app.validator import Validator
-from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk, get_gemeente, publish_gemeente_records
+from app.routes import create_record
+from app.utils import get_gemeente, publish_gemeente_records
 
-from datetime import datetime
 from urllib.parse import urljoin
 from pprint import pprint
 
 from dateutil import parser
 import requests
-from flask import url_for
+
 
 class BaseAPIParser(BaseParser):
     pass
@@ -54,9 +53,9 @@ class StembureauManagerParser(BaseAPIParser):
             result.append(r)
         return result
 
-    def parse(self, path):
+    def parse(self, data):
         headers = valid_headers
-        records = self._get_records(path, headers)
+        records = self._get_records(data, headers)
         clean_records = self._clean_records(records)
         return clean_records
 
@@ -68,7 +67,7 @@ class APIManager(object):
 
     def _get_draft_and_publish_records_for_gemeente(self, verkiezing, gemeente_code):
         """
-        Gets draft and published records for the speicified municipality
+        Gets draft and published records for the specified municipality
         """
         all_publish_records = ckan.get_records(
             ckan.elections[verkiezing]['publish_resource']
@@ -104,7 +103,7 @@ class APIManager(object):
             for _, result in results['results'].items():
                 if result['form']:
                     records.append(
-                        _create_record(
+                        create_record(
                             result['form'],
                             result['uuid'],
                             gemeente,
@@ -116,7 +115,7 @@ class APIManager(object):
                 records=records
             )
 
-    def _publish_draft_records(self, gemeente, gemeente_draft_records, elections):
+    def _publish_records(self, gemeente):
         publish_gemeente_records(gemeente.gemeente_code)
 
     def _send_error_email(self, gemeente, records, results):
@@ -141,33 +140,42 @@ class APIManager(object):
             html_body=None)
 
 
-
 class StembureauManager(APIManager):
-    def _request(self, method, params=None):
-        url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], method)
+    def _request(self, endpoint, params=None):
+        url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], endpoint)
         print(url,params)
         return requests.get(url, params=params, headers={
             'x-api-key': app.config['STEMBUREAUMANAGER_API_KEY']
         }).json()
 
-    def overview(self):
+    # Overview of all the municipalities in the API and their 'gewijzigd'
+    # timestamp
+    def _request_overview(self):
         return self._request('overzicht')
 
-    def get_municipality(self, municipality_id):
-        #  https://test-opendata.stembureaumanager.nl/api/stembureau/gemeente?id=GM<code>
+    # Retrieve the stembureaus of a municipality from the API
+    def _request_municipality(self, municipality_id):
+        #  [API_DOMAIN]/api/stembureau/gemeente?id=<GM_CODE>
         return self._request('gemeente', params={'id': municipality_id})
 
     def run(self):
-        municipalities = self.overview()
-        pprint(app.config['STEMBUREAUMANAGER_API_KEY'])
+        municipalities = self._request_overview()
         if 'statusCode' in municipalities:
-            print("Er ging iets fout:")
-            pprint(municipalities)
+            send_email(
+                "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van SBM API overzicht",
+                sender=app.config['FROM'],
+                recipients=app.config['ADMINS'],
+                text_body=municipalities,
+                html_body=None
+            )
             return
         for m in municipalities:
+            # Skip this municipality if the API data wasn't changed since the
+            # from_date (by default 2 hours before now)
             m_updated = parser.parse(m['gewijzigd'])
             if m_updated <= self.from_date:
                 continue
+
             gemeente = get_gemeente(m['gemeente_code'])
             elections = gemeente.elections.all()
             # Pick the first election. In the case of multiple elections we only
@@ -179,27 +187,28 @@ class StembureauManager(APIManager):
                 verkiezing, m['gemeente_code'])
             print("Loaded %s draft records and %s published records" % (
                 len(gemeente_draft_records), len(gemeente_publish_records),))
-            # print(elections)
-            # print(verkiezing)
-            data = self.get_municipality(m['gemeente_code'])
+            data = self._request_municipality(m['gemeente_code'])
             if not isinstance(data, list):
             #if data.get('statusCode', 200) >= 400:
-                print("Could not get data for %s" % (m,))
-                pprint(data)
+                send_email(
+                    "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van SBM API gemeente data %s" % (gemeente.gemeente_naam),
+                    sender=app.config['FROM'],
+                    recipients=app.config['ADMINS'],
+                    text_body=data,
+                    html_body=None
+                )
                 continue
             records = StembureauManagerParser().parse(data)
-            #pprint(records[0])
             validator = Validator()
             results = validator.validate(records)
-            print("%s: %s stembureaus" % (gemeente, len(results),))
-            #pprint(results)
-            self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
-            self._publish_draft_records(gemeente, gemeente_draft_records, elections)
 
             if not results['no_errors']:
-                print("Errors where found in the results")
+                print("Errors were found in the results")
                 self._send_error_email(gemeente, records, results)
+                continue
+
+            self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
+            self._publish_records(gemeente)
 
             gemeente.source = 'api[stembureaumanager]'
             db.session.commit()
-            #print(results['results'])
