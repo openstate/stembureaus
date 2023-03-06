@@ -3,9 +3,12 @@ from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_u
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
-from app.routes import _remove_id, _create_record, kieskringen
-from app.utils import find_buurt_and_wijk
-from datetime import datetime
+from app.routes import create_record, kieskringen
+from app.utils import find_buurt_and_wijk, get_gemeente, publish_gemeente_records, remove_id
+from app.stembureaumanager import StembureauManager
+
+from datetime import datetime, timedelta
+from dateutil import parser
 from flask import url_for
 from pprint import pprint
 import click
@@ -14,6 +17,27 @@ import json
 import os
 import sys
 import uuid
+import pytz
+
+
+@app.cli.group()
+def API():
+    "API related commands"
+    pass
+
+
+@API.command()
+@click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=1))
+def stembureaumanager(from_date):
+    """
+    Update data from municipalities that use stembureaumanager
+    """
+    print("Updating stembureaumanager from %s ..." % (from_date,))
+    if isinstance(from_date, str):
+        if 'T' not in from_date:
+            from_date = '%sT00:00:00Z' % (from_date,)
+        from_date = parser.parse(from_date)
+    StembureauManager(from_date=from_date).run()
 
 
 # CKAN (use uppercase to avoid conflict with 'ckan' import from
@@ -293,7 +317,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
     """
     Uploads a stembureau spreadheet, specify full absolute file_path
     """
-    current_gemeente = _get_gemeente(gemeente_code)
+    current_gemeente = get_gemeente(gemeente_code)
 
     elections = current_gemeente.elections.all()
     # Pick the first election. In the case of multiple elections we only
@@ -308,7 +332,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
         record for record in all_draft_records['records']
         if record['CBS gemeentecode'] == current_gemeente.gemeente_code
     ]
-    _remove_id(gemeente_draft_records)
+    remove_id(gemeente_draft_records)
 
     parser = UploadFileParser()
     app.logger.info(
@@ -371,7 +395,7 @@ def upload_stembureau_spreadsheet(gemeente_code, file_path):
             for _, result in results['results'].items():
                 if result['form']:
                     records.append(
-                        _create_record(
+                        create_record(
                             result['form'],
                             result['uuid'],
                             current_gemeente,
@@ -392,20 +416,7 @@ def publish_gemeente(gemeente_code):
     """
     Publishes the saved (draft) stembureaus of a gemeente
     """
-    current_gemeente = _get_gemeente(gemeente_code)
-
-    elections = current_gemeente.elections.all()
-
-    for election in [x.verkiezing for x in elections]:
-        temp_all_draft_records = ckan.get_records(
-            ckan.elections[election]['draft_resource']
-        )
-        temp_gemeente_draft_records = [
-            record for record in temp_all_draft_records['records']
-            if record['CBS gemeentecode'] == current_gemeente.gemeente_code
-        ]
-        _remove_id(temp_gemeente_draft_records)
-        ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
+    publish_gemeente_records(gemeente_code)
 
 
 @CKAN.command()
@@ -430,7 +441,7 @@ def copy_gemeente_resource(gemeente_code, source_resource, dest_resource,
         record for record in all_resource_records['records']
         if record['CBS gemeentecode'] == gemeente_code
     ]
-    _remove_id(gemeente_resource_records)
+    remove_id(gemeente_resource_records)
 
     # If either one of these parameters is not set then try to get the
     # values from the dest_resource
@@ -740,18 +751,6 @@ def remove_datastore(resource_id):
     Remove the datastore table from a resource
     """
     ckan.delete_datastore(resource_id)
-
-
-def _get_gemeente(gemeente_code):
-    current_gemeente = Gemeente.query.filter_by(
-        gemeente_code=gemeente_code
-    ).first()
-    if not current_gemeente:
-        print(
-            'Gemeentecode "%s" not found in the MySQL '
-            'database' % (gemeente_code)
-        )
-    return current_gemeente
 
 
 # MySQL commands

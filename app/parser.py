@@ -72,7 +72,7 @@ class BaseParser(object):
                         record[yes_no_empty_field] = 'nee'
 
             # Split the Verkiezingen string into a list in order to validate
-            # the content. Afterwards in _create_record the list will be
+            # the content. Afterwards in create_record the list will be
             # changed back to a string again to save in CKAN.
             if record.get('verkiezingen'):
                 record['verkiezingen'] = [

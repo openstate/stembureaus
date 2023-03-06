@@ -125,6 +125,7 @@ class Gemeente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gemeente_naam = db.Column(db.String(120), index=True, unique=True)
     gemeente_code = db.Column(db.String(6), index=True, unique=True)
+    source = db.Column(db.String(32))
     elections = db.relationship('Election', backref='gemeente', lazy='dynamic')
     users = db.relationship('User', secondary='gemeente_user')
 

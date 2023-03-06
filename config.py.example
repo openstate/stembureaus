@@ -60,6 +60,10 @@ class Config(object):
         }
     }
 
+    # Stembureaumanager URL and API key
+    STEMBUREAUMANAGER_BASE_URL = ''
+    STEMBUREAUMANAGER_API_KEY = ''
+
     MAIL_SERVER = ''
     MAIL_PORT = ''
     MAIL_USE_TLS = True

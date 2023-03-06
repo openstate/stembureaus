@@ -25,7 +25,7 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, ckan, Record, BAG, add_user
-from app.utils import find_buurt_and_wijk
+from app.utils import find_buurt_and_wijk, remove_id
 from math import ceil
 from time import sleep
 import uuid
@@ -538,8 +538,8 @@ def gemeente_stemlokalen_dashboard():
         if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
 
-    _remove_id(gemeente_publish_records)
-    _remove_id(gemeente_draft_records)
+    remove_id(gemeente_publish_records)
+    remove_id(gemeente_draft_records)
 
     toon_stembureaus_pagina = False
     if gemeente_publish_records:
@@ -674,7 +674,7 @@ def gemeente_stemlokalen_dashboard():
                 for _, result in results['results'].items():
                     if result['form']:
                         records.append(
-                            _create_record(
+                            create_record(
                                 result['form'],
                                 result['uuid'],
                                 gemeente,
@@ -698,6 +698,7 @@ def gemeente_stemlokalen_dashboard():
                 )
             )
 
+    editing_disabled = gemeente.source and gemeente.source.startswith('api')
     return render_template(
         'gemeente-stemlokalen-dashboard.html',
         verkiezing_string=_format_verkiezingen_string(elections),
@@ -708,7 +709,8 @@ def gemeente_stemlokalen_dashboard():
         show_publish_note=show_publish_note,
         vooringevuld=vooringevuld,
         toon_stembureaus_pagina=toon_stembureaus_pagina,
-        upload_deadline_passed=check_deadline_passed()
+        upload_deadline_passed=check_deadline_passed(),
+        editing_disabled=editing_disabled
     )
 
 
@@ -739,7 +741,7 @@ def gemeente_stemlokalen_overzicht():
         if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
 
-    _remove_id(gemeente_draft_records)
+    remove_id(gemeente_draft_records)
 
     publish_form = PubliceerForm()
 
@@ -755,7 +757,7 @@ def gemeente_stemlokalen_overzicht():
                     record for record in temp_all_draft_records['records']
                     if record['CBS gemeentecode'] == gemeente.gemeente_code
                 ]
-                _remove_id(temp_gemeente_draft_records)
+                remove_id(temp_gemeente_draft_records)
                 ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
             flash('Stembureaus gepubliceerd')
             # Sleep to make sure that the data is saved before it is
@@ -769,7 +771,7 @@ def gemeente_stemlokalen_overzicht():
         record for record in all_publish_records['records']
         if record['CBS gemeentecode'] == gemeente.gemeente_code
     ]
-    _remove_id(gemeente_publish_records)
+    remove_id(gemeente_publish_records)
 
     # Check whether gemeente_draft_records differs from
     # gemeente_publish_records in order to disable or enable the 'Publiceer'
@@ -777,7 +779,7 @@ def gemeente_stemlokalen_overzicht():
     disable_publish_form = True
     if gemeente_draft_records != gemeente_publish_records:
         disable_publish_form = False
-
+    editing_disabled = gemeente.source and gemeente.source.startswith('api')
     return render_template(
         'gemeente-stemlokalen-overzicht.html',
         verkiezing_string=_format_verkiezingen_string(elections),
@@ -786,7 +788,8 @@ def gemeente_stemlokalen_overzicht():
         field_order=field_order,
         publish_form=publish_form,
         disable_publish_form=disable_publish_form,
-        upload_deadline_passed=check_deadline_passed()
+        upload_deadline_passed=check_deadline_passed(),
+        editing_disabled=editing_disabled
     )
 
 
@@ -894,7 +897,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
         if not stemlokaal_id:
             stemlokaal_id = uuid.uuid4().hex
         for election in [x.verkiezing for x in elections]:
-            record = _create_record(
+            record = create_record(
                 form,
                 stemlokaal_id,
                 gemeente,
@@ -978,7 +981,7 @@ def _format_verkiezingen_string(elections):
     return verkiezing_string
 
 
-def _create_record(form, stemlokaal_id, gemeente, election):
+def create_record(form, stemlokaal_id, gemeente, election):
     ID = 'NLODS%sstembureaus%s%s' % (
         gemeente.gemeente_code,
         app.config['CKAN_CURRENT_ELECTIONS'][election]['election_date'],
@@ -1076,15 +1079,6 @@ def _create_record(form, stemlokaal_id, gemeente, election):
         #    record['CBS buurtnummer'] = bu_code
 
     return record
-
-
-# Remove '_id' as CKAN doesn't accept this field in upsert when we
-# want to publish and '_id' is almost never the same in
-# publish_records and draft_records so we need to remove it in order
-# to compare them
-def _remove_id(records):
-    for record in records:
-        del record['_id']
 
 
 # Converts a column number to a spreadsheet column string, e.g. 6 to F
