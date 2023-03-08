@@ -95,10 +95,9 @@ extended_minimal_fields = default_minimal_fields + [
 ]
 
 disclaimer_text = (
-    "NB: Deze gemeente heeft haar stemlokaalgegevens niet zelf aangeleverd. "
-    "De gegevens van de stembureaus van deze gemeente zijn door Open State "
-    "Foundation zo goed mogelijk verzameld maar de correctheid en/of "
-    "compleetheid ervan kan niet gegarandeerd worden."
+    "NB: Deze gemeente heeft de stembureaugegevens niet zelf aangeleverd. "
+    "De gegevens zijn door Open State Foundation zo goed mogelijk verzameld "
+    "maar de correctheid en/of compleetheid ervan kan niet gegarandeerd worden."
 )
 
 disclaimer_gemeenten = []
