@@ -27,8 +27,9 @@ def API():
 
 
 @API.command()
-@click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=1))
-def stembureaumanager(from_date):
+@click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=1), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+@click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
+def stembureaumanager(from_date, gm_code):
     """
     Update data from municipalities that use stembureaumanager
     """
@@ -37,7 +38,7 @@ def stembureaumanager(from_date):
         if 'T' not in from_date:
             from_date = '%sT00:00:00Z' % (from_date,)
         from_date = parser.parse(from_date)
-    StembureauManager(from_date=from_date).run()
+    StembureauManager(from_date=from_date, gm_code=gm_code).run()
 
 
 # CKAN (use uppercase to avoid conflict with 'ckan' import from

@@ -170,10 +170,17 @@ class StembureauManager(APIManager):
             )
             return
         for m in municipalities:
+            # If the gm_code parameter is set then only process that specific
+            # gemeente
+            if self.gm_code:
+                if m['gemeente_code'] != self.gm_code:
+                    continue
+
             # Skip this municipality if the API data wasn't changed since the
-            # from_date (by default 2 hours before now)
+            # from_date (by default 2 hours before now); don't skip if a gm_code
+            # is set as we then explicitly want to load that gemeente
             m_updated = parser.parse(m['gewijzigd'])
-            if m_updated <= self.from_date:
+            if m_updated <= self.from_date and not self.gm_code:
                 continue
 
             gemeente = get_gemeente(m['gemeente_code'])
@@ -185,8 +192,6 @@ class StembureauManager(APIManager):
             verkiezing = elections[0].verkiezing
             gemeente_draft_records, gemeente_publish_records = self._get_draft_and_publish_records_for_gemeente(
                 verkiezing, m['gemeente_code'])
-            print("Loaded %s draft records and %s published records" % (
-                len(gemeente_draft_records), len(gemeente_publish_records),))
             data = self._request_municipality(m['gemeente_code'])
             if not isinstance(data, list):
             #if data.get('statusCode', 200) >= 400:
@@ -194,10 +199,16 @@ class StembureauManager(APIManager):
                     "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van SBM API gemeente data %s" % (gemeente.gemeente_naam),
                     sender=app.config['FROM'],
                     recipients=app.config['ADMINS'],
-                    text_body=data,
+                    text_body="Fout bij het ophalen van SBM API gemeente data %s" % (gemeente.gemeente_naam),
                     html_body=None
                 )
                 continue
+
+            # Special case for Amersfoort which has a 'fake' stembureau that
+            # needs to be removed at our side
+            if m['gemeente_code'] == 'GM0307':
+                data = [s for s in data if s['Naam stembureau'] != 'Voorzitterspool extra werving']
+
             records = StembureauManagerParser().parse(data)
             validator = Validator()
             results = validator.validate(records)
