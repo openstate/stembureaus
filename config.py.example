@@ -31,6 +31,22 @@ class Config(object):
     SIGNUP_FORM_PATH = ''
     # Title for waarismijnstemlokaal.nl/<SIGNUP_FORM_PATH>
     SIGNUP_FORM_TITLE = ''
+    # The signup form can have these three states:
+    # 'open-collecting': Before Wims is ready for gemeenten to be invited and
+    #                    enter their stembureaus we already want to collect as
+    #                    many of their email addresses as possible, so the form
+    #                    is opened up. We simply store the email addresses
+    #                    entered during this phase in a .csv which is later
+    #                    used when the invites are sent.
+    # 'open-mailing': Once all the gemeenten are invited and allowed to enter
+    #                 their stembureaus, we still keep this form open. If a new
+    #                 email address is entered we don't write it to the .csv
+    #                 but directly add the user to the database and send out an
+    #                 invitation email.
+    # 'closed': Once the gemeenten can no longer change their stembureaus (so a
+    #           few days before the election or on/directly after the election)
+    #           we also want to close this form so no new signups are possible.
+    SIGNUP_FORM_STATE = ''
 
     CKAN_URL = ''
     CKAN_API_KEY = ''

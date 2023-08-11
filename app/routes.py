@@ -2,6 +2,7 @@ import csv
 import os
 import re
 import sys
+from datetime import datetime
 from decimal import Decimal
 
 from flask import (
@@ -206,9 +207,28 @@ def signup_form():
         ) for gemeente in Gemeente.query.all()
     ]
 
-    # Process account signup request
-    if signup_form.validate_on_submit():
-        if signup_form.submit.data:
+    # If a valid signup form was submitted
+    if signup_form.validate_on_submit() and signup_form.submit.data:
+        # If 'open-collecting' add the signup to a .csv
+        if app.config['SIGNUP_FORM_STATE'] == 'open-collecting':
+            submitted_gemeente = Gemeente.query.filter_by(id=signup_form.gemeente.data).first()
+            with open('app/data/signup_form.csv', 'a') as OUT:
+                writer = csv.writer(OUT, delimiter=';', quoting=csv.QUOTE_ALL)
+                writer.writerow([
+                    datetime.now().isoformat(),
+                    submitted_gemeente.gemeente_naam,
+                    signup_form.email.data,
+                    signup_form.naam_contactpersoon.data
+                ])
+
+            flash(
+                'Dank voor het invullen! Eind augustus versturen wij naar het '
+                'opgegeven e-mailadres een uitnodigingsmail met inloggegevens '
+                'voor "Waar is mijn stemlokaal".'
+            )
+        # Else if 'open-mailing' add the signup to the database and send an
+        # invite mail
+        elif app.config['SIGNUP_FORM_STATE'] == 'open-mailing':
             add_user(
                 signup_form.gemeente.data,
                 signup_form.email.data,
@@ -220,11 +240,14 @@ def signup_form():
                 'uitnodigingsmail met inloggegevens en verdere instructies '
                 'het aanleveren van uw stembureaugegevens.'
             )
-            return redirect(url_for('signup_form'))
+
+        # Clear the form
+        return redirect(url_for('signup_form'))
 
     return render_template(
         'signup_form.html',
         signup_form_title=app.config['SIGNUP_FORM_TITLE'],
+        signup_form_state=app.config['SIGNUP_FORM_STATE'],
         signup_form=signup_form
     )
 
