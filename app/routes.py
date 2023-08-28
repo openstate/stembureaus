@@ -55,9 +55,13 @@ field_order = [
     'Extra toegankelijkheidsinformatie',
     'Tellocatie',
     'Contactgegevens gemeente',
-    'Verkiezingswebsite gemeente',
-    'Verkiezingen'
+    'Verkiezingswebsite gemeente'
 ]
+
+# If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+# to the end of the field_order list
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    field_order += ['Verkiezingen']
 
 # Fields that are required on all pages
 default_minimal_fields = [
@@ -83,9 +87,13 @@ default_minimal_fields = [
     'Visuele hulpmiddelen',
     'Akoestiek',
     'Gehandicaptentoilet',
-    'Extra toegankelijkheidsinformatie',
-    'Verkiezingen',
+    'Extra toegankelijkheidsinformatie'
 ]
+
+# If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+# to default_minimal_fields
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    default_minimal_fields += ['Verkiezingen']
 
 # Additional fields that are required on stembureau pages
 extended_minimal_fields = default_minimal_fields + [
@@ -877,7 +885,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
         for record in gemeente_draft_records:
             if record['UUID'] == stemlokaal_id:
                 # Split the Verkiezingen attribute into a list
-                if record['Verkiezingen']:
+                if record.get('Verkiezingen'):
                     record['Verkiezingen'] = [
                         x.strip() for x in record['Verkiezingen'].split(';')
                     ]
@@ -1012,12 +1020,12 @@ def create_record(form, stemlokaal_id, gemeente, election):
 
     kieskring_id = ''
     hoofdstembureau = ''
-    if (election.startswith('Gemeenteraadsverkiezingen') or
-            election.startswith('Kiescollegeverkiezingen') or
-            election.startswith('Eilandsraadsverkiezingen')):
+    if (election.startswith('gemeenteraadsverkiezingen') or
+            election.startswith('kiescollegeverkiezingen') or
+            election.startswith('eilandsraadsverkiezingen')):
         kieskring_id = gemeente.gemeente_naam
         hoofdstembureau = gemeente.gemeente_naam
-    elif (election.startswith('Referendum') or
+    elif (election.startswith('referendum') or
             election.startswith('Tweede Kamerverkiezingen') or
             election.startswith('Provinciale Statenverkiezingen')):
         for row in kieskringen:

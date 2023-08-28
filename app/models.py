@@ -367,9 +367,13 @@ class Record(object):
             'extra_toegankelijkheidsinformatie': record['extra toegankelijkheidsinformatie'],
             'tellocatie': record['tellocatie'],
             'contactgegevens_gemeente': record['contactgegevens gemeente'],
-            'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente'],
-            'verkiezingen': record['verkiezingen']
+            'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente']
         }
+
+        # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
+        # to the record
+        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+            self.record['verkiezingen'] = record['verkiezingen']
 
     def expand(self):
         record = BAG.query.get(self.record['bag_nummeraanduiding_id'])

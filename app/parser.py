@@ -32,9 +32,13 @@ valid_headers = [
     'Extra toegankelijkheidsinformatie',
     'Tellocatie',
     'Contactgegevens gemeente',
-    'Verkiezingswebsite gemeente',
-    'Verkiezingen'
+    'Verkiezingswebsite gemeente'
 ]
+
+# If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+# to valid_headers
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    valid_headers += ['Verkiezingen']
 
 parse_as_integer = [
     'nummer_stembureau'

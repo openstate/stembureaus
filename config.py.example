@@ -65,8 +65,11 @@ class Config(object):
     # election and increment it with 1 to get the election number of
     # this election. For 'election_date' fill in the date of the
     # election in 'YYYYMMDD' format, e.g. '20180321'.
-    # NOTE: Use the exact same '<name of election>' values in
+    # NOTE 1: Use the exact same '<name of election>' values in
     # the 'verkiezingen' field in 'app/data/gemeenten.json'
+    # NOTE 2: Make sure to capitalize the Provinciale Stateverkiezingen,
+    # Tweede Kamerverkiezingen and Europese Parlementsverkiezingen and don't
+    # capitalize the other elections
     CKAN_CURRENT_ELECTIONS = {
         '<name of election>': {
             'publish_resource': '<ID_of_resource>',

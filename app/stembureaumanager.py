@@ -12,6 +12,8 @@ from pprint import pprint
 from dateutil import parser
 import requests
 
+from app import app
+
 
 class BaseAPIParser(BaseParser):
     pass
@@ -19,7 +21,7 @@ class BaseAPIParser(BaseParser):
 
 class StembureauManagerParser(BaseAPIParser):
     def convert_to_record(self, data):
-        return {
+        record = {
             'nummer_stembureau': data['Nummer stembureau'],
             'naam_stembureau': data['Naam stembureau'],
             'type_stembureau': data['Type stembureau'],
@@ -42,9 +44,15 @@ class StembureauManagerParser(BaseAPIParser):
             'extra_toegankelijkheidsinformatie': data['Locaties'][0]['Extra toegankelijkheidsinformatie'],
             'tellocatie': data['Locaties'][0]['Tellocatie'],
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
-            'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente'],
-            'verkiezingen': data['Verkiezingen']
+            'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
         }
+
+        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+        # to the record
+        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+            record[verkiezingen] = data['Verkiezingen']
+
+        return record
 
     def _get_records(self, data, headers):
         result = []

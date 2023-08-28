@@ -293,11 +293,20 @@ def add_new_datastore(resource_id):
         {
             "id": "Verkiezingswebsite gemeente",
             "type": "text"
-        },
-        {
-            "id": "Verkiezingen",
-            "type": "text"
-        },
+        }
+    ]
+
+    # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field at
+    # this place in the list
+    if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        fields += [
+            {
+                "id": "Verkiezingen",
+                "type": "text"
+            }
+        ]
+
+    fields += [
         {
             "id": "ID",
             "type": "text"
@@ -638,10 +647,10 @@ def import_rug(rug_file_path,
 
                 kieskring_id = ''
                 hoofdstembureau = ''
-                if verkiezing.startswith('Gemeenteraadsverkiezingen'):
+                if verkiezing.startswith('gemeenteraadsverkiezingen'):
                     kieskring_id = record['Gemeente']
                     hoofdstembureau = record['Gemeente']
-                if verkiezing.startswith('Referendum'):
+                if verkiezing.startswith('referendum'):
                     for row in kieskringen:
                         if row[2] == record['Gemeente']:
                             kieskring_id = row[0]
@@ -720,10 +729,15 @@ def test_datastore_upsert(resource_id):
         "Tellocatie": "ja",
         "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
         "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-        "Verkiezingen": "waterschapsverkiezingen voor Delfland",
         "ID": "NLODSGM0518stembureaus20230315010",
         "UUID": uuid.uuid4().hex
     }
+
+    # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field to
+    # the example record
+    if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        record["Verkiezingen"] = "waterschapsverkiezingen voor Delfland"
+
     ckan.save_records(
         resource_id=resource_id,
         records=[record]

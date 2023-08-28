@@ -898,139 +898,142 @@ class EditForm(FlaskForm):
         }
     )
 
-    verkiezingen = CustomSelectMultipleField(
-        'Verkiezingen',
-        description=(
-            'In het geval van waterschapsverkiezingen en verkiezingen van '
-            'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
-            'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
-            'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
-            'waterschappen en er kan enkel voor een waterschap gestemd worden '
-            'bij stembureaus die in het gebied van het waterschap liggen. '
-            'Alle gemeenten vragen we daarom in het geval van deze '
-            'verkiezingen per stembureau specifiek aan te geven voor welke '
-            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-            'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
-            'één keuze is (bv. als er in de hele gemeente maar voor één '
-            'waterschap gekozen kan worden) en ook als er in de gemeente bij '
-            'elk stembureau voor alle verkiezingen gestemd kan worden.'
-            '<br>'
-            '<br>'
-            'In het geval dat er in dit stembureau voor meerdere '
-            'waterschappen / stadsdeelcommissies / gebiedscommissies / '
-            'wijkraden gestemd kan worden dan scheidt u deze met een '
-            'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
-            'waterschapsverkiezingen voor Rijnland'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> keuze uit:'
-            '<ul>'
-            '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
-            'zonder \'Waterschap\' of \'Hoogheemraadschap\' voor de naam&gt;</li>'
-            '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
-            '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
-            '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
-            'stadsdeelcommissie&gt;</li>'
-            '</ul>'
-            '<br>'
-            '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
-        ),
-        choices=[
-            (
-                'waterschapsverkiezingen voor Noorderzijlvest',
-                'Noorderzijlvest'
+    # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field to
+    # the form
+    if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        verkiezingen = CustomSelectMultipleField(
+            'Verkiezingen',
+            description=(
+                'In het geval van waterschapsverkiezingen en verkiezingen van '
+                'stadsdeelcommissies / gebiedscommissies / wijkraden kan er in '
+                'sommige gemeenten niet in elk stembureau voor alle verkiezingen '
+                'gestemd worden. Door Amsterdam lopen er bijvoorbeeld drie '
+                'waterschappen en er kan enkel voor een waterschap gestemd worden '
+                'bij stembureaus die in het gebied van het waterschap liggen. '
+                'Alle gemeenten vragen we daarom in het geval van deze '
+                'verkiezingen per stembureau specifiek aan te geven voor welke '
+                'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+                'wijkraden er gestemd kunnen worden. Ook als er überhaupt maar '
+                'één keuze is (bv. als er in de hele gemeente maar voor één '
+                'waterschap gekozen kan worden) en ook als er in de gemeente bij '
+                'elk stembureau voor alle verkiezingen gestemd kan worden.'
+                '<br>'
+                '<br>'
+                'In het geval dat er in dit stembureau voor meerdere '
+                'waterschappen / stadsdeelcommissies / gebiedscommissies / '
+                'wijkraden gestemd kan worden dan scheidt u deze met een '
+                'puntkomma, bv.: waterschapsverkiezingen voor Delfland; '
+                'waterschapsverkiezingen voor Rijnland'
+                '<br>'
+                '<br>'
+                '<b>Format:</b> keuze uit:'
+                '<ul>'
+                '  <li>waterschapsverkiezingen voor &lt;naam van waterschap '
+                'zonder \'Waterschap\' of \'Hoogheemraadschap\' voor de naam&gt;</li>'
+                '  <li>verkiezingen &lt;gebiedscommissies / wijkraden&gt; '
+                '&lt;naam van gebiedscommissies / wijkraden&gt;</li>'
+                '  <li>verkiezingen stadsdeelcommissie &lt;naam van '
+                'stadsdeelcommissie&gt;</li>'
+                '</ul>'
+                '<br>'
+                '<b>Voorbeeld:</b> waterschapsverkiezingen voor Delfland'
             ),
-            (
-                'waterschapsverkiezingen voor Fryslân',
-                'Fryslân'
-            ),
-            (
-                'waterschapsverkiezingen voor Hunze en Aa\'s',
-                'Hunze en Aa\'s'
-            ),
-            (
-                'waterschapsverkiezingen voor Drents Overijsselse Delta',
-                'Drents Overijsselse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor Vechtstromen',
-                'Vechtstromen'
-            ),
-            (
-                'waterschapsverkiezingen voor Vallei en Veluwe',
-                'Vallei en Veluwe'
-            ),
-            (
-                'waterschapsverkiezingen voor Rijn en IJssel',
-                'Rijn en IJssel'
-            ),
-            (
-                'waterschapsverkiezingen voor De Stichtse Rijnlanden',
-                'De Stichtse Rijnlanden'
-            ),
-            (
-                'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
-                'Amstel, Gooi en Vecht'
-            ),
-            (
-                'waterschapsverkiezingen voor Hollands Noorderkwartier',
-                'Hollands Noorderkwartier'
-            ),
-            (
-                'waterschapsverkiezingen voor Rijnland',
-                'Rijnland'
-            ),
-            (
-                'waterschapsverkiezingen voor Delfland',
-                'Delfland'
-            ),
-            (
-                'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
-                'Schieland en de Krimpenerwaard'
-            ),
-            (
-                'waterschapsverkiezingen voor Rivierenland',
-                'Rivierenland'
-            ),
-            (
-                'waterschapsverkiezingen voor Hollandse Delta',
-                'Hollandse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor Scheldestromen',
-                'Scheldestromen'
-            ),
-            (
-                'waterschapsverkiezingen voor Brabantse Delta',
-                'Brabantse Delta'
-            ),
-            (
-                'waterschapsverkiezingen voor De Dommel',
-                'De Dommel'
-            ),
-            (
-                'waterschapsverkiezingen voor Aa en Maas',
-                'Aa en Maas'
-            ),
-            (
-                'waterschapsverkiezingen voor Limburg',
-                'Limburg'
-            ),
-            (
-                'waterschapsverkiezingen voor Zuiderzeeland',
-                'Zuiderzeeland'
-            )
-        ],
-        validators=[
-            Optional(),
-        ],
-        render_kw={
-            'class': 'selectpicker',
-            'data-none-selected-text': (
-                'Selecteer één of meerdere waterschappen'
-            )
-        }
-    )
+            choices=[
+                (
+                    'waterschapsverkiezingen voor Noorderzijlvest',
+                    'Noorderzijlvest'
+                ),
+                (
+                    'waterschapsverkiezingen voor Fryslân',
+                    'Fryslân'
+                ),
+                (
+                    'waterschapsverkiezingen voor Hunze en Aa\'s',
+                    'Hunze en Aa\'s'
+                ),
+                (
+                    'waterschapsverkiezingen voor Drents Overijsselse Delta',
+                    'Drents Overijsselse Delta'
+                ),
+                (
+                    'waterschapsverkiezingen voor Vechtstromen',
+                    'Vechtstromen'
+                ),
+                (
+                    'waterschapsverkiezingen voor Vallei en Veluwe',
+                    'Vallei en Veluwe'
+                ),
+                (
+                    'waterschapsverkiezingen voor Rijn en IJssel',
+                    'Rijn en IJssel'
+                ),
+                (
+                    'waterschapsverkiezingen voor De Stichtse Rijnlanden',
+                    'De Stichtse Rijnlanden'
+                ),
+                (
+                    'waterschapsverkiezingen voor Amstel, Gooi en Vecht',
+                    'Amstel, Gooi en Vecht'
+                ),
+                (
+                    'waterschapsverkiezingen voor Hollands Noorderkwartier',
+                    'Hollands Noorderkwartier'
+                ),
+                (
+                    'waterschapsverkiezingen voor Rijnland',
+                    'Rijnland'
+                ),
+                (
+                    'waterschapsverkiezingen voor Delfland',
+                    'Delfland'
+                ),
+                (
+                    'waterschapsverkiezingen voor Schieland en de Krimpenerwaard',
+                    'Schieland en de Krimpenerwaard'
+                ),
+                (
+                    'waterschapsverkiezingen voor Rivierenland',
+                    'Rivierenland'
+                ),
+                (
+                    'waterschapsverkiezingen voor Hollandse Delta',
+                    'Hollandse Delta'
+                ),
+                (
+                    'waterschapsverkiezingen voor Scheldestromen',
+                    'Scheldestromen'
+                ),
+                (
+                    'waterschapsverkiezingen voor Brabantse Delta',
+                    'Brabantse Delta'
+                ),
+                (
+                    'waterschapsverkiezingen voor De Dommel',
+                    'De Dommel'
+                ),
+                (
+                    'waterschapsverkiezingen voor Aa en Maas',
+                    'Aa en Maas'
+                ),
+                (
+                    'waterschapsverkiezingen voor Limburg',
+                    'Limburg'
+                ),
+                (
+                    'waterschapsverkiezingen voor Zuiderzeeland',
+                    'Zuiderzeeland'
+                )
+            ],
+            validators=[
+                Optional(),
+            ],
+            render_kw={
+                'class': 'selectpicker',
+                'data-none-selected-text': (
+                    'Selecteer één of meerdere waterschappen'
+                )
+            }
+        )
 
     toegankelijk_voor_mensen_met_een_lichamelijke_beperking = CustomSelectField(
         'Toegankelijk voor mensen met een lichamelijke beperking',
