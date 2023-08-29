@@ -48,7 +48,7 @@ field_order = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Akoestiek',
+    'Akoestiek geschikt voor slechthorenden',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Gehandicaptentoilet',
@@ -85,7 +85,7 @@ default_minimal_fields = [
     'Toegankelijke ov-halte',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
-    'Akoestiek',
+    'Akoestiek geschikt voor slechthorenden',
     'Gehandicaptentoilet',
     'Extra toegankelijkheidsinformatie'
 ]

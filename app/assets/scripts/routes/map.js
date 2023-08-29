@@ -131,7 +131,7 @@ export default {
 
                   '<span class="stembureau-info-icons">' +
                     weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
-                    akoestiek_labels[matches[i]["Akoestiek"]] +
+                    akoestiek_labels[matches[i]["Akoestiek geschikt voor slechthorenden"]] +
                     gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
                   '</span>' +
                   '<br>' +
@@ -426,7 +426,7 @@ export default {
           if (this_filter) {
             if (this_filter === '') {
               temp_filtered_locations.push(loc);
-            } else if (loc['Akoestiek'] === this_filter) {
+            } else if (loc['Akoestiek geschikt voor slechthorenden'] === this_filter) {
               temp_filtered_locations.push(loc);
             }
           } else {
@@ -511,7 +511,7 @@ export default {
         output += '<span class="stembureau-info-icons">';
 
         output += weelchair_labels[loc["Toegankelijk voor mensen met een lichamelijke beperking"]];
-        output += akoestiek_labels[loc["Akoestiek"]];
+        output += akoestiek_labels[loc["Akoestiek geschikt voor slechthorenden"]];
         output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
 
         output += '</br>';

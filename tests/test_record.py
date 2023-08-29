@@ -29,7 +29,7 @@ test_record = {
     'sluitingstijd': '2023-03-15T21:00:00',
     'toegankelijk voor mensen met een lichamelijke beperking': 'ja',
     'toegankelijke ov-halte': 'binnen 100 meter, rolstoeltoegankelijk, geleidelijnen',
-    'akoestiek': 'nee',
+    'akoestiek_geschikt_voor_slechthorenden': 'nee',
     'auditieve hulpmiddelen': 'gebarentolk, schrijftolk',
     'visuele hulpmiddelen': 'stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen',
     'gehandicaptentoilet': 'ja',

@@ -358,7 +358,7 @@ class Record(object):
                 'toegankelijk voor mensen met een lichamelijke beperking'
             ],
             'toegankelijke_ov_halte': record['toegankelijke ov-halte'],
-            'akoestiek': record['akoestiek'],
+            'akoestiek_geschikt_voor_slechthorenden': record['akoestiek geschikt voor slechthorenden'],
             'auditieve_hulpmiddelen': record['auditieve hulpmiddelen'],
             'visuele_hulpmiddelen': record['visuele hulpmiddelen'],
             'gehandicaptentoilet': record[

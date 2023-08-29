@@ -1085,8 +1085,8 @@ class EditForm(FlaskForm):
         }
     )
 
-    akoestiek = CustomSelectField(
-        'Akoestiek',
+    akoestiek_geschikt_voor_slechthorenden = CustomSelectField(
+        'Akoestiek geschikt voor slechthorenden',
         description=(
             'Is de akoestiek van het stembureau geschikt voor '
             'slechthorenden? Voor meer informatie, zie <a '

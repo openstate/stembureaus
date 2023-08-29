@@ -25,7 +25,7 @@ valid_headers = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Akoestiek',
+    'Akoestiek geschikt voor slechthorenden',
     'Auditieve hulpmiddelen',
     'Visuele hulpmiddelen',
     'Gehandicaptentoilet',
@@ -46,7 +46,7 @@ parse_as_integer = [
 
 yes_no_empty_fields = [
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
-    'akoestiek',
+    'akoestiek_geschikt_voor_slechthorenden',
     'gehandicaptentoilet',
     'tellocatie'
 ]

@@ -255,7 +255,7 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Akoestiek",
+            "id": "Akoestiek geschikt voor slechthorenden",
             "type": "text"
         },
         {
@@ -719,7 +719,7 @@ def test_datastore_upsert(resource_id):
         "Sluitingstijd": "2023-03-15T21:00:00",
         "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
         "Toegankelijke ov-halte": "binnen 100 meter, rolstoeltoegankelijk, geleidelijnen",
-        "Akoestiek": "ja",
+        "Akoestiek geschikt voor slechthorenden": "ja",
         "Auditieve hulpmiddelen": "gebarentolk, schrijftolk",
         "Visuele hulpmiddelen": "stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen",
         "Gehandicaptentoilet": "nee",
