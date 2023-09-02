@@ -201,7 +201,7 @@ class ExcelParser(BaseParser):
             app.logger.warning('Geen geldige veldnamen gevonden in bestand')
             raise ValueError()
         if sorted(valid_headers) != sorted(all_headers_check):
-            app.logger.warning('Spreadsheet bevat niet alle veldnamen')
+            app.logger.warning(f'Spreadsheet bevat niet alle veldnamen; dit zijn de afwijkende veldnamen: {set(valid_headers) - set(all_headers_check)}')
             raise ValueError()
         return headers
 

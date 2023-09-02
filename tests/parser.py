@@ -4,10 +4,11 @@ import unittest
 
 from xlrd import open_workbook
 
+from app import app
 from app.parser import BaseParser, ExcelParser
 
 test_record1 = {
-    'nummer_stembureau': 516.0,
+    'nummer_stembureau': 517.0,
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'regulier',
     'website_locatie': (
@@ -15,13 +16,13 @@ test_record1 = {
         'contact-met-de-gemeente/stadhuis-den-haag.htm'
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
-    'extra_adresaanduiding': 'Via de deur links',
+    'extra_adresaanduiding': 'Ingang aan achterkant gebouw',
     'x': '81611.0',
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2023-03-15T07:30:00',
-    'sluitingstijd': '2023-03-15T21:00:00',
+    'openingstijd': '2023-11-22T07:30:00',
+    'sluitingstijd': '2023-11-22T21:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'ja',
     'toegankelijke_ov_halte': 'binnen 100 meter, rolstoeltoegankelijk, geleidelijnen',
     'akoestiek_geschikt_voor_slechthorenden': 'ja',
@@ -34,12 +35,16 @@ test_record1 = {
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/',
-    'verkiezingen': ['waterschapsverkiezingen voor Delfland']
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
 }
 
+# If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+# to test_record1
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    test_record1['verkiezingen'] = 'waterschapsverkiezingen voor Delfland'
+
 test_record2 = {
-    'nummer_stembureau': 517.0,
+    'nummer_stembureau': 516.0,
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'bijzonder',
     'website_locatie': (
@@ -52,8 +57,8 @@ test_record2 = {
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2023-03-15T02:30:00',
-    'sluitingstijd': '2023-03-15T22:00:00',
+    'openingstijd': '2023-11-22T02:30:00',
+    'sluitingstijd': '2023-11-22T22:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'nee',
     'toegankelijke_ov_halte': '',
     'akoestiek_geschikt_voor_slechthorenden': 'nee',
@@ -66,9 +71,13 @@ test_record2 = {
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/',
-    'verkiezingen': ''
+    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
 }
+
+# If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+# to test_record2
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    test_record2['verkiezingen'] = ''
 
 
 class TestBaseParser(unittest.TestCase):
@@ -96,34 +105,35 @@ class TestExcelParser(unittest.TestCase):
         wb = open_workbook(self.file_path)
         sh = wb.sheet_by_index(1)
         headers = self.parser._get_headers(sh)
-        self.assertListEqual(
-            headers,
-            [
-                'nummer_stembureau',
-                'naam_stembureau',
-                'type_stembureau',
-                'website_locatie',
-                'bag_nummeraanduiding_id',
-                'extra_adresaanduiding',
-                'x',
-                'y',
-                'latitude',
-                'longitude',
-                'openingstijd',
-                'sluitingstijd',
-                'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
-                'toegankelijke_ov_halte',
-                'akoestiek_geschikt_voor_slechthorenden',
-                'auditieve_hulpmiddelen',
-                'visuele_hulpmiddelen',
-                'gehandicaptentoilet',
-                'extra_toegankelijkheidsinformatie',
-                'tellocatie',
-                'contactgegevens_gemeente',
-                'verkiezingswebsite_gemeente',
-                'verkiezingen'
-            ]
-        )
+        accepted_headers = [
+            'nummer_stembureau',
+            'naam_stembureau',
+            'type_stembureau',
+            'website_locatie',
+            'bag_nummeraanduiding_id',
+            'extra_adresaanduiding',
+            'x',
+            'y',
+            'latitude',
+            'longitude',
+            'openingstijd',
+            'sluitingstijd',
+            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
+            'toegankelijke_ov_halte',
+            'akoestiek_geschikt_voor_slechthorenden',
+            'auditieve_hulpmiddelen',
+            'visuele_hulpmiddelen',
+            'gehandicaptentoilet',
+            'extra_toegankelijkheidsinformatie',
+            'tellocatie',
+            'contactgegevens_gemeente',
+            'verkiezingswebsite_gemeente'
+        ]
+        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+        # to the accepted_headers
+        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+            accepted_headers += ['verkiezingen']
+        self.assertListEqual(headers, accepted_headers)
 
     # Test if the records are parsed correctly. This should still
     # include the fields that will not hold any value (e.g.,

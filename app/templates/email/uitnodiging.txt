@@ -5,9 +5,9 @@ Beste gemeente,
 {% endif %}
 
 
-15 maart worden er verkiezingen gehouden. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal', zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
+Op 22 november vinden de Tweede Kamerverkiezingen plaats. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal', zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
 
-'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 80% van alle gemeenten de gegevens aan en is de website meer dan 500.000 keer gebruikt. De gegevens worden ook als open data beschikbaar gesteld via data.overheid.nl en werden op die manier ook nog meer dan 750.000 keer getoond op bijvoorbeeld (lokale) nieuwswebsites.
+'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 86% van alle gemeenten de gegevens aan en is de website bijna 900.000 keer gebruikt. De gegevens worden ook als open data beschikbaar gesteld via data.overheid.nl en werden op die manier ook nog bijna 400.000 keer getoond op bijvoorbeeld (lokale) nieuwswebsites.
 
 ** Wat vragen we van u? **
 Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer instructies, maar het proces is simpel:
@@ -17,7 +17,7 @@ Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer 
   - Klik op de 'Publiceer'-knop om uw stembureaus op de kaart te plaatsen en de data beschikbaar te maken
   - Optioneel: embed de handige kaart met stembureaus op uw gemeentewebsite
 
-De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de gemeenteraadsverkiezingen van 2022 (of de Tweede Kamerverkiezingen 2021 als uw gemeente geen gemeenteraadsverkiezingen in 2022 had). U kunt daar veranderingen in uw stembureaus doorvoeren.
+De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de verkiezingen van 15 maart 2023. U kunt daar veranderingen in uw stembureaus doorvoeren.
 
 NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus doorgeven.
 
@@ -28,17 +28,15 @@ Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.ema
 Deze pagina komt over 24 uur te vervallen, dus maak alvast een account aan. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een nieuw verzoek indienen via {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}.
 
 ** Instructies **
-De instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://WaarIsMijnStemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
-
-Wilt u meer weten over het platform en de meerwaarde van open stembureaudata? Open State Foundation organiseert in samenwerking met het ministerie van BZK twee webinars: op dinsdag 7 februari van 15:00-16:00 en vrijdag 10 februari van 11:00-12:00. Meld u aan voor een webinar, dan vertellen we u graag meer over het platform en geven we u uitleg over het aanleveren van de data: https://nextcloud.openstate.eu/apps/forms/P4S2Sa73PnpZjgxy
+De instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd (binnenkort plaatsen wij daar ook nog een instructievideo). U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://WaarIsMijnStemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
 
 ** Extra account toevoegen **
 Als u een ander account wilt toevoegen voor uw gemeente, vul dan dit formulier in. Dit is handig als u een of meerdere collega's ook toegang wilt geven: {{ url_for('signup_form', _external=True) }}
 
 ** Geautomatiseerd aanleveren van de stembureaugegevens **
-We willen het aanleveren van de stembureaugegevens zo makkelijk mogelijk maken. Idealiter zou er een koppeling zijn tussen de stembureausoftware die gemeenten gebruiken en 'Waar is mijn stemlokaal'. Deze verkiezingen wilt Partners 4 IT dat met hun Stembureaumanager (SBM) al mogelijk maken. Er wordt gewerkt aan een automatisch ingevulde stembureau-spreadsheet export, die dan enkel nog handmatig op 'Waar is mijn stemlokaal' geüpload hoeft te worden. Ook wordt er gewerkt aan een directe koppeling (via een API op Common Ground-wijze). Er hoeft dan enkel toestemming voor het beschikbaar stellen van de stembureaugegevens gegeven te worden.
+We willen het aanleveren van de stembureaugegevens zo makkelijk mogelijk maken. Idealiter zou er een koppeling zijn tussen alle stembureausoftware die door gemeenten gebruikt worden en 'Waar is mijn stemlokaal' (volgens de Common Ground principes van VNG: https://vng.nl/artikelen/common-ground). Zo'n koppeling bestaat al met Stembureaumanager (SBM) van Partners 4 IT: https://stembureaumanager.nl. Gemeenten die deze software gebruiken kunnen daarin de 'Waar is mijn stemlokaal API' module aanzetten. Alle stembureaus en eventuele latere wijzigingen worden dan automatisch ingeladen in 'Waar is mijn stemlokaal'.
 
-Maakt uw gemeente gebruik van Stembureaumanager (SBM)? Dan ontvangt u hier binnenkort meer informatie over. Maakt uw gemeente gebruik van andere stembureausoftware en wilt u ook gebruik maken van geautomatiseerde aanlevering? Vraag uw softwareleverancier dan om contact op te nemen via stemlokaal@openstate.eu.
+Maakt uw gemeente gebruik van andere stembureausoftware en wilt u ook gebruik maken van geautomatiseerde aanlevering? Vraag uw softwareleverancier dan om contact op te nemen via stemlokaal@openstate.eu.
 
 ** Vragen of contact? **
 Heeft u vragen? Neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.

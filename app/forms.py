@@ -775,21 +775,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2023-03-15T07:30:00'
+            '<b>Voorbeeld:</b> 2023-11-22T07:30:00'
         ),
-        default='2023-03-15T07:30:00',
+        default='2023-11-22T07:30:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2023-03-15T\d{2}:\d{2}:\d{2}$',
+                '^2023-11-22T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2023-03-15T07:30:00\'.'
+                    'worden zoals bv. \'2023-11-22T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2023-03-15T07:30:00'
+            'placeholder': 'bv. 2023-11-22T07:30:00'
         }
     )
 
@@ -805,21 +805,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2023-03-15T21:00:00'
+            '<b>Voorbeeld:</b> 2023-11-22T21:00:00'
         ),
-        default='2023-03-15T21:00:00',
+        default='2023-11-22T21:00:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2023-03-15T\d{2}:\d{2}:\d{2}$',
+                '^2023-11-22T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2023-03-15T07:30:00\'.'
+                    'worden zoals bv. \'2023-11-22T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2023-03-15T21:00:00'
+            'placeholder': 'bv. 2023-11-22T21:00:00'
         }
     )
 

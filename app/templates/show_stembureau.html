@@ -152,7 +152,7 @@
 
             <h3>Openingstijden</h3>
             <dl class="dl-horizontal">
-              <dt style="text-align: left;">woensdag 15 maart:</dt>
+              <dt style="text-align: left;">{{ record['Openingstijd'] | format_date }}:</dt>
               <dd style="color: green">{{ record['Openingstijd'].split('T')[1][0:5] }} &dash; {{ record['Sluitingstijd'].split('T')[1][0:5] }}</dd>
             </dl>
 

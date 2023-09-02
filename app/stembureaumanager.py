@@ -37,10 +37,10 @@ class StembureauManagerParser(BaseAPIParser):
             'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': data['Locaties'][0][
                 'Toegankelijk voor mensen met een lichamelijke beperking'],
             'toegankelijke_ov_halte': data['Locaties'][0]['Toegankelijke ov-halte'],
-            'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0]['Akoestiek geschikt voor slechthorenden'],
+            'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
             'auditieve_hulpmiddelen': data['Locaties'][0]['Auditieve hulpmiddelen'],
             'visuele_hulpmiddelen': data['Locaties'][0]['Visuele hulpmiddelen'],
-            'gehandicaptentoilet': data['Locaties'][0]['Gehandicaptentoilet'],
+            'gehandicaptentoilet': data['Locaties'][0].get('Gehandicaptentoilet', ''),
             'extra_toegankelijkheidsinformatie': data['Locaties'][0]['Extra toegankelijkheidsinformatie'],
             'tellocatie': data['Locaties'][0]['Tellocatie'],
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],

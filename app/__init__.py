@@ -5,6 +5,7 @@ import os
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 from config import Config
+from datetime import datetime
 from flask import Flask
 from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
@@ -27,6 +28,7 @@ login_manager.login_message = u"Log in om verder te gaan"
 login_manager.login_view = "gemeente_login"
 
 locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
+locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
 from app import routes, models, errors
 
@@ -49,6 +51,10 @@ if not app.debug:
         )
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
+
+def jinja_dateformat_filter(timestamp):
+    return datetime.fromisoformat(timestamp).strftime('%A %d %B')
+app.jinja_env.filters['format_date'] = jinja_dateformat_filter
 
 # Log info messages and up to file
 if not os.path.exists('logs'):

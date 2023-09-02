@@ -715,8 +715,8 @@ def test_datastore_upsert(resource_id):
         "Y": 454909,
         "Latitude": 52.0775912,
         "Longitude": 4.3166395,
-        "Openingstijd": "2023-03-15T07:30:00",
-        "Sluitingstijd": "2023-03-15T21:00:00",
+        "Openingstijd": "2023-11-22T07:30:00",
+        "Sluitingstijd": "2023-11-22T21:00:00",
         "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
         "Toegankelijke ov-halte": "binnen 100 meter, rolstoeltoegankelijk, geleidelijnen",
         "Akoestiek geschikt voor slechthorenden": "ja",
@@ -729,7 +729,7 @@ def test_datastore_upsert(resource_id):
         "Tellocatie": "ja",
         "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
         "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-        "ID": "NLODSGM0518stembureaus20230315010",
+        "ID": "NLODSGM0518stembureaus20231122014",
         "UUID": uuid.uuid4().hex
     }
 

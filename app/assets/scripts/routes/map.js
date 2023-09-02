@@ -98,7 +98,7 @@ export default {
         }
 
         var verkiezingen = '';
-        if (matches[i]['Verkiezingen'].trim()) {
+        if (matches[i].Verkiezingen?.trim()) {
             verkiezingen = '<b>Waterschapsverkiezingen voor</b>: <br>';
             verkiezingen += '<ul style="list-style-type: disc;">';
             matches[i]['Verkiezingen'].trim().split(';').forEach(el => verkiezingen += '<li>' + el.replace('waterschapsverkiezingen voor ', '') + '</li>');
@@ -241,10 +241,11 @@ export default {
 
     // Creates a list of openingstijden
     var create_opinfo = function(loc) {
+      var openingstijd = new Date(loc['Openingstijd']);
       var opinfo_output = '<dl class="dl-horizontal">';
 
-      opinfo_output += '<dt style="text-align: left;">woensdag 15 maart</dt>'
-      opinfo_output += '<dd style="color: green">' + loc['Openingstijd'].split('T')[1].slice(0, 5) + ' &dash; ' + loc['Sluitingstijd'].split('T')[1].slice(0, 5) + '</dd>';
+      opinfo_output += `<dt style="text-align: left;">${openingstijd.toLocaleDateString('nl-NL', {weekday: 'long', month: 'long', day: 'numeric'})}: </dt>`
+      opinfo_output += `<dd style="color: green">${loc['Openingstijd'].split('T')[1].slice(0, 5)} &dash; ${loc['Sluitingstijd'].split('T')[1].slice(0, 5)}</dd>`;
 
       opinfo_output += '</dl>';
       return opinfo_output;
@@ -341,11 +342,11 @@ export default {
             if (openingstijden === '') {
               temp_filtered_locations.push(loc);
             } else if (openingstijden === 'regulier') {
-              if (loc['Openingstijd'] === '2023-03-15T07:30:00' && loc['Sluitingstijd'] === '2023-03-15T21:00:00') {
+              if (loc['Openingstijd'] === '2023-11-22T07:30:00' && loc['Sluitingstijd'] === '2023-11-22T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             } else if (openingstijden === 'afwijkend') {
-              if (loc['Openingstijd'] !== '2023-03-15T07:30:00' || loc['Sluitingstijd'] !== '2023-03-15T21:00:00') {
+              if (loc['Openingstijd'] !== '2023-11-22T07:30:00' || loc['Sluitingstijd'] !== '2023-11-22T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             }
@@ -499,7 +500,7 @@ export default {
         //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
         //}
 
-        if (loc['Verkiezingen'].trim()) {
+        if (loc.Verkiezingen?.trim()) {
             output += '<br><br><b>Waterschapsverkiezingen voor</b>:';
             output += '<ul style="list-style-type: disc; margin: 0;">';
             loc['Verkiezingen'].trim().split(';').forEach(el => output += '<li>' + el.replace('waterschapsverkiezingen voor ', '') + '</li>');
@@ -657,7 +658,11 @@ export default {
         filters['akoestiek'] = $('.akoestiek-filter').val();
 
         StembureausApp.filter_map(filters);
-        StembureausApp.search(get_query());
+        // Only run this on gemeente pages, which show stembureaus in the
+        // 'form-search' list
+        if (document.getElementById('form-search')) {
+            StembureausApp.search(get_query());
+        }
       });
 
       // Default view: based on which option is selected by default in map.html
