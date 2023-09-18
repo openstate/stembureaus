@@ -12,7 +12,7 @@ DIR = '/home/projects/%s' % (GIT_REPO)
 NODE_CONTAINER = 'stm_nodejs_1'
 
 # Server name
-SERVER = 'Oxygen'
+SERVER = 'oxygen'
 
 
 @task
