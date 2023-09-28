@@ -149,8 +149,8 @@ class TSAManager(APIManager):
                 self._send_error_email(gemeente, records, results)
                 continue
 
-            #self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
-            #self._publish_records(gemeente)
+            self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
+            self._publish_records(gemeente)
 
             gemeente.source = 'api[stembureaumanager]'
             db.session.commit()
