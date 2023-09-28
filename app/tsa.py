@@ -19,10 +19,15 @@ from app import app
 class TSAParser(BaseAPIParser):
     def convert_to_record(self, data):
         pprint(data)
+        type_stemburo = data['Type stembureau']
+        # Normaal should be regulier
+        if type_stemburo.strip() == 'Normaal':
+            type_stemburo = 'regulier'
+
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
             'naam_stembureau': data['Naam stembureau'],
-            'type_stembureau': data['Type stembureau'],
+            'type_stembureau': type_stemburo.lower(),
             'website_locatie': data['Locaties'][0]['Website locatie'],
             'bag_nummeraanduiding_id': data['Locaties'][0]['BAG Nummeraanduiding ID'],
             'extra_adresaanduiding': data['Locaties'][0]['Extra adresaanduiding'],
@@ -34,13 +39,13 @@ class TSAParser(BaseAPIParser):
             'sluitingstijd': data['Locaties'][0]['Openingstijden'][0]['Sluitingstijd'],
             'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': data['Locaties'][0][
                 'Toegankelijk voor mensen met een lichamelijke beperking'],
-            'toegankelijke_ov_halte': data['Locaties'][0].get('Toegankelijke ov-halte', 'nee'),
+            'toegankelijke_ov_halte': data['Locaties'][0].get('Toegankelijke ov-halte', ''),
             'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
-            'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', 'nee'),
-            'visuele_hulpmiddelen': data['Locaties'][0].get('Visuele hulpmiddelen', 'nee'),
+            'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', ''),
+            'visuele_hulpmiddelen': data['Locaties'][0].get('Visuele hulpmiddelen', ''),
             'gehandicaptentoilet': data['Locaties'][0].get('Gehandicaptentoilet', ''),
             'extra_toegankelijkheidsinformatie': data['Locaties'][0].get('Extra toegankelijkheidsinformatie'),
-            'tellocatie': data['Locaties'][0].get('Tellocatie'),
+            'tellocatie': data['Locaties'][0].get('Tellocatie', ''),
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
         }
@@ -144,8 +149,8 @@ class TSAManager(APIManager):
                 self._send_error_email(gemeente, records, results)
                 continue
 
-            self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
-            self._publish_records(gemeente)
+            #self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
+            #self._publish_records(gemeente)
 
             gemeente.source = 'api[stembureaumanager]'
             db.session.commit()
