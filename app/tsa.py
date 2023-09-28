@@ -34,13 +34,13 @@ class TSAParser(BaseAPIParser):
             'sluitingstijd': data['Locaties'][0]['Openingstijden'][0]['Sluitingstijd'],
             'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': data['Locaties'][0][
                 'Toegankelijk voor mensen met een lichamelijke beperking'],
-            'toegankelijke_ov_halte': data['Locaties'][0]['Toegankelijke ov-halte'],
+            'toegankelijke_ov_halte': data['Locaties'][0].get('Toegankelijke ov-halte', 'nee'),
             'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
-            'auditieve_hulpmiddelen': data['Locaties'][0]['Auditieve hulpmiddelen'],
-            'visuele_hulpmiddelen': data['Locaties'][0]['Visuele hulpmiddelen'],
+            'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', 'nee'),
+            'visuele_hulpmiddelen': data['Locaties'][0].get('Visuele hulpmiddelen', 'nee'),
             'gehandicaptentoilet': data['Locaties'][0].get('Gehandicaptentoilet', ''),
-            'extra_toegankelijkheidsinformatie': data['Locaties'][0]['Extra toegankelijkheidsinformatie'],
-            'tellocatie': data['Locaties'][0]['Tellocatie'],
+            'extra_toegankelijkheidsinformatie': data['Locaties'][0].get('Extra toegankelijkheidsinformatie'),
+            'tellocatie': data['Locaties'][0].get('Tellocatie'),
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
         }
