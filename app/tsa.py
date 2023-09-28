@@ -48,7 +48,7 @@ class TSAParser(BaseAPIParser):
         # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
         # to the record
         if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
-            record[verkiezingen] = data['Verkiezingen']
+            record['Verkiezingen'] = data['Verkiezingen']
 
         return record
 
