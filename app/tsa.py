@@ -24,6 +24,8 @@ class TSAParser(BaseAPIParser):
         if type_stemburo.strip() == 'Normaal':
             type_stemburo = 'regulier'
 
+        kenmerken = data['Locaties'][0].get('Kenmerken', {})
+
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
             'naam_stembureau': data['Naam stembureau'],
@@ -37,13 +39,12 @@ class TSAParser(BaseAPIParser):
             # 'y': None,
             'openingstijd': data['Locaties'][0]['Openingstijden'][0]['Openingstijd'],
             'sluitingstijd': data['Locaties'][0]['Openingstijden'][0]['Sluitingstijd'],
-            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': data['Locaties'][0][
-                'Toegankelijk voor mensen met een lichamelijke beperking'],
+            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': kenmerken.get('TOEGANKELIJK VOOR MINDERVALIDEN', ''),
             'toegankelijke_ov_halte': data['Locaties'][0].get('Toegankelijke ov-halte', ''),
             'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
             'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', ''),
-            'visuele_hulpmiddelen': data['Locaties'][0].get('Visuele hulpmiddelen', ''),
-            'gehandicaptentoilet': data['Locaties'][0].get('Gehandicaptentoilet', ''),
+            'visuele_hulpmiddelen': kenmerken.get('Leesloep', ''),
+            'gehandicaptentoilet': kenmerken.get('Invalidentoilet aanwezig voor kiezers', ''),
             'extra_toegankelijkheidsinformatie': data['Locaties'][0].get('Extra toegankelijkheidsinformatie'),
             'tellocatie': data['Locaties'][0].get('Tellocatie', ''),
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
