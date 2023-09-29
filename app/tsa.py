@@ -24,7 +24,14 @@ class TSAParser(BaseAPIParser):
         if type_stemburo.strip() == 'Normaal':
             type_stemburo = 'regulier'
 
+        # we're supposed to purely shown this information
         kenmerken = data['Locaties'][0].get('Kenmerken', {})
+        kenmerken_tekst = ''
+        if len(kenmerkenkeys()) > 0:
+            kenmerken_tekst= '<ul>'
+            for k,v in kenmerken.items():
+                kenmerken_tekst += '<li><strong>{k.title()}:</strong>{v}M/li>'
+            kenmerken_tekst+= '</ul>'
 
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
@@ -45,7 +52,7 @@ class TSAParser(BaseAPIParser):
             'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', ''),
             'visuele_hulpmiddelen': kenmerken.get('Leesloep', ''),
             'gehandicaptentoilet': kenmerken.get('Invalidentoilet aanwezig voor kiezers', ''),
-            'extra_toegankelijkheidsinformatie': data['Locaties'][0].get('Extra toegankelijkheidsinformatie'),
+            'extra_toegankelijkheidsinformatie': kenmerken_tekst,
             'tellocatie': data['Locaties'][0].get('Tellocatie', ''),
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
