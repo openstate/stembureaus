@@ -243,7 +243,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
                 f"Naam contactpersoon: {name}"
             )
             send_email(
-                '[WIMS] New account signup request',
+                '[WaarIsMijnStemlokaal.nl] Nieuwe account aanvraag',
                 sender=app.config['FROM'],
                 recipients=app.config['ADMINS'],
                 text_body=body,

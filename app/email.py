@@ -13,7 +13,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
 def send_password_reset_email(user):
     token = user.get_reset_password_token()
     send_email(
-        '[WaarIsMijnStemlokaal.nl] Wachtwoord aanpassen',
+        '[WaarIsMijnStemlokaal.nl] Wachtwoord veranderen',
         sender=app.config['FROM'],
         recipients=[user.email],
         text_body=render_template(

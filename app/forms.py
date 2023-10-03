@@ -814,7 +814,7 @@ class EditForm(FlaskForm):
                 '^2023-11-22T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2023-11-22T07:30:00\'.'
+                    'worden zoals bv. \'2023-11-22T21:00:00\'.'
                 )
             )
         ],

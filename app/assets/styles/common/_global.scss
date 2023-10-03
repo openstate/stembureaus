@@ -28,6 +28,15 @@ a {
   text-decoration: underline;
 }
 
+.anchor-offset:before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 0;
+  height: 54px;
+  margin-top: -54px;
+}
+
 .filter {
   display: inline-block;
   width: 180px !important;

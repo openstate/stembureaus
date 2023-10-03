@@ -371,7 +371,7 @@ def perform_typeahead(query):
     ).first()
 
     # Uses re.sub to remove provinces from some gemeenten which is how we write
-    # gemeenten in WIMS, but which are not used in the BAG, e.g. 'Beek (L.)'.
+    # gemeenten in Wims, but which are not used in the BAG, e.g. 'Beek (L.)'.
     # But keep 'Bergen (NH.)' and 'Bergen (L.)' as the BAG also uses that
     # spelling.
     gemeente_naam = gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
@@ -844,7 +844,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
 
     # Need this to get a starting point for the clickmap;
     # Uses re.sub to remove provinces from some gemeenten which is how
-    # we write gemeenten in WIMS, but which are not used in the BAG,
+    # we write gemeenten in Wims, but which are not used in the BAG,
     # e.g. 'Beek (L.)', but keep 'Bergen (NH.)' and 'Bergen (L.)' as
     # the BAG also uses that spelling.
     # Note: BES-eilanden don't exist in the BAG, so exclude them from

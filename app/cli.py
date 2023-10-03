@@ -790,19 +790,29 @@ def show_all_users():
 
 
 @mysql.command()
-def show_all_gemeenten():
+@click.option('--crm', is_flag=True, show_default=True, default=False, help="Output only non-admin users and don't show the verkiezingen; this format can be copied to our CRM")
+def show_all_gemeenten(crm):
     """
     Show all gemeenten and their corresponding users and verkiezingen
     """
     for gemeente in Gemeente.query.all():
-        print(
-            '"%s","%s","%s",["%s"]' % (
-                gemeente.gemeente_naam,
-                gemeente.gemeente_code,
-                gemeente.users,
-                ", ".join([x.verkiezing for x in gemeente.elections.all()])
+        if crm:
+            print(
+                '"%s","%s","%s"' % (
+                    gemeente.gemeente_code,
+                    gemeente.gemeente_naam,
+                    ','.join([x.email for x in gemeente.users])
+                )
             )
-        )
+        else:
+            print(
+                '"%s","%s","%s",["%s"]' % (
+                    gemeente.gemeente_code,
+                    gemeente.gemeente_naam,
+                    gemeente.users,
+                    ", ".join([x.verkiezing for x in gemeente.elections.all()])
+                )
+            )
 
 
 @mysql.command()
