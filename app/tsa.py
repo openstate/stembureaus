@@ -8,7 +8,6 @@ from app.utils import get_gemeente, publish_gemeente_records
 
 from app.stembureaumanager import BaseAPIParser, APIManager
 from urllib.parse import urljoin
-from pprint import pprint
 
 from dateutil import parser
 import requests
@@ -18,58 +17,70 @@ from app import app
 
 class TSAParser(BaseAPIParser):
     def convert_to_record(self, data):
-        pprint(data)
-        type_stemburo = data['Type stembureau']
-        # Normaal should be regulier
-        if type_stemburo.strip() == 'Normaal':
-            type_stemburo = 'regulier'
+        type_stembureau = data['Type stembureau']
+        if type_stembureau.strip() == 'Normaal':
+            type_stembureau = 'regulier'
 
-        # we're supposed to purely shown this information
+        # TSA allows for custom fields called 'kenmerken'
         kenmerken = data['Locaties'][0].get('Kenmerken', {})
-        kenmerken_tekst = ''
-        if len(kenmerkenkeys()) > 0:
-            kenmerken_tekst= '<ul>'
-            for k,v in kenmerken.items():
-                kenmerken_tekst += '<li><strong>{k.title()}:</strong>{v}M/li>'
-            kenmerken_tekst+= '</ul>'
+        kenmerken_tekst = []
+        if len(kenmerken.keys()) > 0:
+            for k, v in kenmerken.items():
+                kenmerken_tekst.append('%s: %s' % (k, v))
+
+        records = []
 
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
             'naam_stembureau': data['Naam stembureau'],
-            'type_stembureau': type_stemburo.lower(),
-            'website_locatie': data['Locaties'][0]['Website locatie'],
-            'bag_nummeraanduiding_id': data['Locaties'][0]['BAG Nummeraanduiding ID'],
-            'extra_adresaanduiding': data['Locaties'][0]['Extra adresaanduiding'],
-            'latitude': str(data['Locaties'][0]['Latitude']),
-            'longitude': str(data['Locaties'][0]['Longitude']),
-            # 'x': None,
-            # 'y': None,
-            'openingstijd': data['Locaties'][0]['Openingstijden'][0]['Openingstijd'],
-            'sluitingstijd': data['Locaties'][0]['Openingstijden'][0]['Sluitingstijd'],
-            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': kenmerken.get('TOEGANKELIJK VOOR MINDERVALIDEN', ''),
-            'toegankelijke_ov_halte': data['Locaties'][0].get('Toegankelijke ov-halte', ''),
-            'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
-            'auditieve_hulpmiddelen': data['Locaties'][0].get('Auditieve hulpmiddelen', ''),
-            'visuele_hulpmiddelen': kenmerken.get('Leesloep', ''),
-            'gehandicaptentoilet': kenmerken.get('Invalidentoilet aanwezig voor kiezers', ''),
-            'extra_toegankelijkheidsinformatie': kenmerken_tekst,
-            'tellocatie': data['Locaties'][0].get('Tellocatie', ''),
+            'type_stembureau': type_stembureau.lower(),
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
         }
 
-        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+        # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
         # to the record
         if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
-            record['Verkiezingen'] = data['Verkiezingen']
+            record['verkiezingen'] = data['Verkiezingen']
 
-        return record
+        for locatie in data['Locaties']:
+            record['website_locatie'] = locatie['Website locatie']
+            record['bag_nummeraanduiding_id'] = locatie['BAG Nummeraanduiding ID']
+            record['extra_adresaanduiding'] = locatie['Extra adresaanduiding']
+            record['latitude'] = str(locatie['Latitude'])
+            record['longitude'] = str(locatie['Longitude'])
+            # 'x' = None
+            # 'y' = None
+            record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
+                'Toegankelijk voor mensen met een lichamelijke beperking']
+            record['toegankelijke_ov_halte'] = locatie.get('Toegankelijke ov-halte', '')
+            record['akoestiek_geschikt_voor_slechthorenden'] = locatie.get('Akoestiek geschikt voor slechthorenden', '')
+            record['auditieve_hulpmiddelen'] = locatie.get('Auditieve hulpmiddelen', '')
+            record['visuele_hulpmiddelen'] = locatie.get('Visuele hulpmiddelen', '')
+            record['gehandicaptentoilet'] = locatie.get('Gehandicaptentoilet', '')
+            record['extra_toegankelijkheidsinformatie'] = ', '.join(kenmerken_tekst)
+            record['tellocatie'] = locatie.get('Tellocatie', '')
+
+            if record['extra_adresaanduiding'] is None:
+                record['extra_adresaanduiding'] = ''
+
+            if record['bag_nummeraanduiding_id'] is None:
+                record['bag_nummeraanduiding_id'] = '0000000000000000'
+
+            if record['bag_nummeraanduiding_id'] == '0000000000000000' and not record['extra_adresaanduiding']:
+                record['extra_adresaanduiding'] = 'Adres niet bekend'
+            for periode in locatie['Openingstijden']:
+                record['openingstijd'] = periode['Openingstijd']
+                record['sluitingstijd'] = periode['Sluitingstijd']
+
+                records.append(record)
+
+        return records
 
     def _get_records(self, data, headers):
         result = []
         for d in data:
-            r = self.convert_to_record(d)
-            result.append(r)
+            result += self.convert_to_record(d)
         return result
 
     def parse(self, data):
@@ -82,7 +93,6 @@ class TSAParser(BaseAPIParser):
 class TSAManager(APIManager):
     def _request(self, endpoint, params=None):
         url = urljoin(app.config['TSA_BASE_URL'], endpoint)
-        print(url,params)
         return requests.get(url, params=params, headers={
             'x-api-key': app.config['TSA_API_KEY']
         }).json()
@@ -94,10 +104,12 @@ class TSAManager(APIManager):
 
     # Retrieve the stembureaus of a municipality from the API
     def _request_municipality(self, municipality_id):
-        #  [API_DOMAIN]/api/stembureau/gemeente?id=<GM_CODE>
+        #  [API_DOMAIN]/api/gemeente/<GM_CODE>
         return self._request('gemeente/%s' % (municipality_id,))
 
     def run(self):
+        SOURCE_STRING = 'api[TSA Verkiezingen]'
+
         municipalities = self._request_overview()
         if 'statusCode' in municipalities:
             send_email(
@@ -115,14 +127,15 @@ class TSAManager(APIManager):
                 if m['gemeente_code'] != self.gm_code:
                     continue
 
+            gemeente = get_gemeente(m['gemeente_code'])
+
             # Skip this municipality if the API data wasn't changed since the
             # from_date (by default 2 hours before now); don't skip if a gm_code
             # is set as we then explicitly want to load that gemeente
-            m_updated = m['gewijzigd']  # parser.parse(m['gewijzigd'])
-            if m_updated <= self.from_date.isoformat() and not self.gm_code:
+            m_updated = m['gewijzigd']
+            if (m_updated <= self.from_date.isoformat() and not self.gm_code) and gemeente.source == SOURCE_STRING:
                 continue
 
-            gemeente = get_gemeente(m['gemeente_code'])
             elections = gemeente.elections.all()
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
@@ -143,22 +156,17 @@ class TSAManager(APIManager):
                 )
                 continue
 
-            # Special case for Amersfoort which has a 'fake' stembureau that
-            # needs to be removed at our side
-            if m['gemeente_code'] == 'GM0307':
-                data = [s for s in data if s['Naam stembureau'] != 'Voorzitterspool extra werving']
-
             records = TSAParser().parse(data)
             validator = Validator()
             results = validator.validate(records)
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-                self._send_error_email(gemeente, records, results)
+                self._send_error_email(gemeente, records, results, SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_records(gemeente)
 
-            gemeente.source = 'api[stembureaumanager]'
+            gemeente.source = SOURCE_STRING
             db.session.commit()

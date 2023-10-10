@@ -7,7 +7,6 @@ from app.routes import create_record
 from app.utils import get_gemeente, publish_gemeente_records
 
 from urllib.parse import urljoin
-from pprint import pprint
 
 from dateutil import parser
 import requests
@@ -21,44 +20,51 @@ class BaseAPIParser(BaseParser):
 
 class StembureauManagerParser(BaseAPIParser):
     def convert_to_record(self, data):
+        records = []
+
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
             'naam_stembureau': data['Naam stembureau'],
             'type_stembureau': data['Type stembureau'],
-            'website_locatie': data['Locaties'][0]['Website locatie'],
-            'bag_nummeraanduiding_id': data['Locaties'][0]['BAG Nummeraanduiding ID'],
-            'extra_adresaanduiding': data['Locaties'][0]['Extra adresaanduiding'],
-            'latitude': str(data['Locaties'][0]['Latitude']),
-            'longitude': str(data['Locaties'][0]['Longitude']),
-            # 'x': None,
-            # 'y': None,
-            'openingstijd': data['Locaties'][0]['Openingstijden'][0]['Openingstijd'],
-            'sluitingstijd': data['Locaties'][0]['Openingstijden'][0]['Sluitingstijd'],
-            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': data['Locaties'][0][
-                'Toegankelijk voor mensen met een lichamelijke beperking'],
-            'toegankelijke_ov_halte': data['Locaties'][0]['Toegankelijke ov-halte'],
-            'akoestiek_geschikt_voor_slechthorenden': data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', ''),
-            'auditieve_hulpmiddelen': data['Locaties'][0]['Auditieve hulpmiddelen'],
-            'visuele_hulpmiddelen': data['Locaties'][0]['Visuele hulpmiddelen'],
-            'gehandicaptentoilet': data['Locaties'][0].get('Gehandicaptentoilet', ''),
-            'extra_toegankelijkheidsinformatie': data['Locaties'][0]['Extra toegankelijkheidsinformatie'],
-            'tellocatie': data['Locaties'][0]['Tellocatie'],
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
         }
 
-        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+        # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
         # to the record
         if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
-            record[verkiezingen] = data['Verkiezingen']
+            record['verkiezingen'] = data['Verkiezingen']
 
-        return record
+        for locatie in data['Locaties']:
+            record['website_locatie'] = data['Locaties'][0]['Website locatie']
+            record['bag_nummeraanduiding_id'] = data['Locaties'][0]['BAG Nummeraanduiding ID']
+            record['extra_adresaanduiding'] = data['Locaties'][0]['Extra adresaanduiding']
+            record['latitude'] = str(data['Locaties'][0]['Latitude'])
+            record['longitude'] = str(data['Locaties'][0]['Longitude'])
+            # 'x' = None
+            # 'y' = None
+            record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = data['Locaties'][0][
+                'Toegankelijk voor mensen met een lichamelijke beperking']
+            record['toegankelijke_ov_halte'] = data['Locaties'][0]['Toegankelijke ov-halte']
+            record['akoestiek_geschikt_voor_slechthorenden'] = data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', '')
+            record['auditieve_hulpmiddelen'] = data['Locaties'][0]['Auditieve hulpmiddelen']
+            record['visuele_hulpmiddelen'] = data['Locaties'][0]['Visuele hulpmiddelen']
+            record['gehandicaptentoilet'] = data['Locaties'][0].get('Gehandicaptentoilet', '')
+            record['extra_toegankelijkheidsinformatie'] = data['Locaties'][0]['Extra toegankelijkheidsinformatie']
+            record['tellocatie'] = data['Locaties'][0]['Tellocatie']
+
+            for periode in locatie['Openingstijden']:
+                record['openingstijd'] = periode['Openingstijd']
+                record['sluitingstijd'] = periode['Sluitingstijd']
+
+                records.append(record)
+
+        return records
 
     def _get_records(self, data, headers):
         result = []
         for d in data:
-            r = self.convert_to_record(d)
-            result.append(r)
+            result += self.convert_to_record(d)
         return result
 
     def parse(self, data):
@@ -126,7 +132,7 @@ class APIManager(object):
     def _publish_records(self, gemeente):
         publish_gemeente_records(gemeente.gemeente_code)
 
-    def _send_error_email(self, gemeente, records, results):
+    def _send_error_email(self, gemeente, records, results, current_api):
         output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s :\n\n' % (
             gemeente.gemeente_naam,)
         for idx, details in results['results'].items():
@@ -140,8 +146,8 @@ class APIManager(object):
                 output += '\n\n'
         print(output)
         send_email(
-            "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via API" % (
-                gemeente.gemeente_naam,),
+            "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
+                gemeente.gemeente_naam, current_api),
             sender=app.config['FROM'],
             recipients=app.config['ADMINS'],
             text_body=output,
@@ -151,7 +157,6 @@ class APIManager(object):
 class StembureauManager(APIManager):
     def _request(self, endpoint, params=None):
         url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], endpoint)
-        print(url,params)
         return requests.get(url, params=params, headers={
             'x-api-key': app.config['STEMBUREAUMANAGER_API_KEY']
         }).json()
@@ -167,6 +172,8 @@ class StembureauManager(APIManager):
         return self._request('gemeente', params={'id': municipality_id})
 
     def run(self):
+        SOURCE_STRING = 'api[stembureaumanager]'
+
         municipalities = self._request_overview()
         if 'statusCode' in municipalities:
             send_email(
@@ -184,14 +191,15 @@ class StembureauManager(APIManager):
                 if m['gemeente_code'] != self.gm_code:
                     continue
 
+            gemeente = get_gemeente(m['gemeente_code'])
+
             # Skip this municipality if the API data wasn't changed since the
             # from_date (by default 2 hours before now); don't skip if a gm_code
             # is set as we then explicitly want to load that gemeente
             m_updated = parser.parse(m['gewijzigd'])
-            if m_updated <= self.from_date and not self.gm_code:
+            if (m_updated <= self.from_date and not self.gm_code) and gemeente.source == SOURCE_STRING:
                 continue
 
-            gemeente = get_gemeente(m['gemeente_code'])
             elections = gemeente.elections.all()
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
@@ -223,11 +231,11 @@ class StembureauManager(APIManager):
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-                self._send_error_email(gemeente, records, results)
+                self._send_error_email(gemeente, records, results, SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_records(gemeente)
 
-            gemeente.source = 'api[stembureaumanager]'
+            gemeente.source = SOURCE_STRING
             db.session.commit()

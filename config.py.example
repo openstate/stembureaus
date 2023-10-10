@@ -83,6 +83,10 @@ class Config(object):
     STEMBUREAUMANAGER_BASE_URL = ''
     STEMBUREAUMANAGER_API_KEY = ''
 
+    # TSA URL and API Key
+    TSA_BASE_URL = ''
+    TSA_API_KEY = ''
+
     MAIL_SERVER = ''
     MAIL_PORT = ''
     MAIL_USE_TLS = True

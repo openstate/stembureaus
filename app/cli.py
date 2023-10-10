@@ -43,7 +43,7 @@ def stembureaumanager(from_date, gm_code):
 
 
 @API.command()
-@click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=1), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+@click.option('--from-date', default=datetime.now(pytz.timezone('Europe/Amsterdam')) - timedelta(hours=2), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
 @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
 def tsa(from_date, gm_code):
     """
