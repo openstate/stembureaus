@@ -767,9 +767,9 @@ class EditForm(FlaskForm):
         'Openingstijd',
         description=(
             'In sommige gevallen heeft een stembureau meerdere openingstijden, '
-            'bijvoorbeeld een mobiel stemburea of een stembureau dat '
-            '‘s middags even dicht is. In zulke gevallen moeten voor alle '
-            'openingstijden alle attributen apart ingevuld worden.'
+            'bijvoorbeeld een mobiel stembureau of een stembureau dat '
+            '‘s middags even dicht is. In zulke gevallen moeten alle '
+            'openingstijden als aparte stembureaus ingevoerd worden.'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
@@ -797,9 +797,9 @@ class EditForm(FlaskForm):
         'Sluitingstijd',
         description=(
             'In sommige gevallen heeft een stembureau meerdere openingstijden, '
-            'bijvoorbeeld een mobiel stemburea of een stembureau dat '
-            '‘s middags even dicht is. In zulke gevallen moeten voor alle '
-            'openingstijden alle attributen apart ingevuld worden.'
+            'bijvoorbeeld een mobiel stembureau of een stembureau dat '
+            '‘s middags even dicht is. In zulke gevallen moeten alle '
+            'openingstijden als aparte stembureaus ingevoerd worden.'
             '<br>'
             '<br>'
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
