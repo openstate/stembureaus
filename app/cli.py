@@ -6,6 +6,7 @@ from app.validator import Validator
 from app.routes import create_record, kieskringen
 from app.utils import find_buurt_and_wijk, get_gemeente, publish_gemeente_records, remove_id
 from app.stembureaumanager import StembureauManager
+from app.tsa import TSAManager
 
 from datetime import datetime, timedelta
 from dateutil import parser
@@ -40,6 +41,20 @@ def stembureaumanager(from_date, gm_code):
         from_date = parser.parse(from_date)
     StembureauManager(from_date=from_date, gm_code=gm_code).run()
 
+
+@API.command()
+@click.option('--from-date', default=datetime.now(pytz.timezone('Europe/Amsterdam')) - timedelta(hours=2), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+@click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
+def tsa(from_date, gm_code):
+    """
+    Update data from municipalities that use TSA
+    """
+    print("Updating stembureaumanager from %s ..." % (from_date,))
+    if isinstance(from_date, str):
+        if 'T' not in from_date:
+            from_date = '%sT00:00:00' % (from_date,)
+        from_date = parser.parse(from_date)
+    TSAManager(from_date=from_date, gm_code=gm_code).run()
 
 # CKAN (use uppercase to avoid conflict with 'ckan' import from
 # app.models)
