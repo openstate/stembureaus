@@ -20,10 +20,11 @@
     <br>
 
     {% if not editing_disabled %}
-    Er zijn twee methoden om stembureaus toe te voegen:
+    Er zijn drie methoden om stembureaus toe te voegen:
     <ol>
-      <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
       <li>Door onderaan deze pagina een deels vooringevuld of leeg stembureau-spreadsheet te downloaden en daar veranderingen in uw stembureaus door te voeren. Vervolgens uploadt u de spreadsheet op deze website.</li>
+      <li>Door de stembureaus direct op deze website in te voeren via het <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">webformulier</a>.</li>
+      <li><a href="{{ url_for('gemeente_instructies', _anchor='manier-3-geautomatiseerd-aanleveren') }}">Geautomatiseerd aanleveren van de stembureaugegevens</a> via koppeling met stembureausoftware.</li>
     </ol>
 
     <a href="{{ url_for('gemeente_instructies') }}">Zie de help-pagina voor meer informatie en instructies</a>.
