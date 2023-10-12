@@ -32,9 +32,9 @@ def API():
 @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
 def stembureaumanager(from_date, gm_code):
     """
-    Update data from municipalities that use stembureaumanager
+    Update data from municipalities that use Stembureaumanager
     """
-    print("Updating stembureaumanager from %s ..." % (from_date,))
+    print("Updating Stembureaumanager from %s ..." % (from_date,))
     if isinstance(from_date, str):
         if 'T' not in from_date:
             from_date = '%sT00:00:00Z' % (from_date,)
@@ -49,7 +49,7 @@ def tsa(from_date, gm_code):
     """
     Update data from municipalities that use TSA
     """
-    print("Updating stembureaumanager from %s ..." % (from_date,))
+    print("Updating TSA from %s ..." % (from_date,))
     if isinstance(from_date, str):
         if 'T' not in from_date:
             from_date = '%sT00:00:00' % (from_date,)
