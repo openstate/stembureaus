@@ -270,6 +270,8 @@ def show_stembureau(gemeente, primary_key):
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
 
+    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
+
     if not records:
         return render_template('404.html'), 404
 
@@ -277,6 +279,9 @@ def show_stembureau(gemeente, primary_key):
         'show_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
+        # We need the gemeente_source to show TSA 'kenmerken' as a special
+        # 'Overige informatie' field
+        gemeente_source=gemeente_source,
         primary_key=primary_key,
         disclaimer=disclaimer
     )

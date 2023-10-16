@@ -177,13 +177,14 @@
 
               <li><b>Gehandicaptentoilet</b>: {% if record['Gehandicaptentoilet'] == 'ja' %}Ja{% elif record['Gehandicaptentoilet'] == 'nee' %}Nee{% else %}{% endif %}</li>
 
-              <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
+              <li><b>Extra toegankelijkheidsinformatie</b>: {% if not gemeente_source %}{{ record['Extra toegankelijkheidsinformatie'] }}{% endif %}</li>
             </ul>
 
             De Rijksoverheid heeft <a href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/vraag-en-antwoord/kiezers-met-beperking" target="_blank" rel="noopener">meer informatie voor kiezers met een beperking</a>.
 
             <h3>Bijzonderheden</h3>
             <b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% elif record['Tellocatie'] == 'nee' %}Nee{% else %}{% endif %}
+            {% if gemeente_source %}<br><b>Overige informatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }} {% endif %}
 
             <h3>Gemeente {{ gemeente }}</h3>
             <p>

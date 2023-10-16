@@ -24,7 +24,7 @@ class TSAParser(BaseAPIParser):
         # TSA allows for custom fields called 'kenmerken'
         kenmerken = data['Locaties'][0].get('Kenmerken', {})
         kenmerken_tekst = []
-        if len(kenmerken.keys()) > 0:
+        if kenmerken:
             for k, v in kenmerken.items():
                 kenmerken_tekst.append('%s: %s' % (k, v))
 
