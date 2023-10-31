@@ -133,14 +133,14 @@ class APIManager(object):
         publish_gemeente_records(gemeente.gemeente_code)
 
     def _send_error_email(self, gemeente, records, results, current_api):
-        output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s :\n\n' % (
-            gemeente.gemeente_naam,)
+        output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s (%s) via %s:\n\n' % (
+            gemeente.gemeente_naam, gemeente.gemeente_code, current_api)
         for idx, details in results['results'].items():
             if len(details['errors'].keys()) > 0:
                 # the spreadsheet starts at row 5 ...
                 real_idx = idx - 6
                 s = records[real_idx]
-                output += 'Stembureau %s. %s :\n' % (s['nummer_stembureau'], s['naam_stembureau'])
+                output += 'Stembureau #%s %s:\n' % (s['nummer_stembureau'], s['naam_stembureau'])
                 for fld, fld_errors in details['errors'].items():
                     output += '%s: %s\n' % (fld, fld_errors[0],)
                 output += '\n\n'
