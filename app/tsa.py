@@ -10,6 +10,7 @@ from app.stembureaumanager import BaseAPIParser, APIManager
 from urllib.parse import urljoin
 
 from dateutil import parser
+import copy
 import requests
 
 from app import app
@@ -73,7 +74,7 @@ class TSAParser(BaseAPIParser):
                 record['openingstijd'] = periode['Openingstijd']
                 record['sluitingstijd'] = periode['Sluitingstijd']
 
-                records.append(record)
+                records.append(copy.deepcopy(record))
 
         return records
 

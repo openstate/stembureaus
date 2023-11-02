@@ -9,6 +9,7 @@ from app.utils import get_gemeente, publish_gemeente_records
 from urllib.parse import urljoin
 
 from dateutil import parser
+import copy
 import requests
 
 from app import app
@@ -57,7 +58,7 @@ class StembureauManagerParser(BaseAPIParser):
                 record['openingstijd'] = periode['Openingstijd']
                 record['sluitingstijd'] = periode['Sluitingstijd']
 
-                records.append(record)
+                records.append(copy.deepcopy(record))
 
         return records
 
