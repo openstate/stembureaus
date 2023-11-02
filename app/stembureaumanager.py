@@ -25,7 +25,7 @@ class StembureauManagerParser(BaseAPIParser):
 
         record = {
             'nummer_stembureau': data['Nummer stembureau'],
-            'naam_stembureau': data['Naam stembureau'],
+            'naam_stembureau': data.get('Naam stembureau', ''),
             'type_stembureau': data['Type stembureau'],
             'contactgegevens_gemeente': data['Contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': data['Verkiezingswebsite gemeente']
