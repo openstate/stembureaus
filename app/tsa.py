@@ -70,6 +70,7 @@ class TSAParser(BaseAPIParser):
 
             if record['bag_nummeraanduiding_id'] == '0000000000000000' and not record['extra_adresaanduiding']:
                 record['extra_adresaanduiding'] = 'Adres niet bekend'
+
             for periode in locatie['Openingstijden']:
                 record['openingstijd'] = periode['Openingstijd']
                 record['sluitingstijd'] = periode['Sluitingstijd']
