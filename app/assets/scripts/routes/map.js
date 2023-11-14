@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js';
+import nlmaps from './nlmaps.iife';
 
 var weelchair_labels = {
   'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
@@ -536,7 +537,7 @@ export default {
         marker: false,
         search: true
       };
-      StembureausApp.map = nlmaps.createMap(opts);
+      StembureausApp.map = nlmaps.window.nlmaps.createMap(opts);
 
       if (StembureausApp.homepage) {
         StembureausApp.map.setZoom(7);
