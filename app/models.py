@@ -137,9 +137,12 @@ class CKAN():
             return {'records': []}
 
     def filter_records(self, resource_id, datastore_filters={}):
+        filters_lowered = {}
+        if datastore_filters:
+            filters_lowered = {k.lower(): v for k, v in datastore_filters.items()}
         try:
             records = self.ckanapi.datastore_search(
-                resource_id=resource_id, filters=datastore_filters, limit=15000)
+                resource_id=resource_id, filters=filters_lowered, limit=15000)
             # Convert record names from lowercase
             for record in records['records']:
                 for key, value in ckan_mapping.items():
@@ -163,10 +166,13 @@ class CKAN():
         )
 
     def delete_records(self, resource_id, filters=None):
+        filters_lowered = None
+        if filters:
+            filters_lowered = {k.lower(): v for k, v in filters.items()}
         self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,
-            filters=filters
+            filters=filters_lowered
         )
 
     # First delete all records in the publish_resource for the current
