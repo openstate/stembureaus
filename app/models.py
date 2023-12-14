@@ -18,6 +18,7 @@ from app.email import send_email, send_invite
 # this mapping when reading from the CKAN DataStore. When we write to the
 # DataStore we simply use lower().
 ckan_mapping = {
+        "_id": "_id",
         "gemeente": "Gemeente",
         "cbs gemeentecode": "CBS gemeentecode",
         "nummer stembureau": "Nummer stembureau",
@@ -39,7 +40,7 @@ ckan_mapping = {
         "extra adresaanduiding": "Extra adresaanduiding",
         "x": "X",
         "y": "Y",
-        "latitude": "Latitude",,
+        "latitude": "Latitude",
         "longitude": "Longitude",
         "openingstijd": "Openingstijd",
         "sluitingstijd": "Sluitingstijd",
@@ -121,13 +122,13 @@ class CKAN():
         try:
             records = self.ckanapi.datastore_search(
                 resource_id=resource_id, limit=15000)
-            # Remove field added by Civity/CKAN
-            del records['records']['ogc_fid']
-            del records['records']['wkb_geometry']
             # Convert record names from lowercase
-            for key, value in records['records'].iteritems():
-                records['records'][ckan_mapping[key]] = value
-                del records['records'][key]
+            for record in records['records']:
+                for key, value in ckan_mapping.items():
+                    record[value] = record[key]
+                # Remove fields added by Civity/CKAN
+                del record['ogc_fid']
+                del record['wkb_geometry']
             return records
         except CKANAPIError as e:
             app.logger.error(
@@ -139,13 +140,13 @@ class CKAN():
         try:
             records = self.ckanapi.datastore_search(
                 resource_id=resource_id, filters=datastore_filters, limit=15000)
-            # Remove field added by Civity/CKAN
-            del records['records']['ogc_fid']
-            del records['records']['wkb_geometry']
             # Convert record names from lowercase
-            for key, value in records['records'].iteritems():
-                records['records'][ckan_mapping[key]] = value
-                del records['records'][key]
+            for record in records['records']:
+                for key, value in ckan_mapping.items():
+                    record[value] = record[key]
+                # Remove fields added by Civity/CKAN
+                del record['ogc_fid']
+                del record['wkb_geometry']
             return records
         except CKANAPIError as e:
             app.logger.error(
@@ -157,7 +158,7 @@ class CKAN():
         self.ckanapi.datastore_upsert(
             resource_id=resource_id,
             force=True,
-            records={k.lower(): v for k, v in records.iteritems()},
+            records={k.lower(): v for k, v in records.items()},
             method='upsert'
         )
 
