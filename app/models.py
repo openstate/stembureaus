@@ -15,9 +15,8 @@ from app.email import send_email, send_invite
 
 # At the end of 2023, Civity changed its CKAN DataStore to only allow lowercase
 # columns. To quickly fix this problem we convert the column/field names using
-# this mapping when reading from the CKAN DataStore. When we write to the
-# DataStore we simply use lower().
-ckan_mapping = {
+# this mapping when reading from and writing to the CKAN DataStore.
+ckan_mapping_lower_to_upper = {
         "_id": "_id",
         "gemeente": "Gemeente",
         "cbs gemeentecode": "CBS gemeentecode",
@@ -45,7 +44,7 @@ ckan_mapping = {
         "openingstijd": "Openingstijd",
         "sluitingstijd": "Sluitingstijd",
         "toegankelijk voor mensen met een lichamelijke beperking": "Toegankelijk voor mensen met een lichamelijke beperking",
-        "toegankelijke ov-halte": "Toegankelijke ov-halte",
+        "toegankelijke ov_halte": "Toegankelijke ov-halte",
         "akoestiek geschikt voor slechthorenden": "Akoestiek geschikt voor slechthorenden",
         "auditieve hulpmiddelen": "Auditieve hulpmiddelen",
         "visuele hulpmiddelen": "Visuele hulpmiddelen",
@@ -59,6 +58,8 @@ ckan_mapping = {
         "id": "ID",
         "uuid": "UUID"
 }
+
+ckan_mapping_upper_to_lower = {v: k for k, v in ckan_mapping_lower_to_upper.items()}
 
 
 class CKAN():
@@ -78,7 +79,7 @@ class CKAN():
         self.ckanapi.datastore_create(
             resource_id=resource_id,
             force=True,
-            fields=[{"id": field.id.lower(), "type": field.type} for field in fields],
+            fields=[{"id": ckan_mapping_upper_to_lower[field.id], "type": field.type} for field in fields],
             primary_key=['UUID']
         )
 
@@ -124,7 +125,7 @@ class CKAN():
                 resource_id=resource_id, limit=15000)
             # Convert record names from lowercase
             for record in records['records']:
-                for key, value in ckan_mapping.items():
+                for key, value in ckan_mapping_lower_to_upper.items():
                     record[value] = record[key]
                 # Remove fields added by Civity/CKAN
                 del record['ogc_fid']
@@ -139,13 +140,13 @@ class CKAN():
     def filter_records(self, resource_id, datastore_filters={}):
         filters_lowered = {}
         if datastore_filters:
-            filters_lowered = {k.lower(): v for k, v in datastore_filters.items()}
+            filters_lowered = {ckan_mapping_upper_to_lower[k]: v for k, v in datastore_filters.items()}
         try:
             records = self.ckanapi.datastore_search(
                 resource_id=resource_id, filters=filters_lowered, limit=15000)
             # Convert record names from lowercase
             for record in records['records']:
-                for key, value in ckan_mapping.items():
+                for key, value in ckan_mapping_lower_to_upper.items():
                     record[value] = record[key]
                 # Remove fields added by Civity/CKAN
                 del record['ogc_fid']
@@ -161,14 +162,14 @@ class CKAN():
         self.ckanapi.datastore_upsert(
             resource_id=resource_id,
             force=True,
-            records={k.lower(): v for k, v in records.items()},
+            records={ckan_mapping_upper_to_lower[k]: v for k, v in records.items()},
             method='upsert'
         )
 
     def delete_records(self, resource_id, filters=None):
         filters_lowered = None
         if filters:
-            filters_lowered = {k.lower(): v for k, v in filters.items()}
+            filters_lowered = {ckan_mapping_upper_to_lower[k: v for k, v in filters.items()}
         self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,
