@@ -169,7 +169,7 @@ class CKAN():
     def delete_records(self, resource_id, filters=None):
         filters_lowered = None
         if filters:
-            filters_lowered = {ckan_mapping_upper_to_lower[k: v for k, v in filters.items()}
+            filters_lowered = {ckan_mapping_upper_to_lower[k]: v for k, v in filters.items()}
         self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,
