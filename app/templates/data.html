@@ -46,7 +46,7 @@
           <td>2023-11-22</td>
           <td>Tweede Kamerverkiezingen 2023</td>
           <td>Stembureaus ODS v1.5</td>
-          <td><a href="https://ckan.dataplatform.nl/dataset/stembureaus-tweede-kamerverkiezingen-2023" target="_blank" rel="noopener">Metadata</a>, <a href="https://ckan.dataplatform.nl/dataset/stembureaus-tweede-kamerverkiezingen-2023/resource/42f23852-2b5e-452b-b4a0-e682c4b3b3fa" target="_blank" rel="noopener">Data Explorer en API</a>, <a href="https://ckan.dataplatform.nl/datastore/dump/42f23852-2b5e-452b-b4a0-e682c4b3b3fa" rel="noopener">CSV</a> en <a href="https://ckan.dataplatform.nl/api/3/action/datastore_search?resource_id=42f23852-2b5e-452b-b4a0-e682c4b3b3fa&limit=100000" rel="noopener">JSON</a></td>
+          <td><a href="https://ckan.dataplatform.nl/dataset/stembureaus-tweede-kamerverkiezingen-2023" target="_blank" rel="noopener">Metadata</a>, <a href="https://ckan.dataplatform.nl/dataset/stembureaus-tweede-kamerverkiezingen-2023/resource/6259e07d-7017-4d28-b3e2-cf4403b13d5f" target="_blank" rel="noopener">Data Explorer en API</a>, <a href="https://ckan.dataplatform.nl/datastore/dump/6259e07d-7017-4d28-b3e2-cf4403b13d5f" rel="noopener">CSV</a> en <a href="https://ckan.dataplatform.nl/api/3/action/datastore_search?resource_id=6259e07d-7017-4d28-b3e2-cf4403b13d5f&limit=100000" rel="noopener">JSON</a></td>
           <td><a href="/files/niet-deelnemende-gemeenten-2023-tk.csv">Deze gemeenten</a> hebben hun gegevens niet zelf aangeleverd en zijn verzameld door Open State Foundation</td>
         </tr>
         <tr>
@@ -166,6 +166,7 @@
 
     <ul>
       <li><b>_id</b>: een veld dat intern door CKAN gebruikt wordt. Gebruik het <b>UUID</b> veld als identifier van een stembureau.</li>
+      <li><b>ogc_fid</b>: ook een veld dat intern door CKAN gebruikt wordt. Gebruik het <b>UUID</b> veld als identifier van een stembureau.</li>
       <li><b>Gemeente</b>: De officiële gemeentenaam zoals gebruikt door het CBS.</li>
       <li><b>CBS gemeentecode *</b>: Unieke code voor de gemeente zoals gebruikt door het CBS.</li>
       <li><b>Stembureau of Afgiftepunt *</b>: Voor de Tweede Kamerverkiezingen van 2021 waren er vanwege de maatregelen rondom het coronavirus naast stembureaus ook afgiftepunten beschikbaar. Iedereen ouder dan 70 ontving een stempluspas die op de post gedaan kon worden maar ook in de dagen voor en op de verkiezingsdag ingeleverd kan worden bij een afgiftepunt. <i>[Enkel beschikbaar in Stembureaus ODS v1.2]</i></li>
@@ -224,6 +225,7 @@
       <li><b>ID</b>: ID voor alle stembureaus van een gemeente voor een verkiezing.</li>
       <li><b>UUID</b>: Unieke code voor deze rij (de beschrijving van een stembureau kan uit meerdere rijen bestaan, zie ook het 'Openingstijden'-veld en de 'Verdere toelichting'). Als het stembureau gebruikt wordt voor meerdere verkiezingen in dezelfde periode dan wordt dezelfde UUID code gebruikt in de datasets van al deze verkiezingen.</li>
       <li>61 niet-verplichte velden die gebaseerd zijn op de <a href="https://vng.nl/files/vng/bijlage_1_checklist_toegankelijkheidscriteria_stemlokalen.pdf" target="_blank" rel="noopener">checklist toegankelijkheidscriteria stemlokalen (PDF)</a>, zie <a href="https://vng.nl/onderwerpenindex/bestuur/verkiezingen-referenda/nieuws/toegankelijke-verkiezingen-waar-moeten-gemeenten-op-letten" target="_blank" rel="noopener">deze pagina</a> van de Vereniging van Nederlandse Gemeenten (VNG) voor meer informatie over de toegankelijkheid van verkiezingen. <i>[Enkel beschikbaar in Stembureaus ODS v1.1]</i></li>
+      <li><b>wkb_geometry</b>: een veld dat intern door CKAN gebruikt wordt.</li>
     </ul>
 
     <h2>Verdere toelichting</h2>
