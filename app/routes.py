@@ -270,10 +270,10 @@ def show_stembureau(gemeente, primary_key):
         ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
     )
 
-    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
-
     if not records:
         return render_template('404.html'), 404
+
+    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
 
     return render_template(
         'show_stembureau.html',
@@ -316,12 +316,17 @@ def embed_stembureau(gemeente, primary_key):
     if not records:
         return render_template('404.html'), 404
 
+    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
+
     show_infobar = (request.args.get('infobar', 1, type=int) == 1)
 
     return render_template(
         'embed_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
+        # We need the gemeente_source to show TSA 'kenmerken' as a special
+        # 'Overige informatie' field
+        gemeente_source=gemeente_source,
         primary_key=primary_key,
         show_infobar=show_infobar,
         disclaimer=disclaimer

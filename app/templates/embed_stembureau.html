@@ -162,11 +162,12 @@
 
               <li><b>Gehandicaptentoilet</b>: {% if record['Gehandicaptentoilet'] == 'ja' %}Ja{% elif record['Gehandicaptentoilet'] == 'nee' %}Nee{% else %}{% endif %}</li>
 
-              <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
+              <li><b>Extra toegankelijkheidsinformatie</b>: {% if not gemeente_source %}{{ record['Extra toegankelijkheidsinformatie'] }}{% endif %}</li>
             </ul>
 
             <h3>Bijzonderheden</h3>
             <b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% elif record['Tellocatie'] == 'nee' %}Nee{% else %}{% endif %}
+            {% if gemeente_source %}<br><b>Overige informatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }} {% endif %}
 
             <h3>Gemeente {{ gemeente }}</h3>
             <p>
