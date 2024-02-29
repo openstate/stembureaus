@@ -79,8 +79,8 @@ class CKAN():
         self.ckanapi.datastore_create(
             resource_id=resource_id,
             force=True,
-            fields=[{"id": ckan_mapping_upper_to_lower[field.id], "type": field.type} for field in fields],
-            primary_key=['UUID']
+            fields=[{"id": ckan_mapping_upper_to_lower[field['id']], "type": field['type']} for field in fields],
+            primary_key=['uuid']
         )
 
     def resource_show(self, resource_id):
