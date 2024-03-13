@@ -7,6 +7,7 @@ import '../node_modules/bootstrap-table/dist/locale/bootstrap-table-nl-NL.min.js
 import '../node_modules/bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min.js';
 import '../node_modules/bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.js';
 import L from 'leaflet';
+import 'leaflet-geometryutil';
 import 'leaflet.awesome-markers';
 import 'leaflet.markercluster';
 

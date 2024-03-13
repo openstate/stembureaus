@@ -20,6 +20,10 @@ var gehandicaptentoilet_labels = {
   'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;'
 }
 
+// Marker of the user's location (available after the user uses the NLMaps
+// search or 'Gebruik mijn locatie')
+var user_marker;
+
 export default {
   // JavaScript to be fired on pages that contain the map
   init() {
@@ -234,8 +238,39 @@ export default {
         StembureausApp.search($(this).val());
       });
 
+      // 'Gebruik mijn locatie', get and show the location of the user and
+      // make sure that the map also shows the closest stembureau
       $('#btn-location').click(function (e) {
-        StembureausApp.map.locate({setView : true, maxZoom: 16});
+        StembureausApp.map.locate({setView : true, enableHighAccuracy: true, maxZoom: 16}).on('locationfound', function(e) {
+          // If a user_marker already exists, remove it
+          if (user_marker) {
+            StembureausApp.map.removeLayer(user_marker);
+          }
+
+          // Find the stembureau marker closest to the user location
+          var closest_marker = L.GeometryUtil.closestLayer(StembureausApp.map, StembureausApp.filtered_markers, e.latlng);
+
+          // Make sure the map shows both
+          StembureausApp.map.fitBounds(
+            L.featureGroup(
+              [
+                L.marker(e.latlng),
+                L.marker(closest_marker.latlng)
+              ]
+            ).getBounds(), {padding: [100, 100]}
+          );
+
+          // Add the user marker and an accuracy circle to the map
+          user_marker = L.marker([e.latitude, e.longitude], {icon: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'circle', markerColor: 'blue'})}).bindPopup('Hier bent u');
+          var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+              weight: 1,
+              color: '#38aadd',
+              fillColor: '#cacaca',
+              fillOpacity: 0.2
+          });
+          StembureausApp.map.addLayer(user_marker.setZIndexOffset(-100));
+          StembureausApp.map.addLayer(circle);
+        });
         return false;
       });
     };
@@ -696,5 +731,45 @@ export default {
   // JavaScript to be fired on pages that contain the map, after the init JS
   finalize() {
     $('#nlmaps-geocoder-control-input').attr('placeholder', 'Zoeken (bv. straat of postcode)');
+
+    // Hook into all XHR requests, if it is a 'lookup' request (i.e., a user
+    // used the NLMaps search), then show the location on the map and make sure
+    // that the map also shows the closest stembureau.
+    // Via https://stackoverflow.com/a/27363569/1266303.
+    (function() {
+        var origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function() {
+          if (arguments[1].includes('lookup')) {
+            this.addEventListener('load', function() {
+              // If a user_marker already exists, remove it
+              if (user_marker) {
+                StembureausApp.map.removeLayer(user_marker);
+              }
+
+              // Get the new latlng coordinates resulting from the searched location
+              var latlng = StembureausApp.map.getCenter();
+
+              // Find the stembureau marker closest to the searched location
+              var closest_marker = L.GeometryUtil.closestLayer(StembureausApp.map, StembureausApp.filtered_markers, latlng);
+
+              // Make sure the map shows both
+              StembureausApp.map.fitBounds(
+                L.featureGroup(
+                  [
+                    L.marker(latlng),
+                    L.marker(closest_marker.latlng)
+                  ]
+                ).getBounds(), {padding: [100, 100]}
+              );
+
+              // Add the user marker to the map
+              user_marker = L.marker([latlng.lat, latlng.lng], {icon: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'circle', markerColor: 'blue'})}).bindPopup('Uw locatie');
+              StembureausApp.map.addLayer(user_marker.setZIndexOffset(-100));
+            });
+          }
+          origOpen.apply(this, arguments);
+        };
+    })();
+
   },
 };
