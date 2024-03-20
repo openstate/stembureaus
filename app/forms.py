@@ -508,8 +508,7 @@ class EditForm(FlaskForm):
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> https://www.denhaag.nl/nl'
-            '/bestuur-en-organisatie/contact-met-de-gemeente'
-            '/stadhuis-den-haag.htm'
+            '/contact-met-de-gemeente/stadhuis-den-haag/'
         ),
         validators=[
             Optional(),
@@ -520,8 +519,7 @@ class EditForm(FlaskForm):
         ],
         render_kw={
             'placeholder': 'bv. https://www.denhaag.nl/nl'
-            '/bestuur-en-organisatie/contact-met-de-gemeente'
-            '/stadhuis-den-haag.htm'
+            '/contact-met-de-gemeente/stadhuis-den-haag/'
         }
     )
 
@@ -775,21 +773,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2023-11-22T07:30:00'
+            '<b>Voorbeeld:</b> 2024-06-06T07:30:00'
         ),
-        default='2023-11-22T07:30:00',
+        default='2024-06-06T07:30:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2023-11-22T\d{2}:\d{2}:\d{2}$',
+                '^2024-06-06T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2023-11-22T07:30:00\'.'
+                    'worden zoals bv. \'2024-06-06T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2023-11-22T07:30:00'
+            'placeholder': 'bv. 2024-06-06T07:30:00'
         }
     )
 
@@ -805,21 +803,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2023-11-22T21:00:00'
+            '<b>Voorbeeld:</b> 2024-06-06T21:00:00'
         ),
-        default='2023-11-22T21:00:00',
+        default='2024-06-06T21:00:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2023-11-22T\d{2}:\d{2}:\d{2}$',
+                '^2024-06-06T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2023-11-22T21:00:00\'.'
+                    'worden zoals bv. \'2024-06-06T21:00:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2023-11-22T21:00:00'
+            'placeholder': 'bv. 2024-06-06T21:00:00'
         }
     )
 
@@ -1038,8 +1036,7 @@ class EditForm(FlaskForm):
     toegankelijk_voor_mensen_met_een_lichamelijke_beperking = CustomSelectField(
         'Toegankelijk voor mensen met een lichamelijke beperking',
         description=(
-            'Is het stembureau toegankelijk voor mensen met een lichamelijke beperking?'
-            '<br>'
+            'Is het stembureau toegankelijk voor mensen met een lichamelijke beperking? '
             'Voor meer informatie, <a '
             'href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/'
             'verkiezingentoolkit/toegankelijkheid-verkiezingen" target="_blank" '
@@ -1063,25 +1060,231 @@ class EditForm(FlaskForm):
         }
     )
 
-    toegankelijke_ov_halte = StringField(
+    toegankelijke_ov_halte = CustomSelectField(
         'Toegankelijke ov-halte',
         description=(
-            'Is er een toegankelijke ov-halte in de buurt? Beschrijf hoe ver '
-            'deze van het stembureau ligt en hoe deze toegankelijk is.'
+            'Is er een toegankelijke ov-halte in de buurt?'
             '<br>'
             '<br>'
-            '<b>Format:</b> tekst; als er geen toegankelijke ov-halte is, laat dit '
-            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
+            '<b>Format:</b> Vul \'ja\' in als er een toegankelijke ov-halte '
+            'in de buurt is. Vul \'nee\' in als dat niet zo is. Laat het veld '
+            'leeg als het onbekend is.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> binnen 100 meter, rolstoeltoegankelijk, geleidelijnen'
+            '<b>Voorbeeld:</b> ja'
         ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
         validators=[
-            Optional(),
-            no_no
+            Optional()
         ],
         render_kw={
-            'placeholder': 'bv. binnen 100 meter'
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    gehandicaptentoilet = CustomSelectField(
+        'Gehandicaptentoilet',
+        description=(
+            'Is er een gehandicaptentoilet aanwezig?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er een gehandicaptentoilet '
+            'aanwezig is. Vul \'nee\' in als dat niet zo is. Laat het veld '
+            'leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    host = CustomSelectField(
+        'Host',
+        description=(
+            'Is er iemand aanwezig die kiezers ontvangt en kan helpen?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er en host aanwezig is. Vul '
+            '\'nee\' in als dat niet zo is. Laat het veld leeg als het '
+            'onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    geleidelijnen = CustomSelectField(
+        'Geleidelijnen',
+        description=(
+            'Zijn er geleidelijnen aanwezig buiten en/of binnen het stembureau '
+            'voor mensen met een visuele beperking?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'buiten en binnen\' in als er geleidelijnen '
+            'buiten en binnen het stembureau aanwezig zijn. Vul \'buiten\' in '
+            'als deze enkel buiten aanwezig zijn. Vul \'binnen\' in als deze '
+            'enkel binnen aanwezig zijn. Vul \'nee\' in als er geen '
+            'geleidelijnen zijn. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> buiten en binnen'
+        ),
+        choices=[('', ''), ('buiten en binnen', 'buiten en binnen'), ('buiten', 'buiten'), ('binnen', 'binnen'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    stemmal_met_audio_ondersteuning = CustomSelectField(
+        'Stemmal met audio-ondersteuning',
+        description=(
+            'Is er een stemmal met audio-ondersteuning (stembox/soundbox) '
+            'aanwezig voor mensen met een visuele beperking of mensen die '
+            'moeite hebben met lezen? Voor meer informatie, zie: '
+            '<a href="https://www.oogvereniging.nl/leven-met/stemmen-met-een-oogaandoening/#stemmal" target="_blank">oogvereniging.nl</a>, '
+            '<a href="https://stemmal.nl/" target="_blank">stemmal.nl</a> '
+            'en <a href="https://www.stembox.nl/" target="_blank">stembox.nl</a>.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er een stemmal met '
+            'audio-ondersteuning (stembox/soundbox) aanwezig is. Vul \'nee\' '
+            'in als dat niet zo is. Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    kandidatenlijst_in_braille = CustomSelectField(
+        'Kandidatenlijst in braille',
+        description=(
+            'Is er een kandidatenlijst in braille aanwezig voor mensen met '
+            'een visuele beperking?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er een kandidatenlijst in '
+            'braille aanwezig is. Vul \'nee\' in als dat niet zo is. Laat het '
+            'veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    kandidatenlijst_met_grote_letters = CustomSelectField(
+        'Kandidatenlijst met grote letters',
+        description=(
+            'Is er een kandidatenlijst met grote letters aanwezig voor mensen '
+            'met een visuele beperking?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er een kandidatenlijst met '
+            'grote letters aanwezig is. Vul \'nee\' in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    gebarentolk_ngt = CustomSelectField(
+        'Gebarentolk (NGT)',
+        description=(
+            'Is er een gebarentolk op locatie in het stembureau of op afstand '
+            '(via videobellen) aanwezig die de Nederlandse Gebarentaal (NGT) '
+            'beheerst? Als de gebarentolk niet de hele dag aanwezig is, '
+            'vermeldt dan gedurende welke periode(n) deze precies aanwezig is in '
+            'het \'Extra toegankelijkheidsinformatie\'-attribuut.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'op locatie\' in als de gebarentolk fysiek '
+            'in het stembureau aanwezig is. Vul \'op afstand\' in als de '
+            'gebarentolk op afstand (via videobellen) aanwezig is. Vul '
+            '\'nee\' in als er geen gebarentolk aanwezig is. Laat het veld '
+            'leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> op locatie'
+        ),
+        choices=[
+            ('', ''),
+            ('op locatie', 'op locatie'),
+            ('op afstand', 'op afstand'),
+            ('nee', 'nee')
+        ],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
+        }
+    )
+
+    gebarentalig_stembureaulid_ngt = CustomSelectField(
+        'Gebarentalig stembureaulid (NGT)',
+        description=(
+            'Is er een stembureaulid aanwezig die de Nederlandse Gebarentaal (NGT) beheerst?'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er een gebarentalig '
+            'stembureaulid  aanwezig is. Vul \'nee\' in als dat niet zo is. '
+            'Laat het veld leeg als het onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'class': 'selectpicker',
+            'data-none-selected-text': ''
         }
     )
 
@@ -1090,7 +1293,7 @@ class EditForm(FlaskForm):
         description=(
             'Is de akoestiek van het stembureau geschikt voor '
             'slechthorenden? Voor meer informatie, zie <a '
-            'href="https://bk.nijsnet.com/04040_Slechthorenden.aspx" '
+            'href="https://bk.nijsnet.nl/d_ontwerpregels/40_Slechthorenden" '
             'target="_blank" rel="noopener">deze website</a>.'
             '<br>'
             '<br>'
@@ -1111,58 +1314,15 @@ class EditForm(FlaskForm):
         }
     )
 
-    auditieve_hulpmiddelen = StringField(
-        'Auditieve hulpmiddelen',
+    prikkelarm = CustomSelectField(
+        'Prikkelarm',
         description=(
-            'Welke auditieve hulpmiddelen zijn aanwezig? Dit is een vrij '
-            'tekstveld.'
+            'Dit stembureau is zo ingericht dat er weinig prikkels zijn.'
             '<br>'
             '<br>'
-            '<b>Format:</b> tekst; als er geen hulpmiddelen zijn, laat dit '
-            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> gebarentolk, schrijftolk'
-        ),
-        validators=[
-            Optional(),
-            no_no
-        ],
-        render_kw={
-            'placeholder': 'bv. gebarentolk, schrijftolk'
-        }
-    )
-
-    visuele_hulpmiddelen = StringField(
-        'Visuele hulpmiddelen',
-        description=(
-            'Welke visuele hulpmiddelen zijn aanwezig? Dit is een vrij '
-            'tekstveld.'
-            '<br>'
-            '<br>'
-            '<b>Format:</b> tekst; als er geen hulpmiddelen zijn, laat dit '
-            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd). NB: '
-            'een leesloep is verplicht op elk stembureau en moet hier dus niet '
-            'vermeld worden.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
-        ),
-        validators=[
-            Optional(),
-            no_no
-        ],
-        render_kw={
-            'placeholder': 'bv. stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen'
-        }
-    )
-
-    gehandicaptentoilet = CustomSelectField(
-        'Gehandicaptentoilet',
-        description=(
-            '<b>Format:</b> Vul \'ja\' in als er een gehandicaptentoilet '
-            'aanwezig is in het stembureau. Vul \'nee\' in als dat niet zo is. '
-            'Laat het veld leeg als het onbekend is.'
+            '<b>Format:</b> Vul \'ja\' in als dit stembureau prikkelarm is.  '
+            'Vul \'nee\' in als dat niet zo is. Laat het veld leeg als het '
+            'onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> ja'
@@ -1181,22 +1341,48 @@ class EditForm(FlaskForm):
         'Extra toegankelijkheidsinformatie',
         description=(
             'Eventuele extra informatie over de toegankelijkheid van dit '
-            'stembureau.'
+            'stembureau. Zie ook de voorbeelden.'
             '<br>'
             '<br>'
             '<b>Format:</b> tekst; als er geen extra informatie is, laat dit '
-            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd). NB: '
+            'een leesloep is verplicht op elk stembureau en moet hier dus '
+            'niet vermeld worden.'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> prikkelarm stembureau, stembureau is volledig '
-            'toegankelijk voor mensen met een lichamelijke beperking er is '
-            'echter geen gehandicaptenparkeerplaats'
+            '<b>Voorbeeld:</b> Dit stembureau is ingericht voor kwetsbare '
+            'mensen, stembureau is volledig toegankelijk voor mensen met een '
+            'lichamelijke beperking er is echter geen '
+            'gehandicaptenparkeerplaats, gebarentolk op locatie (NGT) is '
+            'aanwezig van 10:00-12:00 en 16:00-18:00, oefenstembureau'
         ),
         validators=[
             Optional(),
             no_no
         ],
         render_kw={
-            'placeholder': 'bv. prikkelarm stembureau'
+            'placeholder': 'bv. Dit stembureau is ingericht voor kwetsbare '
+            'mensen, stembureau is volledig toegankelijk voor mensen met een '
+            'lichamelijke beperking er is echter geen '
+            'gehandicaptenparkeerplaats, gebarentolk op locatie (NGT) is '
+            'aanwezig van 10:00-12:00 en 16:00-18:00, oefenstembureau'
         }
+    )
+
+    overige_informatie = StringField(
+        'Overige informatie',
+        description=(
+            'Eventuele overige informatie over dit stembureau.'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> tekst; als er geen extra informatie is, laat dit '
+            'veld dan leeg (\'nee\' e.d. worden automatisch verwijderd).'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b>'
+        ),
+        validators=[
+            Optional(),
+            no_no
+        ]
     )

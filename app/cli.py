@@ -270,23 +270,51 @@ def add_new_datastore(resource_id):
             "type": "text"
         },
         {
-            "id": "Akoestiek geschikt voor slechthorenden",
-            "type": "text"
-        },
-        {
-            "id": "Auditieve hulpmiddelen",
-            "type": "text"
-        },
-        {
-            "id": "Visuele hulpmiddelen",
-            "type": "text"
-        },
-        {
             "id": "Gehandicaptentoilet",
             "type": "text"
         },
         {
+            "id": "Host",
+            "type": "text"
+        },
+        {
+            "id": "Geleidelijnen",
+            "type": "text"
+        },
+        {
+            "id": "Stemmal met audio-ondersteuning",
+            "type": "text"
+        },
+        {
+            "id": "Kandidatenlijst in braille",
+            "type": "text"
+        },
+        {
+            "id": "Kandidatenlijst met grote letters",
+            "type": "text"
+        },
+        {
+            "id": "Gebarentolk (NGT)",
+            "type": "text"
+        },
+        {
+            "id": "Gebarentalig stembureaulid (NGT)",
+            "type": "text"
+        },
+        {
+            "id": "Akoestiek geschikt voor slechthorenden",
+            "type": "text"
+        },
+        {
+            "id": "Prikkelarm",
+            "type": "text"
+        },
+        {
             "id": "Extra toegankelijkheidsinformatie",
+            "type": "text"
+        },
+        {
+            "id": "Overige informatie",
             "type": "text"
         },
         {
@@ -710,10 +738,7 @@ def test_datastore_upsert(resource_id):
         "Naam stembureau": "Stadhuis",
         "Type stembureau": "regulier",
         "Gebruiksdoel van het gebouw": "kantoor",
-        "Website locatie": (
-            "https://www.denhaag.nl/nl/bestuur-en-organisatie/contact-met-"
-            "de-gemeente/stadhuis-den-haag.htm"
-        ),
+        "Website locatie": "https://www.denhaag.nl/nl/contact-met-de-gemeente/stadhuis-den-haag/",
         "Wijknaam": "Centrum",
         "CBS wijknummer": "WK051828",
         "Buurtnaam": "Kortenbos",
@@ -730,21 +755,28 @@ def test_datastore_upsert(resource_id):
         "Y": 454909,
         "Latitude": 52.0775912,
         "Longitude": 4.3166395,
-        "Openingstijd": "2023-11-22T07:30:00",
-        "Sluitingstijd": "2023-11-22T21:00:00",
+        "Openingstijd": "2024-06-06T07:30:00",
+        "Sluitingstijd": "2024-06-06T21:00:00",
         "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
-        "Toegankelijke ov-halte": "binnen 100 meter, rolstoeltoegankelijk, geleidelijnen",
-        "Akoestiek geschikt voor slechthorenden": "ja",
-        "Auditieve hulpmiddelen": "gebarentolk, schrijftolk",
-        "Visuele hulpmiddelen": "stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen",
+        "Toegankelijke ov-halte": "ja",
         "Gehandicaptentoilet": "nee",
-        "Extra toegankelijkheidsinformatie": "prikkelarm stembureau, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats",
+        "Host": "ja",
+        "Geleidelijnen": "buiten en binnen",
+        "Stemmal met audio-ondersteuning": "ja",
+        "Kandidatenlijst in braille": "ja",
+        "Kandidatenlijst met grote letters": "ja",
+        "Gebarentolk (NGT)": "op locatie",
+        "Gebarentalig stembureaulid (NGT)": "ja",
+        "Akoestiek geschikt voor slechthorenden": "ja",
+        "Prikkelarm": "ja",
+        "Extra toegankelijkheidsinformatie": "Dit stembureau is ingericht voor kwetsbare mensen, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats, gebarentolk op locatie (NGT) is aanwezig van 10:00-12:00 en 16:00-18:00, oefenstembureau",
+        "Overige informatie": "",
         "Kieskring ID": "'s-Gravenhage",
         "Hoofdstembureau": "Nederland",
         "Tellocatie": "ja",
         "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
         "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-        "ID": "NLODSGM0518stembureaus20231122014",
+        "ID": "NLODSGM0518stembureaus20240606015",
         "UUID": uuid.uuid4().hex
     }
 

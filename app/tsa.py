@@ -55,11 +55,18 @@ class TSAParser(BaseAPIParser):
             record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
                 'Toegankelijk voor mensen met een lichamelijke beperking']
             record['toegankelijke_ov_halte'] = locatie.get('Toegankelijke ov-halte', '')
-            record['akoestiek_geschikt_voor_slechthorenden'] = locatie.get('Akoestiek geschikt voor slechthorenden', '')
-            record['auditieve_hulpmiddelen'] = locatie.get('Auditieve hulpmiddelen', '')
-            record['visuele_hulpmiddelen'] = locatie.get('Visuele hulpmiddelen', '')
             record['gehandicaptentoilet'] = locatie.get('Gehandicaptentoilet', '')
-            record['extra_toegankelijkheidsinformatie'] = ', '.join(kenmerken_tekst)
+            record['host'] = locatie.get('Host', '')
+            record['geleidelijnen'] = locatie.get('Geleidelijnen', '')
+            record['stemmal_met_audio_ondersteuning'] = locatie.get('Stemmal met audio-ondersteuning', '')
+            record['kandidatenlijst_in_braille'] = locatie.get('Kandidatenlijst in braille', '')
+            record['kandidatenlijst_met_grote_letters'] = locatie.get('Kandidatenlijst met grote letters', '')
+            record['gebarentolk_ngt'] = locatie.get('Gebarentolk (NGT)', '')
+            record['gebarentalig_stembureaulid_ngt'] = locatie.get('Gebarentalig stembureaulid (NGT)', '')
+            record['akoestiek_geschikt_voor_slechthorenden'] = locatie.get('Akoestiek geschikt voor slechthorenden', '')
+            record['prikkelarm'] = locatie.get('Prikkelarm', '')
+            record['extra_toegankelijkheidsinformatie'] = locatie.get('Extra toegankelijkheidsinformatie', '')
+            record['overige_informatie'] = ', '.join(kenmerken_tekst)
             record['tellocatie'] = locatie.get('Tellocatie', '')
 
             if record['extra_adresaanduiding'] is None:

@@ -143,31 +143,39 @@
 
             <h3>Toegankelijkheid</h3>
             <ul>
-              <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b>: {% if record['Toegankelijk voor mensen met een lichamelijke beperking'] == 'ja' %}Ja{% else %}Nee{% endif %}</li>
+              <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b>: {{ record['Toegankelijk voor mensen met een lichamelijke beperking'] }}</li>
 
-              <li><b>Toegankelijke ov-halte</b>: {{ record['Toegankelijke ov-halte'] }}</li>
+              <li><b>Toegankelijke ov-halte</b>: {{ record['Toegankelijke ov-halte'] if record['Toegankelijke ov-halte'] else 'onbekend' }}</li>
 
-              <li><b>Auditieve hulpmiddelen</b>: {{ record['Auditieve hulpmiddelen'] }}</li>
+              <li><b>Gehandicaptentoilet</b>: {{ record['Gehandicaptentoilet'] if record['Gehandicaptentoilet'] else 'onbekend' }}</li>
 
-              <li>
-                <b>Visuele hulpmiddelen</b>: {{ record['Visuele hulpmiddelen'] }}
-                <ul>
-                  <li>
-                    NB: er is verplicht een leesloep aanwezig in elk stembureau
-                  </li>
-                </ul>
-              </li>
+              <li><b>Host</b>: {{ record['Host'] if record['Host'] else 'onbekend' }}</li>
 
-              <li><b>Akoestiek geschikt voor slechthorenden</b>: {% if record['Akoestiek geschikt voor slechthorenden'] == 'ja' %}Ja{% elif record['Akoestiek geschikt voor slechthorenden'] == 'nee' %}Nee{% else %}{% endif %}</li>
+              <li><b>Geleidelijnen</b>: {{ record['Geleidelijnen'] if record['Geleidelijnen'] else 'onbekend' }}</li>
 
-              <li><b>Gehandicaptentoilet</b>: {% if record['Gehandicaptentoilet'] == 'ja' %}Ja{% elif record['Gehandicaptentoilet'] == 'nee' %}Nee{% else %}{% endif %}</li>
+              <li><b>Stemmal met audio-ondersteuning</b>: {{ record['Stemmal met audio-ondersteuning'] if record['Stemmal met audio-ondersteuning'] else 'onbekend' }}</li>
 
-              <li><b>Extra toegankelijkheidsinformatie</b>: {% if not gemeente_source %}{{ record['Extra toegankelijkheidsinformatie'] }}{% endif %}</li>
+              <li><b>Kandidatenlijst in braille</b>: {{ record['Kandidatenlijst in braille'] if record['Kandidatenlijst in braille'] else 'onbekend' }}</li>
+
+              <li><b>Kandidatenlijst met grote letters</b>: {{ record['Kandidatenlijst met grote letters'] if record['Kandidatenlijst met grote letters'] else 'onbekend' }}</li>
+
+              <li><b>Gebarentolk (NGT)</b>: {{ record['Gebarentolk (NGT)'] if record['Gebarentolk (NGT)'] else 'onbekend' }}</li>
+
+              <li><b>Gebarentalig stembureaulid (NGT)</b>: {{ record['Gebarentalig stembureaulid (NGT)'] if record['Gebarentalig stembureaulid (NGT)'] else 'onbekend' }}</li>
+
+              <li><b>Akoestiek geschikt voor slechthorenden</b>: {{ record['Akoestiek geschikt voor slechthorenden'] if record['Akoestiek geschikt voor slechthorenden'] else 'onbekend' }}</li>
+
+              <li><b>Prikkelarm</b>: {{ record['Prikkelarm'] if record['Prikkelarm'] else 'onbekend' }}</li>
+
+              <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
             </ul>
 
+            De Rijksoverheid heeft <a href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/vraag-en-antwoord/kiezers-met-beperking" target="_blank" rel="noopener">meer informatie voor kiezers met een beperking</a>.
+
             <h3>Bijzonderheden</h3>
-            <b>Tellocatie</b>: {% if record['Tellocatie'] == 'ja' %}Ja{% elif record['Tellocatie'] == 'nee' %}Nee{% else %}{% endif %}
-            {% if gemeente_source %}<br><b>Overige informatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }} {% endif %}
+            <b>Tellocatie</b>: {{ record['Tellocatie'] if record['Tellocatie'] else 'onbekend' }}
+            <br>
+            <b>Overige informatie</b>: {{ record['Overige informatie'] }}
 
             <h3>Gemeente {{ gemeente }}</h3>
             <p>

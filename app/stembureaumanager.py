@@ -37,22 +37,29 @@ class StembureauManagerParser(BaseAPIParser):
             record['verkiezingen'] = data['Verkiezingen']
 
         for locatie in data['Locaties']:
-            record['website_locatie'] = data['Locaties'][0]['Website locatie']
-            record['bag_nummeraanduiding_id'] = data['Locaties'][0]['BAG Nummeraanduiding ID']
-            record['extra_adresaanduiding'] = data['Locaties'][0]['Extra adresaanduiding']
-            record['latitude'] = str(data['Locaties'][0]['Latitude'])
-            record['longitude'] = str(data['Locaties'][0]['Longitude'])
+            record['website_locatie'] = locatie['Website locatie']
+            record['bag_nummeraanduiding_id'] = locatie['BAG Nummeraanduiding ID']
+            record['extra_adresaanduiding'] = locatie['Extra adresaanduiding']
+            record['latitude'] = str(locatie['Latitude'])
+            record['longitude'] = str(locatie['Longitude'])
             # 'x' = None
             # 'y' = None
-            record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = data['Locaties'][0][
+            record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
                 'Toegankelijk voor mensen met een lichamelijke beperking']
-            record['toegankelijke_ov_halte'] = data['Locaties'][0]['Toegankelijke ov-halte']
-            record['akoestiek_geschikt_voor_slechthorenden'] = data['Locaties'][0].get('Akoestiek geschikt voor slechthorenden', '')
-            record['auditieve_hulpmiddelen'] = data['Locaties'][0]['Auditieve hulpmiddelen']
-            record['visuele_hulpmiddelen'] = data['Locaties'][0]['Visuele hulpmiddelen']
-            record['gehandicaptentoilet'] = data['Locaties'][0].get('Gehandicaptentoilet', '')
-            record['extra_toegankelijkheidsinformatie'] = data['Locaties'][0]['Extra toegankelijkheidsinformatie']
-            record['tellocatie'] = data['Locaties'][0]['Tellocatie']
+            record['toegankelijke_ov_halte'] = locatie['Toegankelijke ov-halte']
+            record['gehandicaptentoilet'] = locatie.get('Gehandicaptentoilet', '')
+            record['host'] = locatie.get('Host', '')
+            record['geleidelijnen'] = locatie.get('Geleidelijnen', '')
+            record['stemmal_met_audio_ondersteuning'] = locatie.get('Stemmal met audio-ondersteuning', '')
+            record['kandidatenlijst_in_braille'] = locatie.get('Kandidatenlijst in braille', '')
+            record['kandidatenlijst_met_grote_letters'] = locatie.get('Kandidatenlijst met grote letters', '')
+            record['gebarentolk_ngt'] = locatie.get('Gebarentolk (NGT)', '')
+            record['gebarentalig_stembureaulid_ngt'] = locatie.get('Gebarentalig stembureaulid (NGT)', '')
+            record['akoestiek_geschikt_voor_slechthorenden'] = locatie.get('Akoestiek geschikt voor slechthorenden', '')
+            record['prikkelarm'] = locatie.get('Prikkelarm', '')
+            record['extra_toegankelijkheidsinformatie'] = locatie['Extra toegankelijkheidsinformatie']
+            record['overige_informatie'] = locatie.get('Overige informatie', '')
+            record['tellocatie'] = locatie['Tellocatie']
 
             for periode in locatie['Openingstijden']:
                 record['openingstijd'] = periode['Openingstijd']

@@ -358,13 +358,30 @@ class Record(object):
                 'toegankelijk voor mensen met een lichamelijke beperking'
             ],
             'toegankelijke_ov_halte': record['toegankelijke ov-halte'],
-            'akoestiek_geschikt_voor_slechthorenden': record['akoestiek geschikt voor slechthorenden'],
-            'auditieve_hulpmiddelen': record['auditieve hulpmiddelen'],
-            'visuele_hulpmiddelen': record['visuele hulpmiddelen'],
             'gehandicaptentoilet': record[
                 'gehandicaptentoilet'
             ],
-            'extra_toegankelijkheidsinformatie': record['extra toegankelijkheidsinformatie'],
+            'host': record['host'],
+            'geleidelijnen': record['geleidelijnen'],
+            'stemmal_met_audio_ondersteuning': record[
+                'stemmal met audio-ondersteuning'
+            ],
+            'kandidatenlijst_in_braille': record['kandidatenlijst in braille'],
+            'kandidatenlijst_met_grote_letters': record[
+                'kandidatenlijst met grote letters'
+            ],
+            'gebarentolk_ngt': record['gebarentolk (ngt)'],
+            'gebarentalig_stembureaulid_ngt': record[
+                'gebarentalig stembureaulid (ngt)'
+            ],
+            'akoestiek_geschikt_voor_slechthorenden': record[
+                'akoestiek geschikt voor slechthorenden'
+            ],
+            'prikkelarm': record['prikkelarm'],
+            'extra_toegankelijkheidsinformatie': record[
+                'extra toegankelijkheidsinformatie'
+            ],
+            'overige_informatie': record['overige informatie'],
             'tellocatie': record['tellocatie'],
             'contactgegevens_gemeente': record['contactgegevens gemeente'],
             'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente']

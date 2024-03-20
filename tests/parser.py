@@ -12,8 +12,7 @@ test_record1 = {
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'regulier',
     'website_locatie': (
-        'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
-        'contact-met-de-gemeente/stadhuis-den-haag.htm'
+        'https://www.denhaag.nl/nl/contact-met-de-gemeente/stadhuis-den-haag/'
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
     'extra_adresaanduiding': 'Ingang aan achterkant gebouw',
@@ -21,15 +20,27 @@ test_record1 = {
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2023-11-22T07:30:00',
-    'sluitingstijd': '2023-11-22T21:00:00',
+    'openingstijd': '2024-06-06T07:30:00',
+    'sluitingstijd': '2024-06-06T21:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'ja',
-    'toegankelijke_ov_halte': 'binnen 100 meter, rolstoeltoegankelijk, geleidelijnen',
-    'akoestiek_geschikt_voor_slechthorenden': 'ja',
-    'auditieve_hulpmiddelen': 'gebarentolk, schrijftolk',
-    'visuele_hulpmiddelen': 'stemmal, soundbox, vrijwilliger/host aanwezig, geleidelijnen',
+    'toegankelijke_ov_halte': 'ja',
     'gehandicaptentoilet': 'ja',
-    'extra_toegankelijkheidsinformatie': 'prikkelarm stembureau, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats',
+    'host': 'ja',
+    'geleidelijnen': 'buiten en binnen',
+    'stemmal_met_audio_ondersteuning': 'ja',
+    'kandidatenlijst_in_braille': 'ja',
+    'kandidatenlijst_met_grote_letters': 'ja',
+    'gebarentolk_ngt': 'op locatie',
+    'gebarentalig_stembureaulid_ngt': 'ja',
+    'akoestiek_geschikt_voor_slechthorenden': 'ja',
+    'prikkelarm': 'ja',
+    'extra_toegankelijkheidsinformatie': (
+        'Dit stembureau is ingericht voor kwetsbare mensen, stembureau is '
+        'volledig toegankelijk voor mensen met een lichamelijke beperking er '
+        'is echter geen gehandicaptenparkeerplaats, gebarentolk op locatie '
+        '(NGT) is aanwezig van 10:00-12:00 en 16:00-18:00, oefenstembureau'
+    ),
+    'overige_informatie': '',
     'tellocatie': 'ja',
     'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
@@ -48,8 +59,7 @@ test_record2 = {
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'bijzonder',
     'website_locatie': (
-        'https://www.denhaag.nl/nl/bestuur-en-organisatie/'
-        'contact-met-de-gemeente/stadhuis-den-haag.htm'
+        'https://www.denhaag.nl/nl/contact-met-de-gemeente/stadhuis-den-haag/'
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
     'extra_adresaanduiding': '',
@@ -57,15 +67,22 @@ test_record2 = {
     'y': '454909.0',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2023-11-22T02:30:00',
-    'sluitingstijd': '2023-11-22T22:00:00',
+    'openingstijd': '2024-06-06T02:30:00',
+    'sluitingstijd': '2024-06-06T20:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'nee',
-    'toegankelijke_ov_halte': '',
-    'akoestiek_geschikt_voor_slechthorenden': 'nee',
-    'auditieve_hulpmiddelen': '',
-    'visuele_hulpmiddelen': '',
+    'toegankelijke_ov_halte': 'nee',
     'gehandicaptentoilet': 'nee',
+    'host': 'nee',
+    'geleidelijnen': 'nee',
+    'stemmal_met_audio_ondersteuning': 'nee',
+    'kandidatenlijst_in_braille': 'nee',
+    'kandidatenlijst_met_grote_letters': 'nee',
+    'gebarentolk_ngt': 'nee',
+    'gebarentalig_stembureaulid_ngt': 'nee',
+    'akoestiek_geschikt_voor_slechthorenden': 'nee',
+    'prikkelarm': 'nee',
     'extra_toegankelijkheidsinformatie': '',
+    'overige_informatie': '',
     'tellocatie': 'nee',
     'contactgegevens_gemeente': (
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
@@ -120,11 +137,18 @@ class TestExcelParser(unittest.TestCase):
             'sluitingstijd',
             'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
             'toegankelijke_ov_halte',
-            'akoestiek_geschikt_voor_slechthorenden',
-            'auditieve_hulpmiddelen',
-            'visuele_hulpmiddelen',
             'gehandicaptentoilet',
+            'host',
+            'geleidelijnen',
+            'stemmal_met_audio_ondersteuning',
+            'kandidatenlijst_in_braille',
+            'kandidatenlijst_met_grote_letters',
+            'gebarentolk_ngt',
+            'gebarentalig_stembureaulid_ngt',
+            'akoestiek_geschikt_voor_slechthorenden',
+            'prikkelarm',
             'extra_toegankelijkheidsinformatie',
+            'overige_informatie',
             'tellocatie',
             'contactgegevens_gemeente',
             'verkiezingswebsite_gemeente'

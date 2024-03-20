@@ -48,11 +48,18 @@ field_order = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Akoestiek geschikt voor slechthorenden',
-    'Auditieve hulpmiddelen',
-    'Visuele hulpmiddelen',
     'Gehandicaptentoilet',
+    'Host',
+    'Geleidelijnen',
+    'Stemmal met audio-ondersteuning',
+    'Kandidatenlijst in braille',
+    'Kandidatenlijst met grote letters',
+    'Gebarentolk (NGT)',
+    'Gebarentalig stembureaulid (NGT)',
+    'Akoestiek geschikt voor slechthorenden',
+    'Prikkelarm',
     'Extra toegankelijkheidsinformatie',
+    'Overige informatie',
     'Tellocatie',
     'Contactgegevens gemeente',
     'Verkiezingswebsite gemeente'
@@ -83,11 +90,18 @@ default_minimal_fields = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Auditieve hulpmiddelen',
-    'Visuele hulpmiddelen',
-    'Akoestiek geschikt voor slechthorenden',
     'Gehandicaptentoilet',
-    'Extra toegankelijkheidsinformatie'
+    'Host',
+    'Geleidelijnen',
+    'Stemmal met audio-ondersteuning',
+    'Kandidatenlijst in braille',
+    'Kandidatenlijst met grote letters',
+    'Gebarentolk (NGT)',
+    'Gebarentalig stembureaulid (NGT)',
+    'Akoestiek geschikt voor slechthorenden',
+    'Prikkelarm',
+    'Extra toegankelijkheidsinformatie',
+    'Overige informatie'
 ]
 
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
@@ -273,15 +287,10 @@ def show_stembureau(gemeente, primary_key):
     if not records:
         return render_template('404.html'), 404
 
-    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
-
     return render_template(
         'show_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
-        # We need the gemeente_source to show TSA 'kenmerken' as a special
-        # 'Overige informatie' field
-        gemeente_source=gemeente_source,
         primary_key=primary_key,
         disclaimer=disclaimer
     )
@@ -316,17 +325,12 @@ def embed_stembureau(gemeente, primary_key):
     if not records:
         return render_template('404.html'), 404
 
-    gemeente_source = Gemeente.query.filter_by(gemeente_naam=gemeente).first().source
-
     show_infobar = (request.args.get('infobar', 1, type=int) == 1)
 
     return render_template(
         'embed_stembureau.html',
         records=[_hydrate(record, 'extended') for record in records],
         gemeente=gemeente,
-        # We need the gemeente_source to show TSA 'kenmerken' as a special
-        # 'Overige informatie' field
-        gemeente_source=gemeente_source,
         primary_key=primary_key,
         show_infobar=show_infobar,
         disclaimer=disclaimer
@@ -417,7 +421,8 @@ def perform_typeahead(query):
     m = re.match('^(\d{16})\s*$', query)
     if m is not None:
         results = BAG.query.filter(
-            BAG.nummeraanduiding == m.group(1)
+            BAG.nummeraanduiding == m.group(1),
+            BAG.gemeente == gemeente_naam
         )
 
     # finally, treat it as a street name
@@ -903,6 +908,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
                     **{k.lower(): v for k, v in record.items()}
                 ).record
 
+    app.logger.info(init_record)
     form = EditForm(**init_record)
 
     # When the user clicked the 'Annuleren' button go back to the

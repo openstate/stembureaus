@@ -20,6 +20,59 @@ var gehandicaptentoilet_labels = {
   'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;'
 }
 
+var toegankelijkheidsfilters = [
+  ['Toegankelijk voor mensen met een lichamelijke beperking', 'toegankelijk', '.toegankelijk-filter'],
+  ['Toegankelijke ov-halte', 'toegankelijke-ov-halte', '.toegankelijke-ov-halte-filter'],
+  ['Gehandicaptentoilet', 'gehandicaptentoilet', '.gehandicaptentoilet-filter'],
+  ['Host', 'host', '.host-filter'],
+  ['Geleidelijnen', 'geleidelijnen', '.geleidelijnen-filter'],
+  ['Stemmal met audio-ondersteuning', 'stemmal-met-audio-ondersteuning', '.stemmal-met-audio-ondersteuning-filter'],
+  ['Kandidatenlijst in braille', 'kandidatenlijst-in-braille', '.kandidatenlijst-in-braille-filter'],
+  ['Kandidatenlijst met grote letters', 'kandidatenlijst-met-grote-letters', '.kandidatenlijst-met-grote-letters-filter'],
+  ['Gebarentolk (NGT)', 'gebarentolk-ngt', '.gebarentolk-ngt-filter'],
+  ['Gebarentalig stembureaulid (NGT)', 'gebarentalig-stembureaulid-ngt', '.gebarentalig-stembureaulid-ngt-filter'],
+  ['Akoestiek geschikt voor slechthorenden', 'akoestiek', '.akoestiek-filter'],
+  ['Prikkelarm', 'prikkelarm', '.prikkelarm-filter']
+]
+
+function create_optional_fields(stembureau) {
+  var optional_fields = '';
+
+  if (stembureau['Toegankelijke ov-halte'] === 'ja') {
+      optional_fields += '<li>Toegankelijke ov-halte</li>';
+  }
+  if (stembureau['Host'] === 'ja') {
+      optional_fields += '<li>Host</li>';
+  }
+  if (stembureau['Geleidelijnen'] && stembureau['Geleidelijnen'] !== 'nee') {
+      optional_fields += '<li>Geleidelijnen ' + stembureau['Geleidelijnen'] + '</li>';
+  }
+  if (stembureau['Stemmal met audio-ondersteuning'] === 'ja') {
+      optional_fields += '<li>Stemmal met audio-ondersteuning</li>';
+  }
+  if (stembureau['Kandidatenlijst in braille'] === 'ja') {
+      optional_fields += '<li>Kandidatenlijst in braille</li>';
+  }
+  if (stembureau['Kandidatenlijst met grote letters'] === 'ja') {
+      optional_fields += '<li>Kandidatenlijst met grote letters</li>';
+  }
+  if (stembureau['Gebarentolk (NGT)'] && stembureau['Gebarentolk (NGT)'] !== 'nee') {
+      optional_fields += '<li>Gebarentolk (NGT) ' + stembureau['Gebarentolk (NGT)'] + '</li>';
+  }
+  if (stembureau['Gebarentalig stembureaulid (NGT)'] === 'ja') {
+      optional_fields += '<li>Gebarentalig stembureaulid (NGT)</li>';
+  }
+  if (stembureau['Prikkelarm'] === 'ja') {
+      optional_fields += '<li>Prikkelarm</li>';
+  }
+
+  if (optional_fields) {
+      optional_fields = '<br><b>Extra toegankelijkheid:</b><ul>' + optional_fields + '</ul>';
+  }
+
+  return optional_fields;
+}
+
 // Marker of the user's location (available after the user uses the NLMaps
 // search or 'Gebruik mijn locatie')
 var user_marker;
@@ -117,6 +170,8 @@ export default {
           nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
         }
 
+        var optional_fields = create_optional_fields(matches[i]);
+
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
         $('#results-search').append($(
@@ -139,11 +194,9 @@ export default {
                     akoestiek_labels[matches[i]["Akoestiek geschikt voor slechthorenden"]] +
                     gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
                   '</span>' +
-                  '<br>' +
-                  '<b>Visuele hulpmiddelen</b> <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" data-content="Er is verplicht een leesloep aanwezig in elk stembureau"></i>: ' +
-                  matches[i]["Visuele hulpmiddelen"] +
-                  '<br>' +
-                  '<b>Auditieve hulpmiddelen</b>: ' + matches[i]["Auditieve hulpmiddelen"] +
+
+                  optional_fields +
+
                 '</div>' +
               '</div>' +
               '<div class="col-xs-12"><hr style="margin: 0; height: 1px;"></div>' +
@@ -378,11 +431,11 @@ export default {
             if (openingstijden === '') {
               temp_filtered_locations.push(loc);
             } else if (openingstijden === 'regulier') {
-              if (loc['Openingstijd'] === '2023-11-22T07:30:00' && loc['Sluitingstijd'] === '2023-11-22T21:00:00') {
+              if (loc['Openingstijd'] === '2024-06-06T07:30:00' && loc['Sluitingstijd'] === '2024-06-06T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             } else if (openingstijden === 'afwijkend') {
-              if (loc['Openingstijd'] !== '2023-11-22T07:30:00' || loc['Sluitingstijd'] !== '2023-11-22T21:00:00') {
+              if (loc['Openingstijd'] !== '2024-06-06T07:30:00' || loc['Sluitingstijd'] !== '2024-06-06T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             }
@@ -392,85 +445,23 @@ export default {
         });
         StembureausApp.filtered_locations = temp_filtered_locations;
 
-        // Filter: toegankelijk voor mensen met een lichamelijke beperking
-        var temp_filtered_locations = [];
-        StembureausApp.filtered_locations.forEach(function (loc) {
-          var toegankelijk = filters['toegankelijk'];
-          if (toegankelijk) {
-            if (toegankelijk === '') {
-              temp_filtered_locations.push(loc);
-            } else if (loc['Toegankelijk voor mensen met een lichamelijke beperking'] === toegankelijk) {
-              temp_filtered_locations.push(loc);
-            }
-          } else {
-            temp_filtered_locations.push(loc);
-          }
-        });
-        StembureausApp.filtered_locations = temp_filtered_locations;
-
-        // Filter: visuele hulpmiddelen
-        var temp_filtered_locations = [];
-        StembureausApp.filtered_locations.forEach(function (loc) {
-          var this_filter = filters['visuele-hulpmiddelen'];
-          if (this_filter) {
-            if (this_filter === '') {
-              temp_filtered_locations.push(loc);
-            } else if (loc['Visuele hulpmiddelen']) {
+        // Filter: add all toegankelijkheidsfilters
+        toegankelijkheidsfilters.forEach((filter) => {
+          var temp_filtered_locations = [];
+          StembureausApp.filtered_locations.forEach(function (loc) {
+            var this_filter = filters[filter[1]];
+            if (this_filter) {
+              if (this_filter === '') {
+                temp_filtered_locations.push(loc);
+              } else if (loc[filter[0]] === this_filter) {
+                temp_filtered_locations.push(loc);
+              }
+            } else {
               temp_filtered_locations.push(loc);
             }
-          } else {
-            temp_filtered_locations.push(loc);
-          }
+          });
+          StembureausApp.filtered_locations = temp_filtered_locations;
         });
-        StembureausApp.filtered_locations = temp_filtered_locations;
-
-        // Filter: auditieve hulpmiddelen
-        var temp_filtered_locations = [];
-        StembureausApp.filtered_locations.forEach(function (loc) {
-          var this_filter = filters['auditieve-hulpmiddelen'];
-          if (this_filter) {
-            if (this_filter === '') {
-              temp_filtered_locations.push(loc);
-            } else if (loc['Auditieve hulpmiddelen']) {
-              temp_filtered_locations.push(loc);
-            }
-          } else {
-            temp_filtered_locations.push(loc);
-          }
-        });
-        StembureausApp.filtered_locations = temp_filtered_locations;
-
-        // Filter: gehandicaptentoilet
-        var temp_filtered_locations = [];
-        StembureausApp.filtered_locations.forEach(function (loc) {
-          var this_filter = filters['gehandicaptentoilet'];
-          if (this_filter) {
-            if (this_filter === '') {
-              temp_filtered_locations.push(loc);
-            } else if (loc['Gehandicaptentoilet'] === this_filter) {
-              temp_filtered_locations.push(loc);
-            }
-          } else {
-            temp_filtered_locations.push(loc);
-          }
-        });
-        StembureausApp.filtered_locations = temp_filtered_locations;
-
-        // Filter: akoestiek
-        var temp_filtered_locations = [];
-        StembureausApp.filtered_locations.forEach(function (loc) {
-          var this_filter = filters['akoestiek'];
-          if (this_filter) {
-            if (this_filter === '') {
-              temp_filtered_locations.push(loc);
-            } else if (loc['Akoestiek geschikt voor slechthorenden'] === this_filter) {
-              temp_filtered_locations.push(loc);
-            }
-          } else {
-            temp_filtered_locations.push(loc);
-          }
-        });
-        StembureausApp.filtered_locations = temp_filtered_locations;
       };
 
       // Create the popup which you see when you click on a marker
@@ -551,10 +542,7 @@ export default {
         output += akoestiek_labels[loc["Akoestiek geschikt voor slechthorenden"]];
         output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
 
-        output += '</br>';
-        output += '<b>Visuele hulpmiddelen</b> (NB: er is verplicht een leesloep aanwezig in elk stembureau): ' + loc["Visuele hulpmiddelen"] ;
-        output += '</br>';
-        output += '<b>Auditieve hulpmiddelen</b>: ' + loc["Auditieve hulpmiddelen"];
+        output += create_optional_fields(loc);
 
         output += '</span>';
 
@@ -653,45 +641,29 @@ export default {
       var filters = {
         //'dag': $('#dag-filter').val(),
         'openingstijden': $('#openingstijden-filter').val(),
-        'toegankelijk': $('.toegankelijk-filter').val(),
-        'visuele-hulpmiddelen': $('.visuele-hulpmiddelen-filter').val(),
-        'auditieve-hulpmiddelen': $('.auditieve-hulpmiddelen-filter').val(),
-        'gehandicapten': $('.gehandicapten-filter').val(),
-        'akoestiek': $('.akoestiek-filter').val(),
       };
+
+      toegankelijkheidsfilters.forEach((filter) => {
+        filters[filter[1]] = $(filter[2]).val();
+      });
 
       // The toegankelijkheidsfilter fields exist twice because of
       // responsiveness (one is always hidden); make sure that both fields
       // have the same value when one of them is changed.
-      $(".toegankelijk-filter").change(function() {
-        $(".toegankelijk-filter").val($(this).val());
-      });
-
-      $(".visuele-hulpmiddelen-filter").change(function() {
-        $(".visuele-hulpmiddelen-filter").val($(this).val());
-      });
-
-      $(".auditieve-hulpmiddelen-filter").change(function() {
-        $(".auditieve-hulpmiddelen-filter").val($(this).val());
-      });
-
-      $(".gehandicaptentoilet-filter").change(function() {
-        $(".gehandicaptentoilet-filter").val($(this).val());
-      });
-
-      $(".akoestiek-filter").change(function() {
-        $(".akoestiek-filter").val($(this).val());
+      toegankelijkheidsfilters.forEach((filter) => {
+        $(filter[2]).change(function() {
+          $(filter[2]).val($(this).val());
+        });
       });
 
       // Apply updates to the map if a filter is clicked
       $('.filter').change(function() {
         //filters['dag'] = $('#dag-filter').val();
         filters['openingstijden'] = $('#openingstijden-filter').val();
-        filters['toegankelijk'] = $('.toegankelijk-filter').val();
-        filters['visuele-hulpmiddelen'] = $('.visuele-hulpmiddelen-filter').val();
-        filters['auditieve-hulpmiddelen'] = $('.auditieve-hulpmiddelen-filter').val();
-        filters['gehandicaptentoilet'] = $('.gehandicaptentoilet-filter').val();
-        filters['akoestiek'] = $('.akoestiek-filter').val();
+
+        toegankelijkheidsfilters.forEach((filter) => {
+          filters[filter[1]] = $(filter[2]).val();
+        });
 
         StembureausApp.filter_map(filters);
         // Only run this on gemeente pages, which show stembureaus in the
