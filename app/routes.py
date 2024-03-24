@@ -124,7 +124,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2023-tk.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2024-ep.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []

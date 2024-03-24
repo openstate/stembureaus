@@ -4,46 +4,52 @@ Beste admin,
 Beste gemeente,
 {% endif %}
 
+Op 6 juni vinden de Europese Parlementsverkiezingen plaats. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal' (https://waarismijnstemlokaal.nl/), zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
 
-Op 22 november vinden de Tweede Kamerverkiezingen plaats. Hierbij nodigen wij u graag weer uit om deel te nemen aan het platform 'Waar is mijn stemlokaal', zodat we gezamenlijk ervoor kunnen zorgen dat de kiezer zo makkelijk mogelijk de weg naar de stembus kan vinden.
-
-'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund wordt door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 86% van alle gemeenten de gegevens aan en is de website bijna 900.000 keer gebruikt. De gegevens worden ook als open data beschikbaar gesteld via data.overheid.nl en werden op die manier ook nog bijna 400.000 keer getoond op bijvoorbeeld (lokale) nieuwswebsites.
+'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 90% van alle gemeenten de gegevens aan en is de website bijna 800.000 keer gebruikt. De gegevens worden ook als open data beschikbaar gesteld via data.overheid.nl en werden op die manier nog honderdduizenden keren getoond op bijvoorbeeld (lokale) nieuwswebsites.
 
 ** Wat vragen we van u? **
-Graag ontvangen wij van u informatie over uw stembureaus. Onderaan vindt u meer instructies, maar het proces is simpel:
+Graag ontvangen wij van u informatie over alle stembureaus in uw gemeente. Onderaan vindt u meer instructies, maar er zijn drie simpele manieren om uw stembureaus toe te voegen:
 
-  - Maak een wachtwoord aan voor uw account en log in met uw e-mailadres {{ user.email }} via {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
-  - Download, bewerk en upload de deels vooringevulde stembureau-spreadsheet of voer uw stembureaus direct via het webformulier in
-  - Klik op de 'Publiceer'-knop om uw stembureaus op de kaart te plaatsen en de data beschikbaar te maken
-  - Optioneel: embed de handige kaart met stembureaus op uw gemeentewebsite
+    1. Log in en download een deels vooringevuld of leeg stembureau-spreadsheet en voer daar (de wijzigingen van) uw stembureaus in. Vervolgens uploadt u de spreadsheet op de website en klikt u op de 'Publiceer'-knop;
+    2. of, log in en voer de stembureaus direct in via het webformulier en klik daarna op de 'Publiceer'-knop;
+    3. of, geautomatiseerd aanleveren van de stembureaugegevens via een koppeling met uw stembureausoftware als uw gemeente gebruik maakt van Stembureaumanager of Elektor (en binnenkort Procura Verkiezingen). Verderop in deze e-mail staan verdere instructies.
 
-De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de verkiezingen van 15 maart 2023. U kunt daar veranderingen in uw stembureaus doorvoeren.
+Voor manieren 1 en 2 moet u inloggen. Maak een wachtwoord aan voor uw account, daarna kunt u met uw e-mailadres {{ user.email }} inloggen: {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
 
-NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus doorgeven.
+Optioneel: nadat u uw stembureaus gepubliceerd heeft kunt u de handige kaart met stembureaus op uw gemeentewebsite embedden/insluiten.
+
+Ter info: De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Tweede Kamerverkiezingen van 22 november 2023. U kunt daar de wijzigingen in uw stembureaus doorvoeren.
+
+NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus invoeren.
 
 ** Hoe kan ik inloggen? **
-Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een wachtwoord aan te maken voor uw account op de volgende pagina:
+Er is al een account voor uw gemeente aangemaakt met het e-mailadres {{ user.email }}. Om in te loggen hoeft u alleen nog een wachtwoord aan te maken voor uw account:
 {{ url_for('user_reset_wachtwoord', token=token, _external=True) }}
 
 Deze pagina komt over 24 uur te vervallen, dus maak alvast een account aan. Mocht u niet binnen die tijd een wachtwoord aangemaakt hebben dan kunt u een nieuw verzoek indienen via {{ url_for('user_reset_wachtwoord_verzoek', _external=True) }}.
 
 ** Instructies **
-De instructies voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd (binnenkort plaatsen wij daar ook nog een instructievideo). U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://WaarIsMijnStemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
+De volledige instructies, inclusief video's, voor het invoeren van de stembureaus vindt u op de website nadat u bent ingelogd. U kunt deze ook als PDF downloaden en bijvoorbeeld printen. We raden u aan deze door te nemen: https://WaarIsMijnStemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf
 
 ** Extra account toevoegen **
-Als u een ander account wilt toevoegen voor uw gemeente, vul dan dit formulier in. Dit is handig als u één of meerdere collega's ook toegang wilt geven: {{ url_for('signup_form', _external=True) }}
+Als u een ander account wilt toevoegen voor uw gemeente, vul dan het volgende formulier in. Dit is handig als u één of meerdere collega's ook toegang wilt geven: {{ url_for('signup_form', _external=True) }}
 
 ** Geautomatiseerd aanleveren van de stembureaugegevens **
-We willen het aanleveren van de stembureaugegevens zo makkelijk mogelijk maken. Idealiter zou er een koppeling zijn tussen alle stembureausoftware die door gemeenten gebruikt worden en 'Waar is mijn stemlokaal' (volgens de Common Ground principes van VNG: https://vng.nl/artikelen/common-ground). Zo'n koppeling bestaat al met Stembureaumanager (SBM) van Partners 4 IT: https://stembureaumanager.nl. Gemeenten die deze software gebruiken kunnen daarin de 'Waar is mijn stemlokaal API' module aanzetten. Alle stembureaus en eventuele latere wijzigingen worden dan automatisch ingeladen in 'Waar is mijn stemlokaal'.
+Veel gemeenten beheren de gegevens van hun stembureaus via speciale stembureausoftware. Wij hebben inmiddels al enkele koppelingen met zulke software gemaakt, waardoor alle stembureaugegevens en eventuele latere wijzigingen automatisch worden ingeladen in 'Waar is mijn stemlokaal' (volgens de Common Ground principes van VNG: https://vng.nl/artikelen/common-ground). Dit is de simpelste manier om uw stembureaus aan te leveren, want het enige dat u hoeft te doen is de koppeling in uw stembureausoftware aanzetten. Maakt uw gemeente gebruik van onderstaande stembureausoftware, activeer dan de koppeling (de gegevens worden daarna binnen een uur ingeladen):
+
+    - Stembureaumanager (SBM) van Partners 4 IT (https://stembureaumanager.nl/): zet de 'Waar is mijn stemlokaal API'-module aan.
+    - Elektor van TSA Verkiezingen (https://www.tsaverkiezingen.nl/producten/elektor): via de optie Stembureaus --> Verkiezinginbeeld.nl.
+    - Procura Verkiezingen (https://www.procura.nl/verkiezingen/software/): nog in ontwikkeling, met als doel beschikbaar te zijn nog voor de verkiezingen.
 
 Maakt uw gemeente gebruik van andere stembureausoftware en wilt u ook gebruik maken van geautomatiseerde aanlevering? Vraag uw softwareleverancier dan om contact op te nemen via stemlokaal@openstate.eu.
 
 ** Vragen of contact? **
-Heeft u vragen? Neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.
+Antwoorden op de meeste vragen die wij ontvangen staan in de instructies: https://waarismijnstemlokaal.nl/files/Instructies_Waar-is-mijn-stemlokaal.pdf. Komt u daar niet uit of heeft u andere vragen, neem dan contact op met stemlokaal@openstate.eu van Open State Foundation.
 
 
 Met vriendelijke groet,
 Open State Foundation namens WaarIsMijnStemlokaal.nl
-Mail: stemlokaal@openstate.eu
-Tel: 020 308 0567
+E-mail: stemlokaal@openstate.eu
+Telefoon: 020 308 0567
 Kattenburgerstraat 5, 1018 JA, Amsterdam

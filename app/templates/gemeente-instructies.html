@@ -26,7 +26,7 @@
     </ol>
 
     <h4>Manier 1: stembureau-spreadsheet downloaden en uploaden</h4>
-    <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>deels vooringevuld stembureau-spreadsheet</b> downloaden. Deze is ingevuld op basis van de stembureaus van de verkiezingen van 15 maart 2023. U kunt dit stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen.</p>
+    <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>deels vooringevuld stembureau-spreadsheet</b> downloaden. Deze is ingevuld op basis van de stembureaus van de Tweede Kamerverkiezingen van 22 november 2023. U kunt dit stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen.</p>
 
     <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>'leeg' stembureau-spreadsheet</b> downloaden en daarin de stembureaus van uw gemeente invullen.<p>
 
@@ -41,10 +41,11 @@
 
     <h4 class="anchor-offset" id="manier-3-geautomatiseerd-aanleveren">Manier 3: geautomatiseerd aanleveren van de stembureaugegevens</h4>
     <p>
-       We willen het aanleveren van de stembureaugegevens zo makkelijk mogelijk maken. Idealiter zou er een koppeling zijn tussen alle stembureausoftware die door gemeenten gebruikt worden en 'Waar is mijn stemlokaal' (volgens de <a href="https://vng.nl/artikelen/common-ground" target="_blank" rel="noopener">Common Ground</a> principes van VNG). Alle stembureaus en eventuele latere wijzigingen worden dan automatisch ingeladen in 'Waar is mijn stemlokaal'. Zo'n koppeling bestaat al met:
+      Veel gemeenten beheren de gegevens van hun stembureaus via speciale stembureausoftware. Wij hebben inmiddels al enkele koppelingen met zulke software gemaakt, waardoor alle stembureaugegevens en eventuele latere wijzigingen automatisch worden ingeladen in 'Waar is mijn stemlokaal' (volgens de <a href="https://vng.nl/artikelen/common-ground" target="_blank" rel="noopener">Common Ground</a> principes van VNG). Dit is de simpelste manier om uw stembureaus aan te leveren, want het enige dat u hoeft te doen is de koppeling in uw stembureausoftware aanzetten. Maakt uw gemeente gebruik van onderstaande stembureausoftware, activeer dan de koppeling (de gegevens worden daarna binnen een uur ingeladen):
         <ul>
             <li><a href="https://stembureaumanager.nl/" target="_blank" rel="noopener">Stembureaumanager</a> (SBM) van Partners 4 IT: zet de 'Waar is mijn stemlokaal API'-module aan.
-            <li><a href="https://www.verkiezingsportal.nl/" target="_blank" rel="noopener">TSA Verkiezingen</a>: via de optie Stembureaus --> Verkiezinginbeeld.nl.
+            <li><a href="https://www.tsaverkiezingen.nl/producten/elektor" target="_blank" rel="noopener">Elektor</a> van TSA Verkiezingen: via de optie Stembureaus --&gt; Verkiezinginbeeld.nl.</li>
+            <li><a href="https://www.procura.nl/verkiezingen/software/" target="_blank" rel="noopener">Procura Verkiezingen</a>: nog in ontwikkeling, met als doel beschikbaar te zijn nog voor de verkiezingen.</li>
         </ul>
     </p>
 
@@ -53,13 +54,13 @@
     {% include "uitleg-videos.html" %}
 
     <h2>Correcties</h2>
-    <p>Mocht u na het publiceren van uw stembureaus nog iets willen aanpassen dan kan dat nog tot 4 dagen voor de verkiezingen. Ga naar de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> en klik op de blauwe 'Stembureaus'-knop om naar het overzicht te gaan. Klik op de '[bewerk]'-link links van een stembureau om deze te bewerken of te verwijderen. Of voeg een nieuwe stembureau toe. Als u gebruik maakt van een stembureau-spreadsheet dan kunt ook daar uw aanpassingen doorvoeren en deze opnieuw uploaden. Let op: dit vervangt alle stembureaus die u eerder heeft toegevoegd.</p>
+    <p>Mocht u na het publiceren van uw stembureaus nog iets willen aanpassen dan kan dat. Ga naar de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> en klik op de blauwe 'Stembureaus'-knop om naar het overzicht te gaan. Klik op de '[bewerk]'-link links van een stembureau om deze te bewerken of te verwijderen. Of voeg een nieuw stembureau toe. Als u gebruik maakt van een stembureau-spreadsheet dan kunt ook daar uw aanpassingen doorvoeren en deze opnieuw uploaden. Let op: dit vervangt alle stembureaus die u eerder heeft toegevoegd.</p>
 
     <h2>Kaartvisualisaties en open data</h2>
     <p>Zodra de stembureaus gepubliceerd zijn kunnen gebruikers van dit platform de locaties op de <a href="{{ url_for('index') }}">kaart</a> zien en een stembureau vinden op basis van een ingevoerd adres of huidige locatie.</p>
 
     <h3>Embedden/Insluiten</h3>
-    <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>). De embedcode voor heel Nederland vindt u op de <a href="{{ url_for('over_deze_website') }}">over deze website-pagina</a>.</p>
+    <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="Pekela") }}">Pekela</a>). De embedcode voor heel Nederland vindt u op de <a href="{{ url_for('over_deze_website') }}">over deze website-pagina</a>.</p>
 
     <h3>Open data</h3>
     <p>De gegevens worden automatisch als open databestanden aangeboden in CSV-formaat en via een API. De data is beschikbaar via <a href="https://ckan.dataplatform.nl/organization/open-state-foundation" target="_blank" rel="noopener">Dataplatform</a> en wordt ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/community/organization/openstatefoundation" target="_blank" rel="noopener">https://data.overheid.nl/community/organization/OpenStateFoundation</a>. Zo kan iedereen toepassingen maken met de data.</p>
@@ -73,11 +74,11 @@
 
     <h2>Geografische informatie: BAG Nummeraanduiding ID, Latitude/Longitude en X/Y rijksdriehoekscoördinaten</h2>
     <b>BAG Nummeraanduiding ID (enkel relevant voor stembureau-spreadsheet)</b>
-    <p>In het "BAG Nummeraanduiding ID"-veld moet het BAG Nummeraanduiding ID van het adres waar het stembureau zich bevindt ingevuld worden. Het nummer kan snel gevonden worden via <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">bagviewer.kadaster.nl</a>. Vul daar in de zoekbalk het adres van het stembureau in. Het nummer staat nu rechts onder het kopje "Nummeraanduiding" in het "ID"-veld. Als alternatief kunt u uw stembureaus invullen via het webformulier. Daar hoeft u geen Bag Nummeraanduiding ID in te vullen, maar kunt u direct het adres invoeren.</p>
+    <p>In het "BAG Nummeraanduiding ID"-veld moet het BAG Nummeraanduiding ID van het adres waar het stembureau zich bevindt ingevuld worden. Het nummer kan snel gevonden worden via <a href="https://bagviewer.kadaster.nl/" target="_blank" rel="noopener">bagviewer.kadaster.nl</a>. Vul daar in de zoekbalk het adres van het stembureau in. Het nummer staat nu rechts onder het kopje "Nummeraanduiding" in het "ID"-veld. Als alternatief kunt u uw stembureaus invullen via het webformulier. Daar hoeft u geen BAG Nummeraanduiding ID in te vullen, maar kunt u direct het adres invoeren.</p>
 
     <p>Vermeld voor mobiele stembureaus die vlakbij een gebouw staan of locaties zonder BAG Nummeraanduiding ID het BAG Nummeraanduiding ID van het dichtstbijzijnde gebouw en gebruik eventueel het 'Extra adresaanduiding'-veld om de locatie van stembureau te beschrijven. Mocht een (mobiel) stembureau niet in de buurt van een gebouw staan, voer dan '0000000000000000' (zestien keer het getal '0') in; 'Extra adresaanduiding'-attribuut is dan verplicht. NB: de precieze locatie geeft u aan met de "Latitude" én "Longitude"-velden of met de "X" én "Y"-velden.</p>
 
-    <b>latitude/longitude en x/y (optioneel)</b>
+    <b>Optioneel: latitude/longitude en x/y</b>
     <p>De locatie van een stembureau wordt automatisch opgehaald op basis van het ingevulde adres (webformulier) of de BAG Nummeraanduiding ID (stembureau-spreadsheet). Wilt u de precieze locatie van het stembureau aanpassen dan kan dat. In het webformulier kunt u op het kaartje het potlood-icoontje verslepen naar de juiste plek. Een andere manier die zowel voor het webformulier als voor de stembureau-spreadsheet werkt is door óf de "Latitude" en "Longitude"-velden invullen óf de "X" en "Y"-velden (Rijksdriehoeksstelsel). U kunt dus de keuze maken uit één van deze twee coördinatenstelsels. Als u de latitude en longitude van het stembureau niet weet dan kunt u dit vinden via <a href="https://openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap.org</a>. Zoom zo ver mogelijk in op de locatie van het stembureau, klik daar met de rechtermuisknop en selecteer "Show address"/"Toon adres". De latitude en longitude (in die volgorde) staan nu linksboven in de zoekbalk (zie ook de afbeelding hieronder).</p>
 
     <img class="center-block img-responsive" src="{{ url_for('static', filename='dist/images/instructie_osm.png', _external=True) }}" alt="Screenshot van OpenStreetMap.org" />
@@ -105,6 +106,6 @@
     <p>Heeft u vragen over het platform na het lezen van deze instructies? Stuur dan een e-mail naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.</p>
 
     <h2>PDF</h2>
-    <p>U kunt deze instructies ook als <a href="/files/Instructies_Waar-is-mijn-stemlokaal.pdf">PDF downloaden</a> en bijvoorbeeld printen.</p>
+    <p>U kunt deze instructies ook als <a href="/files/Instructies_Waar-is-mijn-stemlokaal.pdf" target="_blank">PDF downloaden</a> en bijvoorbeeld printen.</p>
   </div>
 {% endblock %}

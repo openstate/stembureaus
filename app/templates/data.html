@@ -8,10 +8,10 @@
 {% block content %}
   <div class="container">
     <h1 class="text-center">Data</h1>
-    <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data wordt direct aangeleverd door gemeenten. Als een gemeente 4 dagen voor de verkiezingen geen stembureaus heeft aangeleverd dan wordt deze informatie aangevuld (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
+    <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data wordt direct aangeleverd door gemeenten. Als een gemeente zelf geen stembureaus heeft aangeleverd dan worden deze verzameld door Open State Foundation (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
     <h2>Embedden/Insluiten</h2>
-    <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="'s-Gravenhage") }}">Den Haag</a>).</p>
+    <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="Pekela") }}">Pekela</a>).</p>
 
     <p>De embedcode voor de kaart van heel Nederland:
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
@@ -28,6 +28,13 @@
           <th>Standaard versie</th>
           <th>Data</th>
           <th>Opmerkingen</th>
+        </tr>
+        <tr>
+          <td>2024-06-06</td>
+          <td>Europese Parlementsverkiezingen 2024</td>
+          <td>Stembureaus ODS v1.6</td>
+          <td><a href="https://ckan.dataplatform.nl/dataset/stembureaus-europese-parlementsverkiezingen-2024" target="_blank" rel="noopener">Metadata</a>, <a href="https://ckan.dataplatform.nl/dataset/stembureaus-europese-parlementsverkiezingen-2024/resource/b6061c88-3736-4ab4-bcbf-ba8e980e0fe7" target="_blank" rel="noopener">Data Explorer en API</a>, <a href="https://ckan.dataplatform.nl/datastore/dump/b6061c88-3736-4ab4-bcbf-ba8e980e0fe7" rel="noopener">CSV</a> en <a href="https://ckan.dataplatform.nl/api/3/action/datastore_search?resource_id=b6061c88-3736-4ab4-bcbf-ba8e980e0fe7&limit=100000" rel="noopener">JSON</a></td>
+          <td><a href="/files/niet-deelnemende-gemeenten-2024-ep.csv">Deze gemeenten</a> hebben hun gegevens niet zelf aangeleverd en zijn verzameld door Open State Foundation (dit is pas bekend vlak voor de verkiezingen, tot die tijd is dit bestand leeg)</td>
         </tr>
       </table>
     </div>
