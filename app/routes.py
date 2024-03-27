@@ -202,9 +202,11 @@ def after_request_callback(response):
 @app.route("/")
 def index():
     records = get_stembureaus(ckan.elections)
+    number_of_published_gemeenten = len(set(record['CBS gemeentecode'] for record in records))
     return render_template(
         'index.html',
         records=[_hydrate(record, 'default') for record in records],
+        number_of_published_gemeenten=number_of_published_gemeenten,
         alle_gemeenten=alle_gemeenten,
         show_search=True
     )
