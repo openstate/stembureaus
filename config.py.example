@@ -22,9 +22,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:<DB_PASSWORD>@mysql:3306/stembureaus'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # If 'False', allows gemeenten to add stembureaus. Set to 'True' 5
-    # days before the election as gemeenten are not allowed to add/edit
-    # stembureaus after this deadline.
+    # If 'False', allows gemeenten to add stembureaus. Set to 'True' once the
+    # election day has passed as gemeenten are not allowed to add/edit
+    # stembureaus anymore.
     UPLOAD_DEADLINE_PASSED = False
 
     # Path for waarismijnstemlokaal.nl/<SIGNUP_FORM_PATH>
