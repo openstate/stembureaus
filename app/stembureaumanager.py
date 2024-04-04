@@ -176,7 +176,7 @@ class StembureauManager(APIManager):
 
     # Retrieve the stembureaus of a municipality from the API
     def _request_municipality(self, municipality_id):
-        #  [API_DOMAIN]/api/stembureau/gemeente?id=<GM_CODE>
+        # [API_DOMAIN]/api/stembureau/gemeente?id=<GM_CODE>
         return self._request('gemeente', params={'id': municipality_id})
 
     def run(self):

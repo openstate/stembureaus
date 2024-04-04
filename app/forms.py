@@ -219,7 +219,7 @@ def valid_bag(form, field):
 # Checks if 'nee' or similar is entered in a text field where we don't allow
 # that. See https://github.com/openstate/stembureaus/issues/65 for more info.
 def no_no(form, field):
-    if re.match(r'^\s*\bnee\b|\bgeen\b|-|/|_|\bniks\b\s*$', str(field.data), re.IGNORECASE):
+    if re.match(r'^\s*(nee|geen|-|/|_|niks)\s*$', str(field.data), re.IGNORECASE):
         raise ValidationError(
             'Vul geen \'nee\', \'geen\' en dergelijke in; laat dit veld in '
             'zo\'n geval leeg'

@@ -53,7 +53,7 @@ if not app.debug:
         app.logger.addHandler(mail_handler)
 
 def jinja_dateformat_filter(timestamp):
-    return datetime.fromisoformat(timestamp).strftime('%A %d %B')
+    return datetime.fromisoformat(timestamp).strftime('%A %-d %B')
 app.jinja_env.filters['format_date'] = jinja_dateformat_filter
 
 # Log info messages and up to file

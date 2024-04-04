@@ -33,24 +33,6 @@
 
       <div class="edit-form">
         <form method="POST" action="">
-          <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
-                </div>
-                <div class="modal-body">
-                  Weet u zeker dat u dit stembureau wilt verwijderen?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                  {{ form.submit_verwijderen }}
-                </div>
-              </div>
-            </div>
-          </div>
-
           {{ form.csrf_token }}
           {% for f in form %}
             {% if f.label.text == 'Latitude' %}
@@ -136,6 +118,23 @@
 
           {{ form.submit }} {{ form.submit_annuleren }} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#remove-confirmation">Verwijderen</button>
 
+          <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                </div>
+                <div class="modal-body">
+                  Weet u zeker dat u dit stembureau wilt verwijderen?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                  {{ form.submit_verwijderen }}
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     {% endif %}
