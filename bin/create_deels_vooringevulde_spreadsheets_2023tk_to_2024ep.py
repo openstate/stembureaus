@@ -34,8 +34,9 @@ old_fieldnames = [
     'Website locatie',
     'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
-    'X',
-    'Y',
+    # X en Y weglaten, want Lat/Long zijn toch leidend en dit geeft problemen bij de BES-eilanden?
+    #'X',
+    #'Y',
     'Latitude',
     'Longitude',
     'Openingstijd',
@@ -59,8 +60,9 @@ new_fieldnames = [
     'Website locatie',
     'BAG Nummeraanduiding ID',
     'Extra adresaanduiding',
-    'X',
-    'Y',
+    # X en Y weglaten, want Lat/Long zijn toch leidend en dit geeft problemen bij de BES-eilanden?
+    #'X',
+    #'Y',
     'Latitude',
     'Longitude',
     'Openingstijd',

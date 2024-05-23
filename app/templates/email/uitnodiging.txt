@@ -9,7 +9,7 @@ Op 6 juni vinden de Europese Parlementsverkiezingen plaats. Hierbij nodigen wij 
 'Waar is mijn stemlokaal' is het platform waar gemeenten informatie over stembureaus voor iedereen beschikbaar maken. Het initiatief wordt gesteund door het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad. Tijdens de afgelopen verkiezingen leverde 90% van alle gemeenten de gegevens aan en is de website bijna 800.000 keer gebruikt. De gegevens worden ook als open data beschikbaar gesteld via data.overheid.nl en werden op die manier nog honderdduizenden keren getoond op bijvoorbeeld (lokale) nieuwswebsites.
 
 ** Wat vragen we van u? **
-Graag ontvangen wij van u informatie over alle stembureaus in uw gemeente. Onderaan vindt u meer instructies, maar er zijn drie simpele manieren om uw stembureaus toe te voegen:
+Graag ontvangen wij van u informatie over alle stembureaus in uw gemeente. Onderaan vindt u meer instructies, maar er zijn drie simpele manieren om uw stembureaus aan te leveren:
 
     1. Log in en download een deels vooringevuld of leeg stembureau-spreadsheet en voer daar (de wijzigingen van) uw stembureaus in. Vervolgens uploadt u de spreadsheet op de website en klikt u op de 'Publiceer'-knop;
     2. of, log in en voer de stembureaus direct in via het webformulier en klik daarna op de 'Publiceer'-knop;
