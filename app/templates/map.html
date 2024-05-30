@@ -4,198 +4,76 @@
     <div style="padding-left: 10px">
       <!--h3>Datum & tijdstip</h3>
       <label>
-        Verkiezingsdag
-        <select class="form-control filter" id="dag-filter">
-          <option value="" selected>(toon alle dagen)</option>
-          <option value="14">maandag 14 maart</option>
-          <option value="15">dinsdag 15 maart</option>
-          <option value="16">woensdag 16 maart</option>
-        </select>
+        <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse00" aria-expanded="false" aria-controls="collapse00">Verkiezingsdag</a>
+        <div class="collapse" id="collapse00">
+          <select class="form-control filter" id="dag-filter">
+            <option value="" selected>(toon alle dagen)</option>
+            <option value="14">maandag 14 maart</option>
+            <option value="15">dinsdag 15 maart</option>
+            <option value="16">woensdag 16 maart</option>
+          </select>
+        </div>
       </label-->
       <label>
-        Openingstijden
-        <select class="form-control filter" id="openingstijden-filter">
-          <option value="" selected>(toon alles)</option>
-          <option value="regulier">Regulier (07:30 - 21:00)</option>
-          <option value="afwijkend">Afwijkend</option>
-        </select>
+        <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse0" aria-expanded="false" aria-controls="collapse0">Openingstijden</a>
+        <div class="collapse" id="collapse0">
+          <select class="form-control filter" id="openingstijden-filter">
+            <option value="" selected>(toon alles)</option>
+            <option value="regulier">Regulier (07:30 - 21:00)</option>
+            <option value="afwijkend">Afwijkend</option>
+          </select>
+        </div>
       </label>
-      <br>
 
       <div class="visible-md-block visible-lg-block">
         <h3>Toegankelijkheid</h3>
         <label>
-          Toegankelijk voor mensen met een lichamelijke beperking
-          <br>
-          <select class="form-control filter toegankelijk-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Toegankelijke ov-halte
-          <br>
-          <select class="form-control filter toegankelijke-ov-halte-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Gehandicaptentoilet
-          <br>
-          <select class="form-control filter gehandicaptentoilet-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Host
-          <br>
-          <select class="form-control filter host-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Geleidelijnen
-          <br>
-          <select class="form-control filter geleidelijnen-filter">
-            <option value="" selected></option>
-            <option value="buiten en binnen">Buiten en binnen</option>
-            <option value="buiten">Buiten</option>
-            <option value="binnen">Binnen</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Stemmal met audio-ondersteuning
-          <br>
-          <select class="form-control filter stemmal-met-audio-ondersteuning-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Kandidatenlijst in braille
-          <br>
-          <select class="form-control filter kandidatenlijst-in-braille-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Kandidatenlijst met grote letters
-          <br>
-          <select class="form-control filter kandidatenlijst-met-grote-letters-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Gebarentolk (NGT)
-          <br>
-          <select class="form-control filter gebarentolk-ngt-filter">
-            <option value="" selected></option>
-            <option value="op locatie">Op locatie</option>
-            <option value="op afstand">Op afstand</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Gebarentalig stembureaulid (NGT)
-          <br>
-          <select class="form-control filter gebarentalig-stembureaulid-ngt-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Akoestiek geschikt voor slechthorenden
-          <br>
-          <select class="form-control filter akoestiek-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-        <br>
-        <label>
-          Prikkelarm
-          <br>
-          <select class="form-control filter prikkelarm-filter">
-            <option value="" selected></option>
-            <option value="ja">Ja</option>
-            <option value="nee">Nee</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="visible-xs-block visible-sm-block">
-        <button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-          Toegankelijkheidsfilters
-        </button>
-        <div class="collapse" id="collapseFilter">
-          <h3>Toegankelijkheid</h3>
-          <label>
-            Toegankelijk voor mensen met een lichamelijke beperking
-            <br>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">Toegankelijk voor mensen met een lichamelijke beperking</a>
+          <div class="collapse" id="collapse1">
             <select class="form-control filter toegankelijk-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <label>
-            Toegankelijke ov-halte
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">Toegankelijke ov-halte</a>
+          <div class="collapse" id="collapse2">
             <select class="form-control filter toegankelijke-ov-halte-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Gehandicaptentoilet
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">Gehandicaptentoilet</a>
+          <div class="collapse" id="collapse3">
             <select class="form-control filter gehandicaptentoilet-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Host
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse4" aria-expanded="false" aria-controls="collapse4">Host</a>
+          <div class="collapse" id="collapse4">
             <select class="form-control filter host-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Geleidelijnen
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse5" aria-expanded="false" aria-controls="collapse5">Geleidelijnen</a>
+          <div class="collapse" id="collapse5">
             <select class="form-control filter geleidelijnen-filter">
               <option value="" selected></option>
               <option value="buiten en binnen">Buiten en binnen</option>
@@ -203,79 +81,227 @@
               <option value="binnen">Binnen</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Stemmal met audio-ondersteuning
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse6" aria-expanded="false" aria-controls="collapse6">Stemmal met audio-ondersteuning</a>
+          <div class="collapse" id="collapse6">
             <select class="form-control filter stemmal-met-audio-ondersteuning-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Kandidatenlijst in braille
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse7" aria-expanded="false" aria-controls="collapse7">Kandidatenlijst in braille</a>
+          <div class="collapse" id="collapse7">
             <select class="form-control filter kandidatenlijst-in-braille-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Kandidatenlijst met grote letters
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse8" aria-expanded="false" aria-controls="collapse8">Kandidatenlijst met grote letters</a>
+          <div class="collapse" id="collapse8">
             <select class="form-control filter kandidatenlijst-met-grote-letters-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Gebarentolk (NGT)
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse9" aria-expanded="false" aria-controls="collapse9">Gebarentolk (NGT)</a>
+          <div class="collapse" id="collapse9">
             <select class="form-control filter gebarentolk-ngt-filter">
               <option value="" selected></option>
               <option value="op locatie">Op locatie</option>
               <option value="op afstand">Op afstand</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Gebarentalig stembureaulid (NGT)
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse10" aria-expanded="false" aria-controls="collapse10">Gebarentalig stembureaulid (NGT)</a>
+          <div class="collapse" id="collapse10">
             <select class="form-control filter gebarentalig-stembureaulid-ngt-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Akoestiek geschikt voor slechthorenden
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse11" aria-expanded="false" aria-controls="collapse11">Akoestiek geschikt voor slechthorenden</a>
+          <div class="collapse" id="collapse11">
             <select class="form-control filter akoestiek-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
-          </label>
-          <br>
-          <label>
-            Prikkelarm
-            <br>
+          </div>
+        </label>
+        <br>
+        <label>
+          <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse12" aria-expanded="false" aria-controls="collapse12">Prikkelarm</a>
+          <div class="collapse" id="collapse12">
             <select class="form-control filter prikkelarm-filter">
               <option value="" selected></option>
               <option value="ja">Ja</option>
               <option value="nee">Nee</option>
             </select>
+          </div>
+        </label>
+      </div>
+
+      <div class="visible-xs-block visible-sm-block">
+        <button class="btn btn-default btn" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+          Toegankelijkheidsfilters
+        </button>
+        <div class="collapse" id="collapseFilter">
+          <h3>Toegankelijkheid</h3>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-1" aria-expanded="false" aria-controls="collapse-xs-1">Toegankelijk voor mensen met een lichamelijke beperking</a>
+            <div class="collapse" id="collapse-xs-1">
+              <select class="form-control filter toegankelijk-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
           </label>
           <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-2" aria-expanded="false" aria-controls="collapse-xs-2">Toegankelijke ov-halte</a>
+            <div class="collapse" id="collapse-xs-2">
+              <select class="form-control filter toegankelijke-ov-halte-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-3" aria-expanded="false" aria-controls="collapse-xs-3">Gehandicaptentoilet</a>
+            <div class="collapse" id="collapse-xs-3">
+              <select class="form-control filter gehandicaptentoilet-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-4" aria-expanded="false" aria-controls="collapse-xs-4">Host</a>
+            <div class="collapse" id="collapse-xs-4">
+              <select class="form-control filter host-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-5" aria-expanded="false" aria-controls="collapse-xs-5">Geleidelijnen</a>
+            <div class="collapse" id="collapse-xs-5">
+              <select class="form-control filter geleidelijnen-filter">
+                <option value="" selected></option>
+                <option value="buiten en binnen">Buiten en binnen</option>
+                <option value="buiten">Buiten</option>
+                <option value="binnen">Binnen</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-6" aria-expanded="false" aria-controls="collapse-xs-6">Stemmal met audio-ondersteuning</a>
+            <div class="collapse" id="collapse-xs-6">
+              <select class="form-control filter stemmal-met-audio-ondersteuning-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-7" aria-expanded="false" aria-controls="collapse-xs-7">Kandidatenlijst in braille</a>
+            <div class="collapse" id="collapse-xs-7">
+              <select class="form-control filter kandidatenlijst-in-braille-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-8" aria-expanded="false" aria-controls="collapse-xs-8">Kandidatenlijst met grote letters</a>
+            <div class="collapse" id="collapse-xs-8">
+              <select class="form-control filter kandidatenlijst-met-grote-letters-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-9" aria-expanded="false" aria-controls="collapse-xs-9">Gebarentolk (NGT)</a>
+            <div class="collapse" id="collapse-xs-9">
+              <select class="form-control filter gebarentolk-ngt-filter">
+                <option value="" selected></option>
+                <option value="op locatie">Op locatie</option>
+                <option value="op afstand">Op afstand</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-10" aria-expanded="false" aria-controls="collapse-xs-10">Gebarentalig stembureaulid (NGT)</a>
+            <div class="collapse" id="collapse-xs-10">
+              <select class="form-control filter gebarentalig-stembureaulid-ngt-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-11" aria-expanded="false" aria-controls="collapse-xs-11">Akoestiek geschikt voor slechthorenden</a>
+            <div class="collapse" id="collapse-xs-11">
+              <select class="form-control filter akoestiek-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
+          <br>
+          <label>
+            <a class="filter-collapse collapsed" data-toggle="collapse" href="#collapse-xs-12" aria-expanded="false" aria-controls="collapse-xs-12">Prikkelarm</a>
+            <div class="collapse" id="collapse-xs-12">
+              <select class="form-control filter prikkelarm-filter">
+                <option value="" selected></option>
+                <option value="ja">Ja</option>
+                <option value="nee">Nee</option>
+              </select>
+            </div>
+          </label>
         </div>
       </div>
     </div>

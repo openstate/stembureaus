@@ -39,7 +39,7 @@ a {
 
 .filter {
   display: inline-block;
-  width: 180px !important;
+  width: 200px !important;
 }
 
 .background-lighter-grey {
@@ -171,6 +171,22 @@ dd {
   background: url('/static/dist/images/loading.svg');
   width: 32px;
   height: 32px;
+}
+
+.filter-collapse {
+  color: $black;
+  text-decoration: none;
+}
+
+.filter-collapse:before {
+  font-family: 'Glyphicons Halflings';
+  content: "\e113\00a0";
+  float: left;
+  color: grey;
+}
+
+.filter-collapse.collapsed:before {
+  content: "\e114\00a0";
 }
 
 .leaflet-control {
@@ -305,12 +321,6 @@ dd {
   .btn-group .btn {
     padding: 6px 4px;
     font-size: 12px;
-  }
-
-  .filter {
-    margin: 7px 0;
-    padding: 6px 0;
-    width: 160px !important;
   }
 
   .nlmaps-geocoder-control-container,
