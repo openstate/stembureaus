@@ -87,6 +87,10 @@ class Config(object):
     TSA_BASE_URL = ''
     TSA_API_KEY = ''
 
+    # Procura URL and API Key
+    PROCURA_BASE_URL = ''
+    PROCURA_API_KEY = ''
+
     MAIL_SERVER = ''
     MAIL_PORT = ''
     MAIL_USE_TLS = True
