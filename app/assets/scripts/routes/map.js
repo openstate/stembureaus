@@ -90,37 +90,21 @@ export default {
 
     // List gemeenten on the homepage
     StembureausApp.show_gemeenten = function (matches, query) {
-      $('#results-search-gemeenten').empty();
-      for (var i=0; i < matches.length; i++) {
-
-        // Deal with alternative municipality names
-        var gemeente_uri = matches[i]['item']['gemeente_naam']
-        if (matches[i]['item']['gemeente_naam'] == 'Den Haag') {
-          gemeente_uri = "'s-Gravenhage"
-        }
-        else if (matches[i]['item']['gemeente_naam'] == 'Den Bosch') {
-          gemeente_uri = "'s-Hertogenbosch"
-        }
-        else if (matches[i]['item']['gemeente_naam'] == 'De Friese Meren') {
-          gemeente_uri = "De Fryske Marren"
-        }
-        else if (matches[i]['item']['gemeente_naam'] == 'Noordoost-Friesland') {
-          gemeente_uri = "Noardeast-Fryslân"
-        }
-        else if (matches[i]['item']['gemeente_naam'] == 'Zuidwest-Friesland') {
-          gemeente_uri = "Súdwest-Fryslân"
-        }
-
-        var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-        $('#results-search-gemeenten').append($(
-          '<ul>' +
-          '<li><h3><a href="/s/' + gemeente_uri + '"' + target + ">" + matches[i]['item']['gemeente_naam'] + '</a><h3></li>' +
-          '</ul>'
-        ))
-      }
-
+      const results_search_gemeenten = $('#results-search-gemeenten');
+      results_search_gemeenten.empty();
       if (matches.length == 0 && query.length > 1) {
-        $('#results-search-gemeenten').append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend?</p>'));
+        results_search_gemeenten.append($('<p>Helaas, we hebben geen gemeente gevonden voor uw zoekopdracht. Wellicht staat uw gemeente onder een andere naam bekend?</p>'));
+      } else {
+        const unique_matches =
+          Array.from(
+            new Set(matches.map(match => match.item.gemeente_uri || match.item.gemeente_naam)))
+            .sort();
+        let lijst = '';
+        unique_matches.forEach(gemeente => {
+          const target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
+          lijst += '<li><h3><a href="/s/' + gemeente + '"' + target + ">" + gemeente + '</a></h3></li>';
+        });
+        results_search_gemeenten.append($('<ul>' + lijst + '</ul>'));
       }
     };
 
