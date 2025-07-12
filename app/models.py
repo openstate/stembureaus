@@ -2,7 +2,6 @@ from time import time
 from decimal import Decimal
 import json
 import os
-import requests
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,13 +22,12 @@ class CKAN():
             app.config['CKAN_URL'],
             apikey=app.config['CKAN_API_KEY'],
             user_agent=self.ua
-        )
-        self.ckanapi_with_action = self.ckanapi.action
+        ).action
         self.elections = app.config['CKAN_CURRENT_ELECTIONS']
         self.resources_metadata = self._get_resources_metadata()
 
     def create_datastore(self, resource_id, fields):
-        self.ckanapi_with_action.datastore_create(
+        self.ckanapi.datastore_create(
             resource_id=resource_id,
             force=True,
             fields=fields,
@@ -37,12 +35,12 @@ class CKAN():
         )
 
     def resource_show(self, resource_id):
-        return self.ckanapi_with_action.resource_show(
+        return self.ckanapi.resource_show(
             id=resource_id
         )
 
     def delete_datastore(self, resource_id):
-        self.ckanapi_with_action.datastore_delete(
+        self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True
         )
@@ -53,7 +51,7 @@ class CKAN():
             resources_metadata[election_key] = {}
             try:
                 resources_metadata[election_key]['publish_resource'] = (
-                    self.ckanapi_with_action.resource_show(
+                    self.ckanapi.resource_show(
                         id=election_value['publish_resource']
                     )
                 )
@@ -64,7 +62,7 @@ class CKAN():
 
             try:
                 resources_metadata[election_key]['draft_resource'] = (
-                    self.ckanapi_with_action.resource_show(id=election_value['draft_resource'])
+                    self.ckanapi.resource_show(id=election_value['draft_resource'])
                 )
             except CKANAPIError as e:
                 app.logger.error(
@@ -74,7 +72,7 @@ class CKAN():
 
     def get_records(self, resource_id):
         try:
-            return self.ckanapi_with_action.datastore_search(
+            return self.ckanapi.datastore_search(
                 resource_id=resource_id, limit=15000)
         except CKANAPIError as e:
             app.logger.error(
@@ -84,26 +82,16 @@ class CKAN():
 
     def filter_records(self, resource_id, datastore_filters={}):
         try:
-            # return self.ckanapi_with_action.datastore_search(
-            #     resource_id=resource_id, filters=datastore_filters, limit=15000)
-            return self.ckanapi.call_action('datastore_search', data_dict={
-                'resource_id': resource_id, 'filters': datastore_filters, 'limit': 15000
-                }, requests_kwargs={
-                    'timeout': 15
-                })
+            return self.ckanapi.datastore_search(
+                resource_id=resource_id, filters=datastore_filters, limit=15000)
         except CKANAPIError as e:
             app.logger.error(
                 'Can\'t filter records: %s' % (e)
             )
             return {'records': []}
-        except requests.exceptions.ConnectionError as e:
-            app.logger.error(
-                'Connection error for datastore_search: %s' % (e)
-            )
-            return {'records': []}
 
     def save_records(self, resource_id, records):
-        self.ckanapi_with_action.datastore_upsert(
+        self.ckanapi.datastore_upsert(
             resource_id=resource_id,
             force=True,
             records=records,
@@ -111,7 +99,7 @@ class CKAN():
         )
 
     def delete_records(self, resource_id, filters=None):
-        self.ckanapi_with_action.datastore_delete(
+        self.ckanapi.datastore_delete(
             resource_id=resource_id,
             force=True,
             filters=filters
