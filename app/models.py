@@ -24,7 +24,7 @@ class CKAN():
             user_agent=self.ua
         ).action
         self.elections = app.config['CKAN_CURRENT_ELECTIONS']
-        self.resources_metadata = self._get_resources_metadata()
+#        self.resources_metadata = self._get_resources_metadata()
 
     def create_datastore(self, resource_id, fields):
         self.ckanapi.datastore_create(
