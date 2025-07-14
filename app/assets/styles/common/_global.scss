@@ -294,6 +294,11 @@ dd {
     padding-left: 0;
     padding-right: 0;
   }
+  .info-message   {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 70%;
+  }
 }
 
 @media(min-width:992px) {
