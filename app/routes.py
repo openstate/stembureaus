@@ -246,7 +246,7 @@ def signup_form():
                 ])
 
             flash(
-                'Dank voor het invullen! In juli versturen wij naar het '
+                'Dank voor het invullen! In augustus versturen wij naar het '
                 'opgegeven e-mailadres een uitnodigingsmail met inloggegevens '
                 'voor "Waar is mijn stemlokaal".'
             )
