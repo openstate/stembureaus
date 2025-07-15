@@ -793,7 +793,7 @@ def test_datastore_upsert(resource_id):
         "Tellocatie": "ja",
         "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
         "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-        "ID": "NLODSGM0518stembureaus20240606015",
+        "ID": "NLODSGM0518stembureaus20251029016",
         "UUID": uuid.uuid4().hex
     }
 
