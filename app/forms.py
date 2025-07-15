@@ -773,21 +773,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2024-06-06T07:30:00'
+            '<b>Voorbeeld:</b> 2025-10-29T07:30:00'
         ),
-        default='2024-06-06T07:30:00',
+        default='2025-10-29T07:30:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2024-06-06T\d{2}:\d{2}:\d{2}$',
+                '^2025-10-29T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2024-06-06T07:30:00\'.'
+                    'worden zoals bv. \'2025-10-29T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2024-06-06T07:30:00'
+            'placeholder': 'bv. 2025-10-29T07:30:00'
         }
     )
 
@@ -803,21 +803,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2024-06-06T21:00:00'
+            '<b>Voorbeeld:</b> 2025-10-29T21:00:00'
         ),
-        default='2024-06-06T21:00:00',
+        default='2025-10-29T21:00:00',
         validators=[
             DataRequired(),
             Regexp(
-                '^2024-06-06T\d{2}:\d{2}:\d{2}$',
+                '^2025-10-29T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2024-06-06T21:00:00\'.'
+                    'worden zoals bv. \'2025-10-29T21:00:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2024-06-06T21:00:00'
+            'placeholder': 'bv. 2025-10-29T21:00:00'
         }
     )
 

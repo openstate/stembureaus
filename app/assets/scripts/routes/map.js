@@ -431,11 +431,11 @@ export default {
             if (openingstijden === '') {
               temp_filtered_locations.push(loc);
             } else if (openingstijden === 'regulier') {
-              if (loc['Openingstijd'] === '2024-06-06T07:30:00' && loc['Sluitingstijd'] === '2024-06-06T21:00:00') {
+              if (loc['Openingstijd'] === '2025-10-29T07:30:00' && loc['Sluitingstijd'] === '2025-10-29T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             } else if (openingstijden === 'afwijkend') {
-              if (loc['Openingstijd'] !== '2024-06-06T07:30:00' || loc['Sluitingstijd'] !== '2024-06-06T21:00:00') {
+              if (loc['Openingstijd'] !== '2025-10-29T07:30:00' || loc['Sluitingstijd'] !== '2025-10-29T21:00:00') {
                 temp_filtered_locations.push(loc);
               }
             }
