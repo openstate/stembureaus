@@ -190,20 +190,20 @@ def valid_bag(form, field):
     if not bag_record:
         if BAG.query.filter_by(object_id=field.data).first():
             raise ValidationError(
-                'Het ingevulde nummer blijkt een BAG Verblijfsobject ID te '
+                'Het ingevulde nummer ({0}) blijkt een BAG Verblijfsobject ID te '
                 'zijn. In dit veld moet het BAG Nummeraanduiding ID ingevuld '
-                'worden.'
+                'worden.'.format(field.data)
             )
         elif BAG.query.filter_by(pandid=field.data).first():
             raise ValidationError(
-                'Het ingevulde nummer blijkt een BAG Pand ID te zijn. In dit '
-                'veld moet het BAG Nummeraanduiding ID ingevuld worden.'
+                'Het ingevulde nummer ({0}) blijkt een BAG Pand ID te zijn. In dit '
+                'veld moet het BAG Nummeraanduiding ID ingevuld worden.'.format(field.data)
             )
         elif field.data == "0000000000000000":
             return
         else:
             raise ValidationError(
-                'Het ingevulde nummer kan niet gevonden worden in onze BAG '
+                'Het ingevulde nummer ({0}) kan niet gevonden worden in onze BAG '
                 'database. Dit kan gebeuren als de BAG nummeraanduiding ID '
                 'zeer recent is toegevoegd aan de BAG. Onze BAG database '
                 'wordt eens per maand bijgewerkt. Het kan ook zijn dat het '
@@ -212,7 +212,7 @@ def valid_bag(form, field):
                 'Nummeraanduiding ID te vinden. Als dit niet beschikbaar is '
                 'vul dan \'0000000000000000\' (zestien keer het getal \'0\') in '
                 'en voer het adres of andere verduidelijking van de locatie '
-                'in het \'Extra adresaanduiding\'-veld in.'
+                'in het \'Extra adresaanduiding\'-veld in.'.format(field.data)
             )
 
 
