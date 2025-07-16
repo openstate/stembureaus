@@ -19,7 +19,7 @@ Voor manieren 1 en 2 moet u inloggen. Maak een wachtwoord aan voor uw account, d
 
 Optioneel: nadat u uw stembureaus gepubliceerd heeft kunt u de handige kaart met stembureaus op uw gemeentewebsite embedden/insluiten.
 
-Ter info: De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Tweede Kamerverkiezingen van 22 november 2023. U kunt daar de wijzigingen in uw stembureaus doorvoeren.
+Ter info: De deels vooringevulde stembureau-spreadsheet van uw gemeente is gebaseerd op uw stembureaus van de Europese Parlementsverkiezingen van 6 juni 2024. U kunt daar de wijzigingen in uw stembureaus doorvoeren.
 
 NB: Er wordt de komende weken nog gewerkt aan de vormgeving van de website, deze zult u dus misschien zien veranderen. U kunt echter zonder problemen de website gebruiken en de stembureaus invoeren.
 
