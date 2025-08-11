@@ -75,7 +75,7 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 - `flask mysql add-gemeenten-verkiezingen-users` add all gemeenten, verkiezingen and users specified in 'app/data/gemeenten.json' to the MySQL database and send new users an invitation email
 
 ## Create new CKAN datasets and resources for new elections
-- If you want to add new elections, log in to https://wims-data.openstate.eu/dashboard/datasets (until july 2025 this was: 
+- If you want to add new elections, log in to https://data.waarismijnstemlokaal.nl/dashboard/datasets (until july 2025 this was: 
 https://ckan.dataplatform.nl/dashboard/datasets) and click 'Dataset toevoegen'. Fill in the metadata (see earlier elections to see what to fill in). Make sure to create a 'concept' dataset besides the actual dataset. The concept dataset is used to store the stembureau data that isn't ready to be published yet.
 - After filling the dataset information, click 'Data toevoegen' in order to add a new resource/bron.
 
