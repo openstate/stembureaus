@@ -160,7 +160,8 @@ class ProcuraManager(APIManager):
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-                self._send_error_email(gemeente, records, results, SOURCE_STRING)
+#                uncomment next line about 4 weeks before the elections
+#                self._send_error_email(gemeente, records, results, SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
