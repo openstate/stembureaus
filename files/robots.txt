@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /
-DisallowAITraining: /
-Content-Usage: train-ai=n
