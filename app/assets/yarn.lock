@@ -1715,10 +1715,10 @@ bootstrap-sass@3.3.6:
   resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.6.tgz#363b0d300e868d3e70134c1a742bb17288444fd1"
   integrity sha1-NjsNMA6GjT5wE0wadCuxcohET9E=
 
-bootstrap-select@1.13.5:
-  version "1.13.5"
-  resolved "https://registry.yarnpkg.com/bootstrap-select/-/bootstrap-select-1.13.5.tgz#12f000b25a95ed642fe371ae9e311d3afbb8c53f"
-  integrity sha512-1uYsYLB4FvGdwM6qzIfTxp6sP5gDqjPgWNHJztBfYUTIo1GUYG5zzmMVWiJvdxJlsvBXZ9AObmeZdzi0eg2jaA==
+bootstrap-select@1.13.6:
+  version "1.13.6"
+  resolved "https://registry.yarnpkg.com/bootstrap-select/-/bootstrap-select-1.13.6.tgz#dc41f8a7385ab4e385562b400d4cf2422f5ef852"
+  integrity sha512-MsOZjYVv0jjHOCUV6CG3J8MSsosrKL8MlA8DacMhMqFq43tTxMjjd7Czo5a/upKPNHW6asFq29oyKJTrPva6FQ==
 
 bootstrap-table@1.19.1:
   version "1.19.1"
