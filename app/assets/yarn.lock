@@ -1710,10 +1710,10 @@ bootstrap-filestyle@1.2.1:
   resolved "https://registry.yarnpkg.com/bootstrap-filestyle/-/bootstrap-filestyle-1.2.1.tgz#4164271d5b101ec867565eebbdab25d210a581a0"
   integrity sha1-QWQnHVsQHshnVl7rvasl0hClgaA=
 
-bootstrap-sass@3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.6.tgz#363b0d300e868d3e70134c1a742bb17288444fd1"
-  integrity sha1-NjsNMA6GjT5wE0wadCuxcohET9E=
+bootstrap-sass@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
+  integrity sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA==
 
 bootstrap-select@1.13.5:
   version "1.13.5"
