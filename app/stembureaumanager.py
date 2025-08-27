@@ -153,13 +153,14 @@ class APIManager(object):
                     output += '%s: %s\n' % (fld, fld_errors[0],)
                 output += '\n\n'
         print(output)
-        send_email(
-            "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
-                gemeente.gemeente_naam, current_api),
-            sender=app.config['FROM'],
-            recipients=app.config['ADMINS'],
-            text_body=output,
-            html_body=None)
+#       uncomment next lines about 4 weeks before the elections
+        # send_email(
+        #     "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
+        #         gemeente.gemeente_naam, current_api),
+        #     sender=app.config['FROM'],
+        #     recipients=app.config['ADMINS'],
+        #     text_body=output,
+        #     html_body=None)
 
 
 class StembureauManager(APIManager):
@@ -239,8 +240,7 @@ class StembureauManager(APIManager):
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-#               uncomment next line about 4 weeks before the elections
-#                self._send_error_email(gemeente, records, results, SOURCE_STRING)
+                self._send_error_email(gemeente, records, results, SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
