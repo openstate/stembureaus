@@ -153,14 +153,15 @@ class APIManager(object):
                     output += '%s: %s\n' % (fld, fld_errors[0],)
                 output += '\n\n'
         print(output)
-#       uncomment next lines about 4 weeks before the elections
-        # send_email(
-        #     "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
-        #         gemeente.gemeente_naam, current_api),
-        #     sender=app.config['FROM'],
-        #     recipients=app.config['ADMINS'],
-        #     text_body=output,
-        #     html_body=None)
+        send_email(
+            "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
+                gemeente.gemeente_naam, current_api
+            ),
+            sender=app.config['FROM'],
+            recipients=app.config['ADMINS'],
+            text_body=output,
+            html_body=None
+        )
 
 
 class StembureauManager(APIManager):
