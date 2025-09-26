@@ -37,8 +37,8 @@ class ProcuraParser(BaseAPIParser):
             record['website_locatie'] = locatie.get('Website locatie', '')
             record['bag_nummeraanduiding_id'] = locatie.get('BAG Nummeraanduiding ID', '')
             record['extra_adresaanduiding'] = locatie.get('Extra adresaanduiding', '')
-            record['latitude'] = str(locatie['Latitude'])
-            record['longitude'] = str(locatie['Longitude'])
+            record['latitude'] = str(locatie.get('Latitude', ''))
+            record['longitude'] = str(locatie.get('Longitude', ''))
             # 'x' = None
             # 'y' = None
             record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
