@@ -1135,15 +1135,19 @@ def dump_stembureaus_for_wget(resource_id):
         election = list(ckan.elections.values())[0]
         resource_id = election['publish_resource']
     records = ckan.get_records(resource_id)
+
+    gemeenten_done = []
     for record in records['records']:
         gemeente = record['Gemeente'].replace(' ', '%20')
         url = f"https://waarismijnstemlokaal.nl/s/{gemeente}/{record['UUID']}"
         print(url)
         url = f"https://waarismijnstemlokaal.nl/e/{gemeente}/{record['UUID']}"
         print(url)
-        # Output the /e/ record for the gemeente which is not in the sitemap
-        url = f"https://waarismijnstemlokaal.nl/e/{gemeente}"
-        print(url)
+        if not gemeente in gemeenten_done:
+            # Output the /e/ record for the gemeente which is not in the sitemap
+            url = f"https://waarismijnstemlokaal.nl/e/{gemeente}"
+            print(url)
+            gemeenten_done.append(gemeente)
 
     # Output the /e/ record for `alles` which is not in the sitemap
     url = f"https://waarismijnstemlokaal.nl/e/alles"
