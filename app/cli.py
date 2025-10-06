@@ -1120,3 +1120,22 @@ def eenmalig_gemeenten_update_mail():
         send_update(user)
         total_mailed += 1
     print('%d gemeenten ge-e-maild' % (total_mailed))
+
+@CKAN.command()
+@click.option('--resource_id')
+def dump_stembureaus_for_wget(resource_id):
+    """
+    Collect all stembureaus for usage by wget to create a static backup site.
+    Usage: sudo docker exec stm-app-1 flask ckan dump-stembureaus-for-wget >> wget_files.txt
+    When running on production server the resource_id of the election is retrieved automatically.
+    When running on a different machine you can supply the resource_id
+    """
+    if not resource_id:
+        # Assume there is 1 active election 
+        election = list(ckan.elections.values())[0]
+        resource_id = election['publish_resource']
+    records = ckan.get_records(resource_id)
+    for record in records['records']:
+        gemeente = record['Gemeente'].replace(' ', '%20')
+        url = f"https://waarismijnstemlokaal.nl/s/{gemeente}/{record['UUID']}"
+        print(url)
