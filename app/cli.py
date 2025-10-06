@@ -1139,3 +1139,12 @@ def dump_stembureaus_for_wget(resource_id):
         gemeente = record['Gemeente'].replace(' ', '%20')
         url = f"https://waarismijnstemlokaal.nl/s/{gemeente}/{record['UUID']}"
         print(url)
+        url = f"https://waarismijnstemlokaal.nl/e/{gemeente}/{record['UUID']}"
+        print(url)
+        # Output the /e/ record for the gemeente which is not in the sitemap
+        url = f"https://waarismijnstemlokaal.nl/e/{gemeente}"
+        print(url)
+
+    # Output the /e/ record for `alles` which is not in the sitemap
+    url = f"https://waarismijnstemlokaal.nl/e/alles"
+    print(url)
