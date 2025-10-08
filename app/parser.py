@@ -53,8 +53,15 @@ parse_as_integer = [
 
 yes_no_empty_fields = [
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
-    'akoestiek_geschikt_voor_slechthorenden',
+    'toegankelijke_ov_halte',
     'gehandicaptentoilet',
+    'host',
+    'stemmal_met_audio_ondersteuning',
+    'kandidatenlijst_in_braille',
+    'kandidatenlijst_met_grote_letters',
+    'gebarentalig_stembureaulid_ngt',
+    'akoestiek_geschikt_voor_slechthorenden',
+    'prikkelarm',
     'tellocatie'
 ]
 
