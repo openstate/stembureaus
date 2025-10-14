@@ -455,7 +455,7 @@ def perform_typeahead(query):
 
     if results is not None:
         results = results.order_by(
-            BAG.woonplaats, cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging
+            cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
         ).limit(limit).all()
         return jsonify([x.to_json() for x in results])
     else:
