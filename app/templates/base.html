@@ -101,7 +101,6 @@
     <div class="text-center info-message" style="padding-bottom: 20px;">
       <span class="text-red">Deze website toont nu nog de stembureaus van de Europese Parlementsverkiezingen van 6 juni 2024. Voor de aankomende Tweede Kamerverkiezingen van 29 oktober 2025 zullen alle stembureaus weer worden bijgewerkt. Gemeenten krijgen daarvoor in augustus een uitnodigingsmail.</span>
     </div>
-    #}
     {% set upcomingElection = "de Tweede Kamerverkiezingen van 29 oktober 2025" %}
     <div class="text-center info-message" style="padding-bottom: 20px;">
       {% if number_of_published_gemeenten %}
@@ -110,6 +109,7 @@
         <p>Nog niet alle gemeenten hebben de stembureaus voor {{ upcomingElection }} aangeleverd. Deze worden nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
       {% endif %}
     </div>
+    #}
     {% block content %}{% endblock %}
   </main>
 
