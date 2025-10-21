@@ -166,6 +166,7 @@ class TSAManager(APIManager):
                 continue
 
             records = TSAParser().parse(data)
+            records = self._bugfix(gemeente, records)
             validator = Validator()
             results = validator.validate(records)
 
@@ -179,3 +180,25 @@ class TSAManager(APIManager):
 
             gemeente.source = SOURCE_STRING
             db.session.commit()
+
+    # To fix some (hopefully temporary) errors for some stembureaus
+    def _bugfix(self, gemeente, records):
+        if gemeente.gemeente_code == 'GM0150': # Deventer
+            for record in records:
+                if record['nummer_stembureau'] == 113:
+                    self._fix_latlon(record, "52.26087196869886", "6.153974536599161")
+
+        if gemeente.gemeente_code == 'GM0779': # Geertruidenberg
+            for record in records:
+                if record['nummer_stembureau'] == 6:
+                    self._fix_latlon(record, "51.68887590155298", "4.872133492118168")
+                if record['nummer_stembureau'] == 4:
+                    self._fix_latlon(record, "51.703441296183556", "4.871675635316138")
+
+        return records
+
+    def _fix_latlon(self, record, latitude, longitude):
+        if not record['latitude'] or record['latitude'] == 'None':
+            record['latitude'] = latitude
+        if not record['longitude'] or record['longitude'] == 'None':
+            record['longitude'] = longitude
