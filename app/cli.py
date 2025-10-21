@@ -831,6 +831,31 @@ def remove_datastore(resource_id):
     """
     ckan.delete_datastore(resource_id)
 
+@CKAN.command()
+@click.option('--resource_id', help="Use this resource_id to select the dataset")
+def show_gemeenten_without_data(resource_id):
+    """
+    Print a list of all municipalities that do not have any records yet in dataset given by `resource_id`.
+    Can be used to get a list of municipalities to contact or to add ourselves when the elections draw closer.
+    If no resource_id is given, the `draft_resource` dataset is used.
+    """
+    # Get all gemeenten
+    gemeenten = {}
+    for gemeente in Gemeente.query.all():
+        gemeenten[gemeente.gemeente_code] = gemeente.gemeente_naam
+
+    # Get gemeenten with data
+    if not resource_id:
+        resource_id = list(ckan.elections.values())[0]['draft_resource']
+    all_records = ckan.get_records(resource_id)
+
+    for record in all_records['records']:
+        code = record['CBS gemeentecode']
+        if code in gemeenten.keys():
+            gemeenten.pop(code)
+
+    print(f"Aantal gemeenten zonder stembureaus: {len(gemeenten)}")
+    pprint(gemeenten)
 
 # MySQL commands
 @app.cli.group()
