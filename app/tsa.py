@@ -184,21 +184,21 @@ class TSAManager(APIManager):
     # To fix some (hopefully temporary) errors for some stembureaus
     def _bugfix(self, gemeente, records):
         if gemeente.gemeente_code == 'GM0150': # Deventer
-            for index, record in enumerate(records):
+            for record in records:
                 if record['nummer_stembureau'] == 113:
-                    self._fix_latlon(record, records, index, "52.26087196869886", "6.153974536599161")
+                    self._fix_latlon(record, "52.26087196869886", "6.153974536599161")
 
         if gemeente.gemeente_code == 'GM0779': # Geertruidenberg
-            for index, record in enumerate(records):
+            for record in records:
                 if record['nummer_stembureau'] == 6:
-                    self._fix_latlon(record, records, index, "51.68887590155298", "4.872133492118168")
+                    self._fix_latlon(record, "51.68887590155298", "4.872133492118168")
                 if record['nummer_stembureau'] == 4:
-                    self._fix_latlon(record, records, index, "51.703441296183556", "4.871675635316138")
+                    self._fix_latlon(record, "51.703441296183556", "4.871675635316138")
 
         return records
 
-    def _fix_latlon(self, record, records, index, latitude, longitude):
+    def _fix_latlon(self, record, latitude, longitude):
         if not record['latitude'] or record['latitude'] == 'None':
-            records[index]['latitude'] = latitude
+            record['latitude'] = latitude
         if not record['longitude'] or record['longitude'] == 'None':
-            records[index]['longitude'] = longitude
+            record['longitude'] = longitude
