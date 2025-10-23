@@ -15,6 +15,10 @@ class ChangesMonitor:
     all_draft_records = ckan.get_records(resource_id)['records']
     changes_monitor.process_changes(all_draft_records)
 
+  Call this from cron near the end of each working day to inform the users about changed data.
+    `sudo docker exec stm-app-1 flask ckan monitor-changes`
+  To see what e-mails would be sent you can use the `debug` flag (see below).
+  
   Calling `process_changes` will compare the provided (current) data with the data from the last run.
   Any changes found will be written to the `CHANGES_DIR` directory in a timestamped filename.
   A summary of the changes will also be sent by e-mail to the users of the municipality:
