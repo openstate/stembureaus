@@ -11,5 +11,8 @@ Via deze mail geven wij een overzicht van de gewijzigde gegevens ter controle.
 {{ change.replace("&nbsp;", "") }}
 {% endfor %}
 
+Om de stembureaus online te bekijken of te wijzigen ga naar WaarIsMijnStemlokaal.nl
+(https://waarismijnstemlokaal.nl/gemeente-stemlokalen-dashboard).
+
 Met vriendelijke groet,
 Open State Foundation namens WaarIsMijnStemlokaal.nl
