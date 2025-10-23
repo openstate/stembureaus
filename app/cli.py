@@ -1,4 +1,5 @@
 from app import app, db
+from app.changes_monitor import ChangesMonitor
 from app.models import Gemeente, User, Gemeente_user, Election, BAG, ckan, add_user
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
@@ -856,6 +857,17 @@ def show_gemeenten_without_data(resource_id):
 
     print(f"Aantal gemeenten zonder stembureaus: {len(gemeenten)}")
     pprint(gemeenten)
+
+
+@CKAN.command()
+@click.option('--debug', default=False)
+def monitor_changes(debug):
+    changes_monitor = ChangesMonitor(debug=debug)
+    resource_id = list(ckan.elections.values())[0]['draft_resource']
+    all_draft_records = ckan.get_records(resource_id)['records']
+
+    changes_monitor.process_changes(all_draft_records)
+
 
 # MySQL commands
 @app.cli.group()
