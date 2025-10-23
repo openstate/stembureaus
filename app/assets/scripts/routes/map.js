@@ -102,7 +102,7 @@ export default {
         let lijst = '';
         unique_matches.forEach(gemeente => {
           const target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-          lijst += '<li><h3><a href="/s/' + gemeente + '"' + target + ">" + gemeente + '</a></h3></li>';
+          lijst += '<li><a href="/s/' + gemeente + '"' + target + ">" + gemeente + '</a></li>';
         });
         results_search_gemeenten.append($('<ul>' + lijst + '</ul>'));
       }
@@ -110,12 +110,13 @@ export default {
 
     // List locations in rigth panel on the gemeente pages
     StembureausApp.show = function (matches, query) {
-      $('#results-search').empty();
+      const results_search = $('#results-search');
+      results_search.empty();
 
       matches.sort(function (a,b) {return (a['Nummer stembureau'] > b['Nummer stembureau']) ? 1 : ((b['Nummer stembureau'] > a['Nummer stembureau']) ? -1 : 0)});
 
+      let stembureau_lijst = '';
       for (var i=0; i < matches.length; i++) {
-
         var extra_adresaanduiding = '';
         var orange_icon = '';
         if (matches[i]['Extra adresaanduiding'].trim()) {
@@ -158,39 +159,38 @@ export default {
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
-        $('#results-search').append($(
-          '<ul style="padding: 0">' +
-            '<li>' +
-              '<div class="col-xs-12" style="margin-bottom: 15px;">' +
-                '<h3><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
+        stembureau_lijst +=
+          '<li>' +
+            '<div class="col-xs-12" style="margin-bottom: 15px;">' +
+              '<h3><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
 
-                '<div style="padding-left: 26px; color: dimgrey;">' +
-                  '<p>' +
-                    adres + '<br>' +
-                    plaats_naam +
-                  '</p>' +
-                  extra_adresaanduiding +
+              '<div style="padding-left: 26px; color: dimgrey;">' +
+                '<p>' +
+                  adres + '<br>' +
+                  plaats_naam +
+                '</p>' +
+                extra_adresaanduiding +
 
-                  verkiezingen +
+                verkiezingen +
 
-                  '<span class="stembureau-info-icons">' +
-                    weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
-                    akoestiek_labels[matches[i]["Akoestiek geschikt voor slechthorenden"]] +
-                    gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
-                  '</span>' +
+                '<span class="stembureau-info-icons">' +
+                  weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
+                  akoestiek_labels[matches[i]["Akoestiek geschikt voor slechthorenden"]] +
+                  gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
+                '</span>' +
 
-                  optional_fields +
+                optional_fields +
 
-                '</div>' +
               '</div>' +
-              '<div class="col-xs-12"><hr style="margin: 0; height: 1px;"></div>' +
-            '</li>' +
-          '</ul>'
-        ))
+            '</div>' +
+            '<div class="col-xs-12"><hr style="margin: 0; height: 1px;"></div>' +
+          '</li>'
       }
 
+      results_search.append($('<ul style="padding: 0">' + stembureau_lijst + '</ul>'));
+
       if (matches && matches.length == 0 && query && query.length > 0) {
-        $('#results-search').append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
+        results_search.append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
       } else if (typeof query !== 'undefined' && query.length == 0){
         StembureausApp.show(StembureausApp.filtered_locations);
       }
