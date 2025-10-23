@@ -97,8 +97,7 @@ export default {
       } else {
         const unique_matches =
           Array.from(
-            new Set(matches.map(match => match.item.gemeente_uri || match.item.gemeente_naam)))
-            .sort();
+            new Set(matches.map(match => match.item.gemeente_uri || match.item.gemeente_naam)));
         let lijst = '';
         unique_matches.forEach(gemeente => {
           const target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
