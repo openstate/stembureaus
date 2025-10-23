@@ -255,6 +255,10 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
             "multiple municipalities): %s" % (email)
         )
 
+    # Safety check
+    if not _add_gemeente_allowed(user, gemeente_id):
+        return 0
+
     # Add record to the Gemeente_user association table
     gemeente_user = Gemeente_user.query.filter_by(
         gemeente_id=gemeente_id,
@@ -274,6 +278,34 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
     # add_gemeenten_verkiezingen_users to count the total number of
     # users created.
     return user_created
+
+def _add_gemeente_allowed(user, gemeente_id):
+    existing_gemeenten_count = Gemeente_user.query.filter_by(user_id=user.id).count()
+    if existing_gemeenten_count < app.config['MAX_GEMEENTEN_PER_USER']:
+        return True
+
+    allowed = user.email in app.config['MAX_GEMEENTEN_PER_USER_EXCEPTIONS']
+    add_to_email = ''
+    if allowed:
+        title = '[WaarIsMijnStemlokaal.nl] Toegestaan: teveel gemeenten aan 1 gebruiker koppelen'
+        add_to_email = ' (whitelisted)'
+    else:
+        title = '[WaarIsMijnStemlokaal.nl] GEBLOKKEERD: Poging om teveel gemeenten aan 1 gebruiker te koppelen'
+
+    body = (
+        f"E-mailadres: {user.email}{add_to_email}<br>"
+        f"Te koppelen gemeente id: {gemeente_id}<br>"
+        f"Aantal gemeenten al gekoppeld: {existing_gemeenten_count}"
+    )
+    send_email(
+        title,
+        sender=app.config['FROM'],
+        recipients=app.config['ADMINS'],
+        text_body=body,
+        html_body=body
+    )
+
+    return allowed
 
 
 @login_manager.user_loader
