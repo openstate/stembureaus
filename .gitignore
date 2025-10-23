@@ -6,6 +6,7 @@ logs/*
 upload/*
 data/*
 exports/*
+monitor_changes/*
 
 .credentials/*
 client_secret.json
