@@ -1,0 +1,15 @@
+Beste gemeente {{ gemeente.gemeente_naam }},
+
+{{ time_phrase }} zijn gegevens van stembureaus van uw gemeente aangepast op WaarIsMijnStemlokaal.nl.
+
+Dit is mogelijk door u zelf aangepast, of door collega's die ook toegang hebben tot
+WaarIsMijnStemlokaal.nl, of op verzoek door een beheerder van WaarIsMijnStemlokaal.nl.
+
+Via deze mail geven wij een overzicht van de gewijzigde gegevens ter controle.
+
+{% for change in changes %}
+{{ change.replace("&nbsp;", "") }}
+{% endfor %}
+
+Met vriendelijke groet,
+Open State Foundation namens WaarIsMijnStemlokaal.nl
