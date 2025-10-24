@@ -35,7 +35,15 @@ var toegankelijkheidsfilters = [
   ['Prikkelarm', 'prikkelarm', '.prikkelarm-filter']
 ]
 
-function create_optional_fields(stembureau) {
+function create_optional_fields(stembureau, result_search = false) {
+  var bijzonder_stembureau = '';
+  // Only show afwijkende openingstijden in the stembureau search results on a gemeente page
+  if (result_search) {
+    if (stembureau['Openingstijd'] != '2025-10-29T07:30:00' || stembureau['Sluitingstijd'] != '2025-10-29T21:00:00') {
+      bijzonder_stembureau = '<br><b>Afwijkende openingstijden: </b><span style="white-space: nowrap; color: green;">' + stembureau['Openingstijd'].split('T')[1].slice(0, 5) + ' - ' + stembureau['Sluitingstijd'].split('T')[1].slice(0, 5) + '</span>';
+    }
+  }
+
   var optional_fields = '';
 
   if (stembureau['Toegankelijke ov-halte'] === 'ja') {
@@ -70,7 +78,7 @@ function create_optional_fields(stembureau) {
       optional_fields = '<br><b>Extra toegankelijkheid:</b><ul>' + optional_fields + '</ul>';
   }
 
-  return optional_fields;
+  return bijzonder_stembureau + optional_fields;
 }
 
 // Marker of the user's location (available after the user uses the NLMaps
@@ -154,7 +162,7 @@ export default {
           nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
         }
 
-        var optional_fields = create_optional_fields(matches[i]);
+        var optional_fields = create_optional_fields(matches[i], true);
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
@@ -525,7 +533,7 @@ export default {
         output += akoestiek_labels[loc["Akoestiek geschikt voor slechthorenden"]];
         output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
 
-        output += create_optional_fields(loc);
+        output += create_optional_fields(loc, false);
 
         output += '</span>';
 
