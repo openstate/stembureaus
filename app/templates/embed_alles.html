@@ -10,4 +10,7 @@
 {% block scripts %}
   {{ super() }}
   {% include "map_scripts.html" %}
+  <script>
+    StembureausApp.homepage = true;
+  </script>
 {% endblock %}
