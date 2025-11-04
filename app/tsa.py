@@ -154,7 +154,8 @@ class TSAManager(APIManager):
             gemeente_draft_records, gemeente_publish_records = self._get_draft_and_publish_records_for_gemeente(
                 verkiezing, m['gemeente_code'])
             data = self._request_municipality(m['gemeente_code'])
-            if not isinstance(data, list):
+            # Make sure that we retrieve a list and that it is not empty
+            if not isinstance(data, list) or not data:
             #if data.get('statusCode', 200) >= 400:
                 send_email(
                     "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van TSA API gemeente data %s" % (gemeente.gemeente_naam),
