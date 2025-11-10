@@ -32,7 +32,7 @@ services:
     environment:
       - MYSQL_DATABASE=stembureaus
       - MYSQL_ROOT_PASSWORD=<DB_PASSWORD>
-    command: --local-infile=true --innodb_ft_min_token_size=1 --innodb-ft-enable-stopword=OFF
+    command: --local-infile=1 --innodb_ft_min_token_size=1 --innodb-ft-enable-stopword=OFF
     networks:
       - stm
     volumes:

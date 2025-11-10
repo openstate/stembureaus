@@ -3,7 +3,7 @@ from app.models import BAG
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import (
-    ValidationError, DataRequired, Optional, Email, EqualTo, Length, URL,
+    ValidationError, DataRequired, InputRequired, Optional, Email, EqualTo, Length, URL,
     NumberRange, AnyOf, Regexp
 )
 from wtforms import (
@@ -105,8 +105,8 @@ class ResetPasswordForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email = StringField('E-mailadres', validators=[DataRequired(), Email()])
-    Wachtwoord = PasswordField('Wachtwoord', validators=[DataRequired()])
+    email = StringField('E-mailadres', validators=[InputRequired(), Email()])
+    Wachtwoord = PasswordField('Wachtwoord', validators=[InputRequired()])
     submit = SubmitField(
         'Inloggen',
         render_kw={

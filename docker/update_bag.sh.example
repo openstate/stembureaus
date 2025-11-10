@@ -9,6 +9,6 @@
 MYSQL_CONTAINER="stm_mysql_1"
 DB_PASSWORD="<DB_PASSWORD>"
 NETWORK="stm_stm"
-CMD="mysql --local_infile=1 -h $MYSQL_CONTAINER -u root --password=$DB_PASSWORD -e 'source /docker-entrypoint-initdb.d/bag.sql'"
+CMD="mysql --local-infile=1 -h $MYSQL_CONTAINER -u root --password=$DB_PASSWORD -e 'source /docker-entrypoint-initdb.d/bag.sql'"
 
 docker run --rm --network $NETWORK -v `pwd`/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw mysql:8.0 bash -c "$CMD"

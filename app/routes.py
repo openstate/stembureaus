@@ -6,9 +6,10 @@ from datetime import datetime
 from decimal import Decimal
 
 from flask import (
-    render_template, request, redirect, url_for, flash, Markup, session,
+    render_template, request, redirect, url_for, flash, session,
     jsonify
 )
+from markupsafe import Markup
 from flask_login import (
     UserMixin, login_required, login_user, logout_user, current_user
 )
