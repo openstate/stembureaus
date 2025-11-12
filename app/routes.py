@@ -245,7 +245,13 @@ def ensure_2fa_verification(fun):
         tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
-            return redirect(url_for('verify_two_factor_auth'))
+            user = User.query.get(int(session.get('_user_id', -1)))
+            if not user or not user.admin:
+                return redirect(url_for('index'))
+            elif user.has_2fa_enabled:
+                return redirect(url_for('verify_two_factor_auth'))
+            else:
+                return redirect(url_for('setup_2fa'))
 
         # 2FA is now either not required or already done
         return fun(*args, **kwargs)
@@ -559,8 +565,8 @@ def gemeente_login():
         
         login_user(user)
         if user.admin:
+            set_2fa_confirmed(False)
             if user.has_2fa_enabled:
-                set_2fa_confirmed(False)
                 return redirect(url_for('verify_two_factor_auth'))
             else:
                 return redirect(url_for('setup_2fa'))
