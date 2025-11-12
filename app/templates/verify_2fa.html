@@ -8,7 +8,7 @@
     <h1 class="h1 fw-normal">Verificatie</h1>
 
     <div class="form-floating">
-      {{ form.otp(placeholder="OTP", class="form-control mb-2") }}
+      {{ form.otp(placeholder="OTP", class="form-control mb-2", autofocus=True) }}
       {{ form.otp.label }}
         {% if form.otp.errors %}
           {% for error in form.otp.errors %}

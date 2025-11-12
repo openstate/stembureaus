@@ -192,8 +192,37 @@ def _hydrate(record, minimal_type='default'):
                 minimal_record[key] = value
     return minimal_record
 
+
 def get_2fa_confirmed():
-    return session[app.config['SESSION_2FA_CONFIRMED_NAME']]
+    try:
+        return session[app.config['SESSION_2FA_CONFIRMED_NAME']]
+    except KeyError:
+        return None
+
+
+def set_2fa_last_attempt():
+    session[app.config['SESSION_2FA_LAST_ATTEMPT']] = datetime.now().isoformat()
+
+
+def get_2fa_last_attempt():
+    try:
+        str = session[app.config['SESSION_2FA_LAST_ATTEMPT']]
+        return datetime.fromisoformat(str)
+    except KeyError:
+        return None
+
+
+# Inputting of 2FA codes is rate-limit to 1 per second
+def rate_limit_2fa_reached():
+    last_attempt = get_2fa_last_attempt()
+    if not last_attempt: return
+
+    diff = datetime.now() - last_attempt
+    if diff.seconds < 1:
+        app.logger.info(f"2FA RATE LIMIT REACHED FOR USER_ID {session.get('_user_id', 'UNKNOWN')}")
+        return True
+    else:
+        return False
 
 
 def set_2fa_confirmed(value):
@@ -213,10 +242,7 @@ def after_request_callback(response):
 def ensure_2fa_verification(fun):
     @wraps(fun)
     def ensure_2fa_verification_impl(*args, **kwargs):
-        try:
-            tfa_confirmed = get_2fa_confirmed()
-        except KeyError:
-            tfa_confirmed = None
+        tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
             return redirect(url_for('verify_two_factor_auth'))
@@ -556,24 +582,25 @@ def setup_2fa():
 def verify_two_factor_auth():
     form = TwoFactorForm(request.form)
     if form.validate_on_submit():
-        if current_user.is_otp_valid(form.otp.data):
-            set_2fa_confirmed(True)
-            if current_user.has_2fa_enabled:
-                flash("2FA verificatie is geslaagd.", "success")
-                return redirect(url_for('index'))
-            else:
-                try:
-                    current_user.has_2fa_enabled = True
-                    db.session.commit()
-                    flash("2FA setup is geslaagd.", "success")
-                    return redirect(url_for('index'))
-                except Exception:
-                    db.session.rollback()
-                    flash("2FA setup is niet gelukt, probeer het opnieuw.", "danger")
-                    return redirect(url_for('verify_two_factor_auth'))
-        else:
+        if not current_user.is_otp_valid(form.otp.data) or rate_limit_2fa_reached():
+            set_2fa_last_attempt()
             flash("Ongeldige code, probeer het opnieuw.", "danger")
             return redirect(url_for('verify_two_factor_auth'))
+
+        set_2fa_confirmed(True)
+        if current_user.has_2fa_enabled:
+            flash("2FA verificatie is geslaagd.", "success")
+            return redirect(url_for('index'))
+        else:
+            try:
+                current_user.has_2fa_enabled = True
+                db.session.commit()
+                flash("2FA setup is geslaagd.", "success")
+                return redirect(url_for('index'))
+            except Exception:
+                db.session.rollback()
+                flash("2FA setup is niet gelukt, probeer het opnieuw.", "danger")
+                return redirect(url_for('verify_two_factor_auth'))
     else:
         if form.is_submitted():
             flash("Geef een geldige code op.", "info")
