@@ -33,10 +33,6 @@ locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
 from app import routes, models, errors
 
-@login_manager.user_loader
-def load_user(user_id):
-    return models.User.query.filter(models.User.id == int(user_id)).first()
-
 if not app.debug:
     # Send email on errors
     if app.config['MAIL_SERVER']:
