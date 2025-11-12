@@ -240,7 +240,8 @@ def after_request_callback(response):
 
 # Decorator function to ensure TOTP token was verified
 def ensure_2fa_verification(fun):
-    @wraps(fun)
+    fun2 = login_required(fun)
+    @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
         tfa_confirmed = get_2fa_confirmed()
 
@@ -254,7 +255,7 @@ def ensure_2fa_verification(fun):
                 return redirect(url_for('setup_2fa'))
 
         # 2FA is now either not required or already done
-        return fun(*args, **kwargs)
+        return fun2(*args, **kwargs)
     
     return ensure_2fa_verification_impl
 
@@ -626,7 +627,6 @@ def gemeente_logout():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
-@login_required
 def gemeente_selectie():
     if len(current_user.gemeenten) == 1:
         session[
@@ -660,7 +660,6 @@ def gemeente_selectie():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
-@login_required
 def gemeente_stemlokalen_dashboard():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -871,7 +870,6 @@ def gemeente_stemlokalen_dashboard():
 
 @app.route("/gemeente-stemlokalen-overzicht", methods=['GET', 'POST'])
 @ensure_2fa_verification
-@login_required
 def gemeente_stemlokalen_overzicht():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -958,7 +956,6 @@ def gemeente_stemlokalen_overzicht():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
-@login_required
 def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -1086,7 +1083,6 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
-@login_required
 def gemeente_stemlokaal_delete(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -1113,7 +1109,6 @@ def gemeente_stemlokaal_delete(stemlokaal_id=None):
 
 @app.route("/gemeente-instructies")
 @ensure_2fa_verification
-@login_required
 def gemeente_instructies():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
