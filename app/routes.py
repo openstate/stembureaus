@@ -219,7 +219,7 @@ def rate_limit_2fa_reached():
 
     diff = datetime.now() - last_attempt
     if diff.seconds < 1:
-        app.logger.info(f"2FA RATE LIMIT REACHED FOR USER_ID {session.get('_user_id', 'UNKNOWN')}")
+        app.logger.info(f"2FA RATE LIMIT REACHED FOR USER {current_user}")
         return True
     else:
         return False
@@ -238,7 +238,7 @@ def after_request_callback(response):
     return response
 
 
-# Decorator function to ensure TOTP token was verified
+# Decorator function to ensure TOTP token was verified for admins
 def ensure_2fa_verification(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
@@ -246,10 +246,9 @@ def ensure_2fa_verification(fun):
         tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
-            user = User.query.get(int(session.get('_user_id', -1)))
-            if not user or not user.admin:
+            if not current_user.admin:
                 return redirect(url_for('index'))
-            elif user.has_2fa_enabled:
+            elif current_user.has_2fa_enabled:
                 return redirect(url_for('verify_two_factor_auth'))
             else:
                 return redirect(url_for('setup_2fa'))
@@ -258,6 +257,18 @@ def ensure_2fa_verification(fun):
         return fun2(*args, **kwargs)
     
     return ensure_2fa_verification_impl
+
+
+# Decorator function for setting up TOTP
+def admin_login_required(fun):
+    fun2 = login_required(fun)
+    @wraps(fun2)
+    def admin_login_required_impl(*args, **kwargs):
+        if not current_user.admin:
+            return redirect(url_for('index'))
+        return fun2(*args, **kwargs)
+
+    return admin_login_required_impl
 
 
 @app.route("/")
@@ -576,7 +587,7 @@ def gemeente_login():
 
 
 @app.route("/setup-2fa")
-@login_required
+@admin_login_required
 def setup_2fa():
     secret = current_user.secret_token
     uri = current_user.get_authentication_setup_uri()
@@ -585,7 +596,7 @@ def setup_2fa():
 
 
 @app.route("/verify-2fa", methods=["GET", "POST"])
-@login_required
+@admin_login_required
 def verify_two_factor_auth():
     form = TwoFactorForm(request.form)
     if form.validate_on_submit():

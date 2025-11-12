@@ -212,7 +212,7 @@ class User(UserMixin, db.Model):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return '<User {}>'.format(self.email)
+        return '<User {} {}>'.format(self.id, self.email)
 
 
 # Association table for the many-to-many relationship
