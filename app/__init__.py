@@ -24,6 +24,7 @@ babel = Babel(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.session_protection = "strong"
 login_manager.login_message = u"Log in om verder te gaan"
 login_manager.login_view = "gemeente_login"
 
@@ -31,6 +32,10 @@ locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
 locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
 from app import routes, models, errors
+
+@login_manager.user_loader
+def load_user(user_id):
+    return models.User.query.filter(models.User.id == int(user_id)).first()
 
 if not app.debug:
     # Send email on errors

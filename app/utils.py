@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import os
+from io import BytesIO
 
 import fiona
 import shapely
 import shapely.geometry
 from pyproj import Proj, transform
+import qrcode
+from base64 import b64encode
 
 from app.models import Gemeente, ckan
 
@@ -151,3 +154,13 @@ def convert_xy_to_latlong(x, y):
 def convert_latlong_to_xy(latitude, longitude):
     x, y, _ = transform(p2, p1, longitude, latitude, 0.0)
     return (x, y)
+
+
+def get_b64encoded_qr_image(data):
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color='black', back_color='white')
+    buffered = BytesIO()
+    img.save(buffered)
+    return b64encode(buffered.getvalue()).decode("utf-8")

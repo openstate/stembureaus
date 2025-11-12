@@ -1,7 +1,7 @@
 import csv
 import os
 import re
-import sys
+from functools import wraps
 from datetime import datetime
 from decimal import Decimal
 
@@ -11,8 +11,9 @@ from flask import (
 )
 from markupsafe import Markup
 from flask_login import (
-    UserMixin, login_required, login_user, logout_user, current_user
+    login_required, login_user, logout_user, current_user
 )
+
 from werkzeug.utils import secure_filename
 import sqlalchemy
 from sqlalchemy import or_
@@ -21,14 +22,13 @@ from sqlalchemy.sql.expression import cast
 from app import app, db
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    FileUploadForm, PubliceerForm, GemeenteSelectionForm, SignupForm
+    FileUploadForm, PubliceerForm, GemeenteSelectionForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, ckan, Record, BAG, add_user
-from app.utils import find_buurt_and_wijk, remove_id
-from math import ceil
+from app.utils import get_b64encoded_qr_image, remove_id
 from time import sleep
 import uuid
 
@@ -192,6 +192,13 @@ def _hydrate(record, minimal_type='default'):
                 minimal_record[key] = value
     return minimal_record
 
+def get_2fa_confirmed():
+    return session[app.config['SESSION_2FA_CONFIRMED_NAME']]
+
+
+def set_2fa_confirmed(value):
+    session[app.config['SESSION_2FA_CONFIRMED_NAME']] = value
+
 
 # Add 'Cache-Control': 'private' header if users are logged in
 @app.after_request
@@ -200,6 +207,24 @@ def after_request_callback(response):
         response.headers['Cache-Control'] = 'private'
 
     return response
+
+
+# Decorator function to ensure TOTP token was verified
+def ensure_2fa_verification(fun):
+    @wraps(fun)
+    def ensure_2fa_verification_impl(*args, **kwargs):
+        try:
+            tfa_confirmed = get_2fa_confirmed()
+        except KeyError:
+            tfa_confirmed = None
+
+        if tfa_confirmed == False:
+            return redirect(url_for('verify_two_factor_auth'))
+
+        # 2FA is now either not required or already done
+        return fun(*args, **kwargs)
+    
+    return ensure_2fa_verification_impl
 
 
 @app.route("/")
@@ -505,16 +530,61 @@ def gemeente_login():
         if user is None or not user.check_password(form.Wachtwoord.data):
             flash('Fout e-mailadres of wachtwoord')
             return(redirect(url_for('gemeente_login')))
+        
         login_user(user)
+        if user.admin:
+            if user.has_2fa_enabled:
+                set_2fa_confirmed(False)
+                return redirect(url_for('verify_two_factor_auth'))
+            else:
+                return redirect(url_for('setup_2fa'))
         return redirect(url_for('gemeente_selectie'))
     return render_template('gemeente-login.html', form=form)
+
+
+@app.route("/setup-2fa")
+@login_required
+def setup_2fa():
+    secret = current_user.secret_token
+    uri = current_user.get_authentication_setup_uri()
+    base64_qr_image = get_b64encoded_qr_image(uri)
+    return render_template("setup_2fa.html", secret=secret, qr_image=base64_qr_image)
+
+
+@app.route("/verify-2fa", methods=["GET", "POST"])
+@login_required
+def verify_two_factor_auth():
+    form = TwoFactorForm(request.form)
+    if form.validate_on_submit():
+        if current_user.is_otp_valid(form.otp.data):
+            set_2fa_confirmed(True)
+            if current_user.has_2fa_enabled:
+                flash("2FA verificatie is geslaagd.", "success")
+                return redirect(url_for('index'))
+            else:
+                try:
+                    current_user.has_2fa_enabled = True
+                    db.session.commit()
+                    flash("2FA setup is geslaagd.", "success")
+                    return redirect(url_for('index'))
+                except Exception:
+                    db.session.rollback()
+                    flash("2FA setup is niet gelukt, probeer het opnieuw.", "danger")
+                    return redirect(url_for('verify_two_factor_auth'))
+        else:
+            flash("Ongeldige code, probeer het opnieuw.", "danger")
+            return redirect(url_for('verify_two_factor_auth'))
+    else:
+        if form.is_submitted():
+            flash("Geef een geldige code op.", "info")
+        return render_template("verify_2fa.html", form=form)
 
 
 @app.route("/gemeente-logout")
 @login_required
 def gemeente_logout():
-    session.pop('selected_gemeente_code', None)
     logout_user()
+    session.clear()
     return redirect(url_for('index'))
 
 
@@ -522,6 +592,7 @@ def gemeente_logout():
     "/gemeente-selectie",
     methods=['GET', 'POST']
 )
+@ensure_2fa_verification
 @login_required
 def gemeente_selectie():
     if len(current_user.gemeenten) == 1:
@@ -555,6 +626,7 @@ def gemeente_selectie():
     "/gemeente-stemlokalen-dashboard",
     methods=['GET', 'POST']
 )
+@ensure_2fa_verification
 @login_required
 def gemeente_stemlokalen_dashboard():
     # Select a gemeente if none is currently selected
@@ -765,6 +837,7 @@ def gemeente_stemlokalen_dashboard():
 
 
 @app.route("/gemeente-stemlokalen-overzicht", methods=['GET', 'POST'])
+@ensure_2fa_verification
 @login_required
 def gemeente_stemlokalen_overzicht():
     # Select a gemeente if none is currently selected
@@ -851,6 +924,7 @@ def gemeente_stemlokalen_overzicht():
     "/gemeente-stemlokalen-edit/<stemlokaal_id>",
     methods=['GET', 'POST']
 )
+@ensure_2fa_verification
 @login_required
 def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
@@ -978,6 +1052,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     "/gemeente-stemlokaal-delete/<stemlokaal_id>",
     methods=['GET', 'POST']
 )
+@ensure_2fa_verification
 @login_required
 def gemeente_stemlokaal_delete(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
@@ -1004,6 +1079,7 @@ def gemeente_stemlokaal_delete(stemlokaal_id=None):
         )
 
 @app.route("/gemeente-instructies")
+@ensure_2fa_verification
 @login_required
 def gemeente_instructies():
     # Select a gemeente if none is currently selected

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <form role="form" method="post" action="">
+    {{ form.csrf_token }}
+    <h1 class="h1 fw-normal">Verificatie</h1>
+
+    <div class="form-floating">
+      {{ form.otp(placeholder="OTP", class="form-control mb-2") }}
+      {{ form.otp.label }}
+        {% if form.otp.errors %}
+          {% for error in form.otp.errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Verifiëren</button>
+  </form>
+</div>
+
+{% endblock %}

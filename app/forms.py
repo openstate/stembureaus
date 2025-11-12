@@ -115,6 +115,11 @@ class LoginForm(FlaskForm):
     )
 
 
+class TwoFactorForm(FlaskForm):
+    otp = StringField('Authenticator code', validators=[
+                      InputRequired(), Length(min=6, max=6)])
+
+
 class SignupForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     gemeente = SelectField('Gemeente', validators=[DataRequired()], choices=[])

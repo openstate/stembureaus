@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ckanapi import RemoteCKAN
 from ckanapi.errors import CKANAPIError
 import jwt
+import pyotp
 
 from app import app, db, login_manager
 from app.email import send_email, send_invite
@@ -157,11 +158,26 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True)
     password_hash = db.Column(db.String(162))
     admin = db.Column(db.Boolean, default=False)
+    has_2fa_enabled = db.Column(db.Boolean, nullable=False, default=False)
+    secret_token = db.Column(db.String(32), unique=True)
 
     gemeenten = db.relationship(
         'Gemeente',
         secondary='gemeente_user'
     )
+
+    def __init__(self, email, admin=False):
+        self.email = email
+        self.admin = admin
+        self.secret_token = pyotp.random_base32()
+
+    def get_authentication_setup_uri(self):
+        return pyotp.totp.TOTP(self.secret_token).provisioning_uri(
+            name=self.email, issuer_name=app.config['SERVER_NAME'])
+
+    def is_otp_valid(self, user_otp):
+        totp = pyotp.parse_uri(self.get_authentication_setup_uri())
+        return totp.verify(user_otp)
 
     def set_password(self, password):
         if len(password) < 12:
