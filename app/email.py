@@ -3,12 +3,14 @@ from flask_mail import Message
 from app import app, mail
 
 
-def send_email(subject, sender, recipients, text_body, html_body):
+def send_email(subject, sender, recipients, text_body, html_body, debug = False):
     msg = Message(subject, sender=sender, recipients=recipients)
     msg.body = text_body
     msg.html = html_body
-    mail.send(msg)
-
+    if debug:
+        return msg
+    else:
+        mail.send(msg)
 
 def send_password_reset_email(user):
     token = user.get_reset_password_token()
@@ -63,4 +65,27 @@ def send_update(user):
             'email/update.html',
             user=user
         )
+    )
+
+# Sends an email about changed stembureau data
+def send_changed_data(gemeente, user, time_phrase, changes, debug = False):
+    return send_email(
+        "Overzicht van gewijzigde gegevens op WaarIsMijnStemlokaal.nl",
+        sender=app.config['FROM'],
+        recipients=[user.email],
+        text_body=render_template(
+            'email/changed_data.txt',
+            gemeente=gemeente,
+            user=user,
+            time_phrase=time_phrase,
+            changes=changes
+        ),
+        html_body=render_template(
+            'email/changed_data.html',
+            gemeente=gemeente,
+            user=user,
+            time_phrase=time_phrase,
+            changes=changes
+        ),
+        debug=debug
     )
