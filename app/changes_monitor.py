@@ -12,8 +12,8 @@ class ChangesMonitor:
   """
   Usage:
     changes_monitor = ChangesMonitor()
-    all_draft_records = ckan.get_records(resource_id)['records']
-    changes_monitor.process_changes(all_draft_records)
+    all_records = ckan.get_records(resource_id)['records']
+    changes_monitor.process_changes(all_records)
 
   Call this from cron near the end of each working day to inform the users about changed data.
     `sudo docker exec stm-app-1 flask ckan monitor-changes`

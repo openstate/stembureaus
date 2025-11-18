@@ -863,10 +863,10 @@ def show_gemeenten_without_data(resource_id):
 @click.option('--debug', default=False)
 def monitor_changes(debug):
     changes_monitor = ChangesMonitor(debug=debug)
-    resource_id = list(ckan.elections.values())[0]['draft_resource']
-    all_draft_records = ckan.get_records(resource_id)['records']
+    resource_id = list(ckan.elections.values())[0]['publish_resource']
+    all_records = ckan.get_records(resource_id)['records']
 
-    changes_monitor.process_changes(all_draft_records)
+    changes_monitor.process_changes(all_records)
 
 
 # MySQL commands
