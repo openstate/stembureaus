@@ -326,7 +326,10 @@ def _add_gemeente_allowed(user, gemeente_id):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    app.logger.info(f"IN LOADUSER: {user_id}")
+    user = User.query.get(int(user_id))
+    app.logger.info(user)
+    return user
 
 
 class Election(db.Model):
