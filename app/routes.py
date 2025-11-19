@@ -240,8 +240,7 @@ def after_request_callback(response):
 
 # Decorator function to ensure TOTP token was verified for admins
 def ensure_2fa_verification(fun):
-    fun2 = login_required(fun)
-    @wraps(fun2)
+    @wraps(fun)
     def ensure_2fa_verification_impl(*args, **kwargs):
         tfa_confirmed = get_2fa_confirmed()
 
@@ -254,19 +253,18 @@ def ensure_2fa_verification(fun):
                 return redirect(url_for('setup_2fa'))
 
         # 2FA is now either not required or already done
-        return fun2(*args, **kwargs)
+        return fun(*args, **kwargs)
     
     return ensure_2fa_verification_impl
 
 
 # Decorator function for setting up TOTP
 def admin_login_required(fun):
-    fun2 = login_required(fun)
-    @wraps(fun2)
+    @wraps(fun)
     def admin_login_required_impl(*args, **kwargs):
         if not current_user.admin:
             return redirect(url_for('index'))
-        return fun2(*args, **kwargs)
+        return fun(*args, **kwargs)
 
     return admin_login_required_impl
 
@@ -569,25 +567,33 @@ def gemeente_login():
         return redirect(url_for('gemeente_selectie'))
 
     form = LoginForm()
+    app.logger.info("HIER1")
     if form.validate_on_submit():
+        app.logger.info("HIER2")
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.Wachtwoord.data):
+            app.logger.info("HIER3")
             flash('Fout e-mailadres of wachtwoord')
             return(redirect(url_for('gemeente_login')))
         
+        app.logger.info(user)
         login_user(user)
+        app.logger.info("HIER4")
         if user.admin:
+            app.logger.info("HIER5")
             set_2fa_confirmed(False)
             if user.has_2fa_enabled:
                 return redirect(url_for('verify_two_factor_auth'))
             else:
                 return redirect(url_for('setup_2fa'))
         return redirect(url_for('gemeente_selectie'))
+    app.logger.info("HIER6")
     return render_template('gemeente-login.html', form=form)
 
 
 @app.route("/setup-2fa")
 @admin_login_required
+@login_required
 def setup_2fa():
     secret = current_user.secret_token
     uri = current_user.get_authentication_setup_uri()
@@ -597,6 +603,7 @@ def setup_2fa():
 
 @app.route("/verify-2fa", methods=["GET", "POST"])
 @admin_login_required
+@login_required
 def verify_two_factor_auth():
     form = TwoFactorForm(request.form)
     if form.validate_on_submit():
@@ -638,6 +645,7 @@ def gemeente_logout():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
+@login_required
 def gemeente_selectie():
     if len(current_user.gemeenten) == 1:
         session[
@@ -671,6 +679,7 @@ def gemeente_selectie():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
+@login_required
 def gemeente_stemlokalen_dashboard():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -881,6 +890,7 @@ def gemeente_stemlokalen_dashboard():
 
 @app.route("/gemeente-stemlokalen-overzicht", methods=['GET', 'POST'])
 @ensure_2fa_verification
+@login_required
 def gemeente_stemlokalen_overzicht():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -967,6 +977,7 @@ def gemeente_stemlokalen_overzicht():
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
+@login_required
 def gemeente_stemlokalen_edit(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -1094,6 +1105,7 @@ def gemeente_stemlokalen_edit(stemlokaal_id=None):
     methods=['GET', 'POST']
 )
 @ensure_2fa_verification
+@login_required
 def gemeente_stemlokaal_delete(stemlokaal_id=None):
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
@@ -1120,6 +1132,7 @@ def gemeente_stemlokaal_delete(stemlokaal_id=None):
 
 @app.route("/gemeente-instructies")
 @ensure_2fa_verification
+@login_required
 def gemeente_instructies():
     # Select a gemeente if none is currently selected
     if not 'selected_gemeente_code' in session:
