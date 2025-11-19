@@ -6,6 +6,7 @@ from functools import wraps
 from datetime import datetime
 from decimal import Decimal
 
+from app import models
 from flask import (
     render_template, request, redirect, url_for, flash, session,
     jsonify
@@ -20,7 +21,7 @@ import sqlalchemy
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import cast
 
-from app import app, db
+from app import app, db, login_manager
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
     FileUploadForm, PubliceerForm, GemeenteSelectionForm, SignupForm, TwoFactorForm
@@ -32,6 +33,13 @@ from app.models import Gemeente, User, ckan, Record, BAG, add_user
 from app.utils import get_b64encoded_qr_image, remove_id
 from time import sleep
 import uuid
+
+@login_manager.user_loader
+def load_user(user_id):
+    app.logger.info(f"IN LOADUSER XYZ2: {user_id}")
+    user = models.User.query.get(int(user_id))
+    app.logger.info(user)
+    return user
 
 
 # Used to set the order of the fields in the stembureaus overzicht
