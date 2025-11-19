@@ -1289,4 +1289,5 @@ def _colnum2string(n):
 
 
 if __name__ == "__main__":
-    app.run(threaded=True)
+    app.logger.info("NOW STARTING APP")
+    app.run()
