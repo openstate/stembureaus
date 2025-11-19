@@ -9,7 +9,7 @@ from decimal import Decimal
 from app import models
 from flask import (
     render_template, request, redirect, url_for, flash, session,
-    jsonify
+    jsonify, has_request_context
 )
 from markupsafe import Markup
 from flask_login import (
@@ -252,7 +252,8 @@ def ensure_2fa_verification(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
-        app.logger.info(threading.current_thread().ident)
+        app.logger.info(f"THREAD {threading.current_thread().ident}")
+        app.logged.info(f"has_request_context: {has_request_context()}")
         app.logger.info(f"AAA1 {current_user}")
         app.logger.info(current_user.is_active)
         app.logger.info(session)
@@ -280,7 +281,8 @@ def admin_login_required(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def admin_login_required_impl(*args, **kwargs):
-        app.logger.info(threading.current_thread().ident)
+        app.logger.info(f"THREAD {threading.current_thread().ident}")
+        app.logged.info(f"has_request_context: {has_request_context()}")
         app.logger.info(f"AAA3 {current_user}")
         app.logger.info(current_user.is_active)
         app.logger.info(session)
@@ -588,7 +590,8 @@ def user_reset_wachtwoord(token):
 
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():
-    app.logger.info(threading.current_thread().ident)
+    app.logger.info(f"THREAD {threading.current_thread().ident}")
+    app.logged.info(f"has_request_context: {has_request_context()}")
     app.logger.info(f"AAA5 {current_user}")
     app.logger.info(current_user.is_active)
     app.logger.info(session)
