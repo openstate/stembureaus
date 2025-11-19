@@ -10,7 +10,7 @@ from ckanapi.errors import CKANAPIError
 import jwt
 import pyotp
 
-from app import app, db, login_manager
+from app import app, db
 from app.email import send_email, send_invite
 
 
@@ -322,14 +322,6 @@ def _add_gemeente_allowed(user, gemeente_id):
     )
 
     return allowed
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    app.logger.info(f"IN LOADUSER: {user_id}")
-    user = User.query.get(int(user_id))
-    app.logger.info(user)
-    return user
 
 
 class Election(db.Model):

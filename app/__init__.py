@@ -28,6 +28,13 @@ login_manager.session_protection = "basic"
 login_manager.login_message = u"Log in om verder te gaan"
 login_manager.login_view = "gemeente_login"
 
+@login_manager.user_loader
+def load_user(user_id):
+    app.logger.info(f"IN LOADUSER XYZ: {user_id}")
+    user = models.User.query.get(int(user_id))
+    app.logger.info(user)
+    return user
+
 locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
 locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
