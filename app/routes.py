@@ -243,6 +243,7 @@ def ensure_2fa_verification(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
+        result = fun2(*args, **kwargs)
         tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
@@ -254,7 +255,7 @@ def ensure_2fa_verification(fun):
                 return redirect(url_for('setup_2fa'))
 
         # 2FA is now either not required or already done
-        return fun2(*args, **kwargs)
+        return result
     
     return ensure_2fa_verification_impl
 
@@ -264,9 +265,10 @@ def admin_login_required(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def admin_login_required_impl(*args, **kwargs):
+        result = fun2(*args, **kwargs)
         if not current_user.admin:
             return redirect(url_for('index'))
-        return fun2(*args, **kwargs)
+        return result
 
     return admin_login_required_impl
 
