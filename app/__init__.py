@@ -15,7 +15,6 @@ from flask_mail import Mail
 app = Flask(__name__)
 app.app_context().push()
 app.config.from_object(Config)
-app.logger.info(f"Secret key {app.secret_key}")
 db = SQLAlchemy(app)
 
 mail = Mail(app)
@@ -76,3 +75,4 @@ file_handler.setLevel(logging.INFO)
 app.logger.addHandler(file_handler)
 app.logger.setLevel(logging.INFO)
 app.logger.info('Stemlokalen startup')
+app.logger.info(f"Secret key {app.secret_key}")
