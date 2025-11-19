@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+import threading
 from functools import wraps
 from datetime import datetime
 from decimal import Decimal
@@ -243,6 +244,7 @@ def ensure_2fa_verification(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
+        app.logger.info(threading.current_thread().ident)
         app.logger.info(f"AAA1 {current_user}")
         app.logger.info(current_user.is_active)
         app.logger.info(session)
@@ -270,6 +272,7 @@ def admin_login_required(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def admin_login_required_impl(*args, **kwargs):
+        app.logger.info(threading.current_thread().ident)
         app.logger.info(f"AAA3 {current_user}")
         app.logger.info(current_user.is_active)
         app.logger.info(session)
@@ -577,6 +580,7 @@ def user_reset_wachtwoord(token):
 
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():
+    app.logger.info(threading.current_thread().ident)
     app.logger.info(f"AAA5 {current_user}")
     app.logger.info(current_user.is_active)
     app.logger.info(session)
