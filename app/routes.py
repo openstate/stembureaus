@@ -594,7 +594,7 @@ def gemeente_login():
             flash('Fout e-mailadres of wachtwoord')
             return(redirect(url_for('gemeente_login')))
         
-        login_user(user, remember_me=True)
+        login_user(user, remember=True)
         app.logger.info(current_user.is_active)
         if user.admin:
             set_2fa_confirmed(False)
