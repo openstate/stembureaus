@@ -15,6 +15,7 @@ from flask_mail import Mail
 app = Flask(__name__)
 app.app_context().push()
 app.config.from_object(Config)
+app.logger.info(f"Secret key {app.secret_key}")
 db = SQLAlchemy(app)
 
 mail = Mail(app)
