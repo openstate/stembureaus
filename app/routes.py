@@ -238,9 +238,9 @@ def set_2fa_confirmed(value):
     session[app.config['SESSION_2FA_CONFIRMED_NAME']] = value
 
 
-@app.before_request
-def before():
-    g.user = _get_user()
+# @app.before_request
+# def before():
+#     g.user = _get_user()
 
 # Add 'Cache-Control': 'private' header if users are logged in
 @app.after_request
