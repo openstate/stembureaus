@@ -244,6 +244,7 @@ def ensure_2fa_verification(fun):
     @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
         app.logger.info(f"AAA1 {current_user}")
+        app.logger.info(session)
         result = fun2(*args, **kwargs)
         app.logger.info(f"AAA2 {current_user}")
         tfa_confirmed = get_2fa_confirmed()
@@ -268,6 +269,7 @@ def admin_login_required(fun):
     @wraps(fun2)
     def admin_login_required_impl(*args, **kwargs):
         app.logger.info(f"AAA3 {current_user}")
+        app.logger.info(session)
         result = fun2(*args, **kwargs)
         app.logger.info(f"AAA4 {current_user}")
         if not current_user.admin:
@@ -572,6 +574,7 @@ def user_reset_wachtwoord(token):
 @app.route("/gemeente-login", methods=['GET', 'POST'])
 def gemeente_login():
     app.logger.info(f"AAA5 {current_user}")
+    app.logger.info(session)
     if current_user.is_authenticated:
         return redirect(url_for('gemeente_selectie'))
 
