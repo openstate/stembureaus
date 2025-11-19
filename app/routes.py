@@ -13,7 +13,7 @@ from flask import (
 )
 from markupsafe import Markup
 from flask_login import (
-    login_required, login_user, logout_user, current_user, _get_user
+    login_required, login_user, logout_user, current_user
 )
 
 from werkzeug.utils import secure_filename
@@ -237,10 +237,6 @@ def rate_limit_2fa_reached():
 def set_2fa_confirmed(value):
     session[app.config['SESSION_2FA_CONFIRMED_NAME']] = value
 
-
-# @app.before_request
-# def before():
-#     g.user = _get_user()
 
 # Add 'Cache-Control': 'private' header if users are logged in
 @app.after_request
