@@ -233,10 +233,23 @@ def ensure_2fa_verification(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def ensure_2fa_verification_impl(*args, **kwargs):
+        # tfa_confirmed is
+        # - None for anonymous visitors
+        # - None for normal users
+        # - False or True for admin users
         tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
-            if not current_user.admin:
+            # current_user is of type werkzeug.local.LocalProxy for logged-in users; it is AnonymousUserMixin
+            # for anonymous visitors. Property `admin` only exists for actual users, not on AnonymousUserMixin.
+            # We don't want to make explicit checks for these user types here because they may silently change,
+            # so use a try-except block. Note that as long as tfa_confirmed gets removed from the session
+            # during logout we don't get here anyway because then tfa_confirmed is None.
+            try:
+                is_admin = current_user.admin
+            except AttributeError:
+                is_admin = False
+            if not is_admin:
                 return redirect(url_for('index'))
             elif current_user.has_2fa_enabled:
                 return redirect(url_for('verify_two_factor_auth'))
