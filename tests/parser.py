@@ -3,7 +3,7 @@ import os
 import unittest
 
 from xlrd import open_workbook
-from flask import current_app
+from tests import app
 
 from app.parser import BaseParser, ExcelParser
 
@@ -51,7 +51,7 @@ test_record1 = {
 
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
 # to test_record1
-if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
     test_record1['verkiezingen'] = 'waterschapsverkiezingen voor Delfland'
 
 test_record2 = {
@@ -93,7 +93,7 @@ test_record2 = {
 
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
 # to test_record2
-if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
     test_record2['verkiezingen'] = ''
 
 
@@ -155,7 +155,7 @@ class TestExcelParser(unittest.TestCase):
         ]
         # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
         # to the accepted_headers
-        if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
             accepted_headers += ['verkiezingen']
         self.assertListEqual(headers, accepted_headers)
 
