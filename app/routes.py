@@ -192,6 +192,17 @@ def _hydrate(record, minimal_type='default'):
     return minimal_record
 
 
+# current_user is of type werkzeug.local.LocalProxy for logged-in users; it is AnonymousUserMixin
+# for anonymous visitors. Property `admin` only exists for actual users, not on AnonymousUserMixin.
+# We don't want to make explicit checks for these user types here because they may silently change,
+# so use a try-except block. Note that as long as tfa_confirmed gets removed from the session
+# during logout we don't get here anyway because then tfa_confirmed is None.
+def get_is_admin():
+    try:
+        return current_user.admin
+    except AttributeError:
+        return False
+
 def get_2fa_confirmed():
     try:
         return session[current_app.config['SESSION_2FA_CONFIRMED_NAME']]
@@ -240,15 +251,7 @@ def ensure_2fa_verification(fun):
         tfa_confirmed = get_2fa_confirmed()
 
         if tfa_confirmed == False:
-            # current_user is of type werkzeug.local.LocalProxy for logged-in users; it is AnonymousUserMixin
-            # for anonymous visitors. Property `admin` only exists for actual users, not on AnonymousUserMixin.
-            # We don't want to make explicit checks for these user types here because they may silently change,
-            # so use a try-except block. Note that as long as tfa_confirmed gets removed from the session
-            # during logout we don't get here anyway because then tfa_confirmed is None.
-            try:
-                is_admin = current_user.admin
-            except AttributeError:
-                is_admin = False
+            is_admin = get_is_admin()
             if not is_admin:
                 return redirect(url_for('index'))
             elif current_user.has_2fa_enabled:
@@ -267,7 +270,8 @@ def admin_login_required(fun):
     fun2 = login_required(fun)
     @wraps(fun2)
     def admin_login_required_impl(*args, **kwargs):
-        if not current_user.admin:
+        is_admin = get_is_admin()
+        if not is_admin:
             return redirect(url_for('index'))
         return fun2(*args, **kwargs)
 
