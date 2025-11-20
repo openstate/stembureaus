@@ -3,7 +3,6 @@
 
 from werkzeug.datastructures import MultiDict
 
-from app import app
 from app.forms import EditForm
 
 import uuid

@@ -3,14 +3,13 @@
 # Sicco: based on the following guide:
 # https://developers.google.com/sheets/api/quickstart/python
 
+from flask import current_app
 from __future__ import print_function
 import copy
 import csv
 import httplib2
 import os
-import re
 import json
-from pprint import pprint
 import sys
 
 from apiclient import discovery
@@ -31,9 +30,7 @@ CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
 sys.path.insert(0, '.')
-from app.models import ckan
 from app.email import send_email
-from app import app, mail
 
 
 def get_credentials():
@@ -138,20 +135,19 @@ def main():
 
             # Send an email if the gemeente could not be found
             if len(json_gemeente) <= 0:
-                with app.app_context():
-                    send_email(
-                        '[waarismijnstemlokaal.nl] Gemeente niet in '
-                        'gemeenten.json.example',
-                        sender=app.config['FROM'],
-                        recipients=app.config['ADMINS'],
-                        text_body=(
-                            'Kon %s niet vinden in gemeenten.json.example'
-                        ) % (new_gemeente_naam),
-                        html_body=(
-                            '<p>Kon %s niet vinden in '
-                            'gemeenten.json.example</p>'
-                        ) % (new_gemeente_naam),
-                    )
+                send_email(
+                    '[waarismijnstemlokaal.nl] Gemeente niet in '
+                    'gemeenten.json.example',
+                    sender=current_app.config['FROM'],
+                    recipients=current_app.config['ADMINS'],
+                    text_body=(
+                        'Kon %s niet vinden in gemeenten.json.example'
+                    ) % (new_gemeente_naam),
+                    html_body=(
+                        '<p>Kon %s niet vinden in '
+                        'gemeenten.json.example</p>'
+                    ) % (new_gemeente_naam),
+                )
                 continue
             # Add the email adress to the gemeente info
             json_gemeente[0]['email'].append(row[1])

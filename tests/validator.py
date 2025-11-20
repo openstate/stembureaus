@@ -2,8 +2,9 @@
 
 import unittest
 
+from flask import current_app
+
 from app.validator import Validator, RecordValidator
-import app
 from app.models import Record
 from tests.test_record import test_record
 
@@ -14,7 +15,7 @@ class TestRecordValidator(unittest.TestCase):
         self.test_record = Record(**test_record)
 
     def test_parse(self):
-        with app.app.test_request_context('/'):
+        with current_app.test_request_context('/'):
             result, errors, form = self.record_validator.validate(
                 record=self.test_record.record
             )
@@ -34,7 +35,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(results['results'], {})
 
     def test_parse_one(self):
-        with app.app.test_request_context('/'):
+        with current_app.test_request_context('/'):
             results = self.validator.validate(
                 records=self.test_records)
         self.assertEqual(results['no_errors'], True)

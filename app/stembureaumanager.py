@@ -1,5 +1,7 @@
-from app import app, db
-from app.models import ckan
+from flask import current_app
+from datetime import datetime
+
+from app import db, ckan
 from app.email import send_email
 from app.parser import BaseParser, valid_headers
 from app.validator import Validator
@@ -11,9 +13,6 @@ from urllib.parse import urljoin
 from dateutil import parser
 import copy
 import requests
-
-from app import app
-
 
 class BaseAPIParser(BaseParser):
     pass
@@ -33,7 +32,7 @@ class StembureauManagerParser(BaseAPIParser):
 
         # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
         # to the record
-        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
             record['verkiezingen'] = data['Verkiezingen']
 
         for locatie in data['Locaties']:
@@ -83,9 +82,9 @@ class StembureauManagerParser(BaseAPIParser):
 
 
 class APIManager(object):
-    def __init__(self, *arg, **kwargs):
-        for kwarg, v in kwargs.items():
-            setattr(self, kwarg, v)
+    def __init__(self, from_date: datetime, gm_code: str):
+        self.from_date = from_date
+        self.gm_code = gm_code
 
     def _get_draft_and_publish_records_for_gemeente(self, verkiezing, gemeente_code):
         """
@@ -157,8 +156,8 @@ class APIManager(object):
             "[WaarIsMijnStemlokaal.nl] Fouten bij het inladen van %s via %s" % (
                 gemeente.gemeente_naam, current_api
             ),
-            sender=app.config['FROM'],
-            recipients=app.config['ADMINS'],
+            sender=current_app.config['FROM'],
+            recipients=current_app.config['ADMINS'],
             text_body=output,
             html_body=None
         )
@@ -166,9 +165,9 @@ class APIManager(object):
 
 class StembureauManager(APIManager):
     def _request(self, endpoint, params=None):
-        url = urljoin(app.config['STEMBUREAUMANAGER_BASE_URL'], endpoint)
+        url = urljoin(current_app.config['STEMBUREAUMANAGER_BASE_URL'], endpoint)
         return requests.get(url, params=params, headers={
-            'x-api-key': app.config['STEMBUREAUMANAGER_API_KEY']
+            'x-api-key': current_app.config['STEMBUREAUMANAGER_API_KEY']
         }).json()
 
     # Overview of all the municipalities in the API and their 'gewijzigd'
@@ -188,8 +187,8 @@ class StembureauManager(APIManager):
         if 'statusCode' in municipalities:
             send_email(
                 "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van SBM API overzicht",
-                sender=app.config['FROM'],
-                recipients=app.config['ADMINS'],
+                sender=current_app.config['FROM'],
+                recipients=current_app.config['ADMINS'],
                 text_body=municipalities,
                 html_body=None
             )
@@ -224,8 +223,8 @@ class StembureauManager(APIManager):
             #if data.get('statusCode', 200) >= 400:
                 send_email(
                     "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van SBM API gemeente data %s" % (gemeente.gemeente_naam),
-                    sender=app.config['FROM'],
-                    recipients=app.config['ADMINS'],
+                    sender=current_app.config['FROM'],
+                    recipients=current_app.config['ADMINS'],
                     text_body="Fout bij het ophalen van SBM API gemeente data %s" % (gemeente.gemeente_naam),
                     html_body=None
                 )

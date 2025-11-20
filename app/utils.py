@@ -9,7 +9,8 @@ from pyproj import Proj, transform
 import qrcode
 from base64 import b64encode
 
-from app.models import Gemeente, ckan
+from app.models import Gemeente
+from app import ckan
 
 
 # Remove '_id' as CKAN doesn't accept this field in upsert when we

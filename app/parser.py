@@ -5,7 +5,8 @@ import os
 import json
 import re
 
-from app import app
+from flask import current_app
+
 from pyexcel_ods3 import get_data
 from xlrd import open_workbook
 
@@ -44,7 +45,7 @@ valid_headers = [
 
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
 # to valid_headers
-if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
     valid_headers += ['Verkiezingen']
 
 parse_as_integer = [
@@ -136,7 +137,7 @@ class ODSParser(BaseParser):
                     found_valid_headers = True
                 headers.append(str(header[0]).lower().replace(' ', '_'))
         if not found_valid_headers:
-            app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            current_app.logger.warning('Geen geldige veldnamen gevonden in bestand')
             raise ValueError()
         return headers
 
@@ -212,10 +213,10 @@ class ExcelParser(BaseParser):
                 ).rstrip('_').replace('\n', '')
             )
         if not found_valid_headers:
-            app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            current_app.logger.warning('Geen geldige veldnamen gevonden in bestand')
             raise ValueError()
         if sorted(valid_headers) != sorted(all_headers_check):
-            app.logger.warning(f'Spreadsheet bevat niet alle veldnamen; dit zijn de afwijkende veldnamen: {set(valid_headers) - set(all_headers_check)}')
+            current_app.logger.warning(f'Spreadsheet bevat niet alle veldnamen; dit zijn de afwijkende veldnamen: {set(valid_headers) - set(all_headers_check)}')
             raise ValueError()
         return headers
 

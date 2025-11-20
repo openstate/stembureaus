@@ -3,124 +3,14 @@ from decimal import Decimal
 import json
 import os
 
+from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from ckanapi import RemoteCKAN
-from ckanapi.errors import CKANAPIError
 import jwt
 import pyotp
 
-from app import app, db, login_manager
+from app import login_manager, db
 from app.email import send_email, send_invite
-
-
-class CKAN():
-    def __init__(self):
-        self.ua = (
-            'waarismijnstemlokaal/1.0 (+https://waarismijnstemlokaal.nl/)'
-        )
-        self.ckanapi = RemoteCKAN(
-            app.config['CKAN_URL'],
-            apikey=app.config['CKAN_API_KEY'],
-            user_agent=self.ua
-        ).action
-        self.elections = app.config['CKAN_CURRENT_ELECTIONS']
-#        self.resources_metadata = self._get_resources_metadata()
-
-    def create_datastore(self, resource_id, fields):
-        self.ckanapi.datastore_create(
-            resource_id=resource_id,
-            force=True,
-            fields=fields,
-            primary_key=['UUID']
-        )
-
-    def resource_show(self, resource_id):
-        return self.ckanapi.resource_show(
-            id=resource_id
-        )
-
-    def delete_datastore(self, resource_id):
-        self.ckanapi.datastore_delete(
-            resource_id=resource_id,
-            force=True
-        )
-
-    def _get_resources_metadata(self):
-        resources_metadata = {}
-        for election_key, election_value in self.elections.items():
-            resources_metadata[election_key] = {}
-            try:
-                resources_metadata[election_key]['publish_resource'] = (
-                    self.ckanapi.resource_show(
-                        id=election_value['publish_resource']
-                    )
-                )
-            except CKANAPIError as e:
-                app.logger.error(
-                    'Can\'t get publish resource metadata: %s' % (e)
-                )
-
-            try:
-                resources_metadata[election_key]['draft_resource'] = (
-                    self.ckanapi.resource_show(id=election_value['draft_resource'])
-                )
-            except CKANAPIError as e:
-                app.logger.error(
-                    'Can\'t get draft resource metadata: %s' % (e)
-                )
-        return resources_metadata
-
-    def get_records(self, resource_id):
-        try:
-            return self.ckanapi.datastore_search(
-                resource_id=resource_id, limit=15000)
-        except CKANAPIError as e:
-            app.logger.error(
-                'Can\'t get records: %s' % (e)
-            )
-            return {'records': []}
-
-    def filter_records(self, resource_id, datastore_filters={}):
-        try:
-            return self.ckanapi.datastore_search(
-                resource_id=resource_id, filters=datastore_filters, limit=15000)
-        except CKANAPIError as e:
-            app.logger.error(
-                'Can\'t filter records: %s' % (e)
-            )
-            return {'records': []}
-
-    def save_records(self, resource_id, records):
-        self.ckanapi.datastore_upsert(
-            resource_id=resource_id,
-            force=True,
-            records=records,
-            method='upsert'
-        )
-
-    def delete_records(self, resource_id, filters=None):
-        self.ckanapi.datastore_delete(
-            resource_id=resource_id,
-            force=True,
-            filters=filters
-        )
-
-    # First delete all records in the publish_resource for the current
-    # gemeente, then upsert all draft_records of the current gemeente
-    # to the publish_resource
-    def publish(self, verkiezing, gemeente_code, draft_records):
-        election = self.elections[verkiezing]
-        self.delete_records(
-            election['publish_resource'],
-            {'CBS gemeentecode': gemeente_code}
-        )
-
-        self.save_records(election['publish_resource'], draft_records)
-
-
-ckan = CKAN()
-
 
 class Gemeente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -173,7 +63,7 @@ class User(UserMixin, db.Model):
 
     def get_authentication_setup_uri(self):
         return pyotp.totp.TOTP(self.secret_token).provisioning_uri(
-            name=self.email, issuer_name=app.config['SERVER_NAME'])
+            name=self.email, issuer_name=current_app.config['SERVER_NAME'])
 
     def is_otp_valid(self, user_otp):
         totp = pyotp.parse_uri(self.get_authentication_setup_uri())
@@ -195,7 +85,7 @@ class User(UserMixin, db.Model):
                 'reset_password': self.id,
                 'exp': time() + expires_in
             },
-            app.config['SECRET_KEY'],
+            current_app.config['SECRET_KEY'],
             algorithm='HS256'
         )
 
@@ -204,7 +94,7 @@ class User(UserMixin, db.Model):
         try:
             user_id = jwt.decode(
                 token,
-                app.config['SECRET_KEY'],
+                current_app.config['SECRET_KEY'],
                 algorithms='HS256'
             )['reset_password']
         except:
@@ -260,8 +150,8 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
             )
             send_email(
                 '[WaarIsMijnStemlokaal.nl] Nieuwe account aanvraag',
-                sender=app.config['FROM'],
-                recipients=app.config['ADMINS'],
+                sender=current_app.config['FROM'],
+                recipients=current_app.config['ADMINS'],
                 text_body=body,
                 html_body=body
             )
@@ -297,10 +187,10 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
 
 def _add_gemeente_allowed(user, gemeente_id):
     existing_gemeenten_count = Gemeente_user.query.filter_by(user_id=user.id).count()
-    if existing_gemeenten_count < app.config['MAX_GEMEENTEN_PER_USER']:
+    if existing_gemeenten_count < current_app.config['MAX_GEMEENTEN_PER_USER']:
         return True
 
-    allowed = user.email in app.config['MAX_GEMEENTEN_PER_USER_EXCEPTIONS']
+    allowed = user.email in current_app.config['MAX_GEMEENTEN_PER_USER_EXCEPTIONS']
     add_to_email = ''
     if allowed:
         title = '[WaarIsMijnStemlokaal.nl] Toegestaan: teveel gemeenten aan 1 gebruiker koppelen'
@@ -315,8 +205,8 @@ def _add_gemeente_allowed(user, gemeente_id):
     )
     send_email(
         title,
-        sender=app.config['FROM'],
-        recipients=app.config['ADMINS'],
+        sender=current_app.config['FROM'],
+        recipients=current_app.config['ADMINS'],
         text_body=body,
         html_body=body
     )
@@ -437,7 +327,7 @@ class Record(object):
 
         # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
         # to the record
-        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
             self.record['verkiezingen'] = record['verkiezingen']
 
     def expand(self):
@@ -481,6 +371,3 @@ class Record(object):
                 self.record[fld] = fld_val.encode('utf-8').decode()
             else:
                 self.record[fld] = None
-
-# Create the MySQL tables if they don't exist
-db.create_all()

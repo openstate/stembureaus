@@ -1,5 +1,5 @@
-from app import app
 from app.models import BAG
+from flask import current_app
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import (
@@ -903,7 +903,7 @@ class EditForm(FlaskForm):
 
     # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field to
     # the form
-    if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+    if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
         verkiezingen = CustomSelectMultipleField(
             'Verkiezingen',
             description=(

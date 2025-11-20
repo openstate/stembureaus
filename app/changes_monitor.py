@@ -1,8 +1,7 @@
-from app import db
 from contextlib import suppress
 from datetime import datetime
 from app.email import send_changed_data
-from app.models import Gemeente, Gemeente_user, User
+from app.models import Gemeente, Gemeente_user, User, db
 from sqlalchemy import select
 import json
 import os

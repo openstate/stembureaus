@@ -1,20 +1,16 @@
-from app import app, db
-from app.models import ckan
+from flask import current_app
+
+from app import db
 from app.email import send_email
-from app.parser import BaseParser, valid_headers
+from app.parser import valid_headers
 from app.validator import Validator
-from app.routes import create_record
-from app.utils import get_gemeente, publish_gemeente_records
+from app.utils import get_gemeente
 
 from app.stembureaumanager import BaseAPIParser, APIManager
 from urllib.parse import urljoin
 
-from dateutil import parser
 import copy
 import requests
-
-from app import app
-
 
 class TSAParser(BaseAPIParser):
     def convert_to_record(self, data):
@@ -41,7 +37,7 @@ class TSAParser(BaseAPIParser):
 
         # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
         # to the record
-        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+        if [x for x in current_app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
             record['verkiezingen'] = data['Verkiezingen']
 
         for locatie in data['Locaties']:
@@ -101,9 +97,9 @@ class TSAParser(BaseAPIParser):
 
 class TSAManager(APIManager):
     def _request(self, endpoint, params=None):
-        url = urljoin(app.config['TSA_BASE_URL'], endpoint)
+        url = urljoin(current_app.config['TSA_BASE_URL'], endpoint)
         return requests.get(url, params=params, headers={
-            'x-api-key': app.config['TSA_API_KEY']
+            'x-api-key': current_app.config['TSA_API_KEY']
         }).json()
 
     # Overview of all the municipalities in the API and their 'gewijzigd'
@@ -123,8 +119,8 @@ class TSAManager(APIManager):
         if 'statusCode' in municipalities:
             send_email(
                 "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van TSA API overzicht",
-                sender=app.config['FROM'],
-                recipients=app.config['ADMINS'],
+                sender=current_app.config['FROM'],
+                recipients=current_app.config['ADMINS'],
                 text_body=municipalities,
                 html_body=None
             )
@@ -159,8 +155,8 @@ class TSAManager(APIManager):
             #if data.get('statusCode', 200) >= 400:
                 send_email(
                     "[WaarIsMijnStemlokaal.nl] Fout bij het ophalen van TSA API gemeente data %s" % (gemeente.gemeente_naam),
-                    sender=app.config['FROM'],
-                    recipients=app.config['ADMINS'],
+                    sender=current_app.config['FROM'],
+                    recipients=current_app.config['ADMINS'],
                     text_body="Fout bij het ophalen van TSA API gemeente data %s" % (gemeente.gemeente_naam),
                     html_body=None
                 )
