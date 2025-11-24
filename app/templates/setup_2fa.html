@@ -17,11 +17,9 @@
         </div>
       <div class="form-inline">
         <div class="form-group">
-        <label for="secret">Secret Token</label>
+        <label for="secret">Geheime token</label>
         <input type="text" class="form-control" id="secret" value="{{ secret }}" readonly>
-        <button type="button" class="btn btn-primary mt-2" onclick="copySecret()">
-          Copy Secret
-        </button>          
+        {{ form.submit }}
         </div>
       </div>
     </form>
@@ -37,6 +35,7 @@
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
     alert("TOTP secret token gekopieerd!");
+    return false;
   }
 </script>
 {% endblock %}

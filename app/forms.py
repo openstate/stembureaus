@@ -114,11 +114,24 @@ class LoginForm(FlaskForm):
         }
     )
 
+class Setup2faForm(FlaskForm):
+    submit = SubmitField(
+        'Kopieer token',
+        render_kw={
+            'class': 'btn btn-info',
+            'onclick': 'return copySecret()'
+        }
+    )
 
 class TwoFactorForm(FlaskForm):
     otp = StringField('Authenticator code', validators=[
                       InputRequired(), Length(min=6, max=6)])
-
+    submit = SubmitField(
+        'Verifiëren',
+        render_kw={
+            'class': 'btn btn-info'
+        }
+    )
 
 class SignupForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])

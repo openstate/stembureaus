@@ -21,7 +21,7 @@ from sqlalchemy.sql.expression import cast
 
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
-    FileUploadForm, PubliceerForm, GemeenteSelectionForm, SignupForm, TwoFactorForm
+    FileUploadForm, PubliceerForm, GemeenteSelectionForm, Setup2faForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
@@ -605,10 +605,11 @@ def create_routes(app):
     @app.route("/setup-2fa")
     @admin_login_required
     def setup_2fa():
+        form = Setup2faForm(request.form)
         secret = current_user.secret_token
         uri = current_user.get_authentication_setup_uri()
         base64_qr_image = get_b64encoded_qr_image(uri)
-        return render_template("setup_2fa.html", secret=secret, qr_image=base64_qr_image)
+        return render_template("setup_2fa.html", secret=secret, qr_image=base64_qr_image, form=form)
 
 
     @app.route("/verify-2fa", methods=["GET", "POST"])
