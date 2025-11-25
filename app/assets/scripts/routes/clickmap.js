@@ -1,5 +1,6 @@
 export default {
   init() {
+  console.info("in export default clickmap");
     // JavaScript to be fired on the home page
     //console.log('Clickmap init');
   },
@@ -14,9 +15,11 @@ export default {
 
 var cmap;
 var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false, muni: null, bag_record: null};
+console.info("hier11");
 
 var run_clickmap = function() {
   //console.log('Initializing the clickmap now');
+  console.info("hier12");
   var lat = document.getElementById('latitude').value;
   var lon = document.getElementById('longitude').value;
 

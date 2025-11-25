@@ -1,6 +1,8 @@
 import Fuse from 'fuse.js';
 import nlmaps from './nlmaps.iife';
 
+console.info("in map.js");
+
 var weelchair_labels = {
   'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
   'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;'
@@ -88,6 +90,7 @@ var user_marker;
 export default {
   // JavaScript to be fired on pages that contain the map
   init() {
+    console.info("in export default map");
     var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
 
     // Icons
@@ -687,6 +690,7 @@ export default {
       }
     }
 
+    console.info("just before map check");
     if ($('#map').length) {
       run_stembureaus();
     }

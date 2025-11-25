@@ -2,6 +2,7 @@ import clickmap from './clickmap';
 
 export default {
   init() {
+    console.info("in export default common");
     // JavaScript to be fired on all pages
     //console.log('Common init');
     // JavaScript to be fired on pages that contain the map

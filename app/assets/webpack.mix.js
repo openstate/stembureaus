@@ -15,14 +15,18 @@ mix.setPublicPath('../static/dist');
 
 mix.copyDirectory('node_modules/bootstrap-sass/assets/fonts/bootstrap/', '../static/dist/fonts/');
 mix.copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts/', '../static/dist/webfonts/');
+// Do not include jquery in webpack if you want to use it outside main.js, see
+// https://github.com/laravel-mix/laravel-mix/issues/1866#issuecomment-449882922
+mix.copy('./scripts/jquery-3.7.1.min.js', '../static/dist/scripts/')
 
-mix.js('scripts/main.js', '../static/dist/scripts/');
-
-mix.sass('styles/main.scss', '../static/dist/styles/')
-
-mix.autoload({
-  jquery: ['jQuery', '$', 'window.jQuery', 'window.$'],
+mix.webpackConfig({
+   externals: {
+      jquery: 'jQuery'
+   }
 });
+
+mix.js('scripts/main.js', '../static/dist/scripts/')
+  .sass('styles/main.scss', '../static/dist/styles/').extract()
 
 mix.options({
   processCssUrls: false,

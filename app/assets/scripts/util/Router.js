@@ -49,6 +49,7 @@ class Router {
    *  * common finalize
    */
   loadEvents() {
+    console.info("in Router loadEvents");
     // Fire common init JS
     this.fire('common');
 
