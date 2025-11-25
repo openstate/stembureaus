@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS `stembureaus`.`bag` (
   fulltext(openbareruimte),
   index bag_nummeraanduiding (nummeraanduiding),
   index bag_object_id (object_id),
-  index bag_pandid (pandid)
+  index bag_pandid (pandid),
+  index bag_gemeente (gemeente)
 ) CHARACTER SET=utf8;
 CREATE TABLE IF NOT EXISTS `stembureaus`.`bagtemp` LIKE `stembureaus`.`bag`;
 
