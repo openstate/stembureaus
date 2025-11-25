@@ -1,6 +1,4 @@
 let mix = require('laravel-mix');
-let webpack = require('webpack');
-require('laravel-mix-imagemin');
 
 /*
  |--------------------------------------------------------------------------
@@ -21,8 +19,6 @@ mix.copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts/', '../st
 mix.js('scripts/main.js', '../static/dist/scripts/');
 
 mix.sass('styles/main.scss', '../static/dist/styles/')
-
-mix.imagemin('images/*');
 
 mix.autoload({
   jquery: ['jQuery', '$', 'window.jQuery', 'window.$'],
