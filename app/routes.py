@@ -478,14 +478,14 @@ def create_routes(app):
         # gemeenten in Wims, but which are not used in the BAG, e.g. 'Beek (L.)'.
         # But keep 'Bergen (NH.)' and 'Bergen (L.)' as the BAG also uses that
         # spelling.
-        gemeente_naam = gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+        gemeente_naam = gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(r' \(.*\)$', '', gemeente.gemeente_naam)
 
         if not query:
             return jsonify([])
 
         results = None
         # first try postcode
-        m = re.match('^(\d{4})\s*([a-zA-z]{2})\s*(\d+)?\-?([a-zA-Z0-9]+)?\s*$', query)
+        m = re.match(r'^(\d{4})\s*([a-zA-z]{2})\s*(\d+)?\-?([a-zA-Z0-9]+)?\s*$', query)
         if m is not None:
             postcode = m.group(1) + m.group(2).upper()
             huisnr = None
@@ -508,7 +508,7 @@ def create_routes(app):
                         BAG.huisletter == huisnr_toev))
 
         # then try if it is a nummeraanduiding
-        m = re.match('^(\d{16})\s*$', query)
+        m = re.match(r'^(\d{16})\s*$', query)
         if m is not None:
             results = BAG.query.filter(
                 BAG.nummeraanduiding == m.group(1),
@@ -517,7 +517,7 @@ def create_routes(app):
 
         # finally, treat it as a street name
         if results is None:
-            m = re.match('^(.+)\s+(\d+)\-?([a-zA-Z0-9]+)?\s*(\,\s*.*)?$', query)
+            m = re.match(r'^(.+)\s+(\d+)\-?([a-zA-Z0-9]+)?\s*(\,\s*.*)?$', query)
             street = query
             huisnr = None
             huisnr_toev = None
@@ -1011,7 +1011,7 @@ def create_routes(app):
             bag_record = {'lat': 17.4912, 'lon': -62.9747}
         else:
             bag_result = BAG.query.filter_by(
-                gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(' \(.*\)$', '', gemeente.gemeente_naam)
+                gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(r' \(.*\)$', '', gemeente.gemeente_naam)
             ).order_by('openbareruimte').first()
             if bag_result:
                 bag_record = bag_result

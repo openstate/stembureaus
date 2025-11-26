@@ -246,7 +246,7 @@ def no_no(form, field):
 
 # Require at least four decimals and a point in between the numbers
 def min_four_decimals(form, field):
-    if not re.match('^-?\d+\.\d{4,}', str(field.data)):
+    if not re.match(r'^-?\d+\.\d{4,}', str(field.data)):
         raise ValidationError(
             'De cijfers in de Latitude en Longitude velden moeten met een '
             'punt (of komma) gescheiden worden en moeten minimaal 4 '
@@ -797,7 +797,7 @@ class EditForm(FlaskForm):
         validators=[
             DataRequired(),
             Regexp(
-                '^2025-10-29T\d{2}:\d{2}:\d{2}$',
+                r'^2025-10-29T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
                     'worden zoals bv. \'2025-10-29T07:30:00\'.'
@@ -827,7 +827,7 @@ class EditForm(FlaskForm):
         validators=[
             DataRequired(),
             Regexp(
-                '^2025-10-29T\d{2}:\d{2}:\d{2}$',
+                r'^2025-10-29T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
                     'worden zoals bv. \'2025-10-29T21:00:00\'.'
