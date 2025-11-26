@@ -7,14 +7,14 @@ from werkzeug.datastructures import MultiDict
 from app.forms import EditForm
 from app.models import Record
 
-from tests.test_record import test_record
+from tests.record_to_test import record_to_test
 
 
 class TestEditForm(unittest.TestCase):
     def test_good(self):
         app.config['WTF_CSRF_ENABLED'] = False
         with app.test_request_context('/'):
-            r = Record(**test_record)
+            r = Record(**record_to_test)
             form = EditForm(MultiDict(r.record))
             result = form.validate()
             for field, errors in form.errors.items():

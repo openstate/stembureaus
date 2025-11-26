@@ -6,14 +6,14 @@ from tests import app
 
 from app.validator import Validator, RecordValidator
 from app.models import Record
-from tests.test_record import test_record
+from tests.record_to_test import record_to_test
 
 
 class TestRecordValidator(unittest.TestCase):
     def setUp(self):
         self.record_validator = RecordValidator()
         with app.app_context():
-            self.test_record = Record(**test_record)
+            self.test_record = Record(**record_to_test)
 
     def test_parse(self):
         with app.test_request_context('/'):
@@ -28,7 +28,7 @@ class TestValidator(unittest.TestCase):
         self.validator = Validator()
         with app.app_context():
             self.test_records = [
-                Record(**x).record for x in [test_record, test_record]
+                Record(**x).record for x in [record_to_test, record_to_test]
             ]
 
     def test_parse_empty(self):

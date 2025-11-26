@@ -1,4 +1,4 @@
-test_record = {
+record_to_test = {
     'gemeente': "'s-Gravenhage",
     'cbs gemeentecode': 'GM0518',
     'nummer stembureau': 517,

@@ -16,7 +16,7 @@ openpyxl==3.0.6
 pyexcel-ods3==0.6.0
 qrcode[pil]==8.2
 pyproj==3.7.2
-nose==1.3.7
+nose2==0.15.1
 python-dateutil==2.9.0.post0
 
 # Dependencies installed by the packages above
