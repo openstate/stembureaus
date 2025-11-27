@@ -2,13 +2,13 @@
 import os
 import unittest
 
-from xlrd import open_workbook
+import pyexcel
 from tests import app
 
-from app.parser import BaseParser, ExcelParser
+from app.parser import BaseParser, UploadFileParser
 
 test_record1 = {
-    'nummer_stembureau': 517.0,
+    'nummer_stembureau': 517,
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'regulier',
     'website_locatie': (
@@ -16,8 +16,8 @@ test_record1 = {
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
     'extra_adresaanduiding': 'Ingang aan achterkant gebouw',
-    'x': '81611.0',
-    'y': '454909.0',
+    'x': '81611',
+    'y': '454909',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
     'openingstijd': '2025-10-29T07:30:00',
@@ -55,7 +55,7 @@ if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen'
     test_record1['verkiezingen'] = 'waterschapsverkiezingen voor Delfland'
 
 test_record2 = {
-    'nummer_stembureau': 516.0,
+    'nummer_stembureau': 516,
     'naam_stembureau': 'Stadhuis',
     'type_stembureau': 'bijzonder',
     'website_locatie': (
@@ -63,8 +63,8 @@ test_record2 = {
     ),
     'bag_nummeraanduiding_id': '0518200000747446',
     'extra_adresaanduiding': '',
-    'x': '81611.0',
-    'y': '454909.0',
+    'x': '81611',
+    'y': '454909',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
     'openingstijd': '2025-10-29T02:30:00',
@@ -91,6 +91,38 @@ test_record2 = {
     'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
 }
 
+accepted_headers = [
+    'nummer_stembureau',
+    'naam_stembureau',
+    'type_stembureau',
+    'website_locatie',
+    'bag_nummeraanduiding_id',
+    'extra_adresaanduiding',
+    'x',
+    'y',
+    'latitude',
+    'longitude',
+    'openingstijd',
+    'sluitingstijd',
+    'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
+    'toegankelijke_ov_halte',
+    'gehandicaptentoilet',
+    'host',
+    'geleidelijnen',
+    'stemmal_met_audio_ondersteuning',
+    'kandidatenlijst_in_braille',
+    'kandidatenlijst_met_grote_letters',
+    'gebarentolk_ngt',
+    'gebarentalig_stembureaulid_ngt',
+    'akoestiek_geschikt_voor_slechthorenden',
+    'prikkelarm',
+    'extra_toegankelijkheidsinformatie',
+    'overige_informatie',
+    'tellocatie',
+    'contactgegevens_gemeente',
+    'verkiezingswebsite_gemeente'
+]
+
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
 # to test_record2
 if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
@@ -106,65 +138,90 @@ class TestBaseParser(unittest.TestCase):
             self.parser.parse('/dev/null')
 
 
-class TestExcelParser(unittest.TestCase):
+# From https://gist.github.com/twolfson/13f5f5784f67fd49b245
+class BaseTestParsing(unittest.TestCase):
+    file_name = ''
+
+    @classmethod
+    def setUpClass(cls):
+        """On inherited classes, run our `setUp` method"""
+        if cls is not BaseTestParsing and cls.setUp is not BaseTestParsing.setUp:
+            orig_setUp = cls.setUp
+            def setUpOverride(self, *args, **kwargs):
+                BaseTestParsing.setUp(self)
+                return orig_setUp(self, *args, **kwargs)
+            cls.setUp = setUpOverride
+
     def setUp(self):
-        self.parser = ExcelParser()
-        self.file_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'data/waarismijnstemlokaal.nl_invulformulier.xlsx'
-        )
+        self.parser = UploadFileParser()
+        self.file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.file_name)
+        self.parser._set_parser(self.file_path)
         self.records = [test_record1, test_record2]
+        self.accepted_headers = accepted_headers
+
+    def get_headers_good_impl(self):
+        with app.test_request_context('/'):
+            sh = pyexcel.get_array(file_name = self.file_path, sheet_name='Attributen')
+            headers = self.parser.parser._get_headers(sh)
+        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
+        # to the accepted_headers
+        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
+            self.accepted_headers += ['verkiezingen']
+        self.assertListEqual(headers, self.accepted_headers)
+
+    def get_rows_good_impl(self):
+        rows = self.parser.parse(self.file_path)
+        self.maxDiff = None
+        self.assertDictEqual(rows[0], self.records[0])
+        self.assertDictEqual(rows[1], self.records[1])
+
+
+class TestXlsxParsing(BaseTestParsing):
+    file_name = 'data/waarismijnstemlokaal.nl_invulformulier.xlsx'
 
     # After running _get_headers the list
     # of headers should contain all values from column A in
     # the spreadsheet, even the ones that don't hold values
     def test_get_headers_good(self):
-        wb = open_workbook(self.file_path)
-        sh = wb.sheet_by_index(1)
-        headers = self.parser._get_headers(sh)
-        accepted_headers = [
-            'nummer_stembureau',
-            'naam_stembureau',
-            'type_stembureau',
-            'website_locatie',
-            'bag_nummeraanduiding_id',
-            'extra_adresaanduiding',
-            'x',
-            'y',
-            'latitude',
-            'longitude',
-            'openingstijd',
-            'sluitingstijd',
-            'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
-            'toegankelijke_ov_halte',
-            'gehandicaptentoilet',
-            'host',
-            'geleidelijnen',
-            'stemmal_met_audio_ondersteuning',
-            'kandidatenlijst_in_braille',
-            'kandidatenlijst_met_grote_letters',
-            'gebarentolk_ngt',
-            'gebarentalig_stembureaulid_ngt',
-            'akoestiek_geschikt_voor_slechthorenden',
-            'prikkelarm',
-            'extra_toegankelijkheidsinformatie',
-            'overige_informatie',
-            'tellocatie',
-            'contactgegevens_gemeente',
-            'verkiezingswebsite_gemeente'
-        ]
-        # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
-        # to the accepted_headers
-        if [x for x in app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
-            accepted_headers += ['verkiezingen']
-        self.assertListEqual(headers, accepted_headers)
+        self.get_headers_good_impl()
 
     # Test if the records are parsed correctly. This should still
     # include the fields that will not hold any value (e.g.,
     # 'bereikbaarheid') and exclude all fields that are added
     # later (e.g., 'gemeente')
     def test_get_rows_good(self):
-        rows = self.parser.parse(self.file_path)
-        self.maxDiff = None
-        self.assertDictEqual(rows[0], self.records[0])
-        self.assertDictEqual(rows[1], self.records[1])
+        self.get_rows_good_impl()
+
+
+class TestXlsParsing(BaseTestParsing):
+    file_name = 'data/waarismijnstemlokaal.nl_invulformulier.xls'
+
+    # After running _get_headers the list
+    # of headers should contain all values from column A in
+    # the spreadsheet, even the ones that don't hold values
+    def test_get_headers_good(self):
+        self.get_headers_good_impl()
+
+    # Test if the records are parsed correctly. This should still
+    # include the fields that will not hold any value (e.g.,
+    # 'bereikbaarheid') and exclude all fields that are added
+    # later (e.g., 'gemeente')
+    def test_get_rows_good(self):
+        self.get_rows_good_impl()
+
+
+class TestOdsParsing(BaseTestParsing):
+    file_name = 'data/waarismijnstemlokaal.nl_invulformulier.ods'
+
+    # After running _get_headers the list
+    # of headers should contain all values from column A in
+    # the spreadsheet, even the ones that don't hold values
+    def test_get_headers_good(self):
+        self.get_headers_good_impl()
+
+    # Test if the records are parsed correctly. This should still
+    # include the fields that will not hold any value (e.g.,
+    # 'bereikbaarheid') and exclude all fields that are added
+    # later (e.g., 'gemeente')
+    def test_get_rows_good(self):
+        self.get_rows_good_impl()

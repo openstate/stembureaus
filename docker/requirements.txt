@@ -8,18 +8,21 @@ pytz==2025.2
 pyotp==2.9.0
 uWSGI==2.0.31
 ckanapi==4.9
-xlrd==1.2.0
+pyexcel==0.7.4
+pyexcel-xls==0.7.1
+pyexcel-xlsx==0.6.1
+pyexcel-ods3==0.6.1
 Fiona==1.10.1
 Shapely==1.7.1
-PyMySQL==1.0.2
+PyMySQL==1.1.2
 openpyxl==3.0.6
-pyexcel-ods3==0.6.0
 qrcode[pil]==8.2
 pyproj==3.7.2
 nose2==0.15.1
 python-dateutil==2.9.0.post0
 
 # Dependencies installed by the packages above
+cryptography==46.0.3 # for PyMySQL
 Flask-Login==0.6.3
 Flask-WTF==1.2.2
 email-validator==2.3.0
@@ -39,7 +42,7 @@ et-xmlfile==1.0.1
 idna==2.10
 jdcal==1.4.1
 Jinja2==3.1.6
-lml==0.1.0
+lml==0.2.0
 lxml==6.0.2
 MarkupSafe==3.0.3
 munch==2.5.0

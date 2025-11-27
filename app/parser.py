@@ -7,8 +7,7 @@ import re
 
 from flask import current_app
 
-from pyexcel_ods3 import get_data
-from xlrd import open_workbook
+import pyexcel
 
 
 valid_headers = [
@@ -125,19 +124,35 @@ class BaseParser(object):
         raise NotImplementedError
 
 
-class ODSParser(BaseParser):
+# There used to be a separate ODSParser and ExcelParser. After upgrading from xlrd to pyexcel all
+# files can be parsed using ExcelParser.
+class ExcelParser(BaseParser):
     # Retrieve field names, lowercase them and replace spaces with
     # underscores
     def _get_headers(self, sh):
         headers = []
+        all_headers_check = []
         found_valid_headers = False
         for header in sh[1:]:
-            if header:
-                if self._header_valid(header[0]):
-                    found_valid_headers = True
-                headers.append(str(header[0]).lower().replace(' ', '_'))
+            name = header[0]
+            if self._header_valid(name):
+                found_valid_headers = True
+                all_headers_check.append(name)
+                # 'Slugify' the field name
+                headers.append(
+                    re.sub(
+                        '_+',
+                        '_',
+                        re.sub(
+                            r'[/: .,()\-]', '_', str(name).lower()
+                        )
+                    ).rstrip('_').replace('\n', '')
+                )
         if not found_valid_headers:
             current_app.logger.warning('Geen geldige veldnamen gevonden in bestand')
+            raise ValueError()
+        if sorted(valid_headers) != sorted(all_headers_check):
+            current_app.logger.warning(f'Spreadsheet bevat niet alle veldnamen; dit zijn de afwijkende veldnamen: {set(valid_headers) - set(all_headers_check)}')
             raise ValueError()
         return headers
 
@@ -146,28 +161,24 @@ class ODSParser(BaseParser):
         for col_num in range(5, len(sh[0])):
             record = {}
             for idx, row in enumerate(sh[1:len(clean_headers)+1]):
-                if row:
-                    # No values left
-                    if len(row) - 1 < col_num or len(row) <= 5:
-                        continue
+                try:
                     value = row[col_num]
-                    try:
-                        # Convert all to str except for bag_nummeraanduiding_id
-                        # as this field is interpreted as float by Excel so
-                        # first cast it to int and then to str
-                        if clean_headers[idx] == 'bag_nummeraanduiding_id':
-                            if type(value) == float or type(value) == int:
-                                record[clean_headers[idx]] = str(
-                                    int(value)
-                                ).strip()
-                            else:
-                                record[clean_headers[idx]] = value.strip()
-                        elif clean_headers[idx] == 'nummer_stembureau':
-                            record[clean_headers[idx]] = value
+                    # Convert all to str except for bag_nummeraanduiding_id
+                    # as this field is interpreted as float by Excel so
+                    # first cast it to int and then to str
+                    if clean_headers[idx] == 'bag_nummeraanduiding_id':
+                        if type(value) == float or type(value) == int:
+                            record[clean_headers[idx]] = str(
+                                int(value)
+                            ).strip()
                         else:
-                            record[clean_headers[idx]] = str(value).strip()
-                    except IndexError:
-                        record[clean_headers[idx]] = ''
+                            record[clean_headers[idx]] = value.strip()
+                    elif clean_headers[idx] in parse_as_integer:
+                        record[clean_headers[idx]] = value
+                    else:
+                        record[clean_headers[idx]] = str(value).strip()
+                except IndexError:
+                    record[clean_headers[idx]] = ''
 
             if 'bag_nummeraanduiding_id' in record:
                 record = self._clean_bag_nummeraanduiding_id(record)
@@ -180,85 +191,15 @@ class ODSParser(BaseParser):
         if not os.path.exists(path):
             return [], []
 
-        wb = get_data(path)
-        sh = wb['Attributen']
-
-        headers = self._get_headers(sh)
-
-        records = self._get_records(sh, headers)
-        clean_records = self._clean_records(records)
-
-        return clean_records
-
-
-class ExcelParser(BaseParser):
-    # Retrieve field names, lowercase them and replace spaces with
-    # underscores
-    def _get_headers(self, sh):
-        headers = []
-        all_headers_check = []
-        found_valid_headers = False
-        for header in sh.col_values(0)[1:]:
-            if self._header_valid(header):
-                found_valid_headers = True
-                all_headers_check.append(header)
-            # 'Slugify' the field name
-            headers.append(
-                re.sub(
-                    '_+',
-                    '_',
-                    re.sub(
-                        '[/: .,()\-]', '_', str(header).lower()
-                    )
-                ).rstrip('_').replace('\n', '')
-            )
-        if not found_valid_headers:
-            current_app.logger.warning('Geen geldige veldnamen gevonden in bestand')
-            raise ValueError()
-        if sorted(valid_headers) != sorted(all_headers_check):
-            current_app.logger.warning(f'Spreadsheet bevat niet alle veldnamen; dit zijn de afwijkende veldnamen: {set(valid_headers) - set(all_headers_check)}')
-            raise ValueError()
-        return headers
-
-    def _get_records(self, sh, clean_headers):
-        records = []
-        for col_num in range(5, sh.ncols):
-            record = {}
-            for idx, value in enumerate(
-                    sh.col_values(col_num)[1:len(clean_headers)+1]):
-                # Convert all to str except for bag_nummeraanduiding_id
-                # as this field is interpreted as float by Excel so
-                # first cast it to int and then to str
-                if clean_headers[idx] == 'bag_nummeraanduiding_id':
-                    if type(value) == float or type(value) == int:
-                        record[clean_headers[idx]] = str(
-                            int(value)
-                        ).strip()
-                    else:
-                        record[clean_headers[idx]] = value.strip()
-                elif clean_headers[idx] in parse_as_integer:
-                    record[clean_headers[idx]] = value
-                else:
-                    record[clean_headers[idx]] = str(value).strip()
-
-            record = self._clean_bag_nummeraanduiding_id(record)
-            records.append(record)
-
-        return records
-
-    def parse(self, path):
-        headers = []
-        if not os.path.exists(path):
-            return [], []
-
-        wb = open_workbook(path)
+        wb = pyexcel.get_book(file_name=path)
+        n_sheets = wb.number_of_sheets()
 
         # als we 1 tab hebben dan de eerste, anders de tweede
-        if wb.nsheets == 1:
-            nsh = 0
+        if n_sheets == 1:
+            sheet_index = 0
         else:
-            nsh = 1
-        sh = wb.sheet_by_index(nsh)
+            sheet_index = 1
+        sh = wb.sheet_by_index(sheet_index).array
 
         headers = self._get_headers(sh)
 
@@ -270,19 +211,25 @@ class ExcelParser(BaseParser):
 
 class UploadFileParser(BaseParser):
     PARSERS = {
-        '.ods': ODSParser,
+        '.ods': ExcelParser,
         '.xlsx': ExcelParser,
         '.xls': ExcelParser
     }
 
     def parse(self, path):
-        headers = []
-        records = []
+        self._set_parser(path)
+        if not self.parser:
+            return
+
+        return self.parser.parse(path)
+
+    def _set_parser(self, path):
+        self.parser = None
+
         if not os.path.exists(path):
-            return [], []
+            return
+        
         _, extension = os.path.splitext(path)
         if extension in self.PARSERS.keys():
             klass = self.PARSERS[extension]
-            parser = klass()
-            records = parser.parse(path)
-        return records
+            self.parser = klass()
