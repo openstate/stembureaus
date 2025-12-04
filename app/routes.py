@@ -530,7 +530,7 @@ def create_routes(app):
                 if m.group(4) is not None:
                     woonplaats = m.group(4)
             results = BAG.query.filter(
-                BAG.openbareruimte.match('+' + re.sub('\s+', '* +', street.strip()) + '*'),
+                BAG.openbareruimte.match('+' + re.sub(r'\s+', '* +', street.strip()) + '*'),
                 BAG.gemeente == gemeente_naam)
             if huisnr is not None:
                 results = results.filter(BAG.huisnummer.like(huisnr + '%'))
@@ -1275,4 +1275,7 @@ def _colnum2string(n):
 
 
 if __name__ == "__main__":
-    current_app.run(threaded=True)
+    if current_app.debug:
+        current_app.run(threaded=True, debug=True, extra_files="./static/dist/bundled/")
+    else:
+        current_app.run(threaded=True)

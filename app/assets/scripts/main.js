@@ -1,5 +1,5 @@
 // Import external dependencies
-import 'jquery';
+import './jquery_import';
 import 'bootstrap-sass';
 import 'bootstrap-select';
 import 'bootstrap-table';
@@ -17,9 +17,6 @@ import common from './routes/common';
 import home from './routes/home';
 import map from './routes/map';
 
-
-// Allows us to use jQuery in <script> elements in the .html files
-global.$ = global.jQuery = require('jquery');
 
 // Populate Router instance with DOM routes
 const routes = new Router({

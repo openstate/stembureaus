@@ -63,7 +63,8 @@ Production
 - Compile CSS/JS to `static/dist` directory: `sudo docker exec stm_nodejs_1 yarn prod`
 
 Development
-- Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn dev`
+- Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn build`
+- Run frontend server: `sudo docker exec stm_nodejs_1 yarn dev`
 - Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
 
 ## CLI
