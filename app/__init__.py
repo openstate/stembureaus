@@ -4,6 +4,7 @@ import locale
 import os
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
+from app.assets_blueprint import assets_blueprint
 from config import Config
 from datetime import datetime
 from flask import Flask
@@ -22,6 +23,7 @@ babel = Babel()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.register_blueprint(assets_blueprint)
     db.init_app(app)
     mail.init_app(app)
     ckan.init_app(app)
@@ -78,7 +80,7 @@ def create_app():
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
-    app.logger.info('Stemlokalen startup')
+    app.logger.info(f'Stemlokalen startup, debug={app.debug}')
 
     from app.models import (
         Gemeente, User, Gemeente_user, Election, BAG

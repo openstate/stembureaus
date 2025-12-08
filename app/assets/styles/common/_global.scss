@@ -1,3 +1,5 @@
+@use "_variables" as *;
+
 body {
   background-color: $light-grey;
   color: $dark-grey;
@@ -103,6 +105,10 @@ a {
   color: $light-grey;
 }
 
+.leaflet-container {
+  font-size: 0.9em;
+}
+
 .leaflet-popup-close-button {
   color: dimgrey !important;
 }
@@ -139,17 +145,11 @@ dd {
 }
 
 .awesome-marker {
-  background-image: url('../images/markers-soft.png');
-
   .svg-inline--fa {
     font-size: 1.2em;
     color: white;
     margin-top: 12px;
   }
-}
-
-.awesome-marker-shadow {
-  background-image: url('../images/markers-shadow.png');
 }
 
 

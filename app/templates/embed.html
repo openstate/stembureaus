@@ -18,7 +18,7 @@
   <meta name="msapplication-TileColor" content="#ffc40d">
   <meta name="theme-color" content="#ffffff">
 
-  <link rel="stylesheet" href="/static/dist/styles/main.css" />
+  <link rel="stylesheet" href="{{ asset('styles/main.scss') }}" />
 
   <!-- Matomo -->
   <script>
@@ -55,6 +55,6 @@
   </main>
 
   {% block scripts %}
-    <script src="/static/dist/scripts/main.js"></script>
+    <script src="{{ asset('scripts/main.js') }}"></script>
   {% endblock %}
 </body>
