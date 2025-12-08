@@ -1,6 +1,6 @@
 // Import external dependencies
 import './jquery_import';
-import 'bootstrap-sass';
+import * as bootstrap from 'bootstrap';
 import 'bootstrap-select';
 import 'bootstrap-table';
 import '../node_modules/bootstrap-table/dist/locale/bootstrap-table-nl-NL.min.js';

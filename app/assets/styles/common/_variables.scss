@@ -1,9 +1,10 @@
-// Glyphicons font path
-$icon-font-path:        "../fonts/";
-
 // Grid settings
 $main-sm-columns:       12;
 $sidebar-sm-columns:    4;
+
+// Bootstrap navbar
+$font-size-root: 14px;
+$navbar-padding-y: 0;
 
 // We use Bootstrap's horizontal <dl> to format the openingstijden, but
 // we don't want the <dd> to go below the <dt> on smaller screens, so

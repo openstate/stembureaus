@@ -4,7 +4,7 @@ import locale
 import os
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
-from app.assets_blueprint import assets_blueprint
+from app.assets_blueprint import AssetsBlueprintFactory
 from config import Config
 from datetime import datetime
 from flask import Flask
@@ -23,7 +23,7 @@ babel = Babel()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    app.register_blueprint(assets_blueprint)
+    app.register_blueprint(AssetsBlueprintFactory.create_assets_blueprint(app))
     db.init_app(app)
     mail.init_app(app)
     ckan.init_app(app)
