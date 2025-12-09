@@ -2,16 +2,16 @@
 {% block content %}
   <div class="container-fluid breadcrumb-page">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
         <ol class="breadcrumb">
-          <li><a href="/" target="_blank" rel="noopener">Nederland</a></li>
-          <li class="active">{{ gemeente }}</li>
+          <li class="breadcrumb-item"><a href="/" target="_blank" rel="noopener">Nederland</a></li>
+          <li class="breadcrumb-item active">{{ gemeente }}</li>
         </ol>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
         <div class="text-center">
           <h1><i class="fa fa-users text-dark-blue"></i> Gemeente {{ gemeente }}</h1>
         </div>
@@ -26,7 +26,7 @@
         Terug naar de <a href="/">homepage</a>.
       {% else %}
         {% if disclaimer %}
-          <div class="col-xs-12 text-center">
+          <div class="col-12 text-center">
             {{ disclaimer }}
             <br>
             <br>
@@ -35,26 +35,26 @@
 
         {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
         {% if gemeente == 'Amsterdam' %}
-          <div class="col-xs-12 text-center">
+          <div class="col-12 text-center">
             NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
           </div>
         {% endif %}
         {% if gemeente == 'Rotterdam' %}
-          <div class="col-xs-12 text-center">
+          <div class="col-12 text-center">
             NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
           </div>
         {% endif %}
         #}
 
-        <div class="col-xs-12 col-sm-12 col-md-9">
+        <div class="col-12 col-lg-9">
           {% include "map.html" %}
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3">
+        <div class="col-12 col-lg-3">
           {% if show_search %}
-          <hr class="visible-xs-block visible-sm-block">
+          <hr class="d-lg-none">
           <h2><i class="fa fa-pencil-alt text-red"></i> Stembureaus</h2>
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
               <form action="" method="get" class="form-inline" id="form-search">
                   <div class="form-group">
                     <label for="zoek-stembureau">
@@ -66,7 +66,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12" id="results-search">
+            <div class="col-12" id="results-search">
             </div>
           </div>
           {% endif %}
@@ -85,16 +85,16 @@
     });
 
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="tooltip"]').tooltip();
       setTimeout(
-        function() {$('[data-toggle="popover"]').popover()},
+        function() {$('[data-bs-toggle="popover"]').popover()},
         1
       );
     })
 
     /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
     $('body').on('click', function (e) {
-      $('[data-toggle=popover]').each(function () {
+      $('[data-bs-toggle=popover]').each(function () {
         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
           (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
         }

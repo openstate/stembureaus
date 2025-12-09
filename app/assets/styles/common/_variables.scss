@@ -2,10 +2,6 @@
 $main-sm-columns:       12;
 $sidebar-sm-columns:    4;
 
-// Bootstrap navbar
-$font-size-root: 14px;
-$navbar-padding-y: 0;
-
 // We use Bootstrap's horizontal <dl> to format the openingstijden, but
 // we don't want the <dd> to go below the <dt> on smaller screens, so
 // set the breakpoint to 0
@@ -25,6 +21,22 @@ $blue:                  #38AADD;
 $orange:                #E17909;
 $dark-orange:           #B36200;
 $grey:                  #797676;
+
+// Bootstrap variables
+$font-size-root: 14px;
+$navbar-padding-y: 0;
+$navbar-light-color: $black;
+$navbar-nav-link-padding-x: 15px;
+$grid-gutter-width: 2.25rem;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1140px
+);
+$modal-md: 600px;
+$navbar-toggler-focus-width: 0;
 
 // Typography
 //## Font, line-height, and color for body text, headings, and more.

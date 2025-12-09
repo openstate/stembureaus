@@ -35,6 +35,10 @@ a {
   text-decoration: underline;
 }
 
+label {
+  margin-bottom: 5px;
+}
+
 .anchor-offset:before {
   content: '';
   display: block;
@@ -111,7 +115,7 @@ a {
 }
 
 .leaflet-container {
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .leaflet-popup-close-button {
@@ -128,6 +132,17 @@ table.floatThead-table {
 
 dl {
   margin-bottom: 0;
+}
+
+// dl-horizontal was a class in Bootstrap 3, removed from Bootstrap 5. We use the old css definition here from Bootstrap 3.
+dl.dl-horizontal {
+  dt {
+    float: left;
+    clear: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 dt {

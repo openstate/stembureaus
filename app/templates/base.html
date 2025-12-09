@@ -52,14 +52,14 @@
 
   <header>
     <nav class="navbar navbar-expand-md fixed-top">
-      <div class="container">
-          <a class="navbar-brand visible-xs-inline img-responsive" href="/">
-            <img src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
-          </a>
-          <button type="button" class="navbar-toggler collapsed ms-auto" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            Menu
-          </button>
+      <div class="container-md">
+        <a class="navbar-brand d-sm-block d-md-none" href="/">
+          <img class="img-fluid" src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
+        </a>
+        <button type="button" class="navbar-toggler collapsed ms-auto" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          Menu
+        </button>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav ms-auto">
             <li class="nav-item active"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
@@ -77,14 +77,14 @@
     </nav>
 
     <div class="lead">
-      <div class="container">
+      <div class="container-md">
         <div class="row header vertical-align">
-          <div class="col-sm-3 header-logo hidden-xs">
+          <div class="col-sm-3 header-logo d-none d-md-block">
             <a href="/">
-              <img class="img-responsive" src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
+              <img class="img-fluid" src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
             </a>
           </div>
-          <div class="col-xs-12 col-sm-9 no-gutter-xl">
+          <div class="col-12 col-md-9 no-gutter-xl">
             <p class="lead-text">Een stembureau bij jou in de buurt, zo gevonden</p>
           </div>
         </div>
@@ -117,43 +117,43 @@
         Voor algemene informatie over de verkiezingen kunt u terecht op <a href="https://elkestemtelt.nl/" target="_blank" rel="noopener">ElkeStemTelt.nl</a> van de Rijksoverheid
       </div>
     <br>
-    <div class="container">
+    <div class="container-md">
       <div class="row header">
-        <div class="footer-item col-xs-12 col-sm-4 col-md-3 footer-logo">
+        <div class="footer-item col-12 col-md-4 col-lg-3 footer-logo">
           <a href="/">
-            <img class="img-responsive" src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
+            <img class="img-fluid" src="/static/dist/images/logo.svg" alt="Waar is mijn stemlokaal logo">
           </a>
         </div>
-        <div id="contact" class="footer-item col-xs-12 col-sm-4 col-md-3">
+        <div id="contact" class="footer-item col-12 col-md-4 col-lg-3">
           <ul class="list-inline text-grey right-footer-list-padding" style="margin-top: 15px;">
-            <li><a class="right-footer-padding" href="https://mastodon.nl/@OpenState" title="Open State Foundation Mastodon" target="_blank" rel="noopener"><i class="fab fa-mastodon fa-2x text-grey" title="Open State Foundation Mastodon"></i></a></li>
-            <li><a class="right-footer-padding" href="https://twitter.com/OpenStateEU" title="Open State Foundation Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter fa-2x text-grey" title="Open State Foundation Twitter"></i></a></li>
-            <li><a class="right-footer-padding" href="https://www.linkedin.com/company/open-state-foundation/" title="Open State Foundation LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-2x text-grey" title="Open State Foundation LinkedIn"></i></a></li>
-            <li><a class="right-footer-padding" href="https://github.com/OpenState/stembureaus" title="Waar is mijn stemlokaal Github" target="_blank" rel="noopener"><i class="fab fa-github fa-2x text-grey" title="Waar is mijn stemlokaal Github"></i></a></li>
-            <li><a class="right-footer-padding" href="mailto:stemlokaal@openstate.eu" title="e-mail stemlokaal@openstate.eu" target="_blank" rel="noopener"><i class="fa fa-envelope fa-2x text-grey" title="e-mail stemlokaal@openstate.eu"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="https://mastodon.nl/@OpenState" title="Open State Foundation Mastodon" target="_blank" rel="noopener"><i class="fab fa-mastodon fa-2x text-grey" title="Open State Foundation Mastodon"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="https://twitter.com/OpenStateEU" title="Open State Foundation Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter fa-2x text-grey" title="Open State Foundation Twitter"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="https://www.linkedin.com/company/open-state-foundation/" title="Open State Foundation LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-2x text-grey" title="Open State Foundation LinkedIn"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="https://github.com/OpenState/stembureaus" title="Waar is mijn stemlokaal Github" target="_blank" rel="noopener"><i class="fab fa-github fa-2x text-grey" title="Waar is mijn stemlokaal Github"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="mailto:stemlokaal@openstate.eu" title="e-mail stemlokaal@openstate.eu" target="_blank" rel="noopener"><i class="fa fa-envelope fa-2x text-grey" title="e-mail stemlokaal@openstate.eu"></i></a></li>
           </ul>
         </div>
       </div>
       <br>
       <div class="row vertical-align">
-        <div class="col-xs-12 col-md-3 footer-item">
+        <div class="col-12 col-lg-3 footer-item">
           <a href="https://www.rijksoverheid.nl/ministeries/ministerie-van-binnenlandse-zaken-en-koninkrijksrelaties" target="_blank" rel="noopener">
-            <img class="img-responsive pull-left" src="/static/dist/images/logo-minbzk.svg" alt="Ministerie van Binnenlandse Zaken en Koninkrijksrelaties logo">
+            <img class="img-fluid float-start" src="/static/dist/images/logo-minbzk.svg" alt="Ministerie van Binnenlandse Zaken en Koninkrijksrelaties logo">
           </a>
         </div>
-        <div class="col-xs-12 col-md-2 footer-item">
+        <div class="col-12 col-lg-2 footer-item">
           <a href="https://www.vngrealisatie.nl/" target="_blank" rel="noopener">
-            <img class="img-responsive pull-left" src="/static/dist/images/logo-vng-realisatie.png" alt="VNG Realisatie logo">
+            <img class="img-fluid float-start" src="/static/dist/images/logo-vng-realisatie.png" alt="VNG Realisatie logo">
           </a>
         </div>
-        <div class="col-xs-12 col-md-5 footer-item">
+        <div class="col-12 col-lg-5 footer-item">
           <a href="https://openstate.eu/" target="_blank" rel="noopener">
-            <img class="img-responsive pull-left" src="/static/dist/images/logo-open-state-foundation.svg" alt="Open State Foundation logo">
+            <img class="img-fluid float-start" src="/static/dist/images/logo-open-state-foundation.svg" alt="Open State Foundation logo">
           </a>
         </div>
-        <div class="col-xs-12 col-md-2 footer-item">
+        <div class="col-12 col-lg-2 footer-item">
           <a href="https://civity.nl/" target="_blank" rel="noopener">
-            <img class="img-responsive pull-left" src="/static/dist/images/logo-civity.png" alt="Civity logo">
+            <img class="img-fluid float-start" src="/static/dist/images/logo-civity.png" alt="Civity logo">
           </a>
         </div>
       </div>

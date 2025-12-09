@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-12 col-md-4 col-lg-3 filters">
+  <div class="col-12 col-lg-4 col-xl-3 filters">
     <h2><i class="fa fa-filter text-dark-orange"></i> Filters</h2>
     <div style="padding-left: 10px">
       <!--h3>Datum & tijdstip</h3>
@@ -14,7 +14,7 @@
           </select>
         </div>
       </label-->
-      <label>
+      <label class="mb-1">
         <a class="filter-collapse collapsed" data-bs-toggle="collapse" href="#collapse0" aria-expanded="false" aria-controls="collapse0">Openingstijden</a>
         <div class="collapse" id="collapse0">
           <select class="form-control filter" id="openingstijden-filter">
@@ -25,7 +25,7 @@
         </div>
       </label>
 
-      <div class="visible-md-block visible-lg-block">
+      <div class="d-none d-lg-block">
         <h3>Toegankelijkheid</h3>
         <label>
           <a class="filter-collapse collapsed" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">Toegankelijk voor mensen met een lichamelijke beperking</a>
@@ -163,8 +163,8 @@
         </label>
       </div>
 
-      <div class="visible-xs-block visible-sm-block">
-        <button class="btn btn-default btn" type="button" data-bs-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+      <div class="d-lg-none">
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
           Toegankelijkheidsfilters
         </button>
         <div class="collapse" id="collapseFilter">
@@ -307,7 +307,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-12 col-md-8 col-lg-9">
+  <div class="col-12 col-lg-8 col-xl-9">
     <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
     <div style="padding-bottom: 20px;">
       <a href="#" id ="btn-location">

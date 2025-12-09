@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-md">
     <div>
       {% if current_user.gemeenten|length > 1 %}
       > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
       {% endif %}
       > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > Stembureaus
-      <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
+      <a class="btn btn-warning text-black float-end" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
     </div>
 
     <h1 class="text-center">Stembureaus</h1>
@@ -66,6 +66,7 @@
       data-page-list="[10, 25, 50, 100, all]"
       data-cookie="true"
       data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
+      data-buttons-class="outline-secondary"
     >
       <thead>
         <tr>
@@ -85,16 +86,14 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuleren</button>
                   <a class="btn btn-danger" role="button" href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">Verwijderen</a>
                 </div>
               </div>
@@ -104,7 +103,7 @@
             {% if not (upload_deadline_passed or editing_disabled) %}
               <td>
                 <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
-                <a id="remove-stembureau-link" href="" data-toggle="modal" data-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>
+                <a id="remove-stembureau-link" href="" data-bs-toggle="modal" data-bs-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>
               </td>
             {% endif %}
             {% for field in field_order %}
@@ -127,8 +126,8 @@
   {{ super() }}
   <script>
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="popover"]').popover();
     })
   </script>
 {% endblock %}

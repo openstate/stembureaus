@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-md">
     <div>
       {% if current_user.gemeenten|length > 1 %}
       > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
       {% endif %}
       > <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a> > <a href="{{ url_for('gemeente_stemlokalen_overzicht') }}">Stembureaus</a> > Bewerk stembureau
-      <a class="btn btn-warning text-black pull-right" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
+      <a class="btn btn-warning text-black float-end" role="button" href="{{ url_for('gemeente_instructies') }}" target="_blank">Help</a>
     </div>
 
     <h1 class="text-center">Stembureau</h1>
@@ -84,7 +84,7 @@
                 {% endif %}
 
                 {% if f.description %}
-                <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>{{ f.label.text }}</b>" data-content="{{ f.description }}"></i>
+                <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" title="{{ f.label.text }}" role="button" data-bs-title="{{ f.label.text }}" data-bs-content="{{ f.description }}"></i>
                 {% endif %}
 
                 {% if f.flags.required %}
@@ -116,20 +116,20 @@
           <br>
           <br>
 
-          {{ form.submit }} {{ form.submit_annuleren }} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#remove-confirmation">Verwijderen</button>
+          {{ form.submit }} {{ form.submit_annuleren }} <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#remove-confirmation">Verwijderen</button>
 
           <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   Weet u zeker dat u dit stembureau wilt verwijderen?
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuleren</button>
                   {{ form.submit_verwijderen }}
                 </div>
               </div>
@@ -144,16 +144,16 @@
   {{ super() }}
   <script>
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="tooltip"]').tooltip();
       setTimeout(
-        function() {$('[data-toggle="popover"]').popover()},
+        function() {$('[data-bs-toggle="popover"]').popover()},
         1
       );
     })
 
     /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
     $('body').on('click', function (e) {
-      $('[data-toggle=popover]').each(function () {
+      $('[data-bs-toggle=popover]').each(function () {
         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
           (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
         }

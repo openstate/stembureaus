@@ -129,7 +129,7 @@ export default {
         if (matches[i]['Extra adresaanduiding'].trim()) {
           // CODE BELOW WAS ONLY NEEDED IN 2021/2022 DUE TO COVID, UNCOMMENT IF IT IS NEEDED AGAIN
           //if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
-          //  extra_adresaanduiding = '<p style="color: #D63E2A"><b>NB: ' + matches[i]['Extra adresaanduiding'] + ' <span style="color: dimgrey"><i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico\'s van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i></span></b></p>';
+          //  extra_adresaanduiding = '<p style="color: #D63E2A"><b>NB: ' + matches[i]['Extra adresaanduiding'] + ' <span style="color: dimgrey"><i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-trigger="click" title="Stembureau met beperkte toegang" role="button" data-bs-title="Stembureau met beperkte toegang" data-bs-content="Vanwege de risico\'s van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i></span></b></p>';
           //  orange_icon = '-orange';
           //} else {
             extra_adresaanduiding = '<p>' + matches[i]['Extra adresaanduiding'] + '</p>';
@@ -168,7 +168,7 @@ export default {
 
         stembureau_lijst +=
           '<li>' +
-            '<div class="col-xs-12" style="margin-bottom: 15px;">' +
+            '<div class="col-12" style="margin-bottom: 15px;">' +
               '<h3><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
 
               '<div style="padding-left: 26px; color: dimgrey;">' +
@@ -190,11 +190,11 @@ export default {
 
               '</div>' +
             '</div>' +
-            '<div class="col-xs-12"><hr style="margin: 0; height: 1px;"></div>' +
+            '<div class="col-12"><hr style="margin: 0; height: 1px;"></div>' +
           '</li>'
       }
 
-      results_search.append($('<ul style="padding: 0">' + stembureau_lijst + '</ul>'));
+      results_search.append($('<ul style="padding: 0 15px">' + stembureau_lijst + '</ul>'));
 
       if (matches && matches.length == 0 && query && query.length > 0) {
         results_search.append($('<p>Helaas, we hebben niks kunnen vinden. Dit komt waarschijnlijk omdat we alleen zoeken in de lijst van stembureaus, en niet in alle straatnamen. Wilt u weten welk stembureau het dichtst bij u in de buurt is? Gebruik dan de knop \'Gebruik mijn locatie\'.</p>'));
@@ -511,11 +511,11 @@ export default {
 
         // ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
         //if (loc['Gemeente'] == 'Amsterdam') {
-        //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
+        //  output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
         //}
 
         //if (loc['Gemeente'] == 'Rotterdam') {
-        //  output += '<br><br><button class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
+        //  output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
         //}
 
         if (loc.Verkiezingen?.trim()) {

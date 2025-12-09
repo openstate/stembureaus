@@ -10,3 +10,20 @@
   background-color: white;
   color: $dark-blue;
 }
+
+.bootstrap-table {
+  .pagination {
+    .page-link {
+      background-color: $white;
+      border-color: #ddd;
+      color: $black; 
+    }
+    .active {
+      .page-link {
+        background-color: $black;
+        border-color: $black;
+        color: $white;
+      }
+    }
+  }
+}
