@@ -9,6 +9,7 @@ from app.utils import get_gemeente
 from app.stembureaumanager import BaseAPIParser, APIManager
 from urllib.parse import urljoin
 
+from dateutil import parser
 import copy
 import requests
 
@@ -85,6 +86,8 @@ class ProcuraParser(BaseAPIParser):
 
 
 class ProcuraManager(APIManager):
+    SOURCE_STRING = 'api[Procura Verkiezingen]'
+
     def _request(self, endpoint, params=None):
         url = urljoin(current_app.config['PROCURA_BASE_URL'], endpoint)
         return requests.get(url, params=params, headers={
@@ -102,8 +105,6 @@ class ProcuraManager(APIManager):
         return self._request('gemeente?gemeente_code=%s' % (municipality_id[2:],))
 
     def run(self):
-        SOURCE_STRING = 'api[Procura Verkiezingen]'
-
         municipalities = self._request_overview()
         if 'statusCode' in municipalities:
             send_email(
@@ -123,12 +124,10 @@ class ProcuraManager(APIManager):
                     continue
 
             gemeente = get_gemeente(gemeente_code)
-
-            # Skip this municipality if the API data wasn't changed since the
-            # from_date (by default 2 hours before now); don't skip if a gm_code
-            # is set as we then explicitly want to load that gemeente
-            m_updated = m['gewijzigd']
-            if (m_updated <= self.from_date.isoformat() and not self.gm_code) and gemeente.source == SOURCE_STRING:
+            if not gemeente:
+                continue
+            m_updated = parser.parse(m['gewijzigd'], ignoretz=True)
+            if self._skip_based_on_date(m_updated, gemeente):
                 continue
 
             elections = gemeente.elections.all()
@@ -158,11 +157,12 @@ class ProcuraManager(APIManager):
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-                self._send_error_email(gemeente, records, results, SOURCE_STRING)
+                self._send_error_email(gemeente, records, results, self.SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_records(gemeente)
 
-            gemeente.source = SOURCE_STRING
+            gemeente.source = self.SOURCE_STRING
+            gemeente.api_laatste_wijziging = m_updated
             db.session.commit()

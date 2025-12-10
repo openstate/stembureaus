@@ -39,9 +39,7 @@ def create_cli_commands(app):
         """
         print("Updating Stembureaumanager from %s ..." % (from_date,))
         if isinstance(from_date, str):
-            if 'T' not in from_date:
-                from_date = '%sT00:00:00Z' % (from_date,)
-            from_date = parser.parse(from_date)
+            from_date = parser.parse(from_date, ignoretz=True)
         StembureauManager(from_date=from_date, gm_code=gm_code).run()
 
 
@@ -54,9 +52,7 @@ def create_cli_commands(app):
         """
         print("Updating TSA from %s ..." % (from_date,))
         if isinstance(from_date, str):
-            if 'T' not in from_date:
-                from_date = '%sT00:00:00' % (from_date,)
-            from_date = parser.parse(from_date)
+            from_date = parser.parse(from_date, ignoretz=True)
         TSAManager(from_date=from_date, gm_code=gm_code).run()
 
 
@@ -69,9 +65,7 @@ def create_cli_commands(app):
         """
         print("Updating Procura from %s ..." % (from_date,))
         if isinstance(from_date, str):
-            if 'T' not in from_date:
-                from_date = '%sT00:00:00' % (from_date,)
-            from_date = parser.parse(from_date)
+            from_date = parser.parse(from_date, ignoretz=True)
         ProcuraManager(from_date=from_date, gm_code=gm_code).run()
 
 

@@ -19,6 +19,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-app
+    depends_on:
+      - mysql
     volumes:
       - ../:/opt/stm
     networks:

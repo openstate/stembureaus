@@ -82,6 +82,8 @@ class StembureauManagerParser(BaseAPIParser):
 
 
 class APIManager(object):
+    SOURCE_STRING = None
+
     def __init__(self, from_date: datetime, gm_code: str):
         self.from_date = from_date
         self.gm_code = gm_code
@@ -162,8 +164,21 @@ class APIManager(object):
             html_body=None
         )
 
+    def _skip_based_on_date(self, m_updated, gemeente):
+        # Skip this municipality if the API data wasn't changed since the
+        # from_date (by default 2 hours before now) and since the last-changed-date in the API;
+        # don't skip if a gm_code is set as we then explicitly want to load that gemeente
+        if gemeente.source != self.SOURCE_STRING or self.gm_code or not gemeente.api_laatste_wijziging:
+            return False
+
+        if m_updated <= gemeente.api_laatste_wijziging:
+            return True
+        if (m_updated <= self.from_date):
+            return True
 
 class StembureauManager(APIManager):
+    SOURCE_STRING = 'api[stembureaumanager]'
+
     def _request(self, endpoint, params=None):
         url = urljoin(current_app.config['STEMBUREAUMANAGER_BASE_URL'], endpoint)
         return requests.get(url, params=params, headers={
@@ -181,8 +196,6 @@ class StembureauManager(APIManager):
         return self._request('gemeente', params={'id': municipality_id})
 
     def run(self):
-        SOURCE_STRING = 'api[stembureaumanager]'
-
         municipalities = self._request_overview()
         if 'statusCode' in municipalities:
             send_email(
@@ -201,13 +214,10 @@ class StembureauManager(APIManager):
                     continue
 
             gemeente = get_gemeente(m['gemeente_code'])
-
-            # Skip this municipality if the API data wasn't changed since the
-            # from_date (by default 2 hours before now); don't skip if a gm_code
-            # is set as we then explicitly want to load that gemeente
-            m_updated = parser.parse(m['gewijzigd'])
-            if (m_updated <= self.from_date and not self.gm_code) and gemeente.source == SOURCE_STRING:
+            m_updated = parser.parse(m['gewijzigd'], ignoretz=True)
+            if self._skip_based_on_date(m_updated, gemeente):
                 continue
+
 
             elections = gemeente.elections.all()
             # Pick the first election. In the case of multiple elections we only
@@ -241,11 +251,12 @@ class StembureauManager(APIManager):
 
             if not results['no_errors']:
                 print("Errors were found in the results")
-                self._send_error_email(gemeente, records, results, SOURCE_STRING)
+                self._send_error_email(gemeente, records, results, self.SOURCE_STRING)
                 continue
 
             self._save_draft_records(gemeente, gemeente_draft_records, elections, results)
             self._publish_records(gemeente)
 
-            gemeente.source = SOURCE_STRING
+            gemeente.source = self.SOURCE_STRING
+            gemeente.api_laatste_wijziging = m_updated
             db.session.commit()
