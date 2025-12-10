@@ -13,17 +13,17 @@
 {% block content %}
 <div class="container-fluid breadcrump-page">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <ol class="breadcrumb">
-        <li><a href="/">Nederland</a></li>
-        <li><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
-        <li class="active">{{ records[0]['Naam stembureau'] }}</li>
+        <li class="breadcrumb-item"><a href="/">Nederland</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('show_gemeente', gemeente=gemeente) }}">{{ gemeente }}</a></li>
+        <li class="breadcrumb-item active">{{ records[0]['Naam stembureau'] }}</li>
       </ol>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <div class="text-center">
         {# ONLY RELEVANT DURING COVID
         {% set niet_open_voor_algemeen_publiek = false %}
@@ -53,7 +53,7 @@
 
   <div class="row">
     {% if disclaimer %}
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         {{ disclaimer }}
         <br>
         <br>
@@ -62,29 +62,29 @@
 
     {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
     {% if gemeente == 'Amsterdam' %}
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
       </div>
     {% endif %}
     {% if gemeente == 'Rotterdam' %}
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
       </div>
     {% endif %}
     #}
 
-    <div class="col-xs-12 col-sm-12 col-md-8">
+    <div class="col-12 col-lg-8">
       <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
       <div id="map" style="height: 500px;"></div>
-      <span class="pull-right" style="margin-top: 10px;">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+      <span class="float-end" style="margin-top: 10px;">
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#model-embed">
           <i class="fa fa-code"></i> Insluiten
         </button>
       </span>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4">
+    <div class="col-12 col-lg-4">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           {% for record in records %}
             {# ONLY RELEVANT DURING COVID
             {% set niet_open_voor_algemeen_publiek = false %}
@@ -121,7 +121,7 @@
             {% if niet_open_voor_algemeen_publiek %}
               <p class="color: text-red" style="display: inline"><b>NB: {{ record['Extra adresaanduiding'] }}</b></p>
               <span class="color: text-black">
-                <i class="fa fa-question-circle" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="click" title="<b>Stembureau met beperkte toegang</b>" data-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
+                <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-trigger="click" title="Stembureau met beperkte toegang" role="button" data-bs-title="Stembureau met beperkte toegang" data-bs-content="Vanwege de risico's van de Covid-19 pandemie heeft dit stembureau beperkte toegang. Dat kan bijvoorbeeld handig zijn voor stemlokalen op plaatsen waar extra bescherming gewenst is, bijvoorbeeld in verzorgingshuizen. Hier kan dan alleen worden gestemd door de kiezers die rechtmatig op die locatie mogen verblijven. Omdat het voor andere kiezers dan niet mogelijk is om op de gang van zaken toe te zien, is er in deze stembureaus een onafhankelijke waarnemer aanwezig. Zie Tijdelijke wet verkiezingen COVID-19 art. 4."></i>
               </span>
             {% else %}
             #}
@@ -208,8 +208,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Insluiten</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p>Om de kaart in te sluiten in een andere pagina dient u de onderstaande code te kopi&euml;ren en te plakken in uw CMS.</p>
@@ -228,7 +228,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">OK</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -253,16 +253,16 @@
     });
 
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="tooltip"]').tooltip();
       setTimeout(
-        function() {$('[data-toggle="popover"]').popover()},
+        function() {$('[data-bs-toggle="popover"]').popover()},
         1
       );
     })
 
     /* methode om popovers te verbergen wanneer ergens geklikt wordt. */
     $('body').on('click', function (e) {
-      $('[data-toggle=popover]').each(function () {
+      $('[data-bs-toggle=popover]').each(function () {
         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
           (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
         }

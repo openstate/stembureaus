@@ -1,6 +1,13 @@
 body {
   background-color: $light-grey;
+}
+
+body, .table > :not(caption) > * > * {
   color: $dark-grey;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th {
+  border-top: 1px solid var(--bs-border-color);
 }
 
 main {
@@ -23,9 +30,20 @@ h3 {
   font-weight: bold;
 }
 
+h1, h2, h3 {margin-top: 20px;}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 a {
   color: $dark-blue;
   text-decoration: underline;
+}
+
+label {
+  margin-bottom: 5px;
 }
 
 .anchor-offset:before {
@@ -103,6 +121,10 @@ a {
   color: $light-grey;
 }
 
+.leaflet-container {
+  font-size: 0.8em;
+}
+
 .leaflet-popup-close-button {
   color: dimgrey !important;
 }
@@ -117,6 +139,17 @@ table.floatThead-table {
 
 dl {
   margin-bottom: 0;
+}
+
+// dl-horizontal was a class in Bootstrap 3, removed from Bootstrap 5. We use the old css definition here from Bootstrap 3.
+dl.dl-horizontal {
+  dt {
+    float: left;
+    clear: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 dt {
@@ -139,17 +172,11 @@ dd {
 }
 
 .awesome-marker {
-  background-image: url('../images/markers-soft.png');
-
   .svg-inline--fa {
     font-size: 1.2em;
     color: white;
     margin-top: 12px;
   }
-}
-
-.awesome-marker-shadow {
-  background-image: url('../images/markers-shadow.png');
 }
 
 
@@ -179,14 +206,17 @@ dd {
 }
 
 .filter-collapse:before {
-  font-family: 'Glyphicons Halflings';
-  content: "\e113\00a0";
+  font-family: 'bootstrap-icons';
+  content: "\F286";
+  width: 28px;
+  -webkit-text-stroke: 1px;
+  padding-top: 1px;
   float: left;
   color: grey;
 }
 
 .filter-collapse.collapsed:before {
-  content: "\e114\00a0";
+  content: "\F282";
 }
 
 .leaflet-control {

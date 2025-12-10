@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-md">
     <h1 class="text-center">Data</h1>
     <p>De open data van de stembureaus is voor iedereen vrij beschikbaar om te downloaden en te hergebruiken (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.nl" target="_blank" rel="noopener">licentie CC0</a>). De data wordt direct aangeleverd door gemeenten. Als een gemeente zelf geen stembureaus heeft aangeleverd dan worden deze verzameld door Open State Foundation (zie het 'Opmerkingen'-veld). Hierdoor zijn sommige (verplichte) velden niet altijd ingevuld (zie de <a href="#veldbeschrijving">Veldbeschrijving</a>) en kan de correctheid ervan niet gegarandeerd worden. De datasets worden ingevuld op basis van de Stembureaus Open Data Standaard (ODS), zie de <a href="{{ url_for('over_deze_website') }}">Over deze website-pagina</a> voor meer informatie over deze standaard en de verschillende versies daarvan.</p>
 
@@ -14,7 +14,7 @@
     <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="Pekela") }}">Pekela</a>).</p>
 
     <p>De embedcode voor de kaart van heel Nederland:
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-embed">
+      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#model-embed">
         <i class="fa fa-code"></i> Insluiten
       </button>
     </p>
@@ -254,12 +254,12 @@
     <p>Sommige stembureaus komen meerdere keren in de data voor. Dit is het geval als een stembureau meerdere openingstijden en/of locaties heeft, zoals bij een mobiel stembureau het geval is. Een stembureau heeft voor elke locatie/openingstijd een nieuwe rij in de dataset.</p>
     <p>Wilt u statistieken zien over de hoe de toegankelijkheid van stembureaus door gemeenten is ingevuld, <a href="https://hilbrand.github.io/slt/" target="_blank" rel="noopener">bekijk dan dit dashboard</a>.</p>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="model-embed">
+    <div class="modal fade" tabindex="-1" role="dialog" id="model-embed" aria-labelledby="model-title" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Insluiten</h4>
+            <h4 class="modal-title" id="modal-title">Insluiten</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <p>Om de kaart in te sluiten in een andere pagina dient u de onderstaande code te kopi&euml;ren en te plakken in uw CMS.</p>
@@ -278,7 +278,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">OK</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

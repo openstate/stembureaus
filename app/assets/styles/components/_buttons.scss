@@ -4,9 +4,30 @@
 
 .btn-info {
   background-color: $dark-blue;
+  color: $white;
+  &:hover, &:active, &:first-child:active {
+    color: $white;
+  }
 }
 
 .upload-block .btn-info {
   background-color: white;
   color: $dark-blue;
+}
+
+.bootstrap-table {
+  .pagination {
+    .page-link {
+      background-color: $white;
+      border-color: #ddd;
+      color: $black; 
+    }
+    .active {
+      .page-link {
+        background-color: $black;
+        border-color: $black;
+        color: $white;
+      }
+    }
+  }
 }

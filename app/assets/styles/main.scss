@@ -1,30 +1,25 @@
 @import "common/_variables";
 
+
 /**
  * Import npm dependencies
- *
- * Prefix your imports with `~` to grab from node_modules/
- * @see https://github.com/webpack-contrib/sass-loader#imports
  */
-// @import "~some-node-module";
-@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-@import "~bootstrap-select/dist/css/bootstrap-select.min.css";
-@import "~bootstrap-table/dist/bootstrap-table.min.css";
-@import "~bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.css";
+@import "~bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons";
+@import "../node_modules/bootstrap-table/dist/bootstrap-table.min.css";
+@import "../node_modules/bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.css";
 @import "leaflet";
-@import "~leaflet.markercluster/dist/MarkerCluster.css";
-@import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
-@import "~leaflet.awesome-markers/dist/leaflet.awesome-markers.css";
-@import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
-@import "~@fortawesome/fontawesome-free/css/brands.min.css";
-@import "~@fortawesome/fontawesome-free/css/solid.min.css";
+@import "../node_modules/leaflet.markercluster/dist/MarkerCluster.css";
+@import "../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css";
+@import "../node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/brands.min.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/solid.min.css";
 
 @import "common/_global";
 @import "components/_buttons";
 @import "components/_forms";
 @import "components/_grid";
 @import "layouts/_header";
-@import "layouts/_sidebar";
 @import "layouts/_footer";
 @import "layouts/_pages";
-@import "layouts/_posts";

@@ -145,7 +145,7 @@ class SignupForm(FlaskForm):
     submit = SubmitField(
         'Vraag account aan',
         render_kw={
-            'class': 'btn btn-info selectpicker',
+            'class': 'btn btn-info',
             'data-none-selected-text': ''
         }
     )
@@ -156,7 +156,7 @@ class GemeenteSelectionForm(FlaskForm):
     submit = SubmitField(
         'Selecteer gemeente',
         render_kw={
-            'class': 'btn btn-info selectpicker',
+            'class': 'btn btn-info',
             'data-none-selected-text': ''
         }
     )
@@ -507,7 +507,7 @@ class EditForm(FlaskForm):
             DataRequired(),
         ],
         render_kw={
-            'class': 'selectpicker',
+            'class': 'form-select',
             'data-none-selected-text': (
                 'Selecteer het type stembureau'
             )
@@ -857,7 +857,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1044,7 +1043,6 @@ class EditForm(FlaskForm):
                 Optional(),
             ],
             render_kw={
-                'class': 'selectpicker',
                 'data-none-selected-text': (
                     'Selecteer één of meerdere waterschappen'
                 )
@@ -1073,7 +1071,6 @@ class EditForm(FlaskForm):
             DataRequired()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1096,7 +1093,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1119,7 +1115,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1142,7 +1137,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1168,7 +1162,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1196,7 +1189,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1220,7 +1212,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1244,7 +1235,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1278,7 +1268,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1301,7 +1290,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1327,7 +1315,6 @@ class EditForm(FlaskForm):
             Optional(),
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )
@@ -1350,7 +1337,6 @@ class EditForm(FlaskForm):
             Optional()
         ],
         render_kw={
-            'class': 'selectpicker',
             'data-none-selected-text': ''
         }
     )

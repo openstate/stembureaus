@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-md">
     <div>
       {% if current_user.gemeenten|length > 1 %}
       > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
       {% endif %}
       > Dashboard
-      <a class="btn btn-warning pull-right text-black" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
+      <a class="btn btn-warning float-end text-black" role="button" href="{{ url_for('gemeente_instructies') }}">Help</a>
     </div>
 
     <h1 class="text-center">Dashboard gemeente {{ gemeente.gemeente_naam }}</h1>
@@ -115,8 +115,8 @@
   {{ super() }}
   <script>
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-      $('[data-toggle="popover"]').popover();
+      $('[data-bs-toggle="tooltip"]').tooltip();
+      $('[data-bs-toggle="popover"]').popover();
     })
   </script>
 {% endblock %}

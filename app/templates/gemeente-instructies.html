@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-md">
     <div>
       {% if current_user.gemeenten|length > 1 %}
       > <a href="{{ url_for('gemeente_selectie') }}">{{ gemeente.gemeente_naam }} [wijzig gemeente]</a>
@@ -84,7 +84,7 @@
     <b>Optioneel: latitude/longitude en x/y</b>
     <p>De locatie van een stembureau wordt automatisch opgehaald op basis van het ingevulde adres (webformulier) of de BAG Nummeraanduiding ID (stembureau-spreadsheet). Wilt u de precieze locatie van het stembureau aanpassen dan kan dat. In het webformulier kunt u op het kaartje het potlood-icoontje verslepen naar de juiste plek. Een andere manier die zowel voor het webformulier als voor de stembureau-spreadsheet werkt is door óf de "Latitude" en "Longitude"-velden invullen óf de "X" en "Y"-velden (Rijksdriehoeksstelsel). U kunt dus de keuze maken uit één van deze twee coördinatenstelsels. Als u de latitude en longitude van het stembureau niet weet dan kunt u dit vinden via <a href="https://openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap.org</a>. Zoom zo ver mogelijk in op de locatie van het stembureau, klik daar met de rechtermuisknop en selecteer "Show address"/"Toon adres". De latitude en longitude (in die volgorde) staan nu linksboven in de zoekbalk (zie ook de afbeelding hieronder).</p>
 
-    <img class="center-block img-responsive" src="{{ url_for('static', filename='dist/images/instructie_osm.png', _external=True) }}" alt="Screenshot van OpenStreetMap.org" />
+    <img class="center-block img-fluid" src="{{ url_for('static', filename='dist/images/instructie_osm.png', _external=True) }}" alt="Screenshot van OpenStreetMap.org" />
 
     <b>Bonaire, Sint Eustatius en Saba</b>
     <p>De bijzondere gemeenten hebben een ander Kadaster en een ander BAG-systeem. Deze gemeenten kunnen in het "BAG Nummeraanduiding ID"-veld simpelweg "0000000000000000" (zestien keer het getal "0") invullen. Het adres van het stembureau kan vervolgens in het "Extra adresaanduiding"-veld ingevuld worden. Aangezien er ook geen rijksdriehoekscoördinaten (X/Y) zijn voor de bijzondere gemeenten kan de locatie aangegeven worden door middel van de "Latitude" en "Longitude"-velden.</p>

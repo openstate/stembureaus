@@ -3,15 +3,15 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-9">
+  <div class="col-12 col-lg-9">
     {% include "map.html" %}
   </div>
   {% if show_search %}
-  <div class="col-xs-12 col-sm-12 col-md-3">
-    <hr class="visible-xs-block visible-sm-block">
+  <div class="col-12 col-lg-3">
+    <hr class="d-lg-none">
     <h2><i class="fa fa-users text-dark-blue"></i> Zoek uw gemeente</h2>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
         <form action="" method="get" class="form-inline" id="form-gemeente-search">
             <div class="form-group">
               <label for="zoek-gemeente">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12" id="results-search-gemeenten">
+      <div class="col-12" id="results-search-gemeenten">
       </div>
     </div>
   </div>
