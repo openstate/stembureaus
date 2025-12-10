@@ -21,7 +21,7 @@ select {
   }
 }
 
-input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select, .bootstrap-select {
+input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="search"]), select {
   width: 374px !important;
 }
 
@@ -29,8 +29,8 @@ input:not([type="checkbox"]):not([type="submit"]):not([type="radio"]), select {
   padding: 6px 12px;
 }
 
-.bootstrap-select {
-  margin: 7px !important;
+.form-select {
+  display: inline-block;
 }
 
 .dropdown-toggle {
@@ -41,7 +41,7 @@ input#data_file.filestyle {
   width: 100% !important;
 }
 
-.edit-form input:not([type="submit"]) {
+.edit-form input:not([type="submit"]), .form-select {
   background-color: white;
   border: 1px black solid;
   border-radius: 4px;
@@ -133,7 +133,7 @@ label {
   }
 
   .edit-form {
-    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), select, .bootstrap-select {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), select {
       width: 80% !important;
     }
 

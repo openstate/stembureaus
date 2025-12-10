@@ -19,7 +19,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "bootstrap": "5.3.8",
     "bootstrap-icons": "1.13.1",
-    "bootstrap-select": "1.13.18",
     "bootstrap-table": "1.25.0",
     "@popperjs/core": "2.11.8",
     "cross-env": "^10.1.0",
@@ -33,9 +32,8 @@
     "vite-plugin-static-copy": "3.1.4"
   },
   "scripts": {
-    "dev": "npm run development",
-    "development": "vite",
-    "build": "vite build --watch"
+    "build": "vite build",
+    "watch": "vite build --watch"
   },
   "devDependencies": {
     "sass": "^1.94.2"

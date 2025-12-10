@@ -1,6 +1,13 @@
 body {
   background-color: $light-grey;
+}
+
+body, .table > :not(caption) > * > * {
   color: $dark-grey;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th {
+  border-top: 1px solid var(--bs-border-color);
 }
 
 main {
