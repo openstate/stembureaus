@@ -165,3 +165,14 @@ def get_b64encoded_qr_image(data):
     buffered = BytesIO()
     img.save(buffered)
     return b64encode(buffered.getvalue()).decode("utf-8")
+
+def get_mysql_match_against_safe_string(value):
+    if not value:
+        return
+
+    # MySQL MATCH AGAINST does not like operator characters inside text
+    chars = "-+()@<>~*"
+    for c in chars:
+        if c in value:
+            value = value.replace(c, " ")
+    return value

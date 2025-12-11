@@ -27,7 +27,7 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, Record, BAG, add_user, db
-from app.utils import get_b64encoded_qr_image, remove_id
+from app.utils import get_b64encoded_qr_image, get_mysql_match_against_safe_string, remove_id
 from app import ckan
 from time import sleep
 import uuid
@@ -518,7 +518,7 @@ def create_routes(app):
         # finally, treat it as a street name
         if results is None:
             m = re.match(r'^(.+)\s+(\d+)\-?([a-zA-Z0-9]+)?\s*(\,\s*.*)?$', query)
-            street = query
+            street = get_mysql_match_against_safe_string(query)
             huisnr = None
             huisnr_toev = None
             woonplaats = None
