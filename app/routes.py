@@ -278,6 +278,13 @@ def admin_login_required(fun):
     return admin_login_required_impl
 
 
+# There is a bug in `Flask-WTF` and `WTForms` leading to the following error:
+#   TypeError: EditForm.validate() got an unexpected keyword argument 'extra_validators'
+# Until this bug has been resolved, we use our own implementation
+# of `validate_on_submit` from `flask-wtf`
+def custom_form_validate_on_submit(form):
+    return form.is_submitted() and form.validate()
+
 def create_routes(app):
     # Add 'Cache-Control': 'private' header if users are logged in
     @app.after_request
@@ -320,7 +327,7 @@ def create_routes(app):
         ]
 
         # If a valid signup form was submitted
-        if signup_form.validate_on_submit() and signup_form.submit.data:
+        if custom_form_validate_on_submit(signup_form) and signup_form.submit.data:
             # If 'open-collecting' add the signup to a .csv
             if app.config['SIGNUP_FORM_STATE'] == 'open-collecting':
                 submitted_gemeente = Gemeente.query.filter_by(id=signup_form.gemeente.data).first()
@@ -553,7 +560,7 @@ def create_routes(app):
     @app.route("/user-reset-wachtwoord-verzoek", methods=['GET', 'POST'])
     def user_reset_wachtwoord_verzoek():
         form = ResetPasswordRequestForm()
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             user = User.query.filter_by(email=form.email.data).first()
             if user:
                 send_password_reset_email(user)
@@ -571,7 +578,7 @@ def create_routes(app):
         if not user:
             return redirect(url_for('index'))
         form = ResetPasswordForm()
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             user.set_password(form.Wachtwoord.data)
             db.session.commit()
             flash('Uw wachtwoord is aangepast')
@@ -585,7 +592,7 @@ def create_routes(app):
             return redirect(url_for('gemeente_selectie'))
 
         form = LoginForm()
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             user = User.query.filter_by(email=form.email.data).first()
             if user is None or not user.check_password(form.Wachtwoord.data):
                 flash('Fout e-mailadres of wachtwoord')
@@ -616,7 +623,7 @@ def create_routes(app):
     @admin_login_required
     def verify_two_factor_auth():
         form = TwoFactorForm(request.form)
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             if not current_user.is_otp_valid(form.otp.data) or rate_limit_2fa_reached():
                 set_2fa_last_attempt()
                 flash("Ongeldige code, probeer het opnieuw.", "danger")
@@ -670,7 +677,7 @@ def create_routes(app):
         ]
 
         # Process selected gemeente
-        if gemeente_selection_form.validate_on_submit():
+        if custom_form_validate_on_submit(gemeente_selection_form):
             if gemeente_selection_form.submit.data:
                 session[
                     'selected_gemeente_code'
@@ -745,7 +752,7 @@ def create_routes(app):
 
         # Save, parse and validate an uploaded spreadsheet and save the
         # stembureaus
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             f = form.data_file.data
             filename = secure_filename(f.filename)
             filename = '%s__%s' % (gemeente.gemeente_code, filename)
@@ -928,7 +935,7 @@ def create_routes(app):
         publish_form = PubliceerForm()
 
         # Publiceren
-        if publish_form.validate_on_submit():
+        if custom_form_validate_on_submit(publish_form):
             if publish_form.submit.data:
                 # Publish stembureaus to all elections
                 for election in [x.verkiezing for x in elections]:
@@ -1076,7 +1083,7 @@ def create_routes(app):
 
         # When the user clicked the 'Opslaan' button save the stembureau
         # to the draft_resources of each election
-        if form.validate_on_submit():
+        if custom_form_validate_on_submit(form):
             if not stemlokaal_id:
                 stemlokaal_id = uuid.uuid4().hex
             for election in [x.verkiezing for x in elections]:

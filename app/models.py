@@ -2,6 +2,7 @@ from time import time
 from decimal import Decimal
 import json
 import os
+import re
 
 from flask import current_app
 from flask_login import UserMixin
@@ -332,13 +333,13 @@ class Record(object):
             self.record['verkiezingen'] = record['verkiezingen']
 
     def expand(self):
-        record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
+        bag_record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
 
-        if record is not None:
-            full_address =  record.openbareruimte + ' ' + record.huisnummer + record.huisletter
-            if (record.huisnummertoevoeging is not None) and (record.huisnummertoevoeging != ''):
-                full_address += '-%s' % (record.huisnummertoevoeging)
-            full_address += f' ({record.woonplaats}) [{record.nummeraanduiding}]'
+        if bag_record is not None:
+            full_address =  bag_record.openbareruimte + ' ' + bag_record.huisnummer + bag_record.huisletter
+            if (bag_record.huisnummertoevoeging is not None) and (bag_record.huisnummertoevoeging != ''):
+                full_address += '-%s' % (bag_record.huisnummertoevoeging)
+            full_address += f' ({bag_record.woonplaats}) [{bag_record.nummeraanduiding}]'
             self.record['adres_stembureau'] = full_address
 
             geofields = {
@@ -349,7 +350,10 @@ class Record(object):
             }
             for f, rf in geofields.items():
                 if not self.record.get(rf):
-                    self.record[rf] = getattr(record, f)
+                    self.record[rf] = getattr(bag_record, f)
+        elif self.record['bag_nummeraanduiding_id'] and re.match("^0+$", self.record['bag_nummeraanduiding_id']):
+            full_address = f"[{self.record['bag_nummeraanduiding_id']}]"
+            self.record['adres_stembureau'] = full_address
 
         for fld in [
             'gemeente',
@@ -367,7 +371,7 @@ class Record(object):
             # y
         ]:
             # TODO: we need to know if these are the right fields for in CKAN.
-            fld_val = getattr(record, fld, None)
+            fld_val = getattr(bag_record, fld, None)
             if fld_val is not None:
                 self.record[fld] = fld_val.encode('utf-8').decode()
             else:
