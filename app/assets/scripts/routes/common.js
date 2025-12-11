@@ -39,7 +39,7 @@ var run_editform = function () {
       $('#bag-results .loading-list').remove();
     }
 
-    var query = $(this).val();
+    var query = $(this).val().replace('/', ' ');
 
     if (query.length < 1) {
       $('#bag-results').empty();
