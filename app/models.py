@@ -280,14 +280,17 @@ class Record(object):
         self.populate(kwargs)
         self.expand()
 
+    def _strip_spaces(self, value):
+        return (value or '').strip()
+
     def populate(self, record):
         self.record = {
             'nummer_stembureau': record['nummer stembureau'],
-            'naam_stembureau': record['naam stembureau'],
+            'naam_stembureau': self._strip_spaces(record['naam stembureau']),
             'type_stembureau': record['type stembureau'],
-            'website_locatie': record['website locatie'],
-            'bag_nummeraanduiding_id': record['bag nummeraanduiding id'],
-            'extra_adresaanduiding': record['extra adresaanduiding'],
+            'website_locatie': self._strip_spaces(record['website locatie']),
+            'bag_nummeraanduiding_id': self._strip_spaces(record['bag nummeraanduiding id']),
+            'extra_adresaanduiding': self._strip_spaces(record['extra adresaanduiding']),
             'latitude': record['latitude'],
             'longitude': record['longitude'],
             'x': record['x'],
@@ -321,10 +324,10 @@ class Record(object):
             'extra_toegankelijkheidsinformatie': record[
                 'extra toegankelijkheidsinformatie'
             ],
-            'overige_informatie': record['overige informatie'],
+            'overige_informatie': self._strip_spaces(record['overige informatie']),
             'tellocatie': record['tellocatie'],
-            'contactgegevens_gemeente': record['contactgegevens gemeente'],
-            'verkiezingswebsite_gemeente': record['verkiezingswebsite gemeente']
+            'contactgegevens_gemeente': self._strip_spaces(record['contactgegevens gemeente']),
+            'verkiezingswebsite_gemeente': self._strip_spaces(record['verkiezingswebsite gemeente'])
         }
 
         # If there are 'waterschapsverkiezingen', add the 'verkiezingen' field
