@@ -13,7 +13,7 @@ class TestRecordValidator(unittest.TestCase):
     def setUp(self):
         self.record_validator = RecordValidator()
         with app.app_context():
-            self.test_record = Record(**record_to_test)
+            self.test_record = Record(**record_to_test(app.config["ELECTION_DATE"]))
 
     def test_parse(self):
         with app.test_request_context('/'):
@@ -27,8 +27,9 @@ class TestValidator(unittest.TestCase):
     def setUp(self):
         self.validator = Validator()
         with app.app_context():
+            test_rec = record_to_test(app.config["ELECTION_DATE"])
             self.test_records = [
-                Record(**x).record for x in [record_to_test, record_to_test]
+                Record(**x).record for x in [test_rec, test_rec]
             ]
 
     def test_parse_empty(self):

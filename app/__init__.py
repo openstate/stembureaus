@@ -1,6 +1,9 @@
 #/usr/bin/env python
 # -*- coding: utf-8 -*-
 import locale
+locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
+locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
+
 import os
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -35,9 +38,6 @@ def create_app():
     login_manager.session_protection = "strong"
     login_manager.login_message = u"Log in om verder te gaan"
     login_manager.login_view = "gemeente_login"
-
-    locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
-    locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
     if not app.debug:
         # Send email on errors

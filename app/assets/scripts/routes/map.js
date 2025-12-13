@@ -35,11 +35,11 @@ var toegankelijkheidsfilters = [
   ['Prikkelarm', 'prikkelarm', '.prikkelarm-filter']
 ]
 
-function create_optional_fields(stembureau, result_search = false) {
+function create_optional_fields(stembureau, election_date, result_search = false) {
   var bijzonder_stembureau = '';
   // Only show afwijkende openingstijden in the stembureau search results on a gemeente page
   if (result_search) {
-    if (stembureau['Openingstijd'] != '2025-10-29T07:30:00' || stembureau['Sluitingstijd'] != '2025-10-29T21:00:00') {
+    if (stembureau['Openingstijd'] != (election_date + 'T07:30:00') || stembureau['Sluitingstijd'] != (election_date + 'T21:00:00')) {
       bijzonder_stembureau = '<br><b>Afwijkende openingstijden: </b><span style="white-space: nowrap; color: green;">' + stembureau['Openingstijd'].split('T')[1].slice(0, 5) + ' - ' + stembureau['Sluitingstijd'].split('T')[1].slice(0, 5) + '</span>';
     }
   }
@@ -162,7 +162,7 @@ export default {
           nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
         }
 
-        var optional_fields = create_optional_fields(matches[i], true);
+        var optional_fields = create_optional_fields(matches[i], StembureausApp.election_date, true);
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
 
@@ -422,11 +422,13 @@ export default {
             if (openingstijden === '') {
               temp_filtered_locations.push(loc);
             } else if (openingstijden === 'regulier') {
-              if (loc['Openingstijd'] === '2025-10-29T07:30:00' && loc['Sluitingstijd'] === '2025-10-29T21:00:00') {
+              if (loc['Openingstijd'] === (StembureausApp.election_date + 'T07:30:00') &&
+                  loc['Sluitingstijd'] === (StembureausApp.election_date + 'T21:00:00')) {
                 temp_filtered_locations.push(loc);
               }
             } else if (openingstijden === 'afwijkend') {
-              if (loc['Openingstijd'] !== '2025-10-29T07:30:00' || loc['Sluitingstijd'] !== '2025-10-29T21:00:00') {
+              if (loc['Openingstijd'] !== (StembureausApp.election_date + 'T07:30:00') ||
+                  loc['Sluitingstijd'] !== (StembureausApp.election_date + 'T21:00:00')) {
                 temp_filtered_locations.push(loc);
               }
             }
@@ -533,7 +535,7 @@ export default {
         output += akoestiek_labels[loc["Akoestiek geschikt voor slechthorenden"]];
         output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
 
-        output += create_optional_fields(loc, false);
+        output += create_optional_fields(loc, StembureausApp.election_date, false);
 
         output += '</span>';
 

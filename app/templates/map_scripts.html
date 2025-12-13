@@ -2,5 +2,6 @@
 <script>
   $('body').addClass('map');
   var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
+  StembureausApp.election_date = "{{ config['ELECTION_DATE'] }}";
   StembureausApp.stembureaus = {{ records |tojson |safe }};
 </script>

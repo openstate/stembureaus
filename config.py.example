@@ -1,4 +1,6 @@
+import locale
 import os
+from datetime import datetime
 
 # On a new deployment (whether production or development) make
 # a copy of this file called 'config.py' and change 'False' for
@@ -7,6 +9,8 @@ import os
 # $ os.urandom(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
+locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
 
 class Config(object):
@@ -16,6 +20,8 @@ class Config(object):
     PREFERRED_URL_SCHEME = 'https'
     FORCE_HOST_FOR_REDIRECTS = 'waarismijnstemlokaal.nl'
     USE_SESSION_FOR_NEXT = True
+    SESSION_2FA_CONFIRMED_NAME = '2fa_confirmed'
+    SESSION_2FA_LAST_ATTEMPT = '2fa_last_attempt'
 
     BABEL_DEFAULT_LOCALE = 'nl'
 
@@ -70,12 +76,15 @@ class Config(object):
     # NOTE 2: Make sure to capitalize the Provinciale Stateverkiezingen,
     # Tweede Kamerverkiezingen and Europese Parlementsverkiezingen and don't
     # capitalize the other elections
+    ELECTION_DATE = '<date_of_this_election>' # Format YYYY-MM-DD e.g. 2025-02-19
+    ELECTION_DATE_LONG = datetime.strptime(ELECTION_DATE, "%Y-%m-%d").date().strftime("%-d %B %Y")
+    ELECTION_DATE_DAY_MONTH = datetime.strptime(ELECTION_DATE, "%Y-%m-%d").date().strftime("%-d %B")
     CKAN_CURRENT_ELECTIONS = {
         '<name of election>': {
             'publish_resource': '<ID_of_resource>',
             'draft_resource': '<ID_of_resource>',
             'election_number': '<unique_number_for_this_election>',
-            'election_date': '<date_of_this_election>'
+            'election_date': ELECTION_DATE.replace('-', '')
         }
     }
 

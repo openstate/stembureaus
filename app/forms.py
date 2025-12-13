@@ -791,21 +791,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2025-10-29T07:30:00'
+            f'<b>Voorbeeld:</b> {current_app.config["ELECTION_DATE"]}T07:30:00'
         ),
-        default='2025-10-29T07:30:00',
+        default=f'{current_app.config["ELECTION_DATE"]}T07:30:00',
         validators=[
             DataRequired(),
             Regexp(
-                r'^2025-10-29T\d{2}:\d{2}:\d{2}$',
+                r'^' + current_app.config["ELECTION_DATE"] + r'T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2025-10-29T07:30:00\'.'
+                    f'worden zoals bv. \'{current_app.config["ELECTION_DATE"]}T07:30:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2025-10-29T07:30:00'
+            'placeholder': f'bv. {current_app.config["ELECTION_DATE"]}T07:30:00'
         }
     )
 
@@ -821,21 +821,21 @@ class EditForm(FlaskForm):
             '<b>Format:</b> YYYY-MM-DDTHH:MM:SS'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> 2025-10-29T21:00:00'
+            f'<b>Voorbeeld:</b> {current_app.config["ELECTION_DATE"]}T21:00:00'
         ),
-        default='2025-10-29T21:00:00',
+        default=f'{current_app.config["ELECTION_DATE"]}T21:00:00',
         validators=[
             DataRequired(),
             Regexp(
-                r'^2025-10-29T\d{2}:\d{2}:\d{2}$',
+                r'^' + current_app.config["ELECTION_DATE"] + r'T\d{2}:\d{2}:\d{2}$',
                 message=(
                     'Dit veld is verkeerd ingevuld. Het hoort ingevuld te '
-                    'worden zoals bv. \'2025-10-29T21:00:00\'.'
+                    f'worden zoals bv. \'{current_app.config["ELECTION_DATE"]}T21:00:00\'.'
                 )
             )
         ],
         render_kw={
-            'placeholder': 'bv. 2025-10-29T21:00:00'
+            'placeholder': f'bv. {current_app.config["ELECTION_DATE"]}T21:00:00'
         }
     )
 

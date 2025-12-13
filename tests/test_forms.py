@@ -14,7 +14,7 @@ class TestEditForm(unittest.TestCase):
     def test_good(self):
         app.config['WTF_CSRF_ENABLED'] = False
         with app.test_request_context('/'):
-            r = Record(**record_to_test)
+            r = Record(**record_to_test(app.config["ELECTION_DATE"]))
             form = EditForm(MultiDict(r.record))
             result = form.validate()
             for field, errors in form.errors.items():
