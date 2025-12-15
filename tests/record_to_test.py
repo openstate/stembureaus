@@ -1,4 +1,4 @@
-def record_to_test(election_date):
+def record_to_test(election_date, closing_time = '21:00:00'):
     return {
         'gemeente': "'s-Gravenhage",
         'cbs gemeentecode': 'GM0518',
@@ -26,7 +26,7 @@ def record_to_test(election_date):
         'latitude': '52.0775912',
         'longitude': '4.3166395',
         'openingstijd': f'{election_date}T07:30:00',
-        'sluitingstijd': f'{election_date}T21:00:00',
+        'sluitingstijd': f'{election_date}T{closing_time}',
         'toegankelijk voor mensen met een lichamelijke beperking': 'ja',
         'toegankelijke ov-halte': 'ja',
         'gehandicaptentoilet': 'ja',

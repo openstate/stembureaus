@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.models import BAG
 from flask import current_app
 from flask_wtf import FlaskForm
@@ -404,6 +406,18 @@ class EditForm(FlaskForm):
                 'zodat de exacte locatie van het stembureau bekend is.'
             )
             valid = False
+
+        if self.sluitingstijd.data:
+            try:
+                time = datetime.fromisoformat(self.sluitingstijd.data)
+                if time.hour > 21 or time.hour == 21 and time.minute > 0:
+                    self.sluitingstijd.errors.append(
+                        'De sluitingstijd mag niet later zijn dan 21:00.'
+                    )
+                    valid = False
+            except:
+                pass # There is a separate RegEx validator for checking the ISO format
+
         return valid
 
     submit = SubmitField(

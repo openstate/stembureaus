@@ -44,3 +44,18 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(results['no_errors'], True)
         # TODO test results['results'] output
         #self.assertEqual(results['results'], {})
+
+
+class TestClosingTimeValidation(unittest.TestCase):
+    def setUp(self):
+        self.record_validator = RecordValidator()
+        with app.app_context():
+            self.test_record = Record(**record_to_test(app.config["ELECTION_DATE"], closing_time='21:01:00'))
+
+    def test_parse(self):
+        with app.test_request_context('/'):
+            result, errors, form = self.record_validator.validate(
+                record=self.test_record.record
+            )
+        self.assertEqual(result, False)
+        self.assertEqual(errors, {'sluitingstijd': ['De sluitingstijd mag niet later zijn dan 21:00.']})
