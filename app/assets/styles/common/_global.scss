@@ -110,6 +110,10 @@ label {
 
 .action-bar {
   border: 1px $dark-blue solid !important;
+  &.error {
+    border: 2px $red solid !important;
+  }
+  li.error {color: $red;}
 }
 
 .block-padding {

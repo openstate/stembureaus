@@ -1108,6 +1108,9 @@ def create_routes(app):
                     'gemeente_stemlokalen_overzicht'
                 )
             )
+        elif form.is_submitted():
+            flash('Formulier is niet opgeslagen, kijk beneden voor de fouten.', 'error')
+
 
         return render_template(
             'gemeente-stemlokalen-edit.html',
