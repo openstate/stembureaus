@@ -948,7 +948,12 @@ def create_routes(app):
                     ]
                     remove_id(temp_gemeente_draft_records)
                     ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
-                flash('Stembureaus gepubliceerd')
+                message = 'De stembureaus zijn gepubliceerd.<br><br>'
+                link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank"> jullie gemeentepagina</a>'
+                message += f'De resultaten zijn op {link_results} te bekijken.<br><br>'
+                link_embed = f'https://waarismijnstemlokaal.nl/e/{gemeente.gemeente_naam}'
+                message += f'Desgewenst kan de kaart ook op andere websites ingesloten worden met behulp van deze link: {link_embed}.'
+                flash(Markup(message))
                 # Sleep to make sure that the data is saved before it is
                 # requested again in the lines right below here
                 sleep(1)
