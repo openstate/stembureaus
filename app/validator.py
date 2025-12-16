@@ -13,7 +13,8 @@ class RecordValidator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, record={}):
+    def validate(self, record=None):
+        record = {} if record is None else record
         """
         Validates a single record.
         Returns a list of issues found, which can be empty.
@@ -28,11 +29,12 @@ class Validator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, records=[]):
+    def validate(self, records=None):
         """
         Validates input, which consists of a of a list of records.
         Returns a tuple consisting of a bool and a list of issues.
         """
+        records = [] if records is None else records
         results = {}
         record_validator = RecordValidator()
         column_number = 5

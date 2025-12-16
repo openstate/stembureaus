@@ -43,13 +43,8 @@ def publish_gemeente_records(gemeente_code):
     elections = current_gemeente.elections.all()
 
     for election in [x.verkiezing for x in elections]:
-        temp_all_draft_records = ckan.get_records(
-            ckan.elections[election]['draft_resource']
-        )
-        temp_gemeente_draft_records = [
-            record for record in temp_all_draft_records['records']
-            if record['CBS gemeentecode'] == current_gemeente.gemeente_code
-        ]
+        temp_gemeente_draft_records = ckan.filter_draft_records(election, current_gemeente.gemeente_code)
+
         remove_id(temp_gemeente_draft_records)
         ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 

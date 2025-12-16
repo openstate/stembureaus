@@ -173,7 +173,7 @@ def get_stembureaus(elections, filters=None):
         records = ckan.filter_records(
             ckan.elections[election]['publish_resource'],
             filters)
-        for record in records['records']:
+        for record in records:
             if record[merge_field] not in results:
                 results[record[merge_field]] = record
             try:
@@ -717,21 +717,8 @@ def create_routes(app):
         # elections on March 21st 2018).
         verkiezing = elections[0].verkiezing
 
-        all_publish_records = ckan.get_records(
-            ckan.elections[verkiezing]['publish_resource']
-        )
-        all_draft_records = ckan.get_records(
-            ckan.elections[verkiezing]['draft_resource']
-        )
-
-        gemeente_publish_records = [
-            record for record in all_publish_records['records']
-            if record['CBS gemeentecode'] == gemeente.gemeente_code
-        ]
-        gemeente_draft_records = [
-            record for record in all_draft_records['records']
-            if record['CBS gemeentecode'] == gemeente.gemeente_code
-        ]
+        gemeente_publish_records = ckan.filter_publish_records(verkiezing, gemeente.gemeente_code)
+        gemeente_draft_records = ckan.filter_draft_records(verkiezing, gemeente.gemeente_code)
 
         remove_id(gemeente_publish_records)
         remove_id(gemeente_draft_records)
@@ -927,14 +914,7 @@ def create_routes(app):
         # elections on March 21st 2018).
         verkiezing = elections[0].verkiezing
 
-        all_draft_records = ckan.get_records(
-            ckan.elections[verkiezing]['draft_resource']
-        )
-
-        gemeente_draft_records = [
-            record for record in all_draft_records['records']
-            if record['CBS gemeentecode'] == gemeente.gemeente_code
-        ]
+        gemeente_draft_records = ckan.filter_draft_records(verkiezing, gemeente.gemeente_code)
 
         remove_id(gemeente_draft_records)
 
@@ -945,15 +925,10 @@ def create_routes(app):
             if publish_form.submit.data:
                 # Publish stembureaus to all elections
                 for election in [x.verkiezing for x in elections]:
-                    temp_all_draft_records = ckan.get_records(
-                        ckan.elections[election]['draft_resource']
-                    )
-                    temp_gemeente_draft_records = [
-                        record for record in temp_all_draft_records['records']
-                        if record['CBS gemeentecode'] == gemeente.gemeente_code
-                    ]
+                    temp_gemeente_draft_records = ckan.filter_draft_records(election, gemeente.gemeente_code)
                     remove_id(temp_gemeente_draft_records)
                     ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
+
                 flash('De stembureaus zijn gepubliceerd.')
                 link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank"> jullie gemeentepagina</a>'
                 flash(Markup(f'De resultaten zijn op {link_results} te bekijken.'))
@@ -966,13 +941,7 @@ def create_routes(app):
                 # requested again in the lines right below here
                 sleep(1)
 
-        all_publish_records = ckan.get_records(
-            ckan.elections[verkiezing]['publish_resource']
-        )
-        gemeente_publish_records = [
-            record for record in all_publish_records['records']
-            if record['CBS gemeentecode'] == gemeente.gemeente_code
-        ]
+        gemeente_publish_records = ckan.filter_publish_records(verkiezing, gemeente.gemeente_code)
         remove_id(gemeente_publish_records)
 
         # Check whether gemeente_draft_records differs from
@@ -1042,28 +1011,19 @@ def create_routes(app):
         # elections on March 21st 2018).
         verkiezing = elections[0].verkiezing
 
-        all_draft_records = ckan.get_records(
-            ckan.elections[verkiezing]['draft_resource']
-        )
-
-        gemeente_draft_records = [
-            record for record in all_draft_records['records']
-            if record['CBS gemeentecode'] == gemeente.gemeente_code
-        ]
-
         # Initialize the form with the data already available in the draft
         init_record = {}
         if stemlokaal_id:
-            for record in gemeente_draft_records:
-                if record['UUID'] == stemlokaal_id:
-                    # Split the Verkiezingen attribute into a list
-                    if record.get('Verkiezingen'):
-                        record['Verkiezingen'] = [
-                            x.strip() for x in record['Verkiezingen'].split(';')
-                        ]
-                    init_record = Record(
-                        **{k.lower(): v for k, v in record.items()}
-                    ).record
+            record = ckan.get_draft_record(verkiezing, gemeente.gemeente_code, stemlokaal_id)
+            if record:
+                # Split the Verkiezingen attribute into a list
+                if record.get('Verkiezingen'):
+                    record['Verkiezingen'] = [
+                        x.strip() for x in record['Verkiezingen'].split(';')
+                    ]
+                init_record = Record(
+                    **{k.lower(): v for k, v in record.items()}
+                ).record
 
         app.logger.info(init_record)
         form = EditForm(**init_record)

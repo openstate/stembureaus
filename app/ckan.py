@@ -59,24 +59,39 @@ class CKAN():
         return resources_metadata
 
     def get_records(self, resource_id):
-        try:
-            return self.ckanapi.datastore_search(
-                resource_id=resource_id, limit=15000)
-        except CKANAPIError as e:
-            self.app.logger.error(
-                'Can\'t get records: %s' % (e)
-            )
-            return {'records': []}
+        return self.filter_records(resource_id, sort='')
 
-    def filter_records(self, resource_id, datastore_filters={}):
+    def get_draft_record(self, verkiezing, gemeente_code, uuid):
+        resource_id = self.elections[verkiezing]['draft_resource']
+        filters = {'CBS gemeentecode': gemeente_code, 'UUID': uuid}
+        records = self.filter_records(resource_id, filters=filters, limit=1, sort='')
+        if len(records) == 1:
+            return records[0]
+        else:
+            return None
+
+    def filter_draft_records(self, verkiezing, gemeente_code):
+        resource_id = self.elections[verkiezing]['draft_resource']
+        return self._filter_gemeente_records(resource_id, gemeente_code)
+
+    def filter_publish_records(self, verkiezing, gemeente_code):
+        resource_id = self.elections[verkiezing]['publish_resource']
+        return self._filter_gemeente_records(resource_id, gemeente_code)
+
+    def _filter_gemeente_records(self, resource_id, gemeente_code):
+        filters = {'CBS gemeentecode': gemeente_code}
+        return self.filter_records(resource_id, filters=filters)
+
+    def filter_records(self, resource_id, filters=None, limit=15000, sort='Nummer stembureau asc nulls last'):
+        filters = {} if filters is None else filters
         try:
             return self.ckanapi.datastore_search(
-                resource_id=resource_id, filters=datastore_filters, limit=15000)
-        except CKANAPIError as e:
+                resource_id=resource_id, filters=filters, limit=limit, sort=sort)['records']
+        except Exception as e:
             self.app.logger.error(
                 'Can\'t filter records: %s' % (e)
             )
-            return {'records': []}
+            return []
 
     def save_records(self, resource_id, records):
         self.ckanapi.datastore_upsert(

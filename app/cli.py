@@ -128,7 +128,7 @@ def create_cli_commands(app):
             resource_id = election['%s_resource' % (resource_type)]
             sys.stderr.write('%s: %s\n' % (name, resource_id))
             records = ckan.get_records(resource_id)
-            for r in records['records']:
+            for r in records:
                 bag = _get_bag(r)
 
                 if bag:
@@ -162,7 +162,7 @@ def create_cli_commands(app):
             )
 
             with open('exports/%s_bag_add_fix.json' % (resource_id), 'w') as OUT:
-                json.dump(records['records'], OUT, indent=4, sort_keys=True)
+                json.dump(records, OUT, indent=4, sort_keys=True)
 
 
     @CKAN.command()
@@ -395,7 +395,7 @@ def create_cli_commands(app):
             ckan.elections[verkiezing]['draft_resource']
         )
         gemeente_draft_records = [
-            record for record in all_draft_records['records']
+            record for record in all_draft_records
             if record['CBS gemeentecode'] == current_gemeente.gemeente_code
         ]
         remove_id(gemeente_draft_records)
@@ -504,7 +504,7 @@ def create_cli_commands(app):
         """
         all_resource_records = ckan.get_records(source_resource)
         gemeente_resource_records = [
-            record for record in all_resource_records['records']
+            record for record in all_resource_records
             if record['CBS gemeentecode'] == gemeente_code
         ]
         remove_id(gemeente_resource_records)
@@ -514,7 +514,7 @@ def create_cli_commands(app):
         if not dest_id or not dest_hoofdstembureau or not dest_kieskring_id:
             all_dest_resource_records = ckan.get_records(dest_resource)
             gemeente_dest_resource_records = [
-                record for record in all_dest_resource_records['records']
+                record for record in all_dest_resource_records
                 if record['CBS gemeentecode'] == gemeente_code
             ]
             if gemeente_dest_resource_records:
@@ -551,7 +551,7 @@ def create_cli_commands(app):
         """
         Exports all records of a resource to a json file in the exports directory
         """
-        all_resource_records = ckan.get_records(resource_id)['records']
+        all_resource_records = ckan.get_records(resource_id)
         filename = 'exports/%s_%s.json' % (
             datetime.now().isoformat()[:19],
             resource_id
@@ -845,7 +845,7 @@ def create_cli_commands(app):
             resource_id = list(ckan.elections.values())[0]['draft_resource']
         all_records = ckan.get_records(resource_id)
 
-        for record in all_records['records']:
+        for record in all_records:
             code = record['CBS gemeentecode']
             if code in gemeenten.keys():
                 gemeenten.pop(code)
@@ -859,7 +859,7 @@ def create_cli_commands(app):
     def monitor_changes(debug):
         changes_monitor = ChangesMonitor(debug=debug)
         resource_id = list(ckan.elections.values())[0]['publish_resource']
-        all_records = ckan.get_records(resource_id)['records']
+        all_records = ckan.get_records(resource_id)
 
         changes_monitor.process_changes(all_records)
 

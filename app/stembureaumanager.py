@@ -88,27 +88,6 @@ class APIManager(object):
         self.from_date = from_date
         self.gm_code = gm_code
 
-    def _get_draft_and_publish_records_for_gemeente(self, verkiezing, gemeente_code):
-        """
-        Gets draft and published records for the specified municipality
-        """
-        all_publish_records = ckan.get_records(
-            ckan.elections[verkiezing]['publish_resource']
-        )
-        all_draft_records = ckan.get_records(
-            ckan.elections[verkiezing]['draft_resource']
-        )
-
-        gemeente_publish_records = [
-            record for record in all_publish_records['records']
-            if record['CBS gemeentecode'] == gemeente_code
-        ]
-        gemeente_draft_records = [
-            record for record in all_draft_records['records']
-            if record['CBS gemeentecode'] == gemeente_code
-        ]
-        return gemeente_draft_records, gemeente_publish_records
-
     def _save_draft_records(self, gemeente, gemeente_draft_records, elections, results):
         # Delete all stembureaus of current gemeente
         if gemeente_draft_records:
@@ -225,8 +204,7 @@ class StembureauManager(APIManager):
             # both elections are the same (at least for the GR2018 + referendum
             # elections on March 21st 2018).
             verkiezing = elections[0].verkiezing
-            gemeente_draft_records, gemeente_publish_records = self._get_draft_and_publish_records_for_gemeente(
-                verkiezing, m['gemeente_code'])
+            gemeente_draft_records = ckan.filter_draft_records(verkiezing, m['gemeente_code'])
             data = self._request_municipality(m['gemeente_code'])
             # Make sure that we retrieve a list and that it is not empty
             if not isinstance(data, list) or not data:

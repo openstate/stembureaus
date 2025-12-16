@@ -11,7 +11,7 @@ class ChangesMonitor:
   """
   Usage:
     changes_monitor = ChangesMonitor()
-    all_records = ckan.get_records(resource_id)['records']
+    all_records = ckan.get_records(resource_id)
     changes_monitor.process_changes(all_records)
 
   Call this from cron near the end of each working day to inform the users about changed data.

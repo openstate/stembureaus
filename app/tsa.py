@@ -1,6 +1,6 @@
 from flask import current_app
 
-from app import db
+from app import ckan, db
 from app.email import send_email
 from app.parser import valid_headers
 from app.validator import Validator
@@ -145,8 +145,7 @@ class TSAManager(APIManager):
             # both elections are the same (at least for the GR2018 + referendum
             # elections on March 21st 2018).
             verkiezing = elections[0].verkiezing
-            gemeente_draft_records, gemeente_publish_records = self._get_draft_and_publish_records_for_gemeente(
-                verkiezing, m['gemeente_code'])
+            gemeente_draft_records = ckan.filter_draft_records(verkiezing, m['gemeente_code'])
             data = self._request_municipality(m['gemeente_code'])
             # Make sure that we retrieve a list and that it is not empty
             if not isinstance(data, list) or not data:
