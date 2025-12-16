@@ -96,10 +96,12 @@
                 <div id="bag-results"></div>
                 {% endif %}
 
+                <span class="field_errors">
                 {% for error in f.errors %}
-                  <span style="color: red;">- {{ error }}</span>
+                  <span>- {{ error }}</span>
                   <br>
                 {% endfor %}
+                </span>
                </div>
             {% endif %}
 

@@ -78,6 +78,14 @@ input#data_file.filestyle {
   input[type="submit"] {
     margin-right: 10px;
   }
+
+  span.field_errors {
+    color: $red;
+    display: inline-block;
+    width: 400px;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
 }
 
 label {
@@ -125,6 +133,22 @@ label {
   margin-left: 221px;
   width: 374px;
   height: 201px;
+}
+
+@media(max-width:1200px) {
+  .edit-form {
+    span.field_errors {
+      width: 200px;
+    }
+  }
+}
+
+@media(max-width:992px) {
+  .edit-form {
+    span.field_errors {
+      width: 100%;
+    }
+  }
 }
 
 @media(max-width:767px) {
