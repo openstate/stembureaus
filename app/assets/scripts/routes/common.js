@@ -39,9 +39,9 @@ var run_editform = function () {
       $('#bag-results .loading-list').remove();
     }
 
-    var query = $(this).val().replace('/', ' ');
+    var query = $(this).val().replace('/', ' ').replace(/\s+/g, ' ').trim();
 
-    if (query.length < 1) {
+    if (query.length < 3) {
       $('#bag-results').empty();
       //console.log('Query not long enough');
       return;
