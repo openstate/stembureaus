@@ -2,6 +2,7 @@
 import os
 from io import BytesIO
 
+from app.db_utils import db_exec_one
 import fiona
 import shapely
 import shapely.geometry
@@ -10,7 +11,7 @@ import qrcode
 from base64 import b64encode
 
 from app.models import Gemeente
-from app import ckan
+from app import ckan, db
 
 
 # Remove '_id' as CKAN doesn't accept this field in upsert when we
@@ -21,15 +22,23 @@ def remove_id(records):
     for record in records:
         del record['_id']
 
-
 def get_gemeente(gemeente_code):
-    current_gemeente = Gemeente.query.filter_by(
-        gemeente_code=gemeente_code
-    ).first()
+    current_gemeente = db_exec_one(db.select(Gemeente).filter_by(gemeente_code=gemeente_code))
+
     if not current_gemeente:
         print(
             'Gemeentecode "%s" not found in the MySQL '
             'database' % (gemeente_code)
+        )
+    return current_gemeente
+
+def get_gemeente_by_id(id):
+    current_gemeente = db_exec_one(db.select(Gemeente).filter_by(id=id))
+
+    if not current_gemeente:
+        print(
+            'Gemeente met id "%s" not found in the MySQL '
+            'database' % (id)
         )
     return current_gemeente
 

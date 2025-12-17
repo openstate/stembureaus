@@ -6,7 +6,8 @@ import csv
 
 from openpyxl import load_workbook
 from openpyxl.styles import Font
-from pyexcel_ods3 import get_data, save_data
+from app import db
+from app.db_utils import db_exec_first
 
 sys.path.insert(0, '.')
 
@@ -15,21 +16,21 @@ from app.models import BAG
 
 
 def find_bag_record(data):
-    return BAG.query.filter_by(
+    return db_exec_first(BAG,
         openbareruimte=data['Straat'].strip(),
         huisnummer=data['Huisnummer'].strip(),
         huisnummertoevoeging=data['Toevoeging'].strip(),
         woonplaats=data['Plaats'].strip()
-    ).first()
+    )
 
 
 def find_bag_record_by_huisletter(data):
-    return BAG.query.filter_by(
+    return db_exec_first(BAG,
         openbareruimte=data['Straat'].strip(),
         huisnummer=data['Huisnummer'].strip(),
         huisletter=data['Toevoeging'].strip(),
         woonplaats=data['Plaats'].strip()
-    ).first()
+    )
 
 
 def as_text(value):

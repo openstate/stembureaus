@@ -2,6 +2,7 @@ from contextlib import suppress
 from datetime import datetime
 from app.email import send_changed_data
 from app.models import Gemeente, Gemeente_user, User, db
+from app.db_utils import db_exec_all
 from sqlalchemy import select
 import json
 import os
@@ -55,9 +56,8 @@ class ChangesMonitor:
     self.timestamp_previous_run = self.get_timestamp_previous_run()
 
     self.gemeente_data = {}
-    for gemeente in Gemeente.query.all():
+    for gemeente in db_exec_all(Gemeente):
       self.gemeente_data[gemeente.gemeente_code] = gemeente
-
 
   def process_changes(self, new_records):
     self.new_records = self.clean_and_transform_records(new_records)

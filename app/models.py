@@ -4,6 +4,7 @@ import json
 import os
 import re
 
+from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optional
 from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -101,7 +102,7 @@ class User(UserMixin, db.Model):
             )['reset_password']
         except:
             return
-        return User.query.get(user_id)
+        return db_exec_by_id(User, user_id)
 
     def __repr__(self):
         return '<User {} {}>'.format(self.id, self.email)
@@ -125,9 +126,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
     user_created = 0
 
     # Add user
-    user = User.query.filter_by(
-        email=email
-    ).first()
+    user = db_exec_one_optional(User, email=email)
 
     # Make sure the user doesn't exist already
     if not user:
@@ -144,7 +143,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
 
         # Send logging mail
         if send_logging_mail:
-            selected_gemeente = Gemeente.query.filter_by(id=gemeente_id).first()
+            selected_gemeente = db_exec_one(db.select(Gemeente).filter_by(id=gemeente_id))
             body = (
                 f"Gemeente: {selected_gemeente.gemeente_naam}<br>"
                 f"E-mailadres: {email}<br>"
@@ -168,10 +167,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
         return 0
 
     # Add record to the Gemeente_user association table
-    gemeente_user = Gemeente_user.query.filter_by(
-        gemeente_id=gemeente_id,
-        user_id=user.id
-    ).first()
+    gemeente_user = db_exec_one_optional(Gemeente_user, gemeente_id=gemeente_id, user_id=user.id)
 
     # Make sure the record doesn't exist already
     if not gemeente_user:
@@ -188,7 +184,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
     return user_created
 
 def _add_gemeente_allowed(user, gemeente_id):
-    existing_gemeenten_count = Gemeente_user.query.filter_by(user_id=user.id).count()
+    existing_gemeenten_count = db_count(Gemeente_user, user_id=user.id)
     if existing_gemeenten_count < current_app.config['MAX_GEMEENTEN_PER_USER']:
         return True
 
@@ -218,7 +214,7 @@ def _add_gemeente_allowed(user, gemeente_id):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db_exec_by_id(User, int(user_id))
 
 
 class Election(db.Model):
@@ -336,7 +332,7 @@ class Record(object):
             self.record['verkiezingen'] = record['verkiezingen']
 
     def expand(self):
-        bag_record = BAG.query.get(self.record['bag_nummeraanduiding_id'])
+        bag_record = db_exec_by_id(BAG, self.record['bag_nummeraanduiding_id'])
 
         if bag_record is not None:
             full_address =  bag_record.openbareruimte + ' ' + bag_record.huisnummer + bag_record.huisletter

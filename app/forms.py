@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from app import db
+from app.db_utils import db_exec_one_optional
 from app.models import BAG
 from flask import current_app
 from flask_wtf import FlaskForm
@@ -206,15 +208,15 @@ class PubliceerForm(FlaskForm):
 # Check if the BAG value is correct (sometimes people use the
 # Verblijfsobject ID or Pand ID instead of the Nummeraanduiding ID)
 def valid_bag(form, field):
-    bag_record = BAG.query.filter_by(nummeraanduiding=field.data).first()
+    bag_record = db_exec_one_optional(BAG, nummeraanduiding=field.data)
     if not bag_record:
-        if BAG.query.filter_by(object_id=field.data).first():
+        if db_exec_one_optional(BAG, object_id=field.data):
             raise ValidationError(
                 'Het ingevulde nummer ({0}) blijkt een BAG Verblijfsobject ID te '
                 'zijn. In dit veld moet het BAG Nummeraanduiding ID ingevuld '
                 'worden.'.format(field.data)
             )
-        elif BAG.query.filter_by(pandid=field.data).first():
+        elif db_exec_one_optional(BAG, pandid=field.data):
             raise ValidationError(
                 'Het ingevulde nummer ({0}) blijkt een BAG Pand ID te zijn. In dit '
                 'veld moet het BAG Nummeraanduiding ID ingevuld worden.'.format(field.data)

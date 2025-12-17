@@ -27,7 +27,8 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, Record, BAG, add_user, db
-from app.utils import get_b64encoded_qr_image, get_mysql_match_against_safe_string, remove_id
+from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
+from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_mysql_match_against_safe_string, remove_id
 from app import ckan
 from time import sleep
 import uuid
@@ -329,14 +330,14 @@ def create_routes(app):
         signup_form.gemeente.choices = [
             (
                 gemeente.id, gemeente.gemeente_naam
-            ) for gemeente in Gemeente.query.all()
+            ) for gemeente in db_exec_all(Gemeente)
         ]
 
         # If a valid signup form was submitted
         if custom_form_validate_on_submit(signup_form) and signup_form.submit.data:
             # If 'open-collecting' add the signup to a .csv
             if app.config['SIGNUP_FORM_STATE'] == 'open-collecting':
-                submitted_gemeente = Gemeente.query.filter_by(id=signup_form.gemeente.data).first()
+                submitted_gemeente = get_gemeente_by_id(signup_form.gemeente.data)
                 with open('app/data/signup_form.csv', 'a') as OUT:
                     writer = csv.writer(OUT, delimiter=';', quoting=csv.QUOTE_ALL)
                     writer.writerow([
@@ -483,9 +484,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
 
         # Uses re.sub to remove provinces from some gemeenten which is how we write
         # gemeenten in Wims, but which are not used in the BAG, e.g. 'Beek (L.)'.
@@ -496,7 +495,7 @@ def create_routes(app):
         if not query:
             return jsonify([])
 
-        results = None
+        sql_query = None
         # first try postcode
         m = re.match(r'^(\d{4})\s*([a-zA-z]{2})\s*(\d+)?\-?([a-zA-Z0-9]+)?\s*$', query)
         if m is not None:
@@ -509,27 +508,27 @@ def create_routes(app):
             if m.group(4) is not None:
                 huisnr_toev = m.group(4)
 
-            results = BAG.query.filter(
+            sql_query = db.select(BAG).filter(
                 BAG.postcode == postcode,
                 BAG.gemeente == gemeente_naam)
 
             if huisnr is not None:
-                results = results.filter(BAG.huisnummer.like(huisnr + '%'))
+                sql_query = sql_query.filter(BAG.huisnummer.like(huisnr + '%'))
                 if huisnr_toev is not None:
-                    results = results.filter(or_(
+                    sql_query = sql_query.filter(or_(
                         BAG.huisnummertoevoeging.like(huisnr_toev + '%'),
                         BAG.huisletter == huisnr_toev))
 
         # then try if it is a nummeraanduiding
         m = re.match(r'^(\d{16})\s*$', query)
         if m is not None:
-            results = BAG.query.filter(
+            sql_query = db.select(BAG).filter(
                 BAG.nummeraanduiding == m.group(1),
                 BAG.gemeente == gemeente_naam
             )
 
         # finally, treat it as a street name
-        if results is None:
+        if sql_query is None:
             m = re.match(r'^(.+)\s+(\d+)\-?([a-zA-Z0-9]+)?\s*(\,\s*.*)?$', query)
             street = get_mysql_match_against_safe_string(query)
             huisnr = None
@@ -542,22 +541,23 @@ def create_routes(app):
                     huisnr_toev = m.group(3)
                 if m.group(4) is not None:
                     woonplaats = m.group(4)
-            results = BAG.query.filter(
+            sql_query = db.select(BAG).filter(
                 BAG.openbareruimte.match('+' + re.sub(r'\s+', '* +', street.strip()) + '*'),
                 BAG.gemeente == gemeente_naam)
             if huisnr is not None:
-                results = results.filter(BAG.huisnummer.like(huisnr + '%'))
+                sql_query = sql_query.filter(BAG.huisnummer.like(huisnr + '%'))
             if huisnr_toev is not None:
-                results = results.filter(or_(
+                sql_query = sql_query.filter(or_(
                     BAG.huisnummertoevoeging.like(huisnr_toev + '%'),
                     BAG.huisletter == huisnr_toev))
             if woonplaats is not None:
-                results = results.filter(BAG.woonplaats.like(woonplaats[1:].strip() + '%'))
+                sql_query = sql_query.filter(BAG.woonplaats.like(woonplaats[1:].strip() + '%'))
 
-        if results is not None:
-            results = results.order_by(
+        if sql_query is not None:
+            sql_query = sql_query.order_by(
                 cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
-            ).limit(limit).all()
+            ).limit(limit)
+            results = db.session.execute(sql_query).scalars().all()
             return jsonify([x.to_json() for x in results])
         else:
             return jsonify([])
@@ -567,7 +567,7 @@ def create_routes(app):
     def user_reset_wachtwoord_verzoek():
         form = ResetPasswordRequestForm()
         if custom_form_validate_on_submit(form):
-            user = User.query.filter_by(email=form.email.data).first()
+            user = db_exec_one(db.select(User).filter_by(email=form.email.data))
             if user:
                 send_password_reset_email(user)
             flash(
@@ -599,7 +599,7 @@ def create_routes(app):
 
         form = LoginForm()
         if custom_form_validate_on_submit(form):
-            user = User.query.filter_by(email=form.email.data).first()
+            user = db_exec_one_optional(User, email=form.email.data)
             if user is None or not user.check_password(form.Wachtwoord.data):
                 flash('Fout e-mailadres of wachtwoord')
                 return(redirect(url_for('gemeente_login')))
@@ -706,9 +706,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
         elections = gemeente.elections.all()
 
         # Pick the first election. In the case of multiple elections we only
@@ -903,9 +901,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
         elections = gemeente.elections.all()
 
         # Pick the first election. In the case of multiple elections we only
@@ -978,9 +974,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
         elections = gemeente.elections.all()
 
         # Need this to get a starting point for the clickmap;
@@ -999,9 +993,9 @@ def create_routes(app):
         elif (gemeente.gemeente_naam == 'Sint Eustatius'):
             bag_record = {'lat': 17.4912, 'lon': -62.9747}
         else:
-            bag_result = BAG.query.filter_by(
-                gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(r' \(.*\)$', '', gemeente.gemeente_naam)
-            ).order_by('openbareruimte').first()
+            bag_result = db_exec_first(BAG,
+                gemeente=gemeente.gemeente_naam if 'Bergen (' in gemeente.gemeente_naam else re.sub(r' \(.*\)$', '', gemeente.gemeente_naam),
+                order_by='openbareruimte')
             if bag_result:
                 bag_record = bag_result
 
@@ -1099,9 +1093,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
         elections = gemeente.elections.all()
 
         if stemlokaal_id:
@@ -1125,9 +1117,7 @@ def create_routes(app):
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
 
-        gemeente = Gemeente.query.filter_by(
-            gemeente_code=session['selected_gemeente_code']
-        ).first()
+        gemeente = get_gemeente(session['selected_gemeente_code'])
         return render_template(
             'gemeente-instructies.html',
             gemeente=gemeente
@@ -1194,7 +1184,8 @@ def create_record(form, stemlokaal_id, gemeente, election):
     del record['Adres stembureau']
 
     bag_nummer = record['BAG Nummeraanduiding ID']
-    bag_record = BAG.query.filter_by(nummeraanduiding=bag_nummer).first()
+    bag_record = db_exec_first(BAG, nummeraanduiding=bag_nummer)
+
 
     if bag_record is not None:
         bag_conversions = {

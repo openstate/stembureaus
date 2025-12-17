@@ -5,6 +5,7 @@ from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.routes import create_record, kieskringen
+from app.db_utils import db_delete, db_delete_all, db_exec_all, db_exec_one, db_exec_one_optional
 from app.utils import get_gemeente, publish_gemeente_records, remove_id
 from app.stembureaumanager import StembureauManager
 from app.tsa import TSAManager
@@ -90,21 +91,21 @@ def create_cli_commands(app):
         if not r['Straatnaam']:
             print('geen straatnaam')
 
-            bag = BAG.query.filter_by(nummeraanduiding=r['BAG Nummeraanduiding ID'])
-            if bag.count() == 1:
-                return bag.first()
+            bag = db_exec_one_optional(BAG, nummeraanduiding=r['BAG Nummeraanduiding ID'])
+            if bag:
+                return bag
 
-            bag = BAG.query.filter_by(object_id=r['BAG Nummeraanduiding ID'])
-            if bag.count() == 1:
-                if bag.first().nummeraanduiding:
-                    return bag.first()
+            bag = db_exec_one_optional(BAG, object_id=r['BAG Nummeraanduiding ID'])
+            if bag:
+                if bag.nummeraanduiding:
+                    return bag
                 else:
                     return False
 
-            bag = BAG.query.filter_by(pandid=r['BAG Nummeraanduiding ID'])
-            if bag.count() == 1:
-                if bag.first().nummeraanduiding:
-                    return bag.first()
+            bag = db_exec_one_optional(BAG, pandid=r['BAG Nummeraanduiding ID'])
+            if bag:
+                if bag.nummeraanduiding:
+                    return bag
                 else:
                     return False
 
@@ -630,7 +631,7 @@ def create_cli_commands(app):
                 rug_record['CBS gemeentecode'] = gemeente_code
 
                 # Try to retrieve the record in the BAG
-                bag_result = BAG.query.filter_by(
+                bag_result = db_exec_all(BAG,
                     openbareruimte=rug_record['Straatnaam'],
                     huisnummer=rug_record['Huisnummer'],
                     huisnummertoevoeging=rug_record['Huisnummertoevoeging'],
@@ -639,15 +640,15 @@ def create_cli_commands(app):
 
                 # If the query above didn't work, try it again without
                 # huisnummertoevoeging
-                if bag_result.count() == 0:
-                    bag_result = BAG.query.filter_by(
+                if len(bag_result) == 0:
+                    bag_result = db_exec_all(BAG,
                         openbareruimte=rug_record['Straatnaam'],
                         huisnummer=rug_record['Huisnummer'],
                         woonplaats=rug_record['Plaats']
                     )
 
                 # If there are multiple BAG matches, simply take the first
-                bag_object = bag_result.first()
+                bag_object = bag_result[0]
 
                 # Retrieve gebruiksdoel, postcode and nummeraanduiding
                 # from BAG
@@ -837,7 +838,7 @@ def create_cli_commands(app):
         """
         # Get all gemeenten
         gemeenten = {}
-        for gemeente in Gemeente.query.all():
+        for gemeente in db_exec_all(Gemeente):
             gemeenten[gemeente.gemeente_code] = gemeente.gemeente_naam
 
         # Get gemeenten with data
@@ -876,7 +877,7 @@ def create_cli_commands(app):
         """
         Show all users and their corresponding gemeenten
         """
-        for user in User.query.all():
+        for user in db_exec_all(User):
             print(
                 '"%s","%s"' % (
                     user.email,
@@ -891,7 +892,7 @@ def create_cli_commands(app):
         """
         Show all gemeenten and their corresponding users and verkiezingen
         """
-        for gemeente in Gemeente.query.all():
+        for gemeente in db_exec_all(Gemeente):
             if crm:
                 print(
                     '"%s","%s","%s"' % (
@@ -929,10 +930,10 @@ def create_cli_commands(app):
                 print("No gemeenten, verkiezingen and users removed")
                 return
 
-        Election.query.delete()
-        Gemeente_user.query.delete()
-        total_users_removed = User.query.delete()
-        total_gemeenten_removed = Gemeente.query.delete()
+        db_delete_all(Election)
+        db_delete_all(Gemeente_user)
+        total_users_removed = db_delete_all(User)
+        total_gemeenten_removed = db_delete_all(Gemeente)
 
         db.session.commit()
 
@@ -945,9 +946,7 @@ def create_cli_commands(app):
     @click.argument('gemeente')
     @click.argument('email')
     def add_new_user(gemeente, email):
-        gemeente = Gemeente.query.filter_by(
-            gemeente_naam=gemeente
-        ).first()
+        gemeente = db_exec_one(db.select(Gemeente).filter_by(gemeente_naam=gemeente))
         add_user(gemeente.id, email, send_logging_mail=False)
 
 
@@ -968,14 +967,14 @@ def create_cli_commands(app):
                 print("No user removed")
                 return
 
-        user = User.query.filter_by(email=email).first()
+        user = db_exec_one_optional(User, email=email)
 
         if not user:
             print('No user with email address %s' % (email))
             return
 
-        Gemeente_user.query.filter_by(user_id=user.id).delete()
-        User.query.filter_by(id=user.id).delete()
+        db_delete(Gemeente_user, user_id=user.id)
+        db_delete(User, id=user.id)
         print("User %s removed" % email)
 
         db.session.commit()
@@ -991,7 +990,7 @@ def create_cli_commands(app):
         """
 
         # Check if a user already exists with this email address
-        user = User.query.filter_by(email=email).first()
+        user = db_exec_one_optional(User, email=email)
 
         if user:
             user.admin = True
@@ -1010,11 +1009,8 @@ def create_cli_commands(app):
         # Add access to all gemeenten for this user, by adding
         # records to the Gemeente_user association table
         gemeente_count = 0
-        for gemeente in Gemeente.query.all():
-            gemeente_user = Gemeente_user.query.filter_by(
-                gemeente_id=gemeente.id,
-                user_id=user.id
-            ).first()
+        for gemeente in db_exec_all(Gemeente):
+            gemeente_user = db_exec_one_optional(Gemeente_user, gemeente_id=gemeente.id, user_id=user.id)
 
             # Make sure the record doesn't exist already
             if not gemeente_user:
@@ -1047,9 +1043,7 @@ def create_cli_commands(app):
             total_users_created = 0
             for item in data:
                 # Add gemeenten
-                gemeente = Gemeente.query.filter_by(
-                    gemeente_code=item['gemeente_code']
-                ).first()
+                gemeente = db_exec_one_optional(Gemeente, gemeente_code=item['gemeente_code'])
 
                 # Make sure the gemeente doesn't exist already
                 if not gemeente:
@@ -1073,7 +1067,7 @@ def create_cli_commands(app):
                 # currently held)
                 elections = gemeente.elections.all()
                 for election in elections:
-                    Election.query.filter_by(id=election.id).delete()
+                    db_delete(Election, id=election.id)
                 for verkiezing in item['verkiezingen']:
                     election = Election(
                         verkiezing=verkiezing, gemeente=gemeente
@@ -1088,12 +1082,9 @@ def create_cli_commands(app):
                     )
 
                 # Add admin users (they have access to all gemeenten)
-                for admin in User.query.filter_by(admin=1):
+                for admin in db_exec_all(User, admin=1):
                     # Add records to the Gemeente_user association table
-                    gemeente_user = Gemeente_user.query.filter_by(
-                        gemeente_id=gemeente.id,
-                        user_id=admin.id
-                    ).first()
+                    gemeente_user = db_exec_one_optional(Gemeente_user, gemeente_id=gemeente.id, user_id=admin.id)
 
                     # Make sure the record doesn't exist already
                     if not gemeente_user:
@@ -1120,7 +1111,7 @@ def create_cli_commands(app):
         in the process of resetting a users password. Provide the users
         email address as parameter.
         """
-        user = User.query.filter_by(email=email).first()
+        user = db_exec_one_optional(User, email=email)
         if not user:
             print('No user with email address %s' % (email))
             return
@@ -1148,7 +1139,7 @@ def create_cli_commands(app):
                 return
 
         total_mailed = 0
-        for user in User.query.all():
+        for user in db_exec_all(User):
             send_update(user)
             total_mailed += 1
         print('%d gemeenten ge-e-maild' % (total_mailed))
