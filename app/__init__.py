@@ -1,6 +1,7 @@
 #/usr/bin/env python
 # -*- coding: utf-8 -*-
 import locale
+
 locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
 locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
@@ -24,6 +25,12 @@ babel = Babel()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.config["SQLALCHEMY_ENGINES"] = {
+        "default": {
+            "url": app.config['SQLALCHEMY_DATABASE_URI'],
+            "echo": app.config['SQLALCHEMY_ECHO']
+        }
+    }
     app.register_blueprint(AssetsBlueprintFactory.create_assets_blueprint(app))
 
     from app.models import db
@@ -98,7 +105,8 @@ def create_app():
 
     with app.app_context():
         # Create the MySQL tables if they don't exist
-        db.create_all()
+        from app.models import create_all
+        create_all()
 
         from .routes import create_routes
         create_routes(app)

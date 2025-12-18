@@ -1,31 +1,33 @@
 from app.models import db
+from sqlalchemy import select, delete, func
+from flask import current_app
 
 def db_exec_one(query):
     return db.session.execute(query).scalar_one()
 
 def db_exec_one_optional(klass, **kwargs):
-    select = db.select(klass)
+    query = select(klass)
     if len(kwargs) > 0:
-        select = select.filter_by(**kwargs)
+        query = query.filter_by(**kwargs)
 
-    result = db.session.execute(select).one_or_none()
+    result = db.session.execute(query).one_or_none()
     if result:
         return result[0]
     else:
         return None
 
 def db_exec_all(klass, **kwargs):
-    select = db.select(klass)
+    query = select(klass)
     limit = kwargs.pop('limit', None)
     order_by = kwargs.pop('order_by', None)
     if len(kwargs) > 0:
-        select = select.filter_by(**kwargs)
+        query = query.filter_by(**kwargs)
     if order_by:
-        select = select.order_by(order_by)
+        query = query.order_by(order_by)
     if limit:
-        select = select.limit(limit)
+        query = query.limit(limit)
 
-    return db.session.execute(select).scalars().all()
+    return db.session.execute(query).scalars().all()
 
 def db_exec_by_id(klass, id):
     return db.session.get(klass, id)
@@ -39,16 +41,16 @@ def db_exec_first(klass, **kwargs):
         return None
 
 def db_count(klass, **kwargs):
-    select = db.select(db.func.count()).select_from(klass)
+    query = select(func.count()).select_from(klass)
     if len(kwargs) > 0:
-        select = select.filter_by(**kwargs)
+        query = query.filter_by(**kwargs)
 
-    return db.session.execute(db.session.scalar(select))
+    return db.session.execute(query).scalar()
 
 def db_delete(klass, **kwargs):
     if len(kwargs) == 0:
         raise Exception("Delete attempt without specifying a query - mistake?")
-    return db.session.execute(db.delete(klass).filter_by(**kwargs)).rowcount
+    return db.session.execute(delete(klass).filter_by(**kwargs)).rowcount
 
 def db_delete_all(klass):
-    return db.session.execute(db.delete(klass)).rowcount
+    return db.session.execute(delete(klass)).rowcount

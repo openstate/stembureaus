@@ -2,7 +2,7 @@
 Flask==3.1.2
 Flask-Babel==4.0.0
 Flask-Mail==0.10.0
-Flask-SQLAlchemy==3.1.1
+Flask-SQLAlchemy-Lite==0.2.1
 PyJWT==2.10.1
 pytz==2025.2
 pyotp==2.9.0

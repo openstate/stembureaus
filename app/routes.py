@@ -15,8 +15,7 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
-import sqlalchemy
-from sqlalchemy import or_
+from sqlalchemy import or_, select, Integer
 from sqlalchemy.sql.expression import cast
 
 from app.forms import (
@@ -210,6 +209,16 @@ def get_is_admin():
     except AttributeError:
         return False
 
+# Same as above for has_2fa_enabled. Returns True or None
+def get_has_2fa_enabled():
+    try:
+        if current_user.has_2fa_enabled:
+            return True
+        else:
+            return None
+    except AttributeError:
+        return None
+
 def get_2fa_confirmed():
     try:
         return session[current_app.config['SESSION_2FA_CONFIRMED_NAME']]
@@ -255,7 +264,7 @@ def ensure_2fa_verification(fun):
         # - None for anonymous visitors
         # - None for normal users
         # - False or True for admin users
-        tfa_confirmed = get_2fa_confirmed()
+        tfa_confirmed = get_has_2fa_enabled() and get_2fa_confirmed()
 
         if tfa_confirmed == False:
             is_admin = get_is_admin()
@@ -508,7 +517,7 @@ def create_routes(app):
             if m.group(4) is not None:
                 huisnr_toev = m.group(4)
 
-            sql_query = db.select(BAG).filter(
+            sql_query = select(BAG).filter(
                 BAG.postcode == postcode,
                 BAG.gemeente == gemeente_naam)
 
@@ -522,7 +531,7 @@ def create_routes(app):
         # then try if it is a nummeraanduiding
         m = re.match(r'^(\d{16})\s*$', query)
         if m is not None:
-            sql_query = db.select(BAG).filter(
+            sql_query = select(BAG).filter(
                 BAG.nummeraanduiding == m.group(1),
                 BAG.gemeente == gemeente_naam
             )
@@ -541,7 +550,7 @@ def create_routes(app):
                     huisnr_toev = m.group(3)
                 if m.group(4) is not None:
                     woonplaats = m.group(4)
-            sql_query = db.select(BAG).filter(
+            sql_query = select(BAG).filter(
                 BAG.openbareruimte.match('+' + re.sub(r'\s+', '* +', street.strip()) + '*'),
                 BAG.gemeente == gemeente_naam)
             if huisnr is not None:
@@ -555,7 +564,7 @@ def create_routes(app):
 
         if sql_query is not None:
             sql_query = sql_query.order_by(
-                cast(BAG.huisnummer, sqlalchemy.Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
+                cast(BAG.huisnummer, Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
             ).limit(limit)
             results = db.session.execute(sql_query).scalars().all()
             return jsonify([x.to_json() for x in results])
@@ -567,7 +576,7 @@ def create_routes(app):
     def user_reset_wachtwoord_verzoek():
         form = ResetPasswordRequestForm()
         if custom_form_validate_on_submit(form):
-            user = db_exec_one(db.select(User).filter_by(email=form.email.data))
+            user = db_exec_one(select(User).filter_by(email=form.email.data))
             if user:
                 send_password_reset_email(user)
             flash(
@@ -707,7 +716,7 @@ def create_routes(app):
             return redirect(url_for('gemeente_selectie'))
 
         gemeente = get_gemeente(session['selected_gemeente_code'])
-        elections = gemeente.elections.all()
+        elections = gemeente.elections
 
         # Pick the first election. In the case of multiple elections we only
         # retrieve the stembureaus of the first election as the records for
@@ -902,7 +911,7 @@ def create_routes(app):
             return redirect(url_for('gemeente_selectie'))
 
         gemeente = get_gemeente(session['selected_gemeente_code'])
-        elections = gemeente.elections.all()
+        elections = gemeente.elections
 
         # Pick the first election. In the case of multiple elections we only
         # retrieve the stembureaus of the first election as the records for
@@ -975,7 +984,7 @@ def create_routes(app):
             return redirect(url_for('gemeente_selectie'))
 
         gemeente = get_gemeente(session['selected_gemeente_code'])
-        elections = gemeente.elections.all()
+        elections = gemeente.elections
 
         # Need this to get a starting point for the clickmap;
         # Uses re.sub to remove provinces from some gemeenten which is how
@@ -1094,7 +1103,7 @@ def create_routes(app):
             return redirect(url_for('gemeente_selectie'))
 
         gemeente = get_gemeente(session['selected_gemeente_code'])
-        elections = gemeente.elections.all()
+        elections = gemeente.elections
 
         if stemlokaal_id:
             for election in [x.verkiezing for x in elections]:

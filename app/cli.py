@@ -11,6 +11,7 @@ from app.stembureaumanager import StembureauManager
 from app.tsa import TSAManager
 from app.procura import ProcuraManager
 
+from sqlalchemy import select
 from datetime import datetime, timedelta
 from dateutil import parser
 from flask import url_for
@@ -386,7 +387,7 @@ def create_cli_commands(app):
         """
         current_gemeente = get_gemeente(gemeente_code)
 
-        elections = current_gemeente.elections.all()
+        elections = current_gemeente.elections
         # Pick the first election. In the case of multiple elections we only
         # retrieve the stembureaus of the first election as the records for
         # both elections are the same (at least the GR2018 + referendum
@@ -907,7 +908,7 @@ def create_cli_commands(app):
                         gemeente.gemeente_code,
                         gemeente.gemeente_naam,
                         gemeente.users,
-                        ", ".join([x.verkiezing for x in gemeente.elections.all()])
+                        ", ".join([x.verkiezing for x in gemeente.elections])
                     )
                 )
 
@@ -946,7 +947,7 @@ def create_cli_commands(app):
     @click.argument('gemeente')
     @click.argument('email')
     def add_new_user(gemeente, email):
-        gemeente = db_exec_one(db.select(Gemeente).filter_by(gemeente_naam=gemeente))
+        gemeente = db_exec_one(select(Gemeente).filter_by(gemeente_naam=gemeente))
         add_user(gemeente.id, email, send_logging_mail=False)
 
 
@@ -1065,7 +1066,7 @@ def create_cli_commands(app):
                 # Remove existing elections and add new elections (this
                 # allows us to easily change the elections that are
                 # currently held)
-                elections = gemeente.elections.all()
+                elections = gemeente.elections
                 for election in elections:
                     db_delete(Election, id=election.id)
                 for verkiezing in item['verkiezingen']:

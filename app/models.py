@@ -1,5 +1,6 @@
 from time import time
 from decimal import Decimal
+from datetime import datetime
 import json
 import os
 import re
@@ -7,8 +8,10 @@ import re
 from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.orm import DeclarativeBase
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey, String, DECIMAL, select
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from flask_sqlalchemy_lite import SQLAlchemy
+from typing import List
 import jwt
 import pyotp
 
@@ -18,18 +21,32 @@ from app.email import send_email, send_invite
 class Base(DeclarativeBase):
   pass
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy(engine_options = {'connect_args': {'connect_timeout': 10, 'read_timeout': 20}})
 
 from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optional
 
-class Gemeente(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    gemeente_naam = db.Column(db.String(120), index=True, unique=True)
-    gemeente_code = db.Column(db.String(6), index=True, unique=True)
-    source = db.Column(db.String(32))
-    api_laatste_wijziging = db.Column(db.DateTime())
-    elections = db.relationship('Election', backref='gemeente', lazy='dynamic')
-    users = db.relationship('User', secondary='gemeente_user')
+def create_all():
+    Base.metadata.create_all(db.engine)
+
+
+# Association table for the many-to-many relationship
+# between Gemeente and User
+class Gemeente_user(Base):
+    __tablename__ = "gemeente_user"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    gemeente_id: Mapped[int] = mapped_column(ForeignKey('gemeente.id'))
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
+
+
+class Gemeente(Base):
+    __tablename__ = "gemeente"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    gemeente_naam: Mapped[str] = mapped_column(String(120), index=True, unique=True)
+    gemeente_code: Mapped[str] = mapped_column(String(6), index=True, unique=True)
+    source: Mapped[str] = mapped_column(String(32), nullable=True)
+    api_laatste_wijziging: Mapped[datetime] = mapped_column(nullable=True)
+    elections: Mapped[List['Election']] = relationship('Election', back_populates='gemeente')
+    users: Mapped[List['User']] = relationship(secondary=Gemeente_user.__table__, back_populates='gemeenten')
 
     def __repr__(self):
         return '<Gemeente {}>'.format(self.gemeente_naam)
@@ -54,18 +71,17 @@ class Gemeente(db.Model):
         return fields
 
 
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), index=True)
-    password_hash = db.Column(db.String(162))
-    admin = db.Column(db.Boolean, default=False)
-    has_2fa_enabled = db.Column(db.Boolean, nullable=False, default=False)
-    secret_token = db.Column(db.String(32), unique=True)
+class User(UserMixin, Base):
+    __tablename__ = "user"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(120), index=True, nullable=True)
+    password_hash: Mapped[str] = mapped_column(String(162), nullable=True)
+    admin: Mapped[bool] = mapped_column(default=False, nullable=True)
+    has_2fa_enabled: Mapped[bool] = mapped_column(nullable=False, default=False)
+    secret_token: Mapped[str] = mapped_column(String(32), unique=True, nullable=True)
 
-    gemeenten = db.relationship(
-        'Gemeente',
-        secondary='gemeente_user'
-    )
+    gemeenten: Mapped[List[Gemeente]] = relationship(secondary=Gemeente_user.__table__, back_populates="users")
+
 
     def __init__(self, email, admin=False):
         self.email = email
@@ -116,17 +132,6 @@ class User(UserMixin, db.Model):
         return '<User {} {}>'.format(self.id, self.email)
 
 
-# Association table for the many-to-many relationship
-# between Gemeente and User
-class Gemeente_user(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    gemeente_id = db.Column(db.Integer, db.ForeignKey('gemeente.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    gemeente = db.relationship(Gemeente, backref="Gemeente_user")
-    user = db.relationship(User, backref="Gemeente_user")
-
-
 # Add a user and link it to a gemeente by specifying the gemeente,
 # user's email address and name. Also allow to enable or disable sending
 # of a logging mail to the admins.
@@ -151,7 +156,7 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
 
         # Send logging mail
         if send_logging_mail:
-            selected_gemeente = db_exec_one(db.select(Gemeente).filter_by(id=gemeente_id))
+            selected_gemeente = db_exec_one(select(Gemeente).filter_by(id=gemeente_id))
             body = (
                 f"Gemeente: {selected_gemeente.gemeente_naam}<br>"
                 f"E-mailadres: {email}<br>"
@@ -225,38 +230,40 @@ def load_user(user_id):
     return db_exec_by_id(User, int(user_id))
 
 
-class Election(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    verkiezing = db.Column(db.String(250), index=True)
-    gemeente_id = db.Column(db.Integer, db.ForeignKey("gemeente.id"))
+class Election(Base):
+    __tablename__ = "election"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    verkiezing: Mapped[str] = mapped_column(String(250), index=True)
+    gemeente_id: Mapped[int] = mapped_column(ForeignKey("gemeente.id"))
+    gemeente = relationship('Gemeente', back_populates='elections')
 
 
-class BAG(db.Model):
+class BAG(Base):
     __tablename__ = 'bag'
 
-    openbareruimte = db.Column(db.String(250))
-    huisnummer = db.Column(db.String(5))
-    huisletter = db.Column(db.String(5))
-    huisnummertoevoeging = db.Column(db.String(5))
-    postcode = db.Column(db.String(6))
-    woonplaats = db.Column(db.String(255))
-    gemeente = db.Column(db.String(255))
-    provincie = db.Column(db.String(255))
-    nummeraanduiding = db.Column(db.String(24), primary_key=True)
-    verblijfsobjectgebruiksdoel = db.Column(db.String(255))
-    oppervlakteverblijfsobject = db.Column(db.String(10))
-    verblijfsobjectstatus = db.Column(db.String(255))
-    object_id = db.Column(db.String(24))
-    object_type = db.Column(db.String(10))
-    nevenadres = db.Column(db.String(1))
-    pandid = db.Column(db.String(24))
-    pandstatus = db.Column(db.String(255))
-    pandbouwjaar = db.Column(db.String(20))
-    x = db.Column(db.Numeric(precision=25, scale=9))
-    y = db.Column(db.Numeric(precision=25, scale=9))
-    lat = db.Column(db.Numeric(precision=24, scale=16))
-    lon = db.Column(db.Numeric(precision=24, scale=16))
-    verkorteopenbareruimte = db.Column(db.String(255))
+    openbareruimte: Mapped[str] = mapped_column(String(250), nullable=True)
+    huisnummer: Mapped[str] = mapped_column(String(5), nullable=True)
+    huisletter: Mapped[str] = mapped_column(String(5), nullable=True)
+    huisnummertoevoeging: Mapped[str] = mapped_column(String(5), nullable=True)
+    postcode: Mapped[str] = mapped_column(String(6), nullable=True)
+    woonplaats: Mapped[str] = mapped_column(String(255), nullable=True)
+    gemeente: Mapped[str] = mapped_column(String(255), nullable=True)
+    provincie: Mapped[str] = mapped_column(String(255), nullable=True)
+    nummeraanduiding: Mapped[str] = mapped_column(String(24), primary_key=True)
+    verblijfsobjectgebruiksdoel: Mapped[str] = mapped_column(String(255), nullable=True)
+    oppervlakteverblijfsobject: Mapped[str] = mapped_column(String(10), nullable=True)
+    verblijfsobjectstatus: Mapped[str] = mapped_column(String(255), nullable=True)
+    object_id: Mapped[str] = mapped_column(String(24), nullable=True)
+    object_type: Mapped[str] = mapped_column(String(10), nullable=True)
+    nevenadres: Mapped[str] = mapped_column(String(1), nullable=True)
+    pandid: Mapped[str] = mapped_column(String(24), nullable=True)
+    pandstatus: Mapped[str] = mapped_column(String(255), nullable=True)
+    pandbouwjaar: Mapped[str] = mapped_column(String(20), nullable=True)
+    x: Mapped[Decimal] = mapped_column(DECIMAL(precision=25, scale=9), nullable=True)
+    y: Mapped[Decimal] = mapped_column(DECIMAL(precision=25, scale=9), nullable=True)
+    lat: Mapped[Decimal] = mapped_column(DECIMAL(precision=24, scale=16), nullable=True)
+    lon: Mapped[Decimal] = mapped_column(DECIMAL(precision=24, scale=16), nullable=True)
+    verkorteopenbareruimte: Mapped[str] = mapped_column(String(255), nullable=True)
 
     def to_json(self):
         # an SQLAlchemy class

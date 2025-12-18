@@ -8,6 +8,7 @@ import shapely
 import shapely.geometry
 from pyproj import Proj, transform
 import qrcode
+from sqlalchemy import select
 from base64 import b64encode
 
 from app.models import Gemeente
@@ -25,7 +26,7 @@ def remove_id(records):
         del record['_id']
 
 def get_gemeente(gemeente_code):
-    current_gemeente = db_exec_one(db.select(Gemeente).filter_by(gemeente_code=gemeente_code))
+    current_gemeente = db_exec_one(select(Gemeente).filter_by(gemeente_code=gemeente_code))
 
     if not current_gemeente:
         print(
@@ -35,7 +36,7 @@ def get_gemeente(gemeente_code):
     return current_gemeente
 
 def get_gemeente_by_id(id):
-    current_gemeente = db_exec_one(db.select(Gemeente).filter_by(id=id))
+    current_gemeente = db_exec_one(select(Gemeente).filter_by(id=id))
 
     if not current_gemeente:
         print(
@@ -51,7 +52,7 @@ def publish_gemeente_records(gemeente_code):
     """
     current_gemeente = get_gemeente(gemeente_code)
 
-    elections = current_gemeente.elections.all()
+    elections = current_gemeente.elections
 
     for election in [x.verkiezing for x in elections]:
         temp_gemeente_draft_records = ckan.filter_draft_records(election, current_gemeente.gemeente_code)
