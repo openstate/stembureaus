@@ -1,6 +1,6 @@
 from flask import current_app
 
-from app import ckan
+from app.ckan import ckan
 from app.models import db
 from app.email import send_email
 from app.parser import valid_headers

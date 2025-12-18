@@ -6,7 +6,7 @@ import os
 import re
 
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import ForeignKey, String, DECIMAL, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -15,13 +15,13 @@ from typing import List
 import jwt
 import pyotp
 
-from app import login_manager
 from app.email import send_email, send_invite
 
 class Base(DeclarativeBase):
   pass
 
 db = SQLAlchemy(engine_options = {'connect_args': {'connect_timeout': 10, 'read_timeout': 20}})
+login_manager = LoginManager()
 
 from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optional
 

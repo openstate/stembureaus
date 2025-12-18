@@ -119,3 +119,6 @@ class CKAN():
         )
 
         self.save_records(election['publish_resource'], draft_records)
+
+
+ckan = CKAN()

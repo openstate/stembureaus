@@ -12,8 +12,7 @@ from sqlalchemy import select
 from base64 import b64encode
 
 from app.models import Gemeente
-from app import ckan
-from app.models import db
+from app.ckan import ckan
 
 
 

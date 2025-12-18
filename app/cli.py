@@ -1,6 +1,6 @@
 from app.changes_monitor import ChangesMonitor
 from app.models import Gemeente, User, Gemeente_user, Election, BAG, add_user, db
-from app import ckan
+from app.ckan import ckan
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
 from app.validator import Validator

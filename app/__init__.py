@@ -12,15 +12,7 @@ from app.assets_blueprint import AssetsBlueprintFactory
 from config import Config
 from datetime import datetime
 from flask import Flask
-from flask_login import LoginManager
 from flask_babel import Babel
-from flask_mail import Mail
-from app.ckan import CKAN
-
-login_manager = LoginManager()
-mail = Mail()
-ckan = CKAN()
-babel = Babel()
 
 def create_app():
     app = Flask(__name__)
@@ -35,12 +27,16 @@ def create_app():
 
     from app.models import db
     db.init_app(app)
+    from app.email import mail
     mail.init_app(app)
+    from app.ckan import ckan
     ckan.init_app(app)
 
     # Used for translating error messages for Flask-WTF forms
+    babel = Babel()
     babel.init_app(app)
 
+    from app.models import login_manager
     login_manager.init_app(app)
     login_manager.session_protection = "strong"
     login_manager.login_message = u"Log in om verder te gaan"

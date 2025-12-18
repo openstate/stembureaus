@@ -28,7 +28,7 @@ from app.email import send_password_reset_email
 from app.models import Gemeente, User, Record, BAG, add_user, db
 from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
 from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_mysql_match_against_safe_string, remove_id
-from app import ckan
+from app.ckan import ckan
 from time import sleep
 import uuid
 

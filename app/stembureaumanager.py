@@ -1,7 +1,7 @@
 from flask import current_app
 from datetime import datetime
 
-from app import ckan
+from app.ckan import ckan
 from app.models import db
 from app.email import send_email
 from app.parser import BaseParser, valid_headers
