@@ -6,7 +6,6 @@ import csv
 
 from openpyxl import load_workbook
 from openpyxl.styles import Font
-from app import db
 from app.db_utils import db_exec_first
 
 sys.path.insert(0, '.')

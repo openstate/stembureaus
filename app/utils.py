@@ -11,7 +11,9 @@ import qrcode
 from base64 import b64encode
 
 from app.models import Gemeente
-from app import ckan, db
+from app import ckan
+from app.models import db
+
 
 
 # Remove '_id' as CKAN doesn't accept this field in upsert when we

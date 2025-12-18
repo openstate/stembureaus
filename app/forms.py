@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from app import db
 from app.db_utils import db_exec_one_optional
 from app.models import BAG
 from flask import current_app

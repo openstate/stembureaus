@@ -1,4 +1,4 @@
-from app import db
+from app.models import db
 
 def db_exec_one(query):
     return db.session.execute(query).scalar_one()

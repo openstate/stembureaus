@@ -20,7 +20,8 @@ services:
       context: .
       dockerfile: Dockerfile-app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     volumes:
       - ../:/opt/stm
     networks:
@@ -41,6 +42,10 @@ services:
       - stm-mysql-volume:/var/lib/mysql
       - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
   nodejs:
     image: node:22.21.1
     working_dir: /opt/stm/assets

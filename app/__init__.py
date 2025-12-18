@@ -14,15 +14,9 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_babel import Babel
 from flask_mail import Mail
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
 from app.ckan import CKAN
 
-class Base(DeclarativeBase):
-  pass
-
 login_manager = LoginManager()
-db = SQLAlchemy(model_class=Base)
 mail = Mail()
 ckan = CKAN()
 babel = Babel()
@@ -31,6 +25,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     app.register_blueprint(AssetsBlueprintFactory.create_assets_blueprint(app))
+
+    from app.models import db
     db.init_app(app)
     mail.init_app(app)
     ckan.init_app(app)

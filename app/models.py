@@ -4,15 +4,23 @@ import json
 import os
 import re
 
-from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optional
 from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import DeclarativeBase
+from flask_sqlalchemy import SQLAlchemy
 import jwt
 import pyotp
 
-from app import login_manager, db
+from app import login_manager
 from app.email import send_email, send_invite
+
+class Base(DeclarativeBase):
+  pass
+
+db = SQLAlchemy(model_class=Base)
+
+from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optional
 
 class Gemeente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
