@@ -544,12 +544,12 @@ def create_routes(app):
             huisnr_toev = None
             woonplaats = None
             if m is not None:
-                street = m.group(1)
+                street = get_mysql_match_against_safe_string(m.group(1))
                 huisnr = m.group(2)
                 if m.group(3) is not None:
                     huisnr_toev = m.group(3)
                 if m.group(4) is not None:
-                    woonplaats = m.group(4)
+                    woonplaats = get_mysql_match_against_safe_string(m.group(4))
             sql_query = select(BAG).filter(
                 BAG.openbareruimte.match('+' + re.sub(r'\s+', '* +', street.strip()) + '*'),
                 BAG.gemeente == gemeente_naam)
