@@ -41,7 +41,7 @@ def deploy(c):
             )
         )
     c.sudo('docker exec %s yarn' % (NODE_CONTAINER))
-    c.sudo('docker exec %s yarn prod' % (NODE_CONTAINER))
+    c.sudo('docker exec %s yarn build' % (NODE_CONTAINER))
 
     # Reload app
     c.run('bash -c "cd %s && touch uwsgi-touch-reload"' % (DIR))
