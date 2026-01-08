@@ -17,6 +17,7 @@ from flask_login import (
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_, select, Integer
 from sqlalchemy.sql.expression import cast
+from sqlalchemy.exc import OperationalError
 
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
@@ -566,8 +567,17 @@ def create_routes(app):
             sql_query = sql_query.order_by(
                 cast(BAG.huisnummer, Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
             ).limit(limit)
-            results = db.session.execute(sql_query).scalars().all()
-            return jsonify([x.to_json() for x in results])
+            try:
+                results = db.session.execute(sql_query).scalars().all()
+                return jsonify([x.to_json() for x in results])
+            except OperationalError as e:
+                if 'Lost connection to MySQL server during query' in str(e):
+                    db.session.rollback()
+                    return jsonify([])
+                else:
+                    raise
+            except:
+                raise
         else:
             return jsonify([])
 
