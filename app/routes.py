@@ -586,12 +586,14 @@ def create_routes(app):
     def user_reset_wachtwoord_verzoek():
         form = ResetPasswordRequestForm()
         if custom_form_validate_on_submit(form):
-            user = db_exec_one(select(User).filter_by(email=form.email.data))
+            user = db_exec_one_optional(User, email=form.email.data)
             if user:
                 send_password_reset_email(user)
+            else:
+                app.logger.info(f"\nReset wachtwoord verzoek voor onbekend e-mailadres: {form.email.data}")
             flash(
                 'Er is een e-mail verzonden met instructies om het wachtwoord te '
-                'veranderen'
+                'veranderen. Als u niets ontvangt controleer dan uw e-mailadres en kijk in de spamfolder.'
             )
             return redirect(url_for('gemeente_login'))
         return render_template('gemeente-reset-wachtwoord-verzoek.html', form=form)
