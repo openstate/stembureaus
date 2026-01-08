@@ -51,7 +51,7 @@
       {% if toon_stembureaus_pagina %}
         <a class="btn btn-info btn-responsive" role="button" href="/s/{{ gemeente.gemeente_naam }}">Toon gepubliceerde stembureaus op de kaart</a> [U kunt naar deze pagina linken of de pagina insluiten/embedden in uw gemeentenwebsite zodat de kiezers er gebruik van kunnen maken]
       {% else %}
-        <a class="btn btn-info btn-responsive" role="button" disabled>Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat {% if editing_disabled %}uw stembureaus via {{ gemeente.source.split('[')[1][:-1].capitalize() }} correct zijn ingeladen{% else %}u uw stembureaus heeft toegevoegd en gepubliceerd{% endif %}]
+        <a class="btn btn-info btn-responsive disabled" aria-disabled="true" role="button">Toon gepubliceerde stembureaus op de kaart</a> [Deze pagina is beschikbaar nadat {% if editing_disabled %}uw stembureaus via {{ gemeente.source.split('[')[1][:-1].capitalize() }} correct zijn ingeladen{% else %}u uw stembureaus heeft toegevoegd en gepubliceerd{% endif %}]
       {% endif %}
     </div>
 
@@ -62,19 +62,24 @@
     <div class="row">
       <div class="col-md-8 background-lighter-grey block-padding">
         <h2>Download vooringevuld of 'leeg' stembureau-spreadsheet</h2>
-        {#% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba', 'Vught', 'Eemsdelta', 'Purmerend', 'Maashorst', 'Dijk en Waard', 'Voorne aan Zee ', 'Land van Cuijk', 'Oisterwijk', 'Boxtel'] %}
-        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
-        {% else %#}
-        - Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Europese Parlementsverkiezingen 2024:
-        {#% endif %#}
-        {% if vooringevuld %}
-        <a href="{{ vooringevuld }}">.xlsx</a>
-        {% else %}
-        <b>niet beschikbaar voor uw gemeente</b>
-        {% endif %}
-        <br>
-        <br>
-        - 'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx">.xlsx</a>
+        <ul>
+          <li>
+            {#% if gemeente.gemeente_naam in ['Bonaire', 'Sint Eustatius', 'Saba', 'Vught', 'Eemsdelta', 'Purmerend', 'Maashorst', 'Dijk en Waard', 'Voorne aan Zee ', 'Land van Cuijk', 'Oisterwijk', 'Boxtel'] %}
+            Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2021:
+            {% else %#}
+            Deels vooringevuld stembureau-spreadsheet op basis van de stembureaus van de Tweede Kamerverkiezingen 2025:
+            {#% endif %#}
+            {% if vooringevuld %}
+            <a href="{{ vooringevuld }}">.xlsx</a>
+            {% else %}
+            <b>niet beschikbaar voor uw gemeente</b>
+            {% endif %}
+          </li>
+          <li>
+            'Leeg' stembureau-spreadsheet: <a href="/files/waarismijnstemlokaal.nl_invulformulier.xlsx">.xlsx</a>
+          </li>
+        </ul>
+        <p>NB: door de toegankelijkheidsvelden in de stembureau-spreadsheet zo goed mogelijk in te vullen helpt uw gemeente mee aan het <a href="https://vng.nl/nieuws/actieplan-toegankelijk-stemmen-gepresenteerd" target="_blank">Actieplan toegankelijk stemmen</a> van het ministerie van BZK, de Kiesraad, de NVVB en de VNG.</p>
       </div>
 
       <div class="col-md-4 background-light-blue block-padding upload-block">
@@ -83,7 +88,7 @@
         <br>
 
         {% if upload_deadline_passed %}
-          <span class="text-red">De deadline voor het toevoegen van stembureaus is verlopen.</span>
+          <span>De deadline voor het toevoegen van stembureaus is verlopen.</span>
         {% else %}
           <form method="POST" enctype="multipart/form-data">
             {{ form.csrf_token }}

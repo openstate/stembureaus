@@ -29,7 +29,7 @@ def record_to_test(election_date, closing_time = '21:00:00'):
         'sluitingstijd': f'{election_date}T{closing_time}',
         'toegankelijk voor mensen met een lichamelijke beperking': 'ja',
         'toegankelijke ov-halte': 'ja',
-        'gehandicaptentoilet': 'ja',
+        'toilet': 'ja, toegankelijk toilet',
         'host': 'ja',
         'geleidelijnen': 'buiten en binnen',
         'stemmal met audio-ondersteuning': 'ja',
@@ -39,6 +39,7 @@ def record_to_test(election_date, closing_time = '21:00:00'):
         'gebarentalig stembureaulid (ngt)': 'ja',
         'akoestiek geschikt voor slechthorenden': 'ja',
         'prikkelarm': 'ja',
+        'prokkelduo': 'ja',
         'extra toegankelijkheidsinformatie': (
             'Dit stembureau is ingericht voor kwetsbare mensen, stembureau is '
             'volledig toegankelijk voor mensen met een lichamelijke beperking er '
@@ -53,6 +54,6 @@ def record_to_test(election_date, closing_time = '21:00:00'):
             'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
             'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
         ),
-        'verkiezingswebsite gemeente': 'https://www.stembureausindenhaag.nl/',
+        'verkiezingswebsite gemeente': 'https://www.denhaag.nl/nl/verkiezingen/',
         'verkiezingen': ['waterschapsverkiezingen voor Delfland']
     }

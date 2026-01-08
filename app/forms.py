@@ -229,11 +229,13 @@ def valid_bag(form, field):
                 'zeer recent is toegevoegd aan de BAG. Onze BAG database '
                 'wordt eens per maand bijgewerkt. Het kan ook zijn dat het '
                 'nummer onjuist is of verouderd. Gebruik '
-                'https://bagviewer.kadaster.nl/ om het juiste BAG '
-                'Nummeraanduiding ID te vinden. Als dit niet beschikbaar is '
-                'vul dan \'0000000000000000\' (zestien keer het getal \'0\') in '
-                'en voer het adres of andere verduidelijking van de locatie '
-                'in het \'Extra adresaanduiding\'-veld in.'.format(field.data)
+                '<a href="https://bagviewer.kadaster.nl/" '
+                'target="_blank">bagviewer.kadaster.nl</a> '
+                'om het juiste BAG Nummeraanduiding ID te vinden. Als dit '
+                'niet beschikbaar is vul dan \'0000000000000000\' (zestien '
+                'keer het getal \'0\') in en voer het adres of andere '
+                'verduidelijking van de locatie in het \'Extra '
+                'adresaanduiding\'-veld in.'.format(field.data)
             )
 
 
@@ -914,17 +916,17 @@ class EditForm(FlaskForm):
             '\'https://\')'
             '<br>'
             '<br>'
-            '<b>Voorbeeld:</b> <span style="word-break: break-word;">https://www.stembureausindenhaag.nl/</span>'
+            '<b>Voorbeeld:</b> <span style="word-break: break-word;">https://www.denhaag.nl/nl/verkiezingen/</span>'
         ),
         validators=[
             DataRequired(),
             URL(
                 message='Ongeldige URL. Correct is bv. '
-                '\'https://www.stembureausindenhaag.nl\''
+                '\'https://www.denhaag.nl/nl/verkiezingen/\''
             )
         ],
         render_kw={
-            'placeholder': 'bv. https://www.stembureausindenhaag.nl/'
+            'placeholder': 'bv. https://www.denhaag.nl/nl/verkiezingen/'
         }
     )
 
@@ -1093,7 +1095,8 @@ class EditForm(FlaskForm):
     toegankelijke_ov_halte = CustomSelectField(
         'Toegankelijke ov-halte',
         description=(
-            'Is er een toegankelijke ov-halte in de buurt?'
+            'Is er een toegankelijke ov-halte in de buurt en is de logische '
+            'route vanaf deze ov-halte naar het stembureau toegankelijk?'
             '<br>'
             '<br>'
             '<b>Format:</b> Vul \'ja\' in als er een toegankelijke ov-halte '
@@ -1112,20 +1115,27 @@ class EditForm(FlaskForm):
         }
     )
 
-    gehandicaptentoilet = CustomSelectField(
-        'Gehandicaptentoilet',
+    toilet = CustomSelectField(
+        'Toilet',
         description=(
-            'Is er een gehandicaptentoilet aanwezig?'
+            'Is er een toilet, genderneutraal toilet of toegankelijk toilet '
+            'aanwezig? Als er zowel een \'toilet\' en/of een \'genderneutraal '
+            'toilet\' aanwezig zijn én er ook een \'toegankelijk toilet\' '
+            'aanwezig is vul dan \'toegankelijk toilet\' in. Als er zowel een '
+            '\'toilet\' en een \'genderneutraal toilet\' aanwezig zijn vul '
+            'dan \'genderneutraal toilet\' in.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul \'ja\' in als er een gehandicaptentoilet '
-            'aanwezig is. Vul \'nee\' in als dat niet zo is. Laat het veld '
-            'leeg als het onbekend is.'
-            '<br>'
-            '<br>'
-            '<b>Voorbeeld:</b> ja'
+            '<b>Format:</b> keuze uit:'
+            '<ul>'
+            '  <li>ja</li>'
+            '  <li>ja, genderneutraal toilet</li>'
+            '  <li>ja, toegankelijk toilet</li>'
+            '  <li>nee</li>'
+            '</ul>'
+            '<b>Voorbeeld:</b> ja, toegankelijk toilet'
         ),
-        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        choices=[('', ''), ('ja', 'ja'), ('ja, genderneutraal toilet', 'ja, genderneutraal toilet'), ('ja, toegankelijk toilet', 'ja, toegankelijk toilet'), ('nee', 'nee')],
         validators=[
             Optional()
         ],
@@ -1235,7 +1245,9 @@ class EditForm(FlaskForm):
         'Kandidatenlijst met grote letters',
         description=(
             'Is er een kandidatenlijst met grote letters aanwezig voor mensen '
-            'met een visuele beperking?'
+            'met een visuele beperking? NB: niet te verwarren met de '
+            '\'vergrote kandidatenlijst\' die in elk stembureau verplicht '
+            'aanwezig is.'
             '<br>'
             '<br>'
             '<b>Format:</b> Vul \'ja\' in als er een kandidatenlijst met '
@@ -1340,9 +1352,36 @@ class EditForm(FlaskForm):
             'Dit stembureau is zo ingericht dat er weinig prikkels zijn.'
             '<br>'
             '<br>'
-            '<b>Format:</b> Vul \'ja\' in als dit stembureau prikkelarm is.  '
+            '<b>Format:</b> Vul \'ja\' in als dit stembureau prikkelarm is. '
             'Vul \'nee\' in als dat niet zo is. Laat het veld leeg als het '
             'onbekend is.'
+            '<br>'
+            '<br>'
+            '<b>Voorbeeld:</b> ja'
+        ),
+        choices=[('', ''), ('ja', 'ja'), ('nee', 'nee')],
+        validators=[
+            Optional()
+        ],
+        render_kw={
+            'data-none-selected-text': ''
+        }
+    )
+
+    prokkelduo = CustomSelectField(
+        'Prokkelduo',
+        description=(
+            'Is er een prokkelduo aanwezig op dit stembureau? Een prokkelduo '
+            'bestaat uit twee vrijwilligers, één met een (licht) '
+            'verstandelijke beperking en één zonder, die samen verschillende '
+            'taken op het stembureau uitvoeren. Voor meer informatie, zie: '
+            '<a href="https://www.prokkel.nl/inclusieve-stembureaus/" '
+            'target="_blank">https://www.prokkel.nl/inclusieve-stembureaus/</a>'
+            '<br>'
+            '<br>'
+            '<b>Format:</b> Vul \'ja\' in als er in dit stembureau een '
+            'prokkelduo aanwezig is. Vul \'nee\' in als dat niet zo is. Laat '
+            'het veld leeg als het onbekend is.'
             '<br>'
             '<br>'
             '<b>Voorbeeld:</b> ja'

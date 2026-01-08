@@ -20,11 +20,11 @@ test_record1 = {
     'y': '454909',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2025-10-29T07:30:00',
-    'sluitingstijd': '2025-10-29T21:00:00',
+    'openingstijd': '2026-03-18T07:30:00',
+    'sluitingstijd': '2026-03-18T21:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'ja',
     'toegankelijke_ov_halte': 'ja',
-    'gehandicaptentoilet': 'ja',
+    'toilet': 'ja, toegankelijk toilet',
     'host': 'ja',
     'geleidelijnen': 'buiten en binnen',
     'stemmal_met_audio_ondersteuning': 'ja',
@@ -34,6 +34,7 @@ test_record1 = {
     'gebarentalig_stembureaulid_ngt': 'ja',
     'akoestiek_geschikt_voor_slechthorenden': 'ja',
     'prikkelarm': 'ja',
+    'prokkelduo': 'ja',
     'extra_toegankelijkheidsinformatie': (
         'Dit stembureau is ingericht voor kwetsbare mensen, stembureau is '
         'volledig toegankelijk voor mensen met een lichamelijke beperking er '
@@ -46,7 +47,7 @@ test_record1 = {
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite_gemeente': 'https://www.denhaag.nl/nl/verkiezingen/'
 }
 
 # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
@@ -67,11 +68,11 @@ test_record2 = {
     'y': '454909',
     'latitude': '52.0775912',
     'longitude': '4.3166395',
-    'openingstijd': '2025-10-29T02:30:00',
-    'sluitingstijd': '2025-10-29T20:00:00',
+    'openingstijd': '2026-03-18T02:30:00',
+    'sluitingstijd': '2026-03-18T20:00:00',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'nee',
     'toegankelijke_ov_halte': 'nee',
-    'gehandicaptentoilet': 'nee',
+    'toilet': 'nee',
     'host': 'nee',
     'geleidelijnen': 'nee',
     'stemmal_met_audio_ondersteuning': 'nee',
@@ -81,6 +82,7 @@ test_record2 = {
     'gebarentalig_stembureaulid_ngt': 'nee',
     'akoestiek_geschikt_voor_slechthorenden': 'nee',
     'prikkelarm': 'nee',
+    'prokkelduo': 'nee',
     'extra_toegankelijkheidsinformatie': '',
     'overige_informatie': '',
     'tellocatie': 'nee',
@@ -88,7 +90,7 @@ test_record2 = {
         'Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den '
         'Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag'
     ),
-    'verkiezingswebsite_gemeente': 'https://www.stembureausindenhaag.nl/'
+    'verkiezingswebsite_gemeente': 'https://www.denhaag.nl/nl/verkiezingen/'
 }
 
 accepted_headers = [
@@ -106,7 +108,7 @@ accepted_headers = [
     'sluitingstijd',
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
     'toegankelijke_ov_halte',
-    'gehandicaptentoilet',
+    'toilet',
     'host',
     'geleidelijnen',
     'stemmal_met_audio_ondersteuning',
@@ -116,6 +118,7 @@ accepted_headers = [
     'gebarentalig_stembureaulid_ngt',
     'akoestiek_geschikt_voor_slechthorenden',
     'prikkelarm',
+    'prokkelduo',
     'extra_toegankelijkheidsinformatie',
     'overige_informatie',
     'tellocatie',

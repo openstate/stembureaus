@@ -26,7 +26,7 @@
     </ol>
 
     <h4>Manier 1: stembureau-spreadsheet downloaden en uploaden</h4>
-    <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>deels vooringevuld stembureau-spreadsheet</b> downloaden. Deze is ingevuld op basis van de stembureaus van de Europese Parlementsverkiezingen van 6 juni 2024. U kunt dit stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen.</p>
+    <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>deels vooringevuld stembureau-spreadsheet</b> downloaden. Deze is ingevuld op basis van de stembureaus van de Tweede Kamerverkiezingen van 29 oktober 2025. U kunt dit stembureau-spreadsheet downloaden en vervolgens bewerken/aanvullen.</p>
 
     <p>Op de <a href="{{ url_for('gemeente_stemlokalen_dashboard') }}">dashboard-pagina</a> kunt u ook een <b>'leeg' stembureau-spreadsheet</b> downloaden en daarin de stembureaus van uw gemeente invullen.<p>
 
@@ -63,10 +63,7 @@
     <p>De simpelste manier van hergebruik is het embedden/insluiten van de 'Waar is mijn stemlokaal'-kaart op uw website. U kunt een kaart van een enkele gemeente of zelfs een enkel stembureau embedden. Ga voor de embedcode naar de pagina van de gemeente of het stembureau en klik onder de kaart op de 'Insluiten'-knop (zie bijvoorbeeld de pagina van <a href="{{ url_for('show_gemeente', gemeente="Pekela") }}">Pekela</a>). De embedcode voor heel Nederland vindt u op de <a href="{{ url_for('over_deze_website') }}">over deze website-pagina</a>.</p>
 
     <h3>Open data</h3>
-    <p>De gegevens worden automatisch als open databestanden aangeboden in CSV-formaat en via een API. De data is beschikbaar via
-      <a href="https://data.waarismijnstemlokaal.nl/organization/open-state-foundation" target="_blank" rel="noopener">Dataplatform</a>
-      (oudere data beschikbaar op <a href="https://ckan.dataplatform.nl/organization/open-state-foundation" target="_blank" rel="noopener">oude Dataplatform</a>)
-      en wordt ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/community/organization/openstatefoundation" target="_blank" rel="noopener">https://data.overheid.nl/community/organization/OpenStateFoundation</a>. Zo kan iedereen toepassingen maken met de data.</p>
+    <p>De gegevens worden automatisch als open databestanden <a href="https://waarismijnstemlokaal.nl/data" target="_blank" rel="noopener">aangeboden in CSV-formaat en via een API</a> en worden ook gepubliceerd op het open dataportaal van de Rijksoverheid: <a href="https://data.overheid.nl/community/organization/openstatefoundation" target="_blank" rel="noopener">https://data.overheid.nl/community/organization/OpenStateFoundation</a>. Zo kan iedereen toepassingen maken met de data.</p>
 
     <p>Vanuit dit project wordt er gezorgd dat er tijdens de verkiezingen op veel overheidswebsites en op andere plekken verwezen wordt naar de kaart van WaarIsMijnStemlokaal.nl. Ook wordt hergebruik van de open data gestimuleerd.</p>
 
@@ -95,6 +92,9 @@
     <h2>Toegankelijk voor mensen met een lichamelijke beperking</h2>
     <p>Sinds 2019 moeten alle stembureaus toegankelijk zijn voor mensen met een lichamelijke beperking. De Rijksoverheid geeft daar op <a href="https://www.rijksoverheid.nl/onderwerpen/verkiezingen/verkiezingentoolkit/toegankelijkheid-verkiezingen" target="_blank" rel="noopener">deze pagina</a> meer informatie over.</p>
 
+    <h2>Toegankelijkheidsattributen met afwijkende beschikbaarheid</h2>
+    <p>Sommige toegankelijkheidsattributen kunnen soms niet gedurende de hele openingstijd van een stembureau beschikbaar zijn. Bijvoorbeeld een 'Gebarentolk (NGT)' met de waarde 'op locatie', die gedurende de dag langs meerdere stembureaus gaat. Vul deze informatie dan in het 'Extra toegankelijkheidsinformatie'-attribuut in, bijvoorbeeld: 'Gebarentolk op locatie (NGT) is aanwezig van 10:00-12:00 en 16:00-18:00'.</p>
+
     <h2>Mobiele stembureaus, locaties zonder adres en afwijkende openingstijden</h2>
     <p>Sommige gemeenten werken met mobiele stembureaus die gedurende de dag op verschillende locaties staan. Voor mobiele stembureaus moet voor elke locatie een nieuw "stembureau" aangemaakt worden (zodat de locatie en openingstijden apart worden opgeslagen).</p>
 
@@ -103,7 +103,7 @@
     <p>Als een stembureau meerdere openingstijden op één dag heeft (bv. als het al om middernacht open is en later op de dag nog een keer open gaat) dan maakt u voor elke aaneengesloten periode dat het stembureau open is een nieuw "stembureau" aan.</p>
 
     <h2>Wie ondersteunt dit project?</h2>
-    <p><a href="https://openstate.eu/nl/" target="_blank" rel="noopener">Open State Foundation</a> is een onafhankelijke stichting die digitale transparantie van overheidsinformatie door middel van open data bevordert. Voor 'Waar is mijn stemlokaal' werken wij samen met het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, VNG en Civity om alle locaties van stembureaus te verzamelen ten behoeve van opkomstbevordering en verdere analyse. Dit project wordt mogelijk gemaakt door een subsidie van het ministerie van Binnenlandse Zaken en Koninkrijksrelaties.</p>
+    <p><a href="https://openstate.eu/nl/" target="_blank" rel="noopener">Open State Foundation</a> is een onafhankelijke stichting die digitale transparantie van overheidsinformatie door middel van open data bevordert. Voor 'Waar is mijn stemlokaal' werken wij samen met het ministerie van Binnenlandse Zaken en Koninkrijksrelaties, de VNG en de Kiesraad om alle locaties van stembureaus te verzamelen ten behoeve van opkomstbevordering en verdere analyse. Dit project wordt mogelijk gemaakt door een subsidie van het ministerie van Binnenlandse Zaken en Koninkrijksrelaties.</p>
 
     <h2>Contact</h2>
     <p>Heeft u vragen over het platform na het lezen van deze instructies? Stuur dan een e-mail naar <a href="mailto:stemlokaal@openstate.eu">stemlokaal@openstate.eu</a>.</p>

@@ -312,8 +312,8 @@ class Record(object):
                 'toegankelijk voor mensen met een lichamelijke beperking'
             ],
             'toegankelijke_ov_halte': record['toegankelijke ov-halte'],
-            'gehandicaptentoilet': record[
-                'gehandicaptentoilet'
+            'toilet': record[
+                'toilet'
             ],
             'host': record['host'],
             'geleidelijnen': record['geleidelijnen'],
@@ -332,6 +332,7 @@ class Record(object):
                 'akoestiek geschikt voor slechthorenden'
             ],
             'prikkelarm': record['prikkelarm'],
+            'prokkelduo': record['prokkelduo'],
             'extra_toegankelijkheidsinformatie': record[
                 'extra toegankelijkheidsinformatie'
             ],
@@ -365,8 +366,8 @@ class Record(object):
             for f, rf in geofields.items():
                 if not self.record.get(rf):
                     self.record[rf] = getattr(bag_record, f)
-        elif self.record['bag_nummeraanduiding_id'] and re.match("^0+$", self.record['bag_nummeraanduiding_id']):
-            full_address = f"[{self.record['bag_nummeraanduiding_id']}]"
+        elif self.record['bag_nummeraanduiding_id'] and self.record['bag_nummeraanduiding_id'] == "0000000000000000":
+            full_address = "0000000000000000 (geen adres beschikbaar in de BAG; kies deze optie voor Bonaire, Sint Eustatius en Saba)"
             self.record['adres_stembureau'] = full_address
 
         for fld in [

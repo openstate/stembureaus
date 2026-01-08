@@ -12,15 +12,12 @@
   <meta property="og:url" content="{{ request.url }}" />
   <meta property="og:image" content="{{ url_for('static', filename='dist/images/logo-og.png', _external=True) }}" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/static/dist/images/apple-touch-icon.png?v=m2LrpjR4Y0">
-  <link rel="icon" type="image/png" sizes="32x32" href="/static/dist/images/favicon-32x32.png?v=m2LrpjR4Y0">
-  <link rel="icon" type="image/png" sizes="16x16" href="/static/dist/images/favicon-16x16.png?v=m2LrpjR4Y0">
-  <link rel="manifest" href="/static/dist/images/site.webmanifest?v=m2LrpjR4Y0">
-  <link rel="mask-icon" href="/static/dist/images/safari-pinned-tab.svg?v=m2LrpjR4Y0" color="#5bbad5">
-  <link rel="shortcut icon" href="/favicon.ico?v=m2LrpjR4Y0">
-  <meta name="application-name" content="Waar is mijn stemlokaal">
-  <meta name="msapplication-TileColor" content="#ffc40d">
-  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/png" href="/static/dist/images/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/static/dist/images/favicon.svg" />
+  <link rel="shortcut icon" href="/static/dist/images/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/dist/images/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Waar is mijn stemlokaal" />
+  <link rel="manifest" href="/static/dist/images/site.webmanifest" />
 
   <link rel="stylesheet" href="{{ asset('styles/main.scss') }}" />
 
@@ -128,7 +125,7 @@
         <div id="contact" class="footer-item col-12 col-md-4 col-lg-3">
           <ul class="list-inline text-grey right-footer-list-padding" style="margin-top: 15px;">
             <li class="list-inline-item"><a class="right-footer-padding" href="https://mastodon.nl/@OpenState" title="Open State Foundation Mastodon" target="_blank" rel="noopener"><i class="fab fa-mastodon fa-2x text-grey" title="Open State Foundation Mastodon"></i></a></li>
-            <li class="list-inline-item"><a class="right-footer-padding" href="https://twitter.com/OpenStateEU" title="Open State Foundation Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter fa-2x text-grey" title="Open State Foundation Twitter"></i></a></li>
+            <li class="list-inline-item"><a class="right-footer-padding" href="https://bsky.app/profile/openstate.eu" title="Open State Foundation Twitter" target="_blank" rel="noopener"><i class="fab fa-bluesky fa-2x text-grey" title="Open State Foundation Bluesky"></i></a></li>
             <li class="list-inline-item"><a class="right-footer-padding" href="https://www.linkedin.com/company/open-state-foundation/" title="Open State Foundation LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-2x text-grey" title="Open State Foundation LinkedIn"></i></a></li>
             <li class="list-inline-item"><a class="right-footer-padding" href="https://github.com/OpenState/stembureaus" title="Waar is mijn stemlokaal Github" target="_blank" rel="noopener"><i class="fab fa-github fa-2x text-grey" title="Waar is mijn stemlokaal Github"></i></a></li>
             <li class="list-inline-item"><a class="right-footer-padding" href="mailto:stemlokaal@openstate.eu" title="e-mail stemlokaal@openstate.eu" target="_blank" rel="noopener"><i class="fa fa-envelope fa-2x text-grey" title="e-mail stemlokaal@openstate.eu"></i></a></li>
@@ -137,7 +134,14 @@
       </div>
       <br>
       <div class="row vertical-align">
+        <div class="col-12 col-lg-5 footer-item">
+          <p>Een project van:</p>
+          <a href="https://openstate.eu/" target="_blank" rel="noopener">
+            <img class="img-fluid float-start" src="/static/dist/images/logo-open-state-foundation.svg" alt="Open State Foundation logo">
+          </a>
+        </div>
         <div class="col-12 col-lg-3 footer-item">
+          <p>In samenwerking met:</p>
           <a href="https://www.rijksoverheid.nl/ministeries/ministerie-van-binnenlandse-zaken-en-koninkrijksrelaties" target="_blank" rel="noopener">
             <img class="img-fluid float-start" src="/static/dist/images/logo-minbzk.svg" alt="Ministerie van Binnenlandse Zaken en Koninkrijksrelaties logo">
           </a>
@@ -145,16 +149,6 @@
         <div class="col-12 col-lg-2 footer-item">
           <a href="https://www.vngrealisatie.nl/" target="_blank" rel="noopener">
             <img class="img-fluid float-start" src="/static/dist/images/logo-vng-realisatie.png" alt="VNG Realisatie logo">
-          </a>
-        </div>
-        <div class="col-12 col-lg-5 footer-item">
-          <a href="https://openstate.eu/" target="_blank" rel="noopener">
-            <img class="img-fluid float-start" src="/static/dist/images/logo-open-state-foundation.svg" alt="Open State Foundation logo">
-          </a>
-        </div>
-        <div class="col-12 col-lg-2 footer-item">
-          <a href="https://civity.nl/" target="_blank" rel="noopener">
-            <img class="img-fluid float-start" src="/static/dist/images/logo-civity.png" alt="Civity logo">
           </a>
         </div>
       </div>

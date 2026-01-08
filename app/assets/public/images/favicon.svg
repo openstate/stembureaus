@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(29.41176470588235,0,0,29.41176470588235,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34"><svg id="Laag_1" data-name="Laag 1" viewBox="0 0 34 34" version="1.1" width="34" height="34" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs4">
+    <style id="style2">
+      .cls-1, .cls-2 {
+        fill: #045d6f;
+      }
+
+      .cls-3 {
+        fill: #81cde0;
+      }
+
+      .cls-4, .cls-2, .cls-5, .cls-6 {
+        stroke: #045d6f;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4, .cls-2, .cls-6 {
+        stroke-width: .79px;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        stroke-width: .89px;
+      }
+
+      .cls-6 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <rect class="cls-5" x="0.44499999" y="19.20797" width="14.37" height="14.37" id="rect6"></rect>
+  <g id="g10" transform="translate(-1.815,3.5779699)">
+    <path id="Path_8" data-name="Path 8" class="cls-1" d="M 13.24,19.42 6.06,26.6 c 2.1,1.87 5.31,1.69 7.18,-0.41 1.72,-1.93 1.72,-4.84 0,-6.77"></path>
+    <path id="Path_9" data-name="Path 9" class="cls-3" d="M 12.84,19.02 5.66,26.2 c -1.87,-2.1 -1.68,-5.32 0.42,-7.18 1.93,-1.72 4.84,-1.72 6.76,0"></path>
+  </g>
+  <g id="g506" transform="matrix(0.04096,0,0,0.04096,9.5798398,11.096446)" style="fill:#045d6f;fill-opacity:1">
+    <path d="m 582.02826,-128.4913 -46.1,46.100005 c -4.7,4.7 -12.3,4.7 -17,0 l -111,-111.000005 c -4.7,-4.7 -4.7,-12.3 0,-17 l 46.1,-46.1 c 18.7,-18.7 49.1,-18.7 67.9,0 l 60.1,60.1 c 18.8,18.7 18.8,49.1 0,67.9 z m -213.7,-42.3 -262.6,262.600005 L 84.528268,213.3087 c -2.9,16.4 11.4,30.6 27.799992,27.8 l 121.5,-21.3 262.6,-262.599995 c 4.7,-4.7 4.7,-12.3 0,-17 l -111,-111.000005 c -4.8,-4.7 -12.4,-4.7 -17.1,0 z m -160.1,240.100005 c -5.5,-5.5 -5.5,-14.3 0,-19.8 l 154,-154.000005 c 5.5,-5.5 14.3,-5.5 19.8,0 5.5,5.500007 5.5,14.300005 0,19.800005 l -154,154 c -5.5,5.5 -14.3,5.5 -19.8,0 z m -36.1,84.099995 h 48 v 36.3 l -64.5,11.3 -31.1,-31.1 11.3,-64.5 h 36.3 z" id="path457" style="fill:#045d6f;fill-opacity:1"></path>
+  </g>
+</svg></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1051)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(29.41176470588235,0,0,29.41176470588235,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="34" height="34"><svg id="Laag_1" data-name="Laag 1" viewBox="0 0 34 34" version="1.1" width="34" height="34" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs4">
+    <style id="style2">
+      .cls-1, .cls-2 {
+        fill: #045d6f;
+      }
+
+      .cls-3 {
+        fill: #81cde0;
+      }
+
+      .cls-4, .cls-2, .cls-5, .cls-6 {
+        stroke: #045d6f;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4, .cls-2, .cls-6 {
+        stroke-width: .79px;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        stroke-width: .89px;
+      }
+
+      .cls-6 {
+        fill: none;
+      }
+    </style>
+  <clipPath id="SvgjsClipPath1051"><rect width="1000" height="1000" x="0" y="0" rx="0" ry="0"></rect></clipPath></defs>
+  <rect class="cls-5" x="0.44499999" y="19.20797" width="14.37" height="14.37" id="rect6"></rect>
+  <g id="g10" transform="translate(-1.815,3.5779699)">
+    <path id="Path_8" data-name="Path 8" class="cls-1" d="M 13.24,19.42 6.06,26.6 c 2.1,1.87 5.31,1.69 7.18,-0.41 1.72,-1.93 1.72,-4.84 0,-6.77"></path>
+    <path id="Path_9" data-name="Path 9" class="cls-3" d="M 12.84,19.02 5.66,26.2 c -1.87,-2.1 -1.68,-5.32 0.42,-7.18 1.93,-1.72 4.84,-1.72 6.76,0"></path>
+  </g>
+  <g id="g506" transform="matrix(0.04096,0,0,0.04096,9.5798398,11.096446)" style="fill:#045d6f;fill-opacity:1">
+    <path d="m 582.02826,-128.4913 -46.1,46.100005 c -4.7,4.7 -12.3,4.7 -17,0 l -111,-111.000005 c -4.7,-4.7 -4.7,-12.3 0,-17 l 46.1,-46.1 c 18.7,-18.7 49.1,-18.7 67.9,0 l 60.1,60.1 c 18.8,18.7 18.8,49.1 0,67.9 z m -213.7,-42.3 -262.6,262.600005 L 84.528268,213.3087 c -2.9,16.4 11.4,30.6 27.799992,27.8 l 121.5,-21.3 262.6,-262.599995 c 4.7,-4.7 4.7,-12.3 0,-17 l -111,-111.000005 c -4.8,-4.7 -12.4,-4.7 -17.1,0 z m -160.1,240.100005 c -5.5,-5.5 -5.5,-14.3 0,-19.8 l 154,-154.000005 c 5.5,-5.5 14.3,-5.5 19.8,0 5.5,5.500007 5.5,14.300005 0,19.800005 l -154,154 c -5.5,5.5 -14.3,5.5 -19.8,0 z m -36.1,84.099995 h 48 v 36.3 l -64.5,11.3 -31.1,-31.1 11.3,-64.5 h 36.3 z" id="path457" style="fill:#045d6f;fill-opacity:1"></path>
+  </g>
+</svg></svg></g></g></svg></g></svg>

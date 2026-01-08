@@ -2,28 +2,30 @@ import Fuse from 'fuse.js';
 import nlmaps from './nlmaps.iife';
 
 var weelchair_labels = {
-  'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>&nbsp;'
+  'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>',
+  'nee': '<span class="fa-stack" title="Niet toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x"></i></span><span class="sr-only">Niet toegankelijk voor mensen met een lichamelijke beperking</span>'
 }
 
 var akoestiek_labels = {
-  'ja': '<span class="fa-stack" title="Akoestiek geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Akoestiek niet geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>&nbsp;',
-  '': '<span class="fa-stack" title="Onbekend of akoestiek geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;',
-  'undefined': '<span class="fa-stack" title="Onbekend of akoestiek niet geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>&nbsp;'
+  'ja': '<span class="fa-stack" title="Akoestiek geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>',
+  'nee': '<span class="fa-stack" title="Akoestiek niet geschikt voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x"></i></span><span class="sr-only">Akoestiek niet geschikt voor slechthorenden</span>',
+  '': '<span class="fa-stack" title="Onbekend of akoestiek geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>',
+  'undefined': '<span class="fa-stack" title="Onbekend of akoestiek niet geschikt is voor slechthorenden"><i class="fa fa-volume-mute fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x"></i></span><span class="sr-only">Onbekend of akoestiek niet geschikt is voor slechthorenden</span>'
 }
 
-var gehandicaptentoilet_labels = {
-  'ja': '<span class="fa-stack" title="Gehandicaptentoilet aanwezig"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x stack"></i></span><span class="wc" title="Gehandicaptentoilet aanwezig" aria-hidden="true">WC</span><span class="sr-only">Gehandicaptentoilet aanwezig</span>&nbsp;',
-  'nee': '<span class="fa-stack" title="Geen gehandicaptentoilet"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-xmark fa-stack-1x stack"></i></span><span class="wc" title="Geen gehandicaptentoilet" aria-hidden="true">WC</span><span class="sr-only">Geen gehandicaptentoilet</span>&nbsp;',
-  '': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;',
-  'undefined': '<span class="fa-stack" title="Onbekend of er een gehandicaptentoilet is"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-question fa-stack-1x stack"></i></span><span class="wc" title="Onbekend of er een gehandicaptentoilet is" aria-hidden="true">WC</span><span class="sr-only">Onbekend of er een gehandicaptentoilet is</span>&nbsp;'
+var toegankelijk_toilet_labels = {
+  'ja': '<span class="fa-stack" title="Toilet aanwezig"><i class="fa fa-check fa-stack-1x stack"></i><span class="wc">WC</span></span><span class="sr-only">Toilet aanwezig</span>',
+  'ja, genderneutraal toilet': '<span class="fa-stack" title="Genderneutraal toilet aanwezig"><i class="fa fa-person-half-dress fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x stack"></i></span><span class="wc-top-right" title="Genderneutraal toilet aanwezig" aria-hidden="true">WC</span><span class="sr-only">Genderneutraal toilet aanwezig</span>',
+  'ja, toegankelijk toilet': '<span class="fa-stack" title="Toegankelijk toilet aanwezig"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x stack"></i></span><span class="wc-top-right" title="Toegankelijk toilet aanwezig" aria-hidden="true">WC</span><span class="sr-only">Toegankelijk toilet aanwezig</span>',
+  'nee': '<span class="fa-stack" title="Geen Toilet aanwezig"><i class="fa fa-xmark fa-stack-1x stack"></i><span class="wc">WC</span></span><span class="sr-only">Geen toilet aanwezig</span>',
+  '': '<span class="fa-stack" title="Onbekend of er een toilet is"><i class="fa fa-question fa-stack-1x stack"></i><span class="wc">WC</span></span><span class="sr-only">Onbekend of er een toilet is</span>',
+  'undefined': '<span class="fa-stack" title="Onbekend of er een toilet is"><i class="fa fa-question fa-stack-1x stack"></i><span class="wc">WC</span></span><span class="sr-only">Onbekend of er een toilet is</span>'
 }
 
 var toegankelijkheidsfilters = [
   ['Toegankelijk voor mensen met een lichamelijke beperking', 'toegankelijk', '.toegankelijk-filter'],
   ['Toegankelijke ov-halte', 'toegankelijke-ov-halte', '.toegankelijke-ov-halte-filter'],
-  ['Gehandicaptentoilet', 'gehandicaptentoilet', '.gehandicaptentoilet-filter'],
+  ['Toilet', 'toilet', '.toilet-filter'],
   ['Host', 'host', '.host-filter'],
   ['Geleidelijnen', 'geleidelijnen', '.geleidelijnen-filter'],
   ['Stemmal met audio-ondersteuning', 'stemmal-met-audio-ondersteuning', '.stemmal-met-audio-ondersteuning-filter'],
@@ -32,7 +34,8 @@ var toegankelijkheidsfilters = [
   ['Gebarentolk (NGT)', 'gebarentolk-ngt', '.gebarentolk-ngt-filter'],
   ['Gebarentalig stembureaulid (NGT)', 'gebarentalig-stembureaulid-ngt', '.gebarentalig-stembureaulid-ngt-filter'],
   ['Akoestiek geschikt voor slechthorenden', 'akoestiek', '.akoestiek-filter'],
-  ['Prikkelarm', 'prikkelarm', '.prikkelarm-filter']
+  ['Prikkelarm', 'prikkelarm', '.prikkelarm-filter'],
+  ['Prokkelduo', 'prokkelduo', '.prokkelduo-filter']
 ]
 
 function create_optional_fields(stembureau, election_date, result_search = false) {
@@ -72,6 +75,9 @@ function create_optional_fields(stembureau, election_date, result_search = false
   }
   if (stembureau['Prikkelarm'] === 'ja') {
       optional_fields += '<li>Prikkelarm</li>';
+  }
+  if (stembureau['Prokkelduo'] === 'ja') {
+      optional_fields += '<li>Prokkelduo</li>';
   }
 
   if (optional_fields) {
@@ -182,8 +188,10 @@ export default {
 
                 '<span class="stembureau-info-icons">' +
                   weelchair_labels[matches[i]["Toegankelijk voor mensen met een lichamelijke beperking"]] +
+                  '<span class="me-3"></span>' +
                   akoestiek_labels[matches[i]["Akoestiek geschikt voor slechthorenden"]] +
-                  gehandicaptentoilet_labels[matches[i]["Gehandicaptentoilet"]] +
+                  '<span class="me-3"></span>' +
+                  toegankelijk_toilet_labels[matches[i]["Toilet"]] +
                 '</span>' +
 
                 optional_fields +
@@ -512,13 +520,13 @@ export default {
         output += '<br><a href="https://geohack.toolforge.org/geohack.php?language=en&params=' + loc['Latitude'] + '_N_' + loc['Longitude'] + '_E_type:landmark&pagename=Stembureau ' + loc['Naam stembureau'] + '" target="_blank" rel="noopener">route (via externe dienst)</a>';
 
         // ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
-        //if (loc['Gemeente'] == 'Amsterdam') {
-        //  output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
-        //}
+        if (loc['Gemeente'] == 'Amsterdam') {
+          output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over commissieverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.<br></div>'
+        }
 
-        //if (loc['Gemeente'] == 'Rotterdam') {
-        //  output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
-        //}
+        if (loc['Gemeente'] == 'Rotterdam') {
+          output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
+        }
 
         if (loc.Verkiezingen?.trim()) {
             output += '<br><br><b>Waterschapsverkiezingen voor</b>:';
@@ -532,8 +540,10 @@ export default {
         output += '<span class="stembureau-info-icons">';
 
         output += weelchair_labels[loc["Toegankelijk voor mensen met een lichamelijke beperking"]];
+        output += '<span class="me-3"></span>';
         output += akoestiek_labels[loc["Akoestiek geschikt voor slechthorenden"]];
-        output += gehandicaptentoilet_labels[loc["Gehandicaptentoilet"]];
+        output += '<span class="me-3"></span>';
+        output += toegankelijk_toilet_labels[loc["Toilet"]];
 
         output += create_optional_fields(loc, StembureausApp.election_date, false);
 

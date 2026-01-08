@@ -47,7 +47,7 @@ class StembureauManagerParser(BaseAPIParser):
             record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
                 'Toegankelijk voor mensen met een lichamelijke beperking']
             record['toegankelijke_ov_halte'] = locatie['Toegankelijke ov-halte']
-            record['gehandicaptentoilet'] = locatie.get('Gehandicaptentoilet', '')
+            record['toilet'] = locatie.get('Toilet', '')
             record['host'] = locatie.get('Host', '')
             record['geleidelijnen'] = locatie.get('Geleidelijnen', '')
             record['stemmal_met_audio_ondersteuning'] = locatie.get('Stemmal met audio-ondersteuning', '')
@@ -57,6 +57,7 @@ class StembureauManagerParser(BaseAPIParser):
             record['gebarentalig_stembureaulid_ngt'] = locatie.get('Gebarentalig stembureaulid (NGT)', '')
             record['akoestiek_geschikt_voor_slechthorenden'] = locatie.get('Akoestiek geschikt voor slechthorenden', '')
             record['prikkelarm'] = locatie.get('Prikkelarm', '')
+            record['prokkelduo'] = locatie.get('Prokkelduo', '')
             record['extra_toegankelijkheidsinformatie'] = locatie['Extra toegankelijkheidsinformatie']
             record['overige_informatie'] = locatie.get('Overige informatie', '')
             record['tellocatie'] = locatie['Tellocatie']

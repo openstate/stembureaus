@@ -25,7 +25,7 @@ valid_headers = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Gehandicaptentoilet',
+    'Toilet',
     'Host',
     'Geleidelijnen',
     'Stemmal met audio-ondersteuning',
@@ -35,6 +35,7 @@ valid_headers = [
     'Gebarentalig stembureaulid (NGT)',
     'Akoestiek geschikt voor slechthorenden',
     'Prikkelarm',
+    'Prokkelduo',
     'Extra toegankelijkheidsinformatie',
     'Overige informatie',
     'Tellocatie',
@@ -54,7 +55,6 @@ parse_as_integer = [
 yes_no_empty_fields = [
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
     'toegankelijke_ov_halte',
-    'gehandicaptentoilet',
     'host',
     'stemmal_met_audio_ondersteuning',
     'kandidatenlijst_in_braille',
@@ -62,6 +62,7 @@ yes_no_empty_fields = [
     'gebarentalig_stembureaulid_ngt',
     'akoestiek_geschikt_voor_slechthorenden',
     'prikkelarm',
+    'prokkelduo',
     'tellocatie'
 ]
 

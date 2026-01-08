@@ -285,7 +285,7 @@ def create_cli_commands(app):
                 "type": "text"
             },
             {
-                "id": "Gehandicaptentoilet",
+                "id": "Toilet",
                 "type": "text"
             },
             {
@@ -322,6 +322,10 @@ def create_cli_commands(app):
             },
             {
                 "id": "Prikkelarm",
+                "type": "text"
+            },
+            {
+                "id": "Prokkelduo",
                 "type": "text"
             },
             {
@@ -774,7 +778,7 @@ def create_cli_commands(app):
             "Sluitingstijd": f"{app.config['ELECTION_DATE']}T21:00:00",
             "Toegankelijk voor mensen met een lichamelijke beperking": "ja",
             "Toegankelijke ov-halte": "ja",
-            "Gehandicaptentoilet": "nee",
+            "Toilet": "ja, toegankelijk toilet",
             "Host": "ja",
             "Geleidelijnen": "buiten en binnen",
             "Stemmal met audio-ondersteuning": "ja",
@@ -784,14 +788,15 @@ def create_cli_commands(app):
             "Gebarentalig stembureaulid (NGT)": "ja",
             "Akoestiek geschikt voor slechthorenden": "ja",
             "Prikkelarm": "ja",
+            "Prokkelduo": "ja",
             "Extra toegankelijkheidsinformatie": "Dit stembureau is ingericht voor kwetsbare mensen, stembureau is volledig toegankelijk voor mensen met een lichamelijke beperking er is echter geen gehandicaptenparkeerplaats, gebarentolk op locatie (NGT) is aanwezig van 10:00-12:00 en 16:00-18:00, oefenstembureau",
             "Overige informatie": "",
             "Kieskring ID": "'s-Gravenhage",
             "Hoofdstembureau": "Nederland",
             "Tellocatie": "ja",
             "Contactgegevens gemeente": "Unit Verkiezingen, verkiezingen@denhaag.nl 070-3534488 Gemeente Den Haag Publiekszaken/Unit Verkiezingen Postbus 84008 2508 AA Den Haag",
-            "Verkiezingswebsite gemeente": "https://www.stembureausindenhaag.nl/",
-            "ID": "NLODSGM0518stembureaus20251029016",
+            "Verkiezingswebsite gemeente": "https://www.denhaag.nl/nl/verkiezingen/",
+            "ID": "NLODSGM0518stembureaus20260318017",
             "UUID": uuid.uuid4().hex
         }
 

@@ -49,7 +49,7 @@
       </div>
     {% endif %}
 
-    {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN
+    {# ONLY RELEVANT FOR GEMEENTERAADSVERKIEZINGEN #}
     {% if gemeente == 'Amsterdam' %}
       <div class="col-12 text-center">
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Amsterdam ook commissieverkiezingen, daarvoor moet u stemmen in een stembureau in het stadsdeel of stadsgebied dat op uw stempas staat.
@@ -60,7 +60,7 @@
         NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.
       </div>
     {% endif %}
-    #}
+    {# #}
 
     <div class="col-12 col-lg-8">
       <h2><i class="fa fa-map-marked-alt text-green"></i> Kaart</h2>
@@ -147,7 +147,7 @@
 
               <li><b>Toegankelijke ov-halte</b>: {{ record['Toegankelijke ov-halte'] if record['Toegankelijke ov-halte'] else 'onbekend' }}</li>
 
-              <li><b>Gehandicaptentoilet</b>: {{ record['Gehandicaptentoilet'] if record['Gehandicaptentoilet'] else 'onbekend' }}</li>
+              <li><b>Toilet</b>: {{ record['Toilet'] if record['Toilet'] else 'onbekend' }}</li>
 
               <li><b>Host</b>: {{ record['Host'] if record['Host'] else 'onbekend' }}</li>
 
@@ -166,6 +166,8 @@
               <li><b>Akoestiek geschikt voor slechthorenden</b>: {{ record['Akoestiek geschikt voor slechthorenden'] if record['Akoestiek geschikt voor slechthorenden'] else 'onbekend' }}</li>
 
               <li><b>Prikkelarm</b>: {{ record['Prikkelarm'] if record['Prikkelarm'] else 'onbekend' }}</li>
+
+              <li><b>Prokkelduo</b>: {{ record['Prokkelduo'] if record['Prokkelduo'] else 'onbekend' }}</li>
 
               <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
             </ul>

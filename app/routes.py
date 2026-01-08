@@ -54,7 +54,7 @@ field_order = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Gehandicaptentoilet',
+    'Toilet',
     'Host',
     'Geleidelijnen',
     'Stemmal met audio-ondersteuning',
@@ -64,6 +64,7 @@ field_order = [
     'Gebarentalig stembureaulid (NGT)',
     'Akoestiek geschikt voor slechthorenden',
     'Prikkelarm',
+    'Prokkelduo',
     'Extra toegankelijkheidsinformatie',
     'Overige informatie',
     'Tellocatie',
@@ -96,7 +97,7 @@ default_minimal_fields = [
     'Sluitingstijd',
     'Toegankelijk voor mensen met een lichamelijke beperking',
     'Toegankelijke ov-halte',
-    'Gehandicaptentoilet',
+    'Toilet',
     'Host',
     'Geleidelijnen',
     'Stemmal met audio-ondersteuning',
@@ -106,6 +107,7 @@ default_minimal_fields = [
     'Gebarentalig stembureaulid (NGT)',
     'Akoestiek geschikt voor slechthorenden',
     'Prikkelarm',
+    'Prokkelduo',
     'Extra toegankelijkheidsinformatie',
     'Overige informatie'
 ]
@@ -130,7 +132,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2025-tk.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2026-gr.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 kieskringen = []
@@ -357,7 +359,7 @@ def create_routes(app):
                     ])
 
                 flash(
-                    'Dank voor het invullen! In augustus versturen wij naar het '
+                    'Dank voor het invullen! Begin januari versturen wij naar het '
                     'opgegeven e-mailadres een uitnodigingsmail met inloggegevens '
                     'voor "Waar is mijn stemlokaal".'
                 )
@@ -935,12 +937,11 @@ def create_routes(app):
                     ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
 
                 flash('De stembureaus zijn gepubliceerd.')
-                link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank"> jullie gemeentepagina</a>'
-                flash(Markup(f'De resultaten zijn op {link_results} te bekijken.'))
-                link_embed = f'https://waarismijnstemlokaal.nl/e/{gemeente.gemeente_naam}'
-                flash(Markup(f'Desgewenst kan de kaart ook op andere websites ingesloten worden met behulp van deze link: {link_embed}.'))
+                link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank">uw gemeentepagina</a>'
+                flash(Markup(f'De stembureaugegevens zijn nu openbaar beschikbaar op {link_results}. Kijk meteen of alles klopt.'))
+                flash(Markup(f'U kunt de kaart met de stembureaus ook makkelijk embedden/insluiten op uw gemeentewebsite. Klik onderaan {link_results} op de \'Insluiten\'-knop.'))
                 flash(Markup(f'<span class="text-red">' +
-                             'Let op: vergeet niet als er nog wijzigingen optreden deze ook in WaarIsMijnStemlokaal.nl door te voeren' +
+                             'Let op: vergeet niet om eventuele wijzigingen van stembureaugegevens ook op WaarIsMijnStemlokaal.nl door te voeren.' +
                              '</span>'))
                 # Sleep to make sure that the data is saved before it is
                 # requested again in the lines right below here

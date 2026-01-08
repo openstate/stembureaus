@@ -58,7 +58,7 @@
 
 .fa-check, .fa-xmark, .fa-question {
   position: relative;
-  top: -12px;
+  top: -13px;
   left: -12px;
 }
 
@@ -77,15 +77,30 @@
 .wc {
   color: dimgrey;
   font-family: $font-family-title;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+  top: -26px !important;
+  left: 3px !important;
+}
+
+.wc-top-right {
+  color: dimgrey;
+  font-family: $font-family-title;
   font-size: 14px;
   position: relative;
   top: -9px !important;
-  left: -18px !important;
+  left: -11px !important;
 }
 
 .leaflet-popup .wc {
+  top: -23px !important;
+  left: 3px !important;
+}
+
+.leaflet-popup .wc-top-right {
   top: -8px !important;
-  left: -16px !important;
+  left: -11px !important;
 }
 
 #form-search, #form-gemeente-search {

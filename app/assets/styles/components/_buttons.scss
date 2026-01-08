@@ -1,9 +1,16 @@
 .btn {
   text-decoration: none;
+
+  &:disabled, &.disabled {
+    background-color: grey;
+    border-color: grey;
+  }
 }
+
 
 .btn-info {
   background-color: $dark-blue;
+  border-color: $dark-blue;
   color: $white;
   &:hover, &:active, &:first-child:active {
     color: $white;
