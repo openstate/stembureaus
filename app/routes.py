@@ -17,6 +17,7 @@ from flask_login import (
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_, select, Integer
 from sqlalchemy.sql.expression import cast
+from sqlalchemy.exc import OperationalError
 
 from app.forms import (
     ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
@@ -546,12 +547,12 @@ def create_routes(app):
             huisnr_toev = None
             woonplaats = None
             if m is not None:
-                street = m.group(1)
+                street = get_mysql_match_against_safe_string(m.group(1))
                 huisnr = m.group(2)
                 if m.group(3) is not None:
                     huisnr_toev = m.group(3)
                 if m.group(4) is not None:
-                    woonplaats = m.group(4)
+                    woonplaats = get_mysql_match_against_safe_string(m.group(4))
             sql_query = select(BAG).filter(
                 BAG.openbareruimte.match('+' + re.sub(r'\s+', '* +', street.strip()) + '*'),
                 BAG.gemeente == gemeente_naam)
@@ -568,8 +569,17 @@ def create_routes(app):
             sql_query = sql_query.order_by(
                 cast(BAG.huisnummer, Integer), BAG.huisletter, BAG.huisnummertoevoeging, BAG.woonplaats
             ).limit(limit)
-            results = db.session.execute(sql_query).scalars().all()
-            return jsonify([x.to_json() for x in results])
+            try:
+                results = db.session.execute(sql_query).scalars().all()
+                return jsonify([x.to_json() for x in results])
+            except OperationalError as e:
+                if 'Lost connection to MySQL server during query' in str(e):
+                    db.session.rollback()
+                    return jsonify([])
+                else:
+                    raise
+            except:
+                raise
         else:
             return jsonify([])
 
@@ -578,12 +588,14 @@ def create_routes(app):
     def user_reset_wachtwoord_verzoek():
         form = ResetPasswordRequestForm()
         if custom_form_validate_on_submit(form):
-            user = db_exec_one(select(User).filter_by(email=form.email.data))
+            user = db_exec_one_optional(User, email=form.email.data)
             if user:
                 send_password_reset_email(user)
+            else:
+                app.logger.info(f"\nReset wachtwoord verzoek voor onbekend e-mailadres: {form.email.data}")
             flash(
                 'Er is een e-mail verzonden met instructies om het wachtwoord te '
-                'veranderen'
+                'veranderen. Als u niets ontvangt controleer dan uw e-mailadres en kijk in de spamfolder.'
             )
             return redirect(url_for('gemeente_login'))
         return render_template('gemeente-reset-wachtwoord-verzoek.html', form=form)
