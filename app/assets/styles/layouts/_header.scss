@@ -34,7 +34,7 @@ nav {
 
 .lead {
   background-color: $light-grey;
-  padding: 70px 0 20px 0;
+  padding: 80px 0 20px 0;
   margin-bottom: 0;
 }
 
@@ -62,6 +62,12 @@ nav {
   font-size: 24px;
   line-height: 28px;
   margin-bottom: 0;
+}
+
+@media(max-width:767px) {
+  .lead {
+    padding-top: 70px;
+  }
 }
 
 @media(max-width:576px) {
