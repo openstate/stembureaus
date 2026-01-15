@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.db_utils import db_exec_one_optional
+from app.db_utils import db_exec_all, db_exec_one_optional
 from app.models import BAG
 from flask import current_app
 from flask_wtf import FlaskForm
@@ -215,7 +215,7 @@ def valid_bag(form, field):
                 'zijn. In dit veld moet het BAG Nummeraanduiding ID ingevuld '
                 'worden.'.format(field.data)
             )
-        elif db_exec_one_optional(BAG, pandid=field.data):
+        elif len(db_exec_all(BAG, pandid=field.data)) > 0:
             raise ValidationError(
                 'Het ingevulde nummer ({0}) blijkt een BAG Pand ID te zijn. In dit '
                 'veld moet het BAG Nummeraanduiding ID ingevuld worden.'.format(field.data)
