@@ -28,7 +28,7 @@ class CommaDotFloatField(FloatField):
                 self.data = float(valuelist[0].replace(',', '.'))
             except ValueError:
                 self.data = None
-                raise ValueError(self.gettext('Not a valid float value'))
+                raise ValueError('Geen geldige waarde.')
 
 
 # The default pre_validate of SelectField only warned that a value is not
@@ -37,7 +37,7 @@ class CommaDotFloatField(FloatField):
 class CustomSelectField(SelectField):
     def pre_validate(self, form):
         if not self.data in [v for v, _ in self.choices]:
-            raise ValueError(
+            raise ValidationError(
                 "'%s' is een ongeldige keuze. Kies uit %s of als het "
                 "attribuut niet verplicht is kan het leeg gelaten worden." % (
                     self.data,
