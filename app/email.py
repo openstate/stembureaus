@@ -95,3 +95,20 @@ def send_changed_data(gemeente, user, time_phrase, changes, debug = False):
             ),
             debug=debug
         )
+
+# Sends an email that the number of municipalities that have published data has decreased
+def send_published_decreased(gemeenten):
+    with current_app.app_context():
+        return send_email(
+            "ALERT: gepubliceerde gemeenten verdwenen van WaarIsMijnStemlokaal.nl",
+            sender=current_app.config['FROM'],
+            recipients=current_app.config['ADMINS'],
+            text_body=render_template(
+                'email/published_decreased.txt',
+                gemeenten=gemeenten
+            ),
+            html_body=render_template(
+                'email/published_decreased.html',
+                gemeenten=gemeenten
+            )
+        )
