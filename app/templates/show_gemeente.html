@@ -26,10 +26,12 @@
 
     <div class="row">
       {% if not records %}
-        Geen stembureaus gevonden voor {{ gemeente }}.
-        <br>
-        <br>
-        Terug naar de <a href="/">homepage</a>.
+        <div class="col-12 text-center">
+          <br>
+          <p>Geen stembureaus gevonden voor {{ gemeente }}.</p>
+          <br>
+          Terug naar de <a href="/">homepage</a>.
+        </div>
       {% else %}
         {% if disclaimer %}
           <div class="col-12 text-center">
