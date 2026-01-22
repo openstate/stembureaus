@@ -392,12 +392,17 @@ def create_routes(app):
 
     @app.route("/s/<gemeente>/<primary_key>")
     def show_stembureau(gemeente, primary_key):
+        gemeente_object = get_gemeente_by_name(gemeente)
+        if not gemeente_object:
+            return render_template('404.html'), 404
+        gemeente_naam = gemeente_object.gemeente_naam
+
         disclaimer = ''
-        if gemeente in disclaimer_gemeenten:
+        if gemeente_naam in disclaimer_gemeenten:
             disclaimer = disclaimer_text
 
         records = get_stembureaus(
-            ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
+            ckan.elections, {'Gemeente': gemeente_naam, 'UUID': primary_key}
         )
 
         if not records:
@@ -406,7 +411,7 @@ def create_routes(app):
         return render_template(
             'show_stembureau.html',
             records=[_hydrate(record, 'extended') for record in records],
-            gemeente=gemeente,
+            gemeente=gemeente_naam,
             primary_key=primary_key,
             disclaimer=disclaimer
         )
@@ -417,29 +422,35 @@ def create_routes(app):
         gemeente_object = get_gemeente_by_name(gemeente)
         if not gemeente_object:
             return render_template('404.html'), 404
+        gemeente_naam = gemeente_object.gemeente_naam
 
         disclaimer = ''
-        if gemeente in disclaimer_gemeenten:
+        if gemeente_naam in disclaimer_gemeenten:
             disclaimer = disclaimer_text
 
-        records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+        records = get_stembureaus(ckan.elections, {'Gemeente': gemeente_naam})
 
         return render_template(
             'show_gemeente.html',
             records=[_hydrate(record, 'default') for record in records],
-            gemeente=gemeente,
+            gemeente=gemeente_naam,
             disclaimer=disclaimer
         )
 
 
     @app.route("/e/<gemeente>/<primary_key>")
     def embed_stembureau(gemeente, primary_key):
+        gemeente_object = get_gemeente_by_name(gemeente)
+        if not gemeente_object:
+            return render_template('404.html'), 404
+        gemeente_naam = gemeente_object.gemeente_naam
+
         disclaimer = ''
-        if gemeente in disclaimer_gemeenten:
+        if gemeente_naam in disclaimer_gemeenten:
             disclaimer = disclaimer_text
 
         records = get_stembureaus(
-            ckan.elections, {'Gemeente': gemeente, 'UUID': primary_key}
+            ckan.elections, {'Gemeente': gemeente_naam, 'UUID': primary_key}
         )
 
         if not records:
@@ -450,7 +461,7 @@ def create_routes(app):
         return render_template(
             'embed_stembureau.html',
             records=[_hydrate(record, 'extended') for record in records],
-            gemeente=gemeente,
+            gemeente=gemeente_naam,
             primary_key=primary_key,
             show_infobar=show_infobar,
             disclaimer=disclaimer
@@ -462,19 +473,20 @@ def create_routes(app):
         gemeente_object = get_gemeente_by_name(gemeente)
         if not gemeente_object:
             return render_template('404.html'), 404
+        gemeente_naam = gemeente_object.gemeente_naam
 
         disclaimer = ''
-        if gemeente in disclaimer_gemeenten:
+        if gemeente_naam in disclaimer_gemeenten:
             disclaimer = disclaimer_text
 
-        records = get_stembureaus(ckan.elections, {'Gemeente': gemeente})
+        records = get_stembureaus(ckan.elections, {'Gemeente': gemeente_naam})
 
         show_search = (request.args.get('search', 1, type=int) == 1)
 
         return render_template(
             'embed_gemeente.html',
             records=[_hydrate(record, 'default') for record in records],
-            gemeente=gemeente,
+            gemeente=gemeente_naam,
             show_search=show_search,
             disclaimer=disclaimer
         )
