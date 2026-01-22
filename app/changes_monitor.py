@@ -121,7 +121,11 @@ class ChangesMonitor:
       if gemeente.source: # Do not send changes to gemeenten using an API
         continue
 
-      users_query = select(User).join(Gemeente_user).join(Gemeente).where(Gemeente.gemeente_code == gemeente_code)
+      users_query = select(User) \
+                      .join(Gemeente_user) \
+                      .join(Gemeente) \
+                      .where(Gemeente.gemeente_code == gemeente_code) \
+                      .where(User.admin == False)
       users = db.session.execute(users_query).scalars()
 
       messages = []

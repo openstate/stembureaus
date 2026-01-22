@@ -3,6 +3,7 @@ from app.models import Gemeente, User, Gemeente_user, Election, BAG, add_user, d
 from app.ckan import ckan
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
+from app.published_monitor import PublishedMonitor
 from app.validator import Validator
 from app.routes import create_record, kieskringen
 from app.db_utils import db_delete, db_delete_all, db_exec_all, db_exec_one, db_exec_one_optional
@@ -869,6 +870,14 @@ def create_cli_commands(app):
         all_records = ckan.get_records(resource_id)
 
         changes_monitor.process_changes(all_records)
+
+    @CKAN.command()
+    def monitor_published():
+        published_monitor = PublishedMonitor()
+        resource_id = list(ckan.elections.values())[0]['publish_resource']
+        all_records = ckan.get_records(resource_id)
+
+        published_monitor.process(all_records)
 
 
     # MySQL commands
