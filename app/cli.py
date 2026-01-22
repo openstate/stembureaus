@@ -1,5 +1,5 @@
 from app.changes_monitor import ChangesMonitor
-from app.models import Gemeente, User, Gemeente_user, Election, BAG, add_user, db
+from app.models import Gemeente, User, Gemeente_user, Election, BAG, add_user, db, get_bag_conversions
 from app.ckan import ckan
 from app.email import send_invite, send_update
 from app.parser import UploadFileParser
@@ -138,15 +138,15 @@ def create_cli_commands(app):
                     bag_found += 1
                     r['BAG Nummeraanduiding ID'] = bag.nummeraanduiding
 
-                    bag_conversions = {
-                        'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
-                        'openbareruimte': 'Straatnaam',
-                        'huisnummer': 'Huisnummer',
-                        'huisletter': 'Huisletter',
-                        'huisnummertoevoeging': 'Huisnummertoevoeging',
-                        'postcode': 'Postcode',
-                        'woonplaats': 'Plaats'
-                    }
+                    bag_conversions = get_bag_conversions([
+                        'verblijfsobjectgebruiksdoel',
+                        'openbareruimte',
+                        'huisnummer',
+                        'huisletter',
+                        'huisnummertoevoeging',
+                        'postcode',
+                        'woonplaats'
+                    ])
 
                     for bag_field, record_field in bag_conversions.items():
                         bag_field_value = getattr(bag, bag_field, None)
@@ -659,11 +659,11 @@ def create_cli_commands(app):
                 # Retrieve gebruiksdoel, postcode and nummeraanduiding
                 # from BAG
                 if bag_object:
-                    bag_conversions = {
-                        'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
-                        'postcode': 'Postcode',
-                        'nummeraanduiding': 'BAG Nummeraanduiding ID'
-                    }
+                    bag_conversions = get_bag_conversions([
+                        'verblijfsobjectgebruiksdoel',
+                        'postcode',
+                        'nummeraanduiding'
+                    ])
 
                     for bag_field, record_field in bag_conversions.items():
                         bag_field_value = getattr(bag_object, bag_field, None)

@@ -50,6 +50,7 @@ Collecting and presenting stembureaus: [WaarIsMijnStemlokaal.nl](https://waarism
    - Retrieve the IP address of the nginx container `sudo docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
    - Run the tests: `sudo docker exec -it stm_app_1 nose2`
+   - Run 1 test: e.g. `sudo docker exec -it stm-app-1 nose2 tests.test_forms`
    - Remove and rebuild everything (this also removes the MySQL volume containing all gemeente, verkiezingen and BAG data (this is required if you want to load the .sql files from `docker/docker-entrypoint-initdb.d` again), but not the stembureaus data stored in CKAN)
       - Production: `sudo docker-compose down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose up -d`
       - Development: `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
