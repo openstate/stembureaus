@@ -2,7 +2,7 @@
 import os
 from io import BytesIO
 
-from app.db_utils import db_exec_one
+from app.db_utils import db_exec_all, db_exec_one
 import fiona
 import shapely
 import shapely.geometry
@@ -33,6 +33,18 @@ def get_gemeente(gemeente_code):
             'database' % (gemeente_code)
         )
     return current_gemeente
+
+def get_gemeente_by_name(gemeente_name):
+    gemeenten = db_exec_all(Gemeente, gemeente_naam=gemeente_name)
+
+    if len(gemeenten) == 1:
+        return gemeenten[0]
+    else:
+        print(
+            'Gemeentenaam "%s" not found in the MySQL '
+            'database' % (gemeente_name)
+        )
+        return
 
 def get_gemeente_by_id(id):
     current_gemeente = db_exec_one(select(Gemeente).filter_by(id=id))

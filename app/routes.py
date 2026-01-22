@@ -28,7 +28,7 @@ from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, Record, BAG, add_user, db
 from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
-from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_mysql_match_against_safe_string, remove_id
+from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
 from app.ckan import ckan
 from time import sleep
 import uuid
@@ -414,6 +414,10 @@ def create_routes(app):
 
     @app.route("/s/<gemeente>")
     def show_gemeente(gemeente):
+        gemeente_object = get_gemeente_by_name(gemeente)
+        if not gemeente_object:
+            return render_template('404.html'), 404
+
         disclaimer = ''
         if gemeente in disclaimer_gemeenten:
             disclaimer = disclaimer_text
@@ -455,6 +459,10 @@ def create_routes(app):
 
     @app.route("/e/<gemeente>")
     def embed_gemeente(gemeente):
+        gemeente_object = get_gemeente_by_name(gemeente)
+        if not gemeente_object:
+            return render_template('404.html'), 404
+
         disclaimer = ''
         if gemeente in disclaimer_gemeenten:
             disclaimer = disclaimer_text
