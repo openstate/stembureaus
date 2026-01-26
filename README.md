@@ -49,8 +49,6 @@ Collecting and presenting stembureaus: [WaarIsMijnStemlokaal.nl](https://waarism
    - NOT NEEDED AS THIS DATA IS NOT UP TO DATE: Get buurt data: `sudo docker exec -it stm_app_1 /opt/stm/bin/get_address_data.sh`
    - Retrieve the IP address of the nginx container `sudo docker inspect stm_nginx_1` and add it to your hosts file `/etc/hosts`: `<IP_address> waarismijnstemlokaal.nl`
 - Useful commands
-   - Run the tests: `sudo docker exec -it stm_app_1 nose2`
-   - Run 1 test: e.g. `sudo docker exec -it stm-app-1 nose2 tests.test_forms`
    - Remove and rebuild everything (this also removes the MySQL volume containing all gemeente, verkiezingen and BAG data (this is required if you want to load the .sql files from `docker/docker-entrypoint-initdb.d` again), but not the stembureaus data stored in CKAN)
       - Production: `sudo docker-compose down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose up -d`
       - Development: `sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --rmi all && sudo docker volume rm stm_stm-mysql-volume && sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d`
@@ -66,6 +64,10 @@ Production
 Development
 - Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn build`
 - Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
+
+## Testing
+   - Run the tests: `sudo docker exec -it stm_app_1 nose2`
+   - Run 1 test: e.g. `sudo docker exec -it stm-app-1 nose2 tests.test_forms`
 
 ## CLI
 To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:
