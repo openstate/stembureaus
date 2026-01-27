@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block head %}
+  <title>Waar is mijn stemlokaal - Beheer</title>
+  <meta property="og:title" content="Waar is mijn stemlokaal - Beheer" />
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="container-md">
+    <h1 class="text-center">Beheer</h1>
+
+    <table
+      id="table"
+      data-toggle="table"
+      data-locale="nl-NL"
+      data-sticky-header="true"
+      data-sticky-header-offset-y=54
+      data-search="true"
+      data-buttons-class="outline-secondary"
+    >
+      <thead>
+        <tr>
+          {% for field in field_order %}
+            <th data-field="{{ field }}" data-sortable="true">
+              {{ field }}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for gemeente in gemeenten %}
+          <tr>
+            <td>{{ gemeente.id }}</td>
+            <td>{{ gemeente.gemeente_code }}</td>
+            <td>{{ gemeente.gemeente_naam }}</td>
+            <td>{{ gemeente.api }}</td>
+            <td>{{ draft_records_hash.get(gemeente.gemeente_code, '') }}</td>
+            <td>{{ published_records_hash.get(gemeente.gemeente_code, '') }}</td>
+            <td>{{ gemeente.user_count }}</td>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

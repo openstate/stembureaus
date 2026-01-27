@@ -1,3 +1,4 @@
+from app.form_utils import create_record
 from flask import current_app
 from datetime import datetime
 
@@ -6,7 +7,6 @@ from app.models import db
 from app.email import send_email
 from app.parser import BaseParser, valid_headers
 from app.validator import Validator
-from app.routes import create_record
 from app.utils import get_gemeente, publish_gemeente_records
 
 from urllib.parse import urljoin
