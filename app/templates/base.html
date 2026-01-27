@@ -64,6 +64,9 @@
             <li><a class="nav-link" href="{{ url_for('data') }}">Data</a></li>
             {% if current_user.is_authenticated %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a></li>
+              {% if current_user.admin %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('beheer') }}">Beheer</a></li>
+              {% endif %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_logout') }}">Uitloggen</a></li>
             {% else %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_login') }}">Inloggen</a></li>
@@ -92,6 +95,7 @@
   <main>
     {% include 'flashed-messages.html' %}
 
+    {% if show_informational_messages %}
     {#
     <div class="text-center info-message" style="padding-bottom: 20px;">
       <span class="text-red">Deze website toont nu nog de stembureaus van de {{ config['PREVIOUS_ELECTION_TYPE'] }} van
@@ -106,6 +110,7 @@
       {% endif %}
     </div>
     #}
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 
