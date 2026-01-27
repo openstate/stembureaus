@@ -3,12 +3,15 @@ import os
 import re
 from functools import wraps
 from datetime import datetime
-from decimal import Decimal
 
 from app.cache_purger import CachePurger
+from app.form_utils import create_record, kieskringen
+from app.procura import ProcuraManager
+from app.stembureaumanager import StembureauManager
+from app.tsa import TSAManager
 from flask import (
     render_template, request, redirect, url_for, flash, session,
-    jsonify, current_app
+    jsonify, current_app, has_request_context
 )
 from markupsafe import Markup
 from flask_login import (
@@ -16,7 +19,7 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
-from sqlalchemy import or_, select, Integer
+from sqlalchemy import or_, and_, select, Integer, func, case
 from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import OperationalError
 
@@ -27,8 +30,8 @@ from app.forms import (
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import Gemeente, User, Record, BAG, add_user, db, get_bag_conversions
 from app.db_utils import db_exec_all, db_exec_first, db_exec_one_optional
+from app.models import Gemeente, Gemeente_user, User, Record, BAG, add_user, db, get_bag_conversions
 from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
 from app.ckan import ckan
 from time import sleep
@@ -137,12 +140,6 @@ disclaimer_gemeenten = []
 with open('files/niet-deelnemende-gemeenten-2026-gr.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
-kieskringen = []
-with open('app/data/kieskringen.csv') as IN:
-    reader = csv.reader(IN, delimiter=';')
-    # Skip header
-    next(reader)
-    kieskringen = list(reader)
 
 # A list containing all gemeentenamen, used in the search box on the
 # homepage. Also allow for some alternative municipality names.
@@ -176,6 +173,11 @@ toegankelijkheid_descriptions = {
 }
 
 
+# Do not show the informational messages in base.html for these routes
+skip_informational_messages_for = [
+    '/beheer'
+]
+
 # Always allow admins to edit the data even if the deadline is passed
 def check_deadline_passed():
     if current_user.admin:
@@ -203,6 +205,15 @@ def get_stembureaus(elections, filters=None):
 
     return results.values()
 
+def get_stembureaus_counts(resource_id):
+    all_records = ckan.get_records(resource_id)
+    records_hash = {}
+    for r in all_records:
+        gemeente_code = r['CBS gemeentecode']
+        if not records_hash.get(gemeente_code):
+            records_hash[gemeente_code] = 0
+        records_hash[gemeente_code] += 1
+    return records_hash
 
 # Used to only retrieve the records that are needed on a page
 def _hydrate(record, minimal_type='default'):
@@ -719,6 +730,60 @@ def create_routes(app):
             if form.is_submitted():
                 flash("Geef een geldige code op.", "info")
             return render_template("verify_2fa.html", form=form)
+
+
+
+    @app.route(
+        "/beheer",
+        methods=['GET', 'POST']
+    )
+    @admin_login_required
+    def beheer():
+        query = select(Gemeente.id, Gemeente.gemeente_code, Gemeente.gemeente_naam, \
+                       case((Gemeente.source == ProcuraManager.SOURCE_STRING, "Procura"), \
+                            (Gemeente.source == StembureauManager.SOURCE_STRING, "SBM"), \
+                            (Gemeente.source == TSAManager.SOURCE_STRING, "TSA"), \
+                            else_='').label('api'), \
+                        func.count(User.id).label('user_count')) \
+                        .select_from(Gemeente) \
+                        .join(Gemeente_user, isouter=True) \
+                        .join(User, and_(User.id == Gemeente_user.user_id, or_(User.admin == None, User.admin == False)), isouter=True) \
+                        .group_by(Gemeente.id)
+        gemeenten = db.session.execute(query).all()
+
+        field_order = [
+            'ID',
+            'Code',
+            'Naam',
+            'API',
+            'Aantal stembureaus gepubliceerd',
+            'Aantal stembureaus concept',
+            'Aantal gebruikers'
+        ]
+
+        resource_id = list(ckan.elections.values())[0]['draft_resource']
+        draft_records_hash = get_stembureaus_counts(resource_id)
+
+        resource_id = list(ckan.elections.values())[0]['publish_resource']
+        published_records_hash = get_stembureaus_counts(resource_id)
+
+        return render_template(
+            'beheer.html',
+            gemeenten=gemeenten,
+            field_order=field_order,
+            draft_records_hash=draft_records_hash,
+            published_records_hash= published_records_hash
+        )
+
+
+    @app.context_processor
+    def set_global_html_variable_values():
+        if not has_request_context():
+            show_informational_messages = True
+        else:
+            show_informational_messages = request.path not in skip_informational_messages_for
+        template_config = {'show_informational_messages': show_informational_messages}
+        return template_config
 
 
     @app.route("/gemeente-logout")
