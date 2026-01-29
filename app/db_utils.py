@@ -53,3 +53,6 @@ def db_delete(klass, **kwargs):
 
 def db_delete_all(klass):
     return db.session.execute(delete(klass)).rowcount
+
+def db_commit():
+    db.session.commit()
