@@ -108,9 +108,6 @@ def create_app(config_class=None):
         # Create the MySQL tables if they don't exist
         from app.models import create_all
         create_all()
-        if app.config["TESTING"]:
-            from tests import insert_db_test_records
-            insert_db_test_records(db)
 
         from .routes import create_routes
         create_routes(app)

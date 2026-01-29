@@ -9,7 +9,7 @@ from flask import current_app
 from flask_login import UserMixin, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import ForeignKey, String, DECIMAL, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, close_all_sessions
 from flask_sqlalchemy_lite import SQLAlchemy
 from typing import List
 import jwt
@@ -28,6 +28,12 @@ from app.db_utils import db_count, db_exec_by_id, db_exec_one, db_exec_one_optio
 def create_all():
     Base.metadata.create_all(db.engine)
 
+def drop_all(app):
+    if not app.config['TESTING']:
+        return
+
+    close_all_sessions()
+    Base.metadata.drop_all(db.engine)
 
 # Association table for the many-to-many relationship
 # between Gemeente and User
