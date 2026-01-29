@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from app.db_utils import db_exec_all, db_exec_one_optional
 from app.models import BAG
+from app.db_utils import db_exec_all, db_exec_one_optional
 from flask import current_app
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
