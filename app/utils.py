@@ -4,6 +4,7 @@ from io import BytesIO
 
 from app.cache_purger import CachePurger
 from app.db_utils import db_exec_all, db_exec_one
+from app.db_utils import db_commit, db_delete, db_exec_all, db_exec_one
 import fiona
 import shapely
 import shapely.geometry
@@ -12,7 +13,7 @@ import qrcode
 from sqlalchemy import select
 from base64 import b64encode
 
-from app.models import Gemeente
+from app.models import Gemeente, Gemeente_user, User
 from app.ckan import ckan
 
 
@@ -74,6 +75,16 @@ def publish_gemeente_records(gemeente_code, current_app, join_thread = False):
 
         CachePurger(current_app, join_thread).purge(current_gemeente, temp_gemeente_draft_records)
 
+
+def remove_user_from_gemeente(user, gemeente):
+    db_delete(Gemeente_user, user_id=user.id, gemeente_id=gemeente.id)
+    db_commit()
+
+
+def remove_user(user):
+    db_delete(Gemeente_user, user_id=user.id)
+    db_delete(User, id=user.id)
+    db_commit()
 
 def get_shapes(shape_file):
     shapes = []

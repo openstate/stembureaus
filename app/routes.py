@@ -402,7 +402,7 @@ def create_routes(app):
                 add_user(
                     signup_form.gemeente.data,
                     signup_form.email.data,
-                    signup_form.naam_contactpersoon.data
+                    name=signup_form.naam_contactpersoon.data or ''
                 )
 
                 flash(
