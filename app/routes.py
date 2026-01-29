@@ -23,15 +23,15 @@ from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import OperationalError
 
 from app.forms import (
-    DeleteItemForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    DeleteUserForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
     FileUploadForm, PubliceerForm, GemeenteSelectionForm, Setup2faForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, Gemeente_user, User, Record, BAG, add_user, db
-from app.db_utils import db_delete, db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
-from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
+from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
+from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id, remove_user, remove_user_from_gemeente
 from app.ckan import ckan
 from time import sleep
 import uuid
@@ -759,6 +759,26 @@ def create_routes(app):
         if not gemeente:
             return redirect('/')
 
+        # Do we have to remove users or connections to gemeenten?
+        delete_form = DeleteUserForm()
+        if custom_form_validate_on_submit(delete_form):
+            user_id = int(request.form.get('user_id'))
+            user = db_exec_one(select(User).filter_by(id=user_id))
+
+            gemeenten_query = select(Gemeente) \
+                .join(Gemeente_user) \
+                .where(Gemeente_user.user_id == user.id)
+            gemeenten = db.session.execute(gemeenten_query).scalars().all()
+
+            if len(gemeenten) == 1 and request.form.get('submit') or \
+                len(gemeenten) > 1 and request.form.get('submit_all'):
+                remove_user(user)
+                flash(f'Gebruiker {user.email} is verwijderd')
+            elif len(gemeenten) > 1 and request.form.get('submit_one'):
+                remove_user_from_gemeente(user, gemeente)
+                flash(f'Gebruiker {user.email} is niet meer verbonden aan gemeente {gemeente.gemeente_naam}')
+
+
         # Get ids of users
         subquery = select(User.id) \
                     .join(Gemeente_user) \
@@ -770,28 +790,6 @@ def create_routes(app):
                     .join(Gemeente, and_(Gemeente.id == Gemeente_user.gemeente_id, Gemeente.id != gemeente_id), isouter=True) \
                     .where(User.id.in_(subquery)).group_by(User.id)
         users = db.session.execute(query).all()
-
-        delete_form = DeleteItemForm()
-        if custom_form_validate_on_submit(delete_form):
-            user_id = int(request.form.get('user_id'))
-            if user_id:
-                user = next(iter(list(filter(lambda u: u.id == user_id, users))), None)
-                print(user)
-                # user = db_exec_one_optional(User, id=user_id)
-                if user:
-                    if user.gemeenten:
-                        if request.form.get('submit_all'):
-                            pass
-                        else:
-                            pass
-                    else:
-                        pass
-
-
-                    pass
-                    # db_delete(Gemeente_user, user_id=user.id)
-                    # db_delete(User, id=user.id)
-                    # db.session.commit()
 
         field_order = [
             'ID',

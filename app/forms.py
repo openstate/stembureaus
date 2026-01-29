@@ -76,7 +76,7 @@ class URLStringField(StringField):
                     self.data = value
 
 
-class DeleteItemForm(FlaskForm):
+class DeleteUserForm(FlaskForm):
     hidden = HiddenField(
         name="user_id",
         id="user_id"
@@ -90,7 +90,7 @@ class DeleteItemForm(FlaskForm):
     )
 
     submit_one = SubmitField(
-        'Verwijderen uit 1 gemeente',
+        'Verwijderen uit deze gemeente',
         render_kw={
             'class': 'btn btn-danger'
         }
