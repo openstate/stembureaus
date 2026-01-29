@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block head %}
+  <title>Waar is mijn stemlokaal - Gebruikers voor gemeente {{ gemeente.gemeente_naam }}</title>
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="container-md">
+    <h1 class="text-center">Gebruikers voor gemeente {{ gemeente.gemeente_naam }}</h1>
+
+    <table
+      id="table"
+      data-toggle="table"
+      data-locale="nl-NL"
+      data-sticky-header="true"
+      data-sticky-header-offset-y=54
+      data-search="true"
+      data-buttons-class="outline-secondary"
+    >
+      <thead>
+        <tr>
+          <th id="bewerk-kolom"></th>
+          {% for field in field_order %}
+            <th data-field="{{ field }}" data-sortable="true">
+              {{ field }}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <div class="modal fade" id="remove-confirmation-{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="remove-confirmation-label">Gebruiker verwijderen?</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  {% if user.gemeenten %}
+                  Gebruiker "{{ user.email }}" is aan meerdere gemeenten gekoppeld. Kies hieronder of de gebruiker
+                  alleen uit {{ gemeente.gemeente_naam }} verwijderd moet worden of uit alle gemeenten.
+                  {% else %}
+                  Weet u zeker dat u gebruiker "{{ user.email }}" wilt verwijderen?
+                  {% endif %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuleren</button>
+                  <form method="post" action="">
+                    {{ delete_form.csrf_token }}
+                    {{ delete_form.hidden(value=user.id) }}
+                    {% if user.gemeenten %}
+                    {{ delete_form.submit_one }}
+                    {{ delete_form.submit_all }}
+                    {% else %}
+                    {{ delete_form.submit }}
+                    {% endif %}
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <tr>
+              <td>
+                <a id="remove-user-link" href="" data-bs-toggle="modal" data-bs-target="#remove-confirmation-{{ user.id }}">verwijderen</a>
+              </td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.gemeenten or '' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
