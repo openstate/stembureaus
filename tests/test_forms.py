@@ -7,6 +7,8 @@ from app.models import Record
 from tests.record_to_test import record_to_test
 
 class TestEditForm(BaseTestClass):
+    AFFECTS_DB = True
+
     def test_good(self):
         from app.forms import EditForm
         with self.app.test_request_context('/'):

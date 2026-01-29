@@ -6,6 +6,8 @@ from tests.record_to_test import record_to_test
 
 
 class TestRecordValidator(BaseTestClass):
+    AFFECTS_DB = True
+
     def setUp(self):
         super().setUp()
         from app.validator import RecordValidator
@@ -21,6 +23,8 @@ class TestRecordValidator(BaseTestClass):
 
 
 class TestValidator(BaseTestClass):
+    AFFECTS_DB = True
+
     def setUp(self):
         super().setUp()
         from app.validator import Validator
@@ -45,6 +49,8 @@ class TestValidator(BaseTestClass):
 
 
 class TestClosingTimeValidation(BaseTestClass):
+    AFFECTS_DB = True
+
     def setUp(self):
         super().setUp()
         from app.validator import RecordValidator
