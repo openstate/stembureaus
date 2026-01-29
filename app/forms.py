@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from app.db_utils import db_exec_all, db_exec_one_optional
 from app.models import BAG
+from app.db_utils import db_exec_all, db_exec_one_optional
 from flask import current_app
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
@@ -75,6 +75,33 @@ class URLStringField(StringField):
                 else:
                     self.data = value
 
+
+class DeleteUserForm(FlaskForm):
+    hidden = HiddenField(
+        name="user_id",
+        id="user_id"
+    )
+
+    submit = SubmitField(
+        'Verwijderen',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
+    submit_one = SubmitField(
+        'Verwijderen uit deze gemeente',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
+    submit_all = SubmitField(
+        'Verwijderen uit alle gemeenten',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
 
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])

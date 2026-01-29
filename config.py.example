@@ -27,7 +27,7 @@ class Config(object):
 
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:<DB_PASSWORD>@mysql:3306/stembureaus'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = False # Set to True to see SQL statements created
+    SQLALCHEMY_ECHO = False # True to see SQL statements created; False to hide them
 
     # If 'False', allows gemeenten to add stembureaus. Set to 'True' once the
     # election day has passed as gemeenten are not allowed to add/edit

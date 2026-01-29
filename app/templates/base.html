@@ -64,6 +64,9 @@
             <li><a class="nav-link" href="{{ url_for('data') }}">Data</a></li>
             {% if current_user.is_authenticated %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_stemlokalen_dashboard') }}">Dashboard</a></li>
+              {% if current_user.admin %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('beheer') }}">Beheer</a></li>
+              {% endif %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_logout') }}">Uitloggen</a></li>
             {% else %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('gemeente_login') }}">Inloggen</a></li>
@@ -92,22 +95,24 @@
   <main>
     {% include 'flashed-messages.html' %}
 
-    {#
-    <div class="text-center info-message" style="padding-bottom: 20px;">
-      <span class="text-red">Deze website toont nu nog de stembureaus van de {{ config['PREVIOUS_ELECTION_TYPE'] }} van
-        {{ config['PREVIOUS_ELECTION_DATE_LONG'] }}. Voor de aankomende {{ config['ELECTION_TYPE'] }} van {{ config['ELECTION_DATE_LONG'] }} zullen alle stembureaus weer worden bijgewerkt. Gemeenten krijgen daarvoor begin januari een uitnodigingsmail.</span>
-    </div>
-    #}
-    {% set upcomingElection = "de " + config['ELECTION_TYPE'] + " van " + config['ELECTION_DATE_LONG'] %}
-    <div class="text-center info-message" style="padding-bottom: 20px;">
-      {% if number_of_published_gemeenten %}
-        <p>Op dit moment hebben {{ number_of_published_gemeenten }} van de in totaal {{ alle_gemeenten | length - 5 }} (bijzondere) gemeenten hun stembureaus voor {{ upcomingElection }} gepubliceerd. De rest wordt nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
-      {% else %}
-        <p>Nog niet alle gemeenten hebben de stembureaus voor {{ upcomingElection }} aangeleverd. Deze worden nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
-      {% endif %}
-        <p>Bericht voor de gemeenten die gebruik (willen) maken van het geautomatiseerd aanleveren van de stembureaugegevens via onze koppelingen met jullie stembureausoftware: wij hebben deze koppelingen nog niet aangezet. Wij verwachten deze uiterlijk 22 januari weer aangezet te hebben. Bekijk binnenkort dus of de gegevens (goed) zijn gepubliceerd op WaarIsMijnStemlokaal.nl.</p>
-    </div>
-    {# #}
+    {% if show_informational_messages %}
+      {#
+      <div class="text-center info-message" style="padding-bottom: 20px;">
+        <span class="text-red">Deze website toont nu nog de stembureaus van de {{ config['PREVIOUS_ELECTION_TYPE'] }} van
+          {{ config['PREVIOUS_ELECTION_DATE_LONG'] }}. Voor de aankomende {{ config['ELECTION_TYPE'] }} van {{ config['ELECTION_DATE_LONG'] }} zullen alle stembureaus weer worden bijgewerkt. Gemeenten krijgen daarvoor begin januari een uitnodigingsmail.</span>
+      </div>
+      #}
+      {% set upcomingElection = "de " + config['ELECTION_TYPE'] + " van " + config['ELECTION_DATE_LONG'] %}
+      <div class="text-center info-message" style="padding-bottom: 20px;">
+        {% if number_of_published_gemeenten %}
+          <p>Op dit moment hebben {{ number_of_published_gemeenten }} van de in totaal {{ alle_gemeenten | length - 5 }} (bijzondere) gemeenten hun stembureaus voor {{ upcomingElection }} gepubliceerd. De rest wordt nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
+        {% else %}
+          <p>Nog niet alle gemeenten hebben de stembureaus voor {{ upcomingElection }} aangeleverd. Deze worden nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
+        {% endif %}
+          <p>Bericht voor de gemeenten die gebruik (willen) maken van het geautomatiseerd aanleveren van de stembureaugegevens via onze koppelingen met jullie stembureausoftware: wij hebben deze koppelingen nog niet aangezet. Wij verwachten deze uiterlijk 22 januari weer aangezet te hebben. Bekijk binnenkort dus of de gegevens (goed) zijn gepubliceerd op WaarIsMijnStemlokaal.nl.</p>
+      </div>
+      {# #}
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 

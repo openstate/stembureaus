@@ -3,11 +3,14 @@ import os
 import re
 from functools import wraps
 from datetime import datetime
-from decimal import Decimal
 
+from app.form_utils import create_record, kieskringen
+from app.procura import ProcuraManager
+from app.stembureaumanager import StembureauManager
+from app.tsa import TSAManager
 from flask import (
     render_template, request, redirect, url_for, flash, session,
-    jsonify, current_app
+    jsonify, current_app, has_request_context
 )
 from markupsafe import Markup
 from flask_login import (
@@ -15,20 +18,20 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
-from sqlalchemy import or_, select, Integer
+from sqlalchemy import or_, and_, select, Integer, func, case
 from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import OperationalError
 
 from app.forms import (
-    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    DeleteUserForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
     FileUploadForm, PubliceerForm, GemeenteSelectionForm, Setup2faForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import Gemeente, User, Record, BAG, add_user, db
+from app.models import Gemeente, Gemeente_user, User, Record, BAG, add_user, db
 from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
-from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
+from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id, remove_user, remove_user_from_gemeente
 from app.ckan import ckan
 from time import sleep
 import uuid
@@ -136,12 +139,6 @@ disclaimer_gemeenten = []
 with open('files/niet-deelnemende-gemeenten-2026-gr.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
-kieskringen = []
-with open('app/data/kieskringen.csv') as IN:
-    reader = csv.reader(IN, delimiter=';')
-    # Skip header
-    next(reader)
-    kieskringen = list(reader)
 
 # A list containing all gemeentenamen, used in the search box on the
 # homepage. Also allow for some alternative municipality names.
@@ -158,6 +155,11 @@ alle_gemeenten = [
     {'gemeente_naam': row[2]} for row in kieskringen
 ] + alternative_names
 
+
+# Do not show the informational messages in base.html for these routes
+skip_informational_messages_for = [
+    '/beheer'
+]
 
 # Always allow admins to edit the data even if the deadline is passed
 def check_deadline_passed():
@@ -186,6 +188,15 @@ def get_stembureaus(elections, filters=None):
 
     return results.values()
 
+def get_stembureaus_counts(resource_id):
+    all_records = ckan.get_records(resource_id)
+    records_hash = {}
+    for r in all_records:
+        gemeente_code = r['CBS gemeentecode']
+        if not records_hash.get(gemeente_code):
+            records_hash[gemeente_code] = 0
+        records_hash[gemeente_code] += 1
+    return records_hash
 
 # Used to only retrieve the records that are needed on a page
 def _hydrate(record, minimal_type='default'):
@@ -698,6 +709,113 @@ def create_routes(app):
             return render_template("verify_2fa.html", form=form)
 
 
+
+    @app.route(
+        "/beheer",
+        methods=['GET']
+    )
+    @admin_login_required
+    def beheer():
+        query = select(Gemeente.id, Gemeente.gemeente_code, Gemeente.gemeente_naam, \
+                       case((Gemeente.source == ProcuraManager.SOURCE_STRING, "Procura"), \
+                            (Gemeente.source == StembureauManager.SOURCE_STRING, "SBM"), \
+                            (Gemeente.source == TSAManager.SOURCE_STRING, "TSA"), \
+                            else_='').label('api'), \
+                        func.count(User.id).label('user_count')) \
+                        .select_from(Gemeente) \
+                        .join(Gemeente_user, isouter=True) \
+                        .join(User, and_(User.id == Gemeente_user.user_id, User.admin == False), isouter=True) \
+                        .group_by(Gemeente.id)
+        gemeenten = db.session.execute(query).all()
+
+        field_order = [
+            'ID',
+            'Code',
+            'Naam',
+            'API',
+            'Aantal stembureaus gepubliceerd',
+            'Aantal stembureaus concept',
+            'Aantal gebruikers'
+        ]
+
+        resource_id = list(ckan.elections.values())[0]['draft_resource']
+        draft_records_hash = get_stembureaus_counts(resource_id)
+
+        resource_id = list(ckan.elections.values())[0]['publish_resource']
+        published_records_hash = get_stembureaus_counts(resource_id)
+
+        return render_template(
+            'beheer.html',
+            gemeenten=gemeenten,
+            field_order=field_order,
+            draft_records_hash=draft_records_hash,
+            published_records_hash= published_records_hash
+        )
+
+    @app.route("/gemeente/<gemeente_id>/gebruikers", methods=['GET', 'POST'])
+    @admin_login_required
+    def gemeente_gebruikers(gemeente_id = None, user_id = None):
+        gemeente = get_gemeente_by_id(gemeente_id)
+        if not gemeente:
+            return redirect('/')
+
+        # Do we have to remove users or connections to gemeenten?
+        delete_form = DeleteUserForm()
+        if custom_form_validate_on_submit(delete_form):
+            user_id = int(request.form.get('user_id'))
+            user = db_exec_one(select(User).filter_by(id=user_id))
+
+            gemeenten_query = select(Gemeente) \
+                .join(Gemeente_user) \
+                .where(Gemeente_user.user_id == user.id)
+            gemeenten = db.session.execute(gemeenten_query).scalars().all()
+
+            if len(gemeenten) == 1 and request.form.get('submit') or \
+                len(gemeenten) > 1 and request.form.get('submit_all'):
+                remove_user(user)
+                flash(f'Gebruiker {user.email} is verwijderd')
+            elif len(gemeenten) > 1 and request.form.get('submit_one'):
+                remove_user_from_gemeente(user, gemeente)
+                flash(f'Gebruiker {user.email} is niet meer verbonden aan gemeente {gemeente.gemeente_naam}')
+
+
+        # Get ids of users
+        subquery = select(User.id) \
+                    .join(Gemeente_user) \
+                    .where(and_(Gemeente_user.gemeente_id == gemeente_id, User.admin == False))
+
+        # Now get the users and also the list of municipalities
+        query = select(User.id, User.email, func.group_concat(Gemeente.gemeente_naam).label("gemeenten")) \
+                    .join(Gemeente_user, Gemeente_user.user_id == User.id) \
+                    .join(Gemeente, and_(Gemeente.id == Gemeente_user.gemeente_id, Gemeente.id != gemeente_id), isouter=True) \
+                    .where(User.id.in_(subquery)).group_by(User.id)
+        users = db.session.execute(query).all()
+
+        field_order = [
+            'ID',
+            'E-mailadres',
+            'Andere gemeenten'
+        ]
+
+        return render_template(
+            'gemeente-gebruikers.html',
+            gemeente=gemeente,
+            field_order=field_order,
+            users=users,
+            delete_form=delete_form
+        )
+
+
+    @app.context_processor
+    def set_global_html_variable_values():
+        if not has_request_context():
+            show_informational_messages = True
+        else:
+            show_informational_messages = request.path not in skip_informational_messages_for
+        template_config = {'show_informational_messages': show_informational_messages}
+        return template_config
+
+
     @app.route("/gemeente-logout")
     @login_required
     def gemeente_logout():
@@ -1177,107 +1295,6 @@ def _format_verkiezingen_string(elections):
         verkiezing_string = verkiezingen[0]
 
     return verkiezing_string
-
-
-def create_record(form, stemlokaal_id, gemeente, election):
-    ID = 'NLODS%sstembureaus%s%s' % (
-        gemeente.gemeente_code,
-        current_app.config['CKAN_CURRENT_ELECTIONS'][election]['election_date'],
-        current_app.config['CKAN_CURRENT_ELECTIONS'][election]['election_number']
-    )
-
-    kieskring_id = ''
-    hoofdstembureau = ''
-    if (election.startswith('gemeenteraadsverkiezingen') or
-            election.startswith('kiescollegeverkiezingen') or
-            election.startswith('eilandsraadsverkiezingen')):
-        kieskring_id = gemeente.gemeente_naam
-        hoofdstembureau = gemeente.gemeente_naam
-    elif (election.startswith('referendum') or
-            election.startswith('Tweede Kamerverkiezingen') or
-            election.startswith('Provinciale Statenverkiezingen')):
-        for row in kieskringen:
-            if row[2] == gemeente.gemeente_naam:
-                kieskring_id = row[0]
-                hoofdstembureau = row[1]
-    elif election.startswith('Europese Parlementsverkiezingen'):
-        kieskring_id = 'Nederland'
-        hoofdstembureau = 'Nederland'
-
-    record = {
-        'UUID': stemlokaal_id,
-        'Gemeente': gemeente.gemeente_naam,
-        'CBS gemeentecode': gemeente.gemeente_code,
-        'Kieskring ID': kieskring_id,
-        'Hoofdstembureau': hoofdstembureau,
-        'ID': ID
-    }
-
-    # Process the fields from the form
-    for f in form:
-        # Save the Verkiezingen by joining the list into a string
-        if f.label.text == 'Verkiezingen':
-            record[f.label.text] = ';'.join(f.data)
-        elif (f.type != 'SubmitField' and
-                f.type != 'CSRFTokenField' and f.type != 'RadioField'):
-            record[f.label.text[:62]] = f.data
-
-    # prevent this field from being saved as it is not a real form field.
-    del record['Adres stembureau']
-
-    bag_nummer = record['BAG Nummeraanduiding ID']
-    bag_record = db_exec_first(BAG, nummeraanduiding=bag_nummer)
-
-
-    if bag_record is not None:
-        bag_conversions = {
-            'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
-            'openbareruimte': 'Straatnaam',
-            'huisnummer': 'Huisnummer',
-            'huisletter': 'Huisletter',
-            'huisnummertoevoeging': 'Huisnummertoevoeging',
-            'postcode': 'Postcode',
-            'woonplaats': 'Plaats',
-            'lat': 'Latitude',
-            'lon': 'Longitude',
-            'x': 'X',
-            'y': 'Y'
-        }
-
-        for bag_field, record_field in bag_conversions.items():
-            bag_field_value = getattr(bag_record, bag_field, None)
-            if bag_field_value is not None:
-                if isinstance(bag_field_value, Decimal):
-                    # do not overwrite geocoordinates if they were otherwise specified
-                    if not record.get(record_field):
-                        record[record_field] = float(bag_field_value)
-                else:
-                    record[record_field] = bag_field_value.encode(
-                        'utf-8'
-                    ).decode()
-            else:
-                record[record_field] = None
-
-        ## We stopped adding the wijk and buurt data as the data
-        ## supplied by CBS is not up to date enough as it is only
-        ## released once a year and many months after changes
-        ## have been made by the municipalities.
-        #wk_code, wk_naam, bu_code, bu_naam = find_buurt_and_wijk(
-        #    bag_nummer,
-        #    gemeente.gemeente_code,
-        #    bag_record.lat,
-        #    bag_record.lon
-        #)
-        #if wk_naam:
-        #    record['Wijknaam'] = wk_naam
-        #if wk_code:
-        #    record['CBS wijknummer'] = wk_code
-        #if bu_naam:
-        #    record['Buurtnaam'] = bu_naam
-        #if bu_code:
-        #    record['CBS buurtnummer'] = bu_code
-
-    return record
 
 
 # Converts a column number to a spreadsheet column string, e.g. 6 to F
