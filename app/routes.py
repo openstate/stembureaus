@@ -23,14 +23,14 @@ from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import OperationalError
 
 from app.forms import (
-    ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    DeleteItemForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
     FileUploadForm, PubliceerForm, GemeenteSelectionForm, Setup2faForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, Gemeente_user, User, Record, BAG, add_user, db
-from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
+from app.db_utils import db_delete, db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
 from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
 from app.ckan import ckan
 from time import sleep
@@ -712,7 +712,7 @@ def create_routes(app):
 
     @app.route(
         "/beheer",
-        methods=['GET', 'POST']
+        methods=['GET']
     )
     @admin_login_required
     def beheer():
@@ -724,7 +724,7 @@ def create_routes(app):
                         func.count(User.id).label('user_count')) \
                         .select_from(Gemeente) \
                         .join(Gemeente_user, isouter=True) \
-                        .join(User, and_(User.id == Gemeente_user.user_id, or_(User.admin == None, User.admin == False)), isouter=True) \
+                        .join(User, and_(User.id == Gemeente_user.user_id, User.admin == False), isouter=True) \
                         .group_by(Gemeente.id)
         gemeenten = db.session.execute(query).all()
 
@@ -750,6 +750,61 @@ def create_routes(app):
             field_order=field_order,
             draft_records_hash=draft_records_hash,
             published_records_hash= published_records_hash
+        )
+
+    @app.route("/gemeente/<gemeente_id>/gebruikers", methods=['GET', 'POST'])
+    @admin_login_required
+    def gemeente_gebruikers(gemeente_id = None, user_id = None):
+        gemeente = get_gemeente_by_id(gemeente_id)
+        if not gemeente:
+            return redirect('/')
+
+        # Get ids of users
+        subquery = select(User.id) \
+                    .join(Gemeente_user) \
+                    .where(and_(Gemeente_user.gemeente_id == gemeente_id, User.admin == False))
+
+        # Now get the users and also the list of municipalities
+        query = select(User.id, User.email, func.group_concat(Gemeente.gemeente_naam).label("gemeenten")) \
+                    .join(Gemeente_user, Gemeente_user.user_id == User.id) \
+                    .join(Gemeente, and_(Gemeente.id == Gemeente_user.gemeente_id, Gemeente.id != gemeente_id), isouter=True) \
+                    .where(User.id.in_(subquery)).group_by(User.id)
+        users = db.session.execute(query).all()
+
+        delete_form = DeleteItemForm()
+        if custom_form_validate_on_submit(delete_form):
+            user_id = int(request.form.get('user_id'))
+            if user_id:
+                user = next(iter(list(filter(lambda u: u.id == user_id, users))), None)
+                print(user)
+                # user = db_exec_one_optional(User, id=user_id)
+                if user:
+                    if user.gemeenten:
+                        if request.form.get('submit_all'):
+                            pass
+                        else:
+                            pass
+                    else:
+                        pass
+
+
+                    pass
+                    # db_delete(Gemeente_user, user_id=user.id)
+                    # db_delete(User, id=user.id)
+                    # db.session.commit()
+
+        field_order = [
+            'ID',
+            'E-mailadres',
+            'Andere gemeenten'
+        ]
+
+        return render_template(
+            'gemeente-gebruikers.html',
+            gemeente=gemeente,
+            field_order=field_order,
+            users=users,
+            delete_form=delete_form
         )
 
 

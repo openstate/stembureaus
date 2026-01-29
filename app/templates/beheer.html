@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
   <title>Waar is mijn stemlokaal - Beheer</title>
-  <meta property="og:title" content="Waar is mijn stemlokaal - Beheer" />
   {{ super() }}
 {% endblock %}
 
@@ -36,7 +35,11 @@
             <td>{{ gemeente.api }}</td>
             <td>{{ draft_records_hash.get(gemeente.gemeente_code, '') }}</td>
             <td>{{ published_records_hash.get(gemeente.gemeente_code, '') }}</td>
-            <td>{{ gemeente.user_count }}</td>
+            {% if gemeente.user_count > 0 %}
+              <td><a href={{ url_for('gemeente_gebruikers', gemeente_id=gemeente.id)}}>{{ gemeente.user_count }}</a></td>
+            {% else %}
+              <td>{{ gemeente.user_count }}</td>
+            {% endif %}
         {% endfor %}
       </tbody>
     </table>

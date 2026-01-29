@@ -76,6 +76,33 @@ class URLStringField(StringField):
                     self.data = value
 
 
+class DeleteItemForm(FlaskForm):
+    hidden = HiddenField(
+        name="user_id",
+        id="user_id"
+    )
+
+    submit = SubmitField(
+        'Verwijderen',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
+    submit_one = SubmitField(
+        'Verwijderen uit 1 gemeente',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
+    submit_all = SubmitField(
+        'Verwijderen uit alle gemeenten',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     submit = SubmitField(
