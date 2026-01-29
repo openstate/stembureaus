@@ -9,10 +9,8 @@ from app.models import Record
 
 from tests.record_to_test import record_to_test
 
-
 class TestEditForm(unittest.TestCase):
     def test_good(self):
-        app.config['WTF_CSRF_ENABLED'] = False
         with app.test_request_context('/'):
             r = Record(**record_to_test(app.config["ELECTION_DATE"]))
             form = EditForm(MultiDict(r.record))

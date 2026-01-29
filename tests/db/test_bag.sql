@@ -1,0 +1,7 @@
+LOAD DATA LOCAL INFILE "tests/db/bagadres-tests.csv"
+INTO TABLE `stembureaus_tests`.`bag`
+COLUMNS TERMINATED BY ';'
+OPTIONALLY ENCLOSED BY '"'
+ESCAPED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
