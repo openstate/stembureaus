@@ -11,6 +11,20 @@ services:
       context: .
       dockerfile: Dockerfile-app-dev
     restart: "no"
+  mysql-tests:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=stembureaus_tests
+      - MYSQL_ROOT_PASSWORD=wims_tests
+    command: --local_infile=1 --innodb_ft_min_token_size=1 --innodb-ft-enable-stopword=OFF --general-log=1 --general-log-file=/var/log/mysql/general-tests-log.log
+    networks:
+      - stm
+    volumes:
+      - stm-mysql-tests-volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 2s
+      retries: 5
   mysql:
     restart: "no"
   nodejs:
@@ -18,3 +32,5 @@ services:
 networks:
   stm:
   nginx-load-balancer:
+volumes:
+  stm-mysql-tests-volume:
