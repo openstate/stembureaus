@@ -146,16 +146,35 @@ class APIManager(object):
         )
 
     def _skip_based_on_date(self, m_updated, gemeente):
-        # Skip this municipality if the API data wasn't changed since the
-        # from_date (by default 2 hours before now) and since the last-changed-date in the API;
-        # don't skip if a gm_code is set as we then explicitly want to load that gemeente
+        # Don't skip this gemeente, if
+        # - the SOURCE_STRING is not set (i.e., the gemeente was never
+        #   imported before via this API),
+        # - if the gm_code was specified in the command line (i.e. we
+        #   explicitly want to import this gemeente)
+        # - if api_laatste_wijziging is not set in the database (i.e. the
+        #   gemeente was never imported before via an API)
         if gemeente.source != self.SOURCE_STRING or self.gm_code or not gemeente.api_laatste_wijziging:
             return False
 
+        # If a timestamp was specified in the command line
+        if self.from_date:
+            # Skip this gemeente, if the updated timestamp from the API is
+            # smaller than or equal to the timestamp specified in the command
+            # line
+            if m_updated <= self.from_date:
+                return True
+            # Else don't skip this gemeente
+            else:
+                return False
+
+        # Skip this gemeente, if the updated timestamp from the API is smaller
+        # than or equal to the last updated timestamp in the database
         if m_updated <= gemeente.api_laatste_wijziging:
             return True
-        if (m_updated <= self.from_date):
-            return True
+        # Else don't skip this gemeente
+        else:
+            return False
+
 
 class StembureauManager(APIManager):
     SOURCE_STRING = 'api[stembureaumanager]'
@@ -196,9 +215,13 @@ class StembureauManager(APIManager):
 
             gemeente = get_gemeente(m['gemeente_code'])
             m_updated = parser.parse(m['gewijzigd'], ignoretz=True)
+            # Some APIs return microseconds; set these to 0. This is necessary
+            # because the database will round the timestamp so some gemeenten
+            # will then be imported every hour while their gewijzigd timestamp
+            # hasn't changed
+            m_updated = m_updated.replace(microsecond=0)
             if self._skip_based_on_date(m_updated, gemeente):
                 continue
-
 
             elections = gemeente.elections
             # Pick the first election. In the case of multiple elections we only

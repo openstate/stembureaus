@@ -34,39 +34,39 @@ def create_cli_commands(app):
 
 
     @API.command()
-    @click.option('--from-date', default=datetime.now(pytz.UTC) - timedelta(hours=2), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+    @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
     @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
     def stembureaumanager(from_date, gm_code):
         """
-        Update data from municipalities that use Stembureaumanager
+        Update data from gemeenten that use Stembureaumanager; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database
         """
-        print("Updating Stembureaumanager from %s ..." % (from_date,))
+        print("Updating Stembureaumanager using from_date: %s, gm_code: %s ..." % (from_date, gm_code))
         if isinstance(from_date, str):
             from_date = parser.parse(from_date, ignoretz=True)
         StembureauManager(from_date=from_date, gm_code=gm_code).run()
 
 
     @API.command()
-    @click.option('--from-date', default=datetime.now(pytz.timezone('Europe/Amsterdam')) - timedelta(hours=2), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+    @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
     @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
     def tsa(from_date, gm_code):
         """
-        Update data from municipalities that use TSA
+        Update data from gemeenten that use TSA; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database
         """
-        print("Updating TSA from %s ..." % (from_date,))
+        print("Updating TSA using from_date: %s, gm_code: %s ..." % (from_date, gm_code))
         if isinstance(from_date, str):
             from_date = parser.parse(from_date, ignoretz=True)
         TSAManager(from_date=from_date, gm_code=gm_code).run()
 
 
     @API.command()
-    @click.option('--from-date', default=datetime.now(pytz.timezone('Europe/Amsterdam')) - timedelta(hours=2), help="Only load gemeenten after this date/timestamp; default: 2 hours before now")
+    @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
     @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
     def procura(from_date, gm_code):
         """
-        Update data from municipalities that use Procura
+        Update data from gemeenten that use Procura/Shift2; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database
         """
-        print("Updating Procura from %s ..." % (from_date,))
+        print("Updating Procura using from_date: %s, gm_code: %s ..." % (from_date, gm_code))
         if isinstance(from_date, str):
             from_date = parser.parse(from_date, ignoretz=True)
         ProcuraManager(from_date=from_date, gm_code=gm_code).run()

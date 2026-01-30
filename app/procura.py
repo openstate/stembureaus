@@ -129,6 +129,11 @@ class ProcuraManager(APIManager):
             if not gemeente:
                 continue
             m_updated = parser.parse(m['gewijzigd'], ignoretz=True)
+            # Some APIs return microseconds; set these to 0. This is necessary
+            # because the database will round the timestamp so some gemeenten
+            # will then be imported every hour while their gewijzigd timestamp
+            # hasn't changed
+            m_updated = m_updated.replace(microsecond=0)
             if self._skip_based_on_date(m_updated, gemeente):
                 continue
 
