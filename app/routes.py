@@ -23,7 +23,7 @@ from sqlalchemy.sql.expression import cast
 from sqlalchemy.exc import OperationalError
 
 from app.forms import (
-    DeleteUserForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
+    DeleteStembureauForm, DeleteUserForm, ResetPasswordRequestForm, ResetPasswordForm, LoginForm, EditForm,
     FileUploadForm, PubliceerForm, GemeenteSelectionForm, Setup2faForm, SignupForm, TwoFactorForm
 )
 from app.parser import UploadFileParser
@@ -1076,6 +1076,7 @@ def create_routes(app):
         remove_id(gemeente_draft_records)
 
         publish_form = PubliceerForm()
+        delete_form = DeleteStembureauForm()
 
         # Publiceren
         if custom_form_validate_on_submit(publish_form):
@@ -1114,6 +1115,7 @@ def create_routes(app):
             draft_records=gemeente_draft_records,
             field_order=field_order,
             publish_form=publish_form,
+            delete_form=delete_form,
             disable_publish_form=disable_publish_form,
             upload_deadline_passed=check_deadline_passed(),
             editing_disabled=editing_disabled
@@ -1244,11 +1246,11 @@ def create_routes(app):
 
 
     @app.route(
-        "/gemeente-stemlokaal-delete/<stemlokaal_id>",
-        methods=['GET', 'POST']
+        "/gemeente-stemlokaal-delete",
+        methods=['POST']
     )
     @ensure_2fa_verification
-    def gemeente_stemlokaal_delete(stemlokaal_id=None):
+    def gemeente_stemlokaal_delete():
         # Select a gemeente if none is currently selected
         if not 'selected_gemeente_code' in session:
             return redirect(url_for('gemeente_selectie'))
@@ -1256,7 +1258,10 @@ def create_routes(app):
         gemeente = get_gemeente(session['selected_gemeente_code'])
         elections = gemeente.elections
 
-        if stemlokaal_id:
+        delete_form = DeleteStembureauForm()
+        if custom_form_validate_on_submit(delete_form):
+            stemlokaal_id = request.form.get('stemlokaal_id')
+
             for election in [x.verkiezing for x in elections]:
                 ckan.delete_records(
                     ckan.elections[election]['draft_resource'],

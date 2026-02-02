@@ -103,6 +103,21 @@ class DeleteUserForm(FlaskForm):
         }
     )
 
+
+class DeleteStembureauForm(FlaskForm):
+    hidden = HiddenField(
+        name="stemlokaal_id",
+        id="stemlokaal_id"
+    )
+
+    submit = SubmitField(
+        'Verwijderen',
+        render_kw={
+            'class': 'btn btn-danger'
+        }
+    )
+
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     submit = SubmitField(
