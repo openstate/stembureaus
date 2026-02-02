@@ -4,6 +4,12 @@ import unittest
 from test_config import TestConfig
 
 class BaseTestClass(unittest.TestCase):
+    # If a test requires database transactions we want them to run within an outer transaction
+    # so that the changes can be rolled back. This is accomplished in `db.test_isolation`.
+    # In `setUp` any testcase that has `AFFECTS_DB = True` will start an outer transaction,
+    # then some standard db test records are inserted and then the test will run which
+    # can insert more records as desired. The context exits in teardown which will rollback
+    # the outer transaction.
     AFFECTS_DB = False
 
     @contextlib.contextmanager
