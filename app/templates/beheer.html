@@ -33,8 +33,18 @@
             <td>{{ gemeente.gemeente_code }}</td>
             <td>{{ gemeente.gemeente_naam }}</td>
             <td>{{ gemeente.api }}</td>
-            <td>{{ draft_records_hash.get(gemeente.gemeente_code, '') }}</td>
-            <td>{{ published_records_hash.get(gemeente.gemeente_code, '') }}</td>
+            {% set draft_count = draft_records_hash.get(gemeente.gemeente_code, '') %}
+            {% if draft_count %}
+              <td><a href={{ url_for('admin_gemeente_selectie', gemeente_code=gemeente.gemeente_code)}}>{{ draft_count }}</a></td>
+            {% else %}
+              <td>{{ draft_count }}</td>
+            {% endif %}
+            {% set published_count = published_records_hash.get(gemeente.gemeente_code, '') %}
+            {% if published_count %}
+              <td><a href={{ url_for('admin_gemeente_selectie', gemeente_code=gemeente.gemeente_code)}}>{{ published_count }}</a></td>
+            {% else %}
+              <td>{{ published_count }}</td>
+            {% endif %}
             {% if gemeente.user_count > 0 %}
               <td><a href={{ url_for('gemeente_gebruikers', gemeente_id=gemeente.id)}}>{{ gemeente.user_count }}</a></td>
             {% else %}
