@@ -858,6 +858,18 @@ def create_routes(app):
 
 
     @app.route(
+        "/admin-gemeente-selectie/<gemeente_code>",
+        methods=['GET']
+    )
+    @admin_login_required
+    def admin_gemeente_selectie(gemeente_code):
+        session[
+            'selected_gemeente_code'
+        ] = gemeente_code
+        return redirect(url_for('gemeente_stemlokalen_dashboard'))
+
+
+    @app.route(
         "/gemeente-stemlokalen-dashboard",
         methods=['GET', 'POST']
     )
