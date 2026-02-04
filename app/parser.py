@@ -52,13 +52,19 @@ parse_as_integer = [
     'nummer_stembureau'
 ]
 
-yes_no_empty_fields = [
+# Fields that have options (fixed input; so no free text). Most fields just
+# have ja/nee/'' as options, some fields have other options
+option_fields = [
+    'type_stembureau', # contains other options than just ja/nee/''
     'toegankelijk_voor_mensen_met_een_lichamelijke_beperking',
     'toegankelijke_ov_halte',
+    'toilet', # contains other options than just ja/nee/''
     'host',
+    'geleidelijnen', # contains other options than just ja/nee/''
     'stemmal_met_audio_ondersteuning',
     'kandidatenlijst_in_braille',
     'kandidatenlijst_met_grote_letters',
+    'gebarentolk_ngt', # contains other options than just ja/nee/''
     'gebarentalig_stembureaulid_ngt',
     'akoestiek_geschikt_voor_slechthorenden',
     'prikkelarm',
@@ -81,14 +87,18 @@ class BaseParser(object):
             return False
 
     def _clean_records(self, records):
-        # Convert variations of 'ja' and 'nee' to 'ja' and 'nee'
         for record in records:
-            for yes_no_empty_field in yes_no_empty_fields:
-                if yes_no_empty_field in record:
-                    if re.match('^[YyJj]a?$', str(record[yes_no_empty_field])):
-                        record[yes_no_empty_field] = 'ja'
-                    elif re.match('^[Nn]e?e?$', str(record[yes_no_empty_field])):
-                        record[yes_no_empty_field] = 'nee'
+            # For each option field, lowercase the value and convert
+            # variations of 'ja' and 'nee' to exactly 'ja' and 'nee'
+            for option_field in option_fields:
+                if option_field in record:
+                    lowercased_record = str(record[option_field]).lower()
+                    if re.match('^[yj]a?$', lowercased_record):
+                        record[option_field] = 'ja'
+                    elif re.match('^[n]e?e?$', lowercased_record):
+                        record[option_field] = 'nee'
+                    else:
+                        record[option_field] = lowercased_record
 
             # Split the Verkiezingen string into a list in order to validate
             # the content. Afterwards in create_record the list will be
