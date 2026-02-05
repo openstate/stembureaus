@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 from io import BytesIO
+import threading
 
 from app.db_utils import db_exec_all, db_exec_one
 import fiona
@@ -57,7 +58,7 @@ def get_gemeente_by_id(id):
     return current_gemeente
 
 
-def publish_gemeente_records(gemeente_code):
+def publish_gemeente_records(gemeente_code, logger):
     """
     Publishes the saved (draft) stembureaus of a gemeente
     """
@@ -71,6 +72,8 @@ def publish_gemeente_records(gemeente_code):
         remove_id(temp_gemeente_draft_records)
         ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 
+        purge_nginx_caches(current_gemeente, temp_gemeente_draft_records, logger)
+
 
 def get_shapes(shape_file):
     shapes = []
@@ -79,6 +82,32 @@ def get_shapes(shape_file):
             (shapely.geometry.asShape(s['geometry']), s['properties'],)
             for s in shape_records]
     return shapes
+
+
+# Use a background daemon to purge the nginx caches for
+#   - the home page /
+#   - the gemeente page
+#   - all stembureau pages for the gemeente
+def purge_nginx_caches(gemeente, temp_gemeente_draft_records, logger):
+    try:
+        uuids = map(lambda record: record['UUID'], temp_gemeente_draft_records)
+        args = [gemeente.gemeente_code, uuids]
+        thread = threading.Thread(target=purge_nginx_caches_daemon, args=args, daemon=True)
+        thread.start()
+    except Exception as e:
+        print(f"Exception occurred in purge_nginx_caches: {e}")
+        if logger:
+            logger.info(f"Exception occurred in purge_nginx_caches: {e}")
+
+
+def purge_nginx_caches_daemon(gemeente_code, uuids):
+    # WIP: write to file to check if this can work
+    # TODO: use curl, or requests, to get urls with http_CACHE_PURGE_KEY in header
+    with open("purge_results.txt", 'w') as f:
+        f.write("HIERZO\n")
+        f.write(f"{gemeente_code}\n")
+        for uuid in uuids:
+            f.write(f"{uuid}\n")
 
 
 class WijkenBuurtenData:

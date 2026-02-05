@@ -489,7 +489,7 @@ def create_cli_commands(app):
         """
         Publishes the saved (draft) stembureaus of a gemeente
         """
-        publish_gemeente_records(gemeente_code)
+        publish_gemeente_records(gemeente_code, None)
 
 
     @CKAN.command()
