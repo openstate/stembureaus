@@ -53,7 +53,15 @@ class TSAParser(BaseAPIParser):
             record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
                 'Toegankelijk voor mensen met een lichamelijke beperking']
             record['toegankelijke_ov_halte'] = locatie.get('Toegankelijke ov-halte', '')
-            record['toilet'] = locatie.get('Toilet', '')
+            # TODO 2026GR: TSA initially hasn't updated Gehandicaptentoilet to
+            # Toilet, so we temporarily need this check
+            if 'Gehandicaptentoilet' in locatie:
+                toilet = locatie.get('Gehandicaptentoilet', '')
+                if toilet == 'ja':
+                    toilet = 'ja, toegankelijk toilet'
+                record['toilet'] = toilet
+            if 'Toilet' in locatie:
+                record['toilet'] = locatie.get('Toilet', '')
             record['host'] = locatie.get('Host', '')
             record['geleidelijnen'] = locatie.get('Geleidelijnen', '')
             record['stemmal_met_audio_ondersteuning'] = locatie.get('Stemmal met audio-ondersteuning', '')
