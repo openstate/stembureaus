@@ -4,6 +4,7 @@ uwsgi_read_timeout 1200;
 uwsgi_cache stm_cache;
 uwsgi_cache_key $uri;
 uwsgi_cache_valid any 1h;
+uwsgi_cache_bypass $bypass;
 # Remove the Vary header so that the same $uri for different clients always
 # ends up in the same cache file (without this, a `curl` to "/" produces
 # a different cache file than a browser accessing "/").
