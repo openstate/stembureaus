@@ -1,0 +1,16 @@
+include uwsgi_params;
+uwsgi_pass stm_app_1:5000;
+uwsgi_read_timeout 1200;
+uwsgi_cache stm_cache;
+uwsgi_cache_key $uri;
+uwsgi_cache_valid any 1h;
+# Remove the Vary header so that the same $uri for different clients always
+# ends up in the same cache file (without this, a `curl` to "/" produces
+# a different cache file than a browser accessing "/").
+# Remove the Cookie header so that no information can be leaked.
+uwsgi_hide_header Set-Cookie;
+uwsgi_hide_header Vary;
+uwsgi_ignore_headers Set-Cookie Vary;
+proxy_set_header Cookie "";
+proxy_set_header Vary "";
+add_header X-Cache-Status $upstream_cache_status;
