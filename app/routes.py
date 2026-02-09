@@ -5,6 +5,7 @@ from functools import wraps
 from datetime import datetime
 from decimal import Decimal
 
+from app.cache_purger import CachePurger
 from flask import (
     render_template, request, redirect, url_for, flash, session,
     jsonify, current_app
@@ -27,7 +28,7 @@ from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
 from app.models import Gemeente, User, Record, BAG, add_user, db
-from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
+from app.db_utils import db_exec_all, db_exec_first, db_exec_one_optional
 from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
 from app.ckan import ckan
 from time import sleep
@@ -908,7 +909,6 @@ def create_routes(app):
                         ckan.elections[election]['draft_resource'],
                         records=records
                     )
-
                 flash(
                     'Het uploaden van stembureaus is gelukt! Controleer in het '
                     'overzicht hieronder of alles klopt en voer eventuele '
@@ -967,6 +967,8 @@ def create_routes(app):
                     temp_gemeente_draft_records = ckan.filter_draft_records(election, gemeente.gemeente_code)
                     remove_id(temp_gemeente_draft_records)
                     ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
+
+                    CachePurger(gemeente, temp_gemeente_draft_records, current_app).purge()
 
                 flash('De stembureaus zijn gepubliceerd.')
                 link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank">uw gemeentepagina</a>'

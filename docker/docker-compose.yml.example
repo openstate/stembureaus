@@ -27,6 +27,13 @@ services:
     networks:
       - stm
     restart: always
+    # When you are using the production environment on your development laptop, you are using
+    # a dedicated local hostname such as `dev.waarismijnstemlokaal.nl`. To test the purging of
+    # nginx caches, pass the IP address (stm network) of the nginx container via `extra_hosts`
+    # so that cache purging actually works. On the production server `waarismijnstemlokaal.nl`
+    # will be resolved without additional measures.
+    #extra_hosts:
+    #  - "dev.waarismijnstemlokaal.nl:192.168.0.5"
   mysql:
     image: mysql:8.0
     # This root password will be overwritten with the password used in
