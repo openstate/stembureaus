@@ -72,7 +72,7 @@ def publish_gemeente_records(gemeente_code, current_app, join_thread = False):
         remove_id(temp_gemeente_draft_records)
         ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 
-        CachePurger(current_gemeente, temp_gemeente_draft_records, current_app, join_thread).purge()
+        CachePurger(current_app, join_thread).purge(current_gemeente, temp_gemeente_draft_records)
 
 
 def get_shapes(shape_file):

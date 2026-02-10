@@ -968,7 +968,7 @@ def create_routes(app):
                     remove_id(temp_gemeente_draft_records)
                     ckan.publish(election, gemeente.gemeente_code, temp_gemeente_draft_records)
 
-                    CachePurger(gemeente, temp_gemeente_draft_records, current_app).purge()
+                    CachePurger(current_app).purge(gemeente, temp_gemeente_draft_records)
 
                 flash('De stembureaus zijn gepubliceerd.')
                 link_results = f'<a href="/s/{gemeente.gemeente_naam}" target="_blank">uw gemeentepagina</a>'
