@@ -151,9 +151,6 @@ class TSAManager(APIManager):
             # will then be imported every hour while their gewijzigd timestamp
             # hasn't changed
             m_updated = m_updated.replace(microsecond=0)
-            if self._skip_based_on_date(m_updated, gemeente):
-                continue
-
             elections = gemeente.elections
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
@@ -161,6 +158,9 @@ class TSAManager(APIManager):
             # elections on March 21st 2018).
             verkiezing = elections[0].verkiezing
             gemeente_draft_records = ckan.filter_draft_records(verkiezing, m['gemeente_code'])
+            if self._skip_gemeente(m_updated, gemeente, gemeente_draft_records):
+                continue
+
             data = self._request_municipality(m['gemeente_code'])
             # Make sure that we retrieve a list and that it is not empty
             if not isinstance(data, list) or not data:

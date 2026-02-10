@@ -35,7 +35,7 @@ def create_cli_commands(app):
 
     @API.command()
     @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
-    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
+    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp. This will also switch the source of this gemeente to Stembureaumanager. This is needed if a gemeente already added (draft) stembureaus manually or used a different API-koppeling, as automatically switching could then lead to data loss. By using --gm-code you explicitly state that you want to use this API and want to override any potentially existing data of this gemeente from another source.")
     def stembureaumanager(from_date, gm_code):
         """
         Update data from gemeenten that use Stembureaumanager; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database
@@ -48,7 +48,7 @@ def create_cli_commands(app):
 
     @API.command()
     @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
-    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
+    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp. This will also switch the source of this gemeente to TSA. This is needed if a gemeente already added (draft) stembureaus manually or used a different API-koppeling, as automatically switching could then lead to data loss. By using --gm-code you explicitly state that you want to use this API and want to override any potentially existing data of this gemeente from another source.")
     def tsa(from_date, gm_code):
         """
         Update data from gemeenten that use TSA; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database
@@ -61,7 +61,7 @@ def create_cli_commands(app):
 
     @API.command()
     @click.option('--from-date', help="Load all gemeenten with an API gewijzigd timestamp after this date/timestamp")
-    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp")
+    @click.option('--gm-code', help="Load a specific gemeente (format: <GMxxxx>) irrespective of its last gewijzigd timestamp. This will also switch the source of this gemeente to Procura. This is needed if a gemeente already added (draft) stembureaus manually or used a different API-koppeling, as automatically switching could then lead to data loss. By using --gm-code you explicitly state that you want to use this API and want to override any potentially existing data of this gemeente from another source.")
     def procura(from_date, gm_code):
         """
         Update data from gemeenten that use Procura/Shift2; when no options are given, then it will load gemeenten that have a gewijzigd timestamp in the API that is more recent than the timestamp in the database

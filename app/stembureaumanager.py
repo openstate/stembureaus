@@ -145,15 +145,34 @@ class APIManager(object):
             html_body=None
         )
 
-    def _skip_based_on_date(self, m_updated, gemeente):
+    def _skip_gemeente(self, m_updated, gemeente, gemeente_draft_records):
+        # Don't skip this gemeente, if the gm_code was specified in the command
+        # line (i.e. we explicitly want to import this gemeente)
+        if self.gm_code:
+            return False
+
+        # Skip a gemeente if it already contains (draft) stembureaus and if the
+        # source is different. This prevents accidentally deleting data. E.g.,
+        # if a gemeente has already added stembureaus manually, we don't want
+        # this data to be automatically overwritten with API data. Also if a
+        # gemeente is available in more than one API, we don't want to load the
+        # data from different APIs.
+        if gemeente_draft_records and gemeente.source != self.SOURCE_STRING:
+            send_email(
+                f"[WaarIsMijnStemlokaal.nl] {gemeente.gemeente_naam} ({gemeente.gemeente_code}) heeft al data via andere bron",
+                sender=current_app.config['FROM'],
+                recipients=current_app.config['ADMINS'],
+                text_body=f'{gemeente.gemeente_naam} ({gemeente.gemeente_code}) is niet ingeladen via de API van {self.SOURCE_STRING}, want deze gemeente heeft al (concept) data beschikbaar via {gemeente.source if gemeente.source else "handmatige invoer"}.',
+                html_body=None
+            )
+            return True
+
         # Don't skip this gemeente, if
         # - the SOURCE_STRING is not set (i.e., the gemeente was never
         #   imported before via this API),
-        # - if the gm_code was specified in the command line (i.e. we
-        #   explicitly want to import this gemeente)
-        # - if api_laatste_wijziging is not set in the database (i.e. the
+        # - api_laatste_wijziging is not set in the database (i.e. the
         #   gemeente was never imported before via an API)
-        if gemeente.source != self.SOURCE_STRING or self.gm_code or not gemeente.api_laatste_wijziging:
+        if gemeente.source != self.SOURCE_STRING or not gemeente.api_laatste_wijziging:
             return False
 
         # If a timestamp was specified in the command line
@@ -220,9 +239,6 @@ class StembureauManager(APIManager):
             # will then be imported every hour while their gewijzigd timestamp
             # hasn't changed
             m_updated = m_updated.replace(microsecond=0)
-            if self._skip_based_on_date(m_updated, gemeente):
-                continue
-
             elections = gemeente.elections
             # Pick the first election. In the case of multiple elections we only
             # retrieve the stembureaus of the first election as the records for
@@ -230,6 +246,9 @@ class StembureauManager(APIManager):
             # elections on March 21st 2018).
             verkiezing = elections[0].verkiezing
             gemeente_draft_records = ckan.filter_draft_records(verkiezing, m['gemeente_code'])
+            if self._skip_gemeente(m_updated, gemeente, gemeente_draft_records):
+                continue
+
             data = self._request_municipality(m['gemeente_code'])
             # Make sure that we retrieve a list and that it is not empty
             if not isinstance(data, list) or not data:
