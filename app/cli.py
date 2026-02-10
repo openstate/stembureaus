@@ -7,7 +7,7 @@ from app.published_monitor import PublishedMonitor
 from app.validator import Validator
 from app.routes import create_record, kieskringen
 from app.db_utils import db_delete, db_delete_all, db_exec_all, db_exec_one, db_exec_one_optional
-from app.utils import get_gemeente, remove_id
+from app.utils import get_gemeente, publish_gemeente_records, remove_id
 from app.stembureaumanager import StembureauManager
 from app.tsa import TSAManager
 from app.procura import ProcuraManager
@@ -15,7 +15,7 @@ from app.procura import ProcuraManager
 from sqlalchemy import select
 from datetime import datetime
 from dateutil import parser
-from flask import url_for
+from flask import url_for, current_app
 from pprint import pprint
 import click
 import copy
@@ -480,6 +480,16 @@ def create_cli_commands(app):
                 )
             print('Upload successful!')
         print('\n\n')
+
+
+    @CKAN.command()
+    @click.argument('gemeente_code')
+    def publish_gemeente(gemeente_code):
+        """
+        Publishes the saved (draft) stembureaus of a gemeente
+        """
+        with app.app_context():
+            publish_gemeente_records(gemeente_code, current_app, True)
 
 
     @CKAN.command()

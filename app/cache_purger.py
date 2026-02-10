@@ -19,11 +19,12 @@ class CachePurger:
   #     will be resolved without additional measures. See `docker-compose.yml.example`.
 
 
-  def __init__(self, gemeente, gemeente_records, current_app):
+  def __init__(self, gemeente, gemeente_records, current_app, join_thread = False):
     self.gemeente = gemeente
     self.gemeente_code = gemeente.gemeente_code
     self.gemeente_records = gemeente_records
     self.current_app = current_app
+    self.join_thread = join_thread
 
 
   def purge(self):
@@ -36,6 +37,11 @@ class CachePurger:
         thread.start()
 
         self.current_app.logger.info(f"Purging nginx caches sent to background for {self.gemeente_code}")
+
+        if self.join_thread:
+          thread.join()
+          self.current_app.logger.info(f"Purging nginx caches finished after joining thread for {self.gemeente_code}")
+
     except Exception as e:
         print(f"Exception occurred in CachePurger: {e}")
         self.current_app.logger.info(f"Exception occurred in CachePurger: {e}")

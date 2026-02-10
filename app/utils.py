@@ -58,7 +58,7 @@ def get_gemeente_by_id(id):
     return current_gemeente
 
 
-def publish_gemeente_records(gemeente_code, current_app):
+def publish_gemeente_records(gemeente_code, current_app, join_thread = False):
     """
     Publishes the saved (draft) stembureaus of a gemeente
     """
@@ -72,7 +72,7 @@ def publish_gemeente_records(gemeente_code, current_app):
         remove_id(temp_gemeente_draft_records)
         ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
 
-        CachePurger(current_gemeente, temp_gemeente_draft_records, current_app).purge()
+        CachePurger(current_gemeente, temp_gemeente_draft_records, current_app, join_thread).purge()
 
 
 def get_shapes(shape_file):
