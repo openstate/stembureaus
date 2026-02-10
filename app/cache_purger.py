@@ -55,6 +55,8 @@ class CachePurger:
               self.purge_for_url(app, url_for('show_stembureau', gemeente=self.gemeente.gemeente_naam, primary_key=uuid))
               self.purge_for_url(app, url_for('embed_stembureau', gemeente=self.gemeente.gemeente_naam, primary_key=uuid))
 
+            self.purge_for_url(app, url_for('embed_alles'))
+
             app.logger.info(f"Successfully purged nginx caches for {self.gemeente_code}")
     except Exception as e:
         app.logger.info(f"Error purging nginx caches for {self.gemeente_code}: {e}")
