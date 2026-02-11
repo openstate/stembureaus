@@ -120,7 +120,7 @@ class APIManager(object):
             )
 
     def _publish_records(self, gemeente):
-        publish_gemeente_records(gemeente.gemeente_code)
+        publish_gemeente_records(gemeente.gemeente_code, current_app)
 
     def _send_error_email(self, gemeente, records, results, current_api):
         output = 'Er zijn fouten aangetroffen in de resultaten voor de gemeente %s (%s) via %s:\n\n' % (

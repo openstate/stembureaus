@@ -10,11 +10,14 @@ Collecting and presenting stembureaus: [WaarIsMijnStemlokaal.nl](https://waarism
    - Fill in a password at `<DB_PASSWORD>`
 - Copy `config.py.example` to `config.py` and edit it
    - Create a SECRET_KEY as per the instructions in the file
+   - Create a CACHE_PURGE_KEY as per the instructions in the file
    - Fill in your CKAN URL and CKAN API key
    - Fill in the same `<DB_PASSWORD>` as used in `docker/docker-compose.yml`
    - Specify the name(s) of the election(s) and its corresponding CKAN draft and publish resource IDs
       - NOTE: Use the exact same `<name of election>` values in the 'verkiezingen' field in 'app/data/gemeenten.json'
    - Specify email related information in order for the application to send emails
+- Copy `docker/nginx/caching_setup.example` to `docker/nginx/caching_setup` and edit it
+   - Fill in the same `<CACHE_PURGE_KEY>` as used in `config.py`
 - Copy `app/data/gemeenten.json.example` to `app/data/gemeenten.json` and edit it
    - Fill in the email addresses of the gemeenten
    - Add the name(s) of the election(s) for each gemeenten in which it participates. NOTE: make sure that these names are exactly the same as the name(s) of the election(s) in `app/config.py`
