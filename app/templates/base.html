@@ -101,7 +101,7 @@
     {% set upcomingElection = "de " + config['ELECTION_TYPE'] + " van " + config['ELECTION_DATE_LONG'] %}
     <div class="text-center info-message" style="padding-bottom: 20px;">
       {% if number_of_published_gemeenten %}
-        <p>Op dit moment hebben {{ number_of_published_gemeenten }} van de in totaal {{ alle_gemeenten | length - 5 }} (bijzondere) gemeenten hun stembureaus voor {{ upcomingElection }} gepubliceerd. De rest wordt nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
+        <p>Op dit moment hebben {{ number_of_published_gemeenten }} van de in totaal {{ alle_gemeenten | length - 12 }} (bijzondere) gemeenten hun stembureaus voor {{ upcomingElection }} gepubliceerd. De rest wordt nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
       {% else %}
         <p>Nog niet alle gemeenten hebben de stembureaus voor {{ upcomingElection }} aangeleverd. Deze worden nog tot uiterlijk twee weken voor de verkiezingen toegevoegd.</p>
       {% endif %}
