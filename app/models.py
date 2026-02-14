@@ -284,6 +284,26 @@ class BAG(Base):
         # A json-encodable dict
         return fields
 
+def get_bag_conversions(fields):
+    all_conversions = {
+        'gemeente': 'Gemeente',
+        'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
+        'nummeraanduiding': 'BAG Nummeraanduiding ID',
+        'openbareruimte': 'Straatnaam',
+        'huisnummer': 'Huisnummer',
+        'huisletter': 'Huisletter',
+        'huisnummertoevoeging': 'Huisnummertoevoeging',
+        'postcode': 'Postcode',
+        'woonplaats': 'Plaats',
+        'lat': 'Latitude',
+        'lon': 'Longitude',
+        'x': 'X',
+        'y': 'Y'
+    }
+
+    selected = {k: v for k, v in all_conversions.items() if k in fields}
+
+    return selected
 
 class Record(object):
     def __init__(self, *args, **kwargs):
@@ -370,24 +390,19 @@ class Record(object):
             full_address = "0000000000000000 (geen adres beschikbaar in de BAG; kies deze optie voor Bonaire, Sint Eustatius en Saba)"
             self.record['adres_stembureau'] = full_address
 
-        for fld in [
+        bag_conversions = get_bag_conversions([
             'gemeente',
-            'straatnaam',
+            'openbareruimte',
             'huisnummer',
             'huisletter',
             'huisnummertoevoeging',
             'postcode',
-            'plaats',
-            # wijknaam
-            # cbs wijknummer
-            # buurtnaam
-            # cbs buurtnummer
-            # x
-            # y
-        ]:
-            # TODO: we need to know if these are the right fields for in CKAN.
-            fld_val = getattr(bag_record, fld, None)
-            if fld_val is not None:
-                self.record[fld] = fld_val.encode('utf-8').decode()
+            'woonplaats'
+        ])
+
+        for bag_field, record_field in bag_conversions.items():
+            bag_field_value = getattr(bag_record, bag_field, None)
+            if bag_field_value is not None:
+                self.record[record_field] = bag_field_value.encode('utf-8').decode()
             else:
-                self.record[fld] = None
+                self.record[record_field] = None
