@@ -22,7 +22,7 @@ nose2==0.15.1
 python-dateutil==2.9.0.post0
 
 # Dependencies installed by the packages above
-cryptography==46.0.3 # for PyMySQL
+cryptography==46.0.5 # for PyMySQL
 Flask-Login==0.6.3
 Flask-WTF==1.2.2
 email-validator==2.3.0
