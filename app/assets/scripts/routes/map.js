@@ -38,7 +38,7 @@ var toegankelijkheidsfilters = [
   ['Prokkelduo', 'prokkelduo', '.prokkelduo-filter']
 ]
 
-function create_optional_fields(stembureau, election_date, result_search = false) {
+function create_optional_fields(stembureau, target, election_date, result_search = false) {
   var bijzonder_stembureau = '';
   // Only show afwijkende openingstijden in the stembureau search results on a gemeente page
   if (result_search) {
@@ -78,6 +78,17 @@ function create_optional_fields(stembureau, election_date, result_search = false
   }
   if (stembureau['Prokkelduo'] === 'ja') {
       optional_fields += '<li>Prokkelduo</li>';
+  }
+  if (stembureau['Extra toegankelijkheidsinformatie']) {
+    var id = 'extra-' + stembureau['UUID']
+      var div = '<div class="collapse" id="' + id + '"> \
+        <div class="card card-body extra-ti-popup">' + stembureau['Extra toegankelijkheidsinformatie'] + '</div> \
+        </div>'
+      optional_fields += '<li><a href="#' + id + '"' + target + ' class="collapsed" data-bs-toggle="collapse" \
+        role="button" aria-expanded="false" aria-controls="' + id + '"> \
+        <span class="if-collapsed">Toon extra toegankelijkheidsinformatie</span> \
+        <span class="if-not-collapsed">Verberg extra toegankelijkheidsinformatie</span> \
+         </a>' + div + '</li>';
   }
 
   if (optional_fields) {
@@ -132,6 +143,8 @@ export default {
       for (var i=0; i < matches.length; i++) {
         var extra_adresaanduiding = '';
         var orange_icon = '';
+        var url = '/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID']
+
         if (matches[i]['Extra adresaanduiding'].trim()) {
           // CODE BELOW WAS ONLY NEEDED IN 2021/2022 DUE TO COVID, UNCOMMENT IF IT IS NEEDED AGAIN
           //if (matches[i]['Extra adresaanduiding'].toLowerCase().includes('niet open voor algemeen publiek')) {
@@ -168,14 +181,13 @@ export default {
           nummer_stembureau = '#' + matches[i]['Nummer stembureau'] + ' '
         }
 
-        var optional_fields = create_optional_fields(matches[i], StembureausApp.election_date, true);
-
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
+        var optional_fields = create_optional_fields(matches[i], target, StembureausApp.election_date, true);
 
         stembureau_lijst +=
           '<li>' +
             '<div class="col-12" style="margin-bottom: 15px;">' +
-              '<h3><a href="/s/' + matches[i]['Gemeente'] + '/' + matches[i]['UUID'] + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
+              '<h3><a href="' + url + '"' + target + '>' + icons['Stembureau' + orange_icon] + ' ' + nummer_stembureau + matches[i]['Naam stembureau'] + '</a></h3>' +
 
               '<div style="padding-left: 26px; color: dimgrey;">' +
                 '<p>' +
@@ -467,6 +479,7 @@ export default {
 
       // Create the popup which you see when you click on a marker
       StembureausApp.getPopup = function(loc, orange_icon) {
+        var url = "/s/" + loc['Gemeente'] + '/' + loc['UUID'];
         // First create the openingstijden HTML
         var opinfo_output = '</p><i>Openingstijden</i>';
         opinfo_output += create_opinfo(loc);
@@ -484,7 +497,7 @@ export default {
 
         output += "<b>" + icons['Stembureau' + orange_icon] + "</b>";
 
-        output += " <b><a href=\"/s/" + loc['Gemeente'] + '/' + loc['UUID'] + "\"" + target + ">";
+        output += " <b><a href=\"" + url + "\"" + target + ">";
         if (loc['Nummer stembureau']) {
           output += "#" + loc['Nummer stembureau']  + " ";
         }
@@ -545,7 +558,7 @@ export default {
         output += '<span class="me-3"></span>';
         output += toegankelijk_toilet_labels[loc["Toilet"]];
 
-        output += create_optional_fields(loc, StembureausApp.election_date, false);
+        output += create_optional_fields(loc, target, StembureausApp.election_date, false);
 
         output += '</span>';
 

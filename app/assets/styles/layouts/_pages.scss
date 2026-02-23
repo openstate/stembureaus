@@ -30,11 +30,6 @@
     list-style-type: none;
 
     a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    a:hover {
       text-decoration: underline;
     }
   }
@@ -50,6 +45,19 @@
 
 .stembureau-info-icons .fa {
   color: dimgrey;
+}
+
+.extra-ti-popup {
+  margin-top: 0.5em;
+}
+
+[data-bs-toggle="collapse"] {
+  &.collapsed .if-not-collapsed {
+    display: none;
+  }
+  &:not(.collapsed) .if-collapsed {
+    display: none;
+  }
 }
 
 .fa-stack {
