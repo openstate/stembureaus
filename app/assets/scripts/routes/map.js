@@ -38,7 +38,7 @@ var toegankelijkheidsfilters = [
   ['Prokkelduo', 'prokkelduo', '.prokkelduo-filter']
 ]
 
-function create_optional_fields(stembureau, target, election_date, result_search = false) {
+function create_optional_fields(stembureau, election_date, result_search = false) {
   var bijzonder_stembureau = '';
   // Only show afwijkende openingstijden in the stembureau search results on a gemeente page
   if (result_search) {
@@ -84,7 +84,7 @@ function create_optional_fields(stembureau, target, election_date, result_search
       var div = '<div class="collapse" id="' + id + '"> \
         <div class="card card-body extra-ti-popup">' + stembureau['Extra toegankelijkheidsinformatie'] + '</div> \
         </div>'
-      optional_fields += '<li><a href="#' + id + '"' + target + ' class="collapsed" data-bs-toggle="collapse" \
+      optional_fields += '<li><a href="#' + id + '" class="collapsed" data-bs-toggle="collapse" \
         role="button" aria-expanded="false" aria-controls="' + id + '"> \
         <span class="if-collapsed">Toon extra toegankelijkheidsinformatie</span> \
         <span class="if-not-collapsed">Verberg extra toegankelijkheidsinformatie</span> \
@@ -182,7 +182,7 @@ export default {
         }
 
         var target = StembureausApp.links_external ? ' target="_blank" rel="noopener"' : '';
-        var optional_fields = create_optional_fields(matches[i], target, StembureausApp.election_date, true);
+        var optional_fields = create_optional_fields(matches[i], StembureausApp.election_date, true);
 
         stembureau_lijst +=
           '<li>' +
@@ -558,7 +558,7 @@ export default {
         output += '<span class="me-3"></span>';
         output += toegankelijk_toilet_labels[loc["Toilet"]];
 
-        output += create_optional_fields(loc, target, StembureausApp.election_date, false);
+        output += create_optional_fields(loc, StembureausApp.election_date, false);
 
         output += '</span>';
 
