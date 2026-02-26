@@ -1256,11 +1256,15 @@ def create_record(form, stemlokaal_id, gemeente, election):
         #if bu_code:
         #    record['CBS buurtnummer'] = bu_code
     else:
-        # If no bag is given make sure that any pre-saved address fields are emptied
+        # If no BAG ID is given (i.e. 0000000000000000) make sure that any
+        # earlier saved fields that came from the BAG are emptied
         record['Straatnaam'] = ''
         record['Huisnummer'] = ''
         record['Huisletter'] = ''
         record['Huisnummertoevoeging'] = ''
+        record['Postcode'] = ''
+        record['Plaats'] = ''
+        record['Gebruiksdoel van het gebouw'] = ''
 
     return record
 

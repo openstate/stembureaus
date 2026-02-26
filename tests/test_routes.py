@@ -22,7 +22,7 @@ class TestCreateRecord(unittest.TestCase):
       form = EditForm(MultiDict(r.record))
 
       # Pre-conditions
-      self.assertEqual(r.record['Straatnaam'], 'Spui')
+      self.assertEqual(r.record['straatnaam'], 'Spui')
 
       stemlokaal_id = uuid.uuid4().hex
       gemeente = get_gemeente('GM0518')
@@ -40,7 +40,7 @@ class TestCreateRecord(unittest.TestCase):
       form = EditForm(MultiDict(r.record))
 
       # Pre-conditions
-      self.assertEqual(r.record['Straatnaam'], 'Spui')
+      self.assertEqual(r.record['straatnaam'], 'Spui')
 
       stemlokaal_id = uuid.uuid4().hex
       gemeente = get_gemeente('GM0518')

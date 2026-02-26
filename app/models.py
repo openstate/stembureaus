@@ -284,6 +284,7 @@ class BAG(Base):
         # A json-encodable dict
         return fields
 
+
 def get_bag_conversions(fields):
     all_conversions = {
         'gemeente': 'Gemeente',
@@ -304,6 +305,20 @@ def get_bag_conversions(fields):
     selected = {k: v for k, v in all_conversions.items() if k in fields}
 
     return selected
+
+
+# External sources (BAG, CKAN, stembureau spreadsheet) use field names that are
+# capitalized and use spaces, in Python we use lowercase and underscores
+# instead. E.g. 'BAG Nummeraanduiding ID' becomes 'bag_nummeraanduiding_id'.
+def slugify_field_name(value):
+    return re.sub(
+        '_+',
+        '_',
+        re.sub(
+            r'[/: .,()\-]', '_', str(value).lower()
+        )
+    ).rstrip('_').replace('\n', '')
+
 
 class Record(object):
     def __init__(self, *args, **kwargs):
@@ -402,7 +417,8 @@ class Record(object):
 
         for bag_field, record_field in bag_conversions.items():
             bag_field_value = getattr(bag_record, bag_field, None)
+            slugified_record_field = slugify_field_name(record_field)
             if bag_field_value is not None:
-                self.record[record_field] = bag_field_value.encode('utf-8').decode()
+                self.record[slugified_record_field] = bag_field_value.encode('utf-8').decode()
             else:
-                self.record[record_field] = None
+                self.record[slugified_record_field] = None

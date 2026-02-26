@@ -7,6 +7,8 @@ import re
 
 from flask import current_app
 
+from app.models import slugify_field_name
+
 import pyexcel
 
 
@@ -139,16 +141,7 @@ class ExcelParser(BaseParser):
             if self._header_valid(name):
                 found_valid_headers = True
                 all_headers_check.append(name)
-                # 'Slugify' the field name
-                headers.append(
-                    re.sub(
-                        '_+',
-                        '_',
-                        re.sub(
-                            r'[/: .,()\-]', '_', str(name).lower()
-                        )
-                    ).rstrip('_').replace('\n', '')
-                )
+                headers.append(slugify_field_name(name))
         if not found_valid_headers:
             current_app.logger.warning('Geen geldige veldnamen gevonden in bestand')
             raise ValueError()
