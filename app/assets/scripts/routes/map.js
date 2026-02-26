@@ -538,7 +538,7 @@ export default {
         }
 
         if (loc['Gemeente'] == 'Rotterdam') {
-          output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook wijkraadverkiezingen, daarvoor moet u stemmen in een stembureau in de wijkraad die op uw stempas staat.<br></div>'
+          output += '<br><br><button class="btn btn-outline-secondary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter-' + loc['UUID'] + '" aria-expanded="false" aria-controls="collapseFilter-' + loc['UUID'] + '">Info over wijkraadverkiezingen</button><div class="collapse" id="collapseFilter-' + loc['UUID'] + '">NB: tijdens de gemeenteraadsverkiezingen zijn er in Rotterdam ook verkiezingen voor wijk- en dorpsraden, daarvoor kunt u alleen stemmen in een stembureau in de wijk waar u woont.<br></div>'
         }
 
         if (loc.Verkiezingen?.trim()) {
