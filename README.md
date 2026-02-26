@@ -80,6 +80,16 @@ To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `
 - If you want to add new elections, log in to https://data.waarismijnstemlokaal.nl/dashboard/datasets (until July 2025 this was https://ckan.dataplatform.nl/dashboard/datasets) and click 'Dataset toevoegen'. Fill in the metadata (see earlier elections to see what to fill in). Make sure to create a 'concept' dataset besides the actual dataset. The concept dataset is used to store the stembureau data that isn't ready to be published yet.
 - After filling the dataset information, click 'Data toevoegen' in order to add a new resource/bron.
 
+## To enter the Flask application
+```
+sudo docker exec -it stm_app_1 bash
+python
+from app import create_app
+app = create_app()
+with app.app_context():
+    gemeenten = get_gemeente('GM1771') # Example of getting a gemeente
+```
+
 ## To enter the MySQL database
 - `sudo docker exec -it stm_mysql_1 bash`
 - `mysql -p`
