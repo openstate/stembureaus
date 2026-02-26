@@ -26,7 +26,7 @@ from app.forms import (
 from app.parser import UploadFileParser
 from app.validator import Validator
 from app.email import send_password_reset_email
-from app.models import Gemeente, User, Record, BAG, add_user, db
+from app.models import Gemeente, User, Record, BAG, add_user, db, get_bag_conversions
 from app.db_utils import db_exec_all, db_exec_first, db_exec_one, db_exec_one_optional
 from app.utils import get_b64encoded_qr_image, get_gemeente, get_gemeente_by_id, get_gemeente_by_name, get_mysql_match_against_safe_string, remove_id
 from app.ckan import ckan
@@ -1230,19 +1230,19 @@ def create_record(form, stemlokaal_id, gemeente, election):
 
 
     if bag_record is not None:
-        bag_conversions = {
-            'verblijfsobjectgebruiksdoel': 'Gebruiksdoel van het gebouw',
-            'openbareruimte': 'Straatnaam',
-            'huisnummer': 'Huisnummer',
-            'huisletter': 'Huisletter',
-            'huisnummertoevoeging': 'Huisnummertoevoeging',
-            'postcode': 'Postcode',
-            'woonplaats': 'Plaats',
-            'lat': 'Latitude',
-            'lon': 'Longitude',
-            'x': 'X',
-            'y': 'Y'
-        }
+        bag_conversions = get_bag_conversions([
+            'verblijfsobjectgebruiksdoel',
+            'openbareruimte',
+            'huisnummer',
+            'huisletter',
+            'huisnummertoevoeging',
+            'postcode',
+            'woonplaats',
+            'lat',
+            'lon',
+            'x',
+            'y'
+        ])
 
         for bag_field, record_field in bag_conversions.items():
             bag_field_value = getattr(bag_record, bag_field, None)
@@ -1257,7 +1257,6 @@ def create_record(form, stemlokaal_id, gemeente, election):
                     ).decode()
             else:
                 record[record_field] = None
-
         ## We stopped adding the wijk and buurt data as the data
         ## supplied by CBS is not up to date enough as it is only
         ## released once a year and many months after changes
@@ -1276,6 +1275,16 @@ def create_record(form, stemlokaal_id, gemeente, election):
         #    record['Buurtnaam'] = bu_naam
         #if bu_code:
         #    record['CBS buurtnummer'] = bu_code
+    else:
+        # If no BAG ID is given (i.e. 0000000000000000) make sure that any
+        # earlier saved fields that came from the BAG are emptied
+        record['Straatnaam'] = ''
+        record['Huisnummer'] = ''
+        record['Huisletter'] = ''
+        record['Huisnummertoevoeging'] = ''
+        record['Postcode'] = ''
+        record['Plaats'] = ''
+        record['Gebruiksdoel van het gebouw'] = ''
 
     return record
 
