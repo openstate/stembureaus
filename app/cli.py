@@ -13,9 +13,9 @@ from app.tsa import TSAManager
 from app.procura import ProcuraManager
 
 from sqlalchemy import select
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil import parser
-from flask import url_for
+from flask import url_for, current_app
 from pprint import pprint
 import click
 import copy
@@ -23,7 +23,6 @@ import json
 import os
 import sys
 import uuid
-import pytz
 
 
 def create_cli_commands(app):
@@ -489,7 +488,8 @@ def create_cli_commands(app):
         """
         Publishes the saved (draft) stembureaus of a gemeente
         """
-        publish_gemeente_records(gemeente_code)
+        with app.app_context():
+            publish_gemeente_records(gemeente_code, current_app, True)
 
 
     @CKAN.command()

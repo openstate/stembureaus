@@ -7,6 +7,10 @@ from datetime import datetime
 # SECRET_KEY to a newly generated string using these python commands:
 # $ import os
 # $ os.urandom(32)
+# Same for CACHE_PURGE_KEY, which can only contain lowercase letters:
+# $ import secrets
+# $ import string
+# $ ''.join(secrets.choice(string.ascii_lowercase) for _ in range(32))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 locale.setlocale(locale.LC_NUMERIC, 'nl_NL.UTF-8')
@@ -22,6 +26,7 @@ class Config(object):
     USE_SESSION_FOR_NEXT = True
     SESSION_2FA_CONFIRMED_NAME = '2fa_confirmed'
     SESSION_2FA_LAST_ATTEMPT = '2fa_last_attempt'
+    CACHE_PURGE_KEY = False
 
     BABEL_DEFAULT_LOCALE = 'nl'
 

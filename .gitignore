@@ -26,6 +26,7 @@ app/data/gemeenten.json
 files/deels_vooringevuld/*
 app/data/nieuwe-gemeenten.json
 config.py
+caching_setup
 backup.sh
 last_processed_line.csv
 update_bag.sh
