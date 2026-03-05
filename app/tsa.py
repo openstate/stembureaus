@@ -193,17 +193,34 @@ class TSAManager(APIManager):
 
     # To fix some (hopefully temporary) errors for some stembureaus
     def _bugfix(self, gemeente, records):
-        if gemeente.gemeente_code == 'GM0150': # Deventer
-            for record in records:
-                if record['nummer_stembureau'] == 113:
-                    self._fix_latlon(record, "52.26087196869886", "6.153974536599161")
+        #if gemeente.gemeente_code == 'GM0150': # Deventer
+        #    for record in records:
+        #        if record['nummer_stembureau'] == 113:
+        #            self._fix_latlon(record, "52.26087196869886", "6.153974536599161")
 
-        if gemeente.gemeente_code == 'GM0779': # Geertruidenberg
+        #if gemeente.gemeente_code == 'GM0779': # Geertruidenberg
+        #    for record in records:
+        #        if record['nummer_stembureau'] == 6:
+        #            self._fix_latlon(record, "51.68887590155298", "4.872133492118168")
+        #        if record['nummer_stembureau'] == 4:
+        #            self._fix_latlon(record, "51.703441296183556", "4.871675635316138")
+
+        # Purmerend 2026GR
+        if gemeente.gemeente_code == 'GM0439':
             for record in records:
-                if record['nummer_stembureau'] == 6:
-                    self._fix_latlon(record, "51.68887590155298", "4.872133492118168")
-                if record['nummer_stembureau'] == 4:
-                    self._fix_latlon(record, "51.703441296183556", "4.871675635316138")
+                # The TSA data shows 'Stadhuis' as tellocatie, both locations
+                # of mobiel stembureau 42 are not at 'Stadhuis' so change this
+                # to 'nee'
+                if record['nummer_stembureau'] == 42:
+                    record['tellocatie'] = 'nee'
+                # The TSA data shows 'v.v. wherevogels' as tellocatie, only the
+                # second location of mobiel stembureau 21 is at that location,
+                # so change the values to 'nee' and 'ja' accordingly.
+                if record['nummer_stembureau'] == 21:
+                    if record['bag_nummeraanduiding_id'] == '0439200000017175':
+                        record['tellocatie'] = 'nee'
+                    if record['bag_nummeraanduiding_id'] == '0439200000030556':
+                        record['tellocatie'] = 'ja'
 
         return records
 
