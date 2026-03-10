@@ -158,6 +158,22 @@ alle_gemeenten = [
     {'gemeente_naam': row[2]} for row in kieskringen
 ] + alternative_names
 
+toegankelijkheid_descriptions = {
+    'toegankelijk_voor_mensen_met_een_lichamelijke_beperking': 'De locatie van het stembureau én minstens één stemhokje is toegankelijk en bereikbaar voor mensen met een lichamelijke beperking.',
+    'toegankelijke_ov_halte': 'Is er een toegankelijke ov-halte in de buurt en is de logische route vanaf deze ov-halte naar het stembureau toegankelijk?',
+    'toilet': 'Is er een toilet, genderneutraal toilet of toegankelijk toilet aanwezig in het stembureau?',
+    'host': 'Is er iemand aanwezig die kiezers ontvangt, vragen kan beantwoorden en hulp kan bieden (bijvoorbeeld voor mensen met een beperking, ouderen of mensen die de weg niet weten in het gebouw)?',
+    'geleidelijnen': 'Zijn er geleidelijnen aanwezig buiten en/of binnen het stembureau voor mensen met een visuele beperking?',
+    'stemmal_met_audio_ondersteuning': 'Is er een <a href="https://www.oogvereniging.nl/leven-met/stemmen-met-een-oogaandoening/#stemmal" target="_blank">stemmal met audio-ondersteuning</a> (stembox/soundbox) aanwezig voor mensen met een visuele beperking of mensen die moeite hebben met lezen?',
+    'kandidatenlijst_in_braille': 'Is er een kandidatenlijst in braille aanwezig voor mensen met een visuele beperking?',
+    'kandidatenlijst_met_grote_letters': 'Is er een kandidatenlijst met grote letters aanwezig voor mensen met een visuele beperking? NB: niet te verwarren met de \'vergrote kandidatenlijst\' die in elk stembureau verplicht aanwezig is.',
+    'gebarentolk_ngt': 'Is er een gebarentolk op locatie in het stembureau of op afstand (via videobellen) aanwezig die de Nederlandse Gebarentaal (NGT) beheerst? Als de gebarentolk niet de hele dag aanwezig is, dan staat in het \'Extra toegankelijkheidsinformatie\'-veld gedurende welke periode(n) deze precies aanwezig is.',
+    'gebarentalig_stembureaulid_ngt': 'Is er een stembureaulid aanwezig die de Nederlandse Gebarentaal (NGT) beheerst?',
+    'akoestiek_geschikt_voor_slechthorenden': 'Is er weinig galm op deze locatie, zodat slechthorenden anderen kunnen verstaan?',
+    'prikkelarm': 'Dit stembureau is zo ingericht dat er weinig prikkels zijn. Er wordt rekening gehouden met drukte, geluid, licht, geur, temperatuur en informatievoorziening.',
+    'prokkelduo': 'Is er een <a href="https://www.prokkel.nl/inclusieve-stembureaus/" target="_blank">prokkelduo</a> aanwezig op dit stembureau? Een prokkelduo bestaat uit twee vrijwilligers, één met een (licht) verstandelijke beperking en één zonder, die samen verschillende taken op het stembureau uitvoeren.'
+}
+
 
 # Always allow admins to edit the data even if the deadline is passed
 def check_deadline_passed():
@@ -322,7 +338,8 @@ def create_routes(app):
             records=[_hydrate(record, 'default') for record in records],
             number_of_published_gemeenten=number_of_published_gemeenten,
             alle_gemeenten=alle_gemeenten,
-            show_search=True
+            show_search=True,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 
@@ -413,7 +430,8 @@ def create_routes(app):
             records=[_hydrate(record, 'extended') for record in records],
             gemeente=gemeente_naam,
             primary_key=primary_key,
-            disclaimer=disclaimer
+            disclaimer=disclaimer,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 
@@ -434,7 +452,8 @@ def create_routes(app):
             'show_gemeente.html',
             records=[_hydrate(record, 'default') for record in records],
             gemeente=gemeente_naam,
-            disclaimer=disclaimer
+            disclaimer=disclaimer,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 
@@ -464,7 +483,8 @@ def create_routes(app):
             gemeente=gemeente_naam,
             primary_key=primary_key,
             show_infobar=show_infobar,
-            disclaimer=disclaimer
+            disclaimer=disclaimer,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 
@@ -488,7 +508,8 @@ def create_routes(app):
             records=[_hydrate(record, 'default') for record in records],
             gemeente=gemeente_naam,
             show_search=show_search,
-            disclaimer=disclaimer
+            disclaimer=disclaimer,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 
@@ -500,7 +521,8 @@ def create_routes(app):
             'embed_alles.html',
             records=[_hydrate(record, 'default') for record in records],
             alle_gemeenten=alle_gemeenten,
-            show_search=show_search
+            show_search=show_search,
+            toegankelijkheid_descriptions=toegankelijkheid_descriptions
         )
 
 

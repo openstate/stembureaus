@@ -57,7 +57,11 @@ label {
 
 .filter {
   display: inline-block;
-  width: 200px !important;
+  width: 168px !important;
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 
 .background-lighter-grey {
@@ -215,7 +219,7 @@ dd {
   width: 28px;
   -webkit-text-stroke: 1px;
   padding-top: 1px;
-  float: left;
+  margin-right: 12px;
   color: grey;
 }
 

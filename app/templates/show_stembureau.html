@@ -158,31 +158,31 @@
 
             <h3>Toegankelijkheid</h3>
             <ul>
-              <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b>: {{ record['Toegankelijk voor mensen met een lichamelijke beperking'] }}</li>
+              <li><b>Toegankelijk voor mensen met een lichamelijke beperking</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.toegankelijk_voor_mensen_met_een_lichamelijke_beperking }}"></i>: {{ record['Toegankelijk voor mensen met een lichamelijke beperking'] }}</li>
 
-              <li><b>Toegankelijke ov-halte</b>: {{ record['Toegankelijke ov-halte'] if record['Toegankelijke ov-halte'] else 'onbekend' }}</li>
+              <li><b>Toegankelijke ov-halte</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.toegankelijke_ov_halte }}"></i>: {{ record['Toegankelijke ov-halte'] if record['Toegankelijke ov-halte'] else 'onbekend' }}</li>
 
-              <li><b>Toilet</b>: {{ record['Toilet'] if record['Toilet'] else 'onbekend' }}</li>
+              <li><b>Toilet</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.toilet }}"></i>: {{ record['Toilet'] if record['Toilet'] else 'onbekend' }}</li>
 
-              <li><b>Host</b>: {{ record['Host'] if record['Host'] else 'onbekend' }}</li>
+              <li><b>Host</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.host }}"></i>: {{ record['Host'] if record['Host'] else 'onbekend' }}</li>
 
-              <li><b>Geleidelijnen</b>: {{ record['Geleidelijnen'] if record['Geleidelijnen'] else 'onbekend' }}</li>
+              <li><b>Geleidelijnen</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.geleidelijnen }}"></i>: {{ record['Geleidelijnen'] if record['Geleidelijnen'] else 'onbekend' }}</li>
 
-              <li><b>Stemmal met audio-ondersteuning</b>: {{ record['Stemmal met audio-ondersteuning'] if record['Stemmal met audio-ondersteuning'] else 'onbekend' }}</li>
+              <li><b>Stemmal met audio-ondersteuning</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.stemmal_met_audio_ondersteuning }}"></i>: {{ record['Stemmal met audio-ondersteuning'] if record['Stemmal met audio-ondersteuning'] else 'onbekend' }}</li>
 
-              <li><b>Kandidatenlijst in braille</b>: {{ record['Kandidatenlijst in braille'] if record['Kandidatenlijst in braille'] else 'onbekend' }}</li>
+              <li><b>Kandidatenlijst in braille</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.kandidatenlijst_in_braille }}"></i>: {{ record['Kandidatenlijst in braille'] if record['Kandidatenlijst in braille'] else 'onbekend' }}</li>
 
-              <li><b>Kandidatenlijst met grote letters</b>: {{ record['Kandidatenlijst met grote letters'] if record['Kandidatenlijst met grote letters'] else 'onbekend' }}</li>
+              <li><b>Kandidatenlijst met grote letters</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.kandidatenlijst_met_grote_letters }}"></i>: {{ record['Kandidatenlijst met grote letters'] if record['Kandidatenlijst met grote letters'] else 'onbekend' }}</li>
 
-              <li><b>Gebarentolk (NGT)</b>: {{ record['Gebarentolk (NGT)'] if record['Gebarentolk (NGT)'] else 'onbekend' }}</li>
+              <li><b>Gebarentolk (NGT)</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.gebarentolk_ngt }}"></i>: {{ record['Gebarentolk (NGT)'] if record['Gebarentolk (NGT)'] else 'onbekend' }}</li>
 
-              <li><b>Gebarentalig stembureaulid (NGT)</b>: {{ record['Gebarentalig stembureaulid (NGT)'] if record['Gebarentalig stembureaulid (NGT)'] else 'onbekend' }}</li>
+              <li><b>Gebarentalig stembureaulid (NGT)</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.gebarentalig_stembureaulid_ngt }}"></i>: {{ record['Gebarentalig stembureaulid (NGT)'] if record['Gebarentalig stembureaulid (NGT)'] else 'onbekend' }}</li>
 
-              <li><b>Akoestiek geschikt voor slechthorenden</b>: {{ record['Akoestiek geschikt voor slechthorenden'] if record['Akoestiek geschikt voor slechthorenden'] else 'onbekend' }}</li>
+              <li><b>Akoestiek geschikt voor slechthorenden</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.akoestiek_geschikt_voor_slechthorenden }}"></i>: {{ record['Akoestiek geschikt voor slechthorenden'] if record['Akoestiek geschikt voor slechthorenden'] else 'onbekend' }}</li>
 
-              <li><b>Prikkelarm</b>: {{ record['Prikkelarm'] if record['Prikkelarm'] else 'onbekend' }}</li>
+              <li><b>Prikkelarm</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.prikkelarm }}"></i>: {{ record['Prikkelarm'] if record['Prikkelarm'] else 'onbekend' }}</li>
 
-              <li><b>Prokkelduo</b>: {{ record['Prokkelduo'] if record['Prokkelduo'] else 'onbekend' }}</li>
+              <li><b>Prokkelduo</b> <i class="fa fa-question-circle" data-bs-toggle="popover" data-placement="auto" data-bs-html="true" data-trigger="click" role="button" data-bs-content="{{ toegankelijkheid_descriptions.prokkelduo }}"></i>: {{ record['Prokkelduo'] if record['Prokkelduo'] else 'onbekend' }}</li>
 
               <li><b>Extra toegankelijkheidsinformatie</b>: {{ record['Extra toegankelijkheidsinformatie'] }}</li>
             </ul>
