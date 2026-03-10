@@ -46,8 +46,8 @@ class TSAParser(BaseAPIParser):
             record['website_locatie'] = locatie['Website locatie']
             record['bag_nummeraanduiding_id'] = locatie['BAG Nummeraanduiding ID']
             record['extra_adresaanduiding'] = locatie['Extra adresaanduiding']
-            record['latitude'] = str(locatie['Latitude'])
-            record['longitude'] = str(locatie['Longitude'])
+            record['latitude'] = str(locatie['Latitude']) if locatie['Latitude'] else ''
+            record['longitude'] = str(locatie['Longitude']) if locatie['Longitude'] else ''
             # 'x' = None
             # 'y' = None
             record['toegankelijk_voor_mensen_met_een_lichamelijke_beperking'] = locatie[
