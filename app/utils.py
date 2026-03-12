@@ -2,6 +2,7 @@
 import os
 from io import BytesIO
 
+from app.cache_purger import CachePurger
 from app.db_utils import db_exec_all, db_exec_one
 import fiona
 import shapely
@@ -57,7 +58,7 @@ def get_gemeente_by_id(id):
     return current_gemeente
 
 
-def publish_gemeente_records(gemeente_code):
+def publish_gemeente_records(gemeente_code, current_app, join_thread = False):
     """
     Publishes the saved (draft) stembureaus of a gemeente
     """
@@ -70,6 +71,8 @@ def publish_gemeente_records(gemeente_code):
 
         remove_id(temp_gemeente_draft_records)
         ckan.publish(election, current_gemeente.gemeente_code, temp_gemeente_draft_records)
+
+        CachePurger(current_app, join_thread).purge(current_gemeente, temp_gemeente_draft_records)
 
 
 def get_shapes(shape_file):
