@@ -1,6 +1,5 @@
 from app.models import db
 from sqlalchemy import select, delete, func
-from flask import current_app
 
 def db_exec_one(query):
     return db.session.execute(query).scalar_one()
@@ -54,3 +53,6 @@ def db_delete(klass, **kwargs):
 
 def db_delete_all(klass):
     return db.session.execute(delete(klass)).rowcount
+
+def db_commit():
+    db.session.commit()

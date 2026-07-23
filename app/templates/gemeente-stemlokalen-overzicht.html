@@ -94,7 +94,12 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuleren</button>
-                  <a class="btn btn-danger" role="button" href="{{ url_for('gemeente_stemlokaal_delete', stemlokaal_id=record['UUID']) }}">Verwijderen</a>
+                  <form method="post" action="{{ url_for('gemeente_stemlokaal_delete') }}">
+                    {{ delete_form.csrf_token }}
+                    {{ delete_form.hidden(value=record['UUID']) }}
+                    {{ delete_form.submit }}
+                </form>
+
                 </div>
               </div>
             </div>

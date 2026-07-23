@@ -14,9 +14,13 @@ from datetime import datetime
 from flask import Flask
 from flask_babel import Babel
 
-def create_app():
+def create_app(config_class=None):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    if config_class:
+        app.config.from_object(config_class)
+    else:
+        app.config.from_object(Config)
+
     app.config["SQLALCHEMY_ENGINES"] = {
         "default": {
             "url": app.config['SQLALCHEMY_DATABASE_URI'],
@@ -27,6 +31,7 @@ def create_app():
 
     from app.models import db
     db.init_app(app)
+
     from app.email import mail
     mail.init_app(app)
     from app.ckan import ckan
