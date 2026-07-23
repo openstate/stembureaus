@@ -3,6 +3,7 @@ import os
 import re
 from functools import wraps
 from datetime import datetime
+from decimal import Decimal
 
 from app.cache_purger import CachePurger
 from app.form_utils import create_record, kieskringen
