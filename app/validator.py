@@ -13,15 +13,16 @@ class RecordValidator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, record=None):
+    def validate(self, record=None, gemeente=None):
         record = {} if record is None else record
         """
         Validates a single record.
         Returns a list of issues found, which can be empty.
         """
         form = EditForm(MultiDict(record), meta={'csrf': False})
-        result = form.validate()
+        result = form.validate_using_gemeente(gemeente)
         errors = form.errors
+
         return result, errors, form
 
 
@@ -29,7 +30,7 @@ class Validator(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate(self, records=None):
+    def validate(self, records=None, gemeente=None):
         """
         Validates input, which consists of a of a list of records.
         Returns a tuple consisting of a bool and a list of issues.
@@ -47,7 +48,7 @@ class Validator(object):
             # value
             record_values = [str(x).replace('0', '') for x in record.values()]
             if ''.join(record_values).strip() != '':
-                validated, errors, form = record_validator.validate(record)
+                validated, errors, form = record_validator.validate(record, gemeente)
                 found_any_record_with_values = True
                 if not validated:
                     no_errors = False

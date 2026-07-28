@@ -206,6 +206,16 @@ class PubliceerForm(FlaskForm):
 
 # Check if the BAG value is correct (sometimes people use the
 # Verblijfsobject ID or Pand ID instead of the Nummeraanduiding ID)
+def use_kadaster_text():
+    text = ('Gebruik <a href="https://bagviewer.kadaster.nl/" '
+            'target="_blank">bagviewer.kadaster.nl</a> '
+            'om het juiste BAG Nummeraanduiding ID te vinden. Als dit '
+            'niet beschikbaar is vul dan \'0000000000000000\' (zestien '
+            'keer het getal \'0\') in en voer het adres of andere '
+            'verduidelijking van de locatie in het \'Extra '
+            'adresaanduiding\'-veld in.')
+    return text
+
 def valid_bag(form, field):
     bag_record = db_exec_one_optional(BAG, nummeraanduiding=field.data)
     if not bag_record:
@@ -228,14 +238,7 @@ def valid_bag(form, field):
                 'database. Dit kan gebeuren als de BAG nummeraanduiding ID '
                 'zeer recent is toegevoegd aan de BAG. Onze BAG database '
                 'wordt eens per maand bijgewerkt. Het kan ook zijn dat het '
-                'nummer onjuist is of verouderd. Gebruik '
-                '<a href="https://bagviewer.kadaster.nl/" '
-                'target="_blank">bagviewer.kadaster.nl</a> '
-                'om het juiste BAG Nummeraanduiding ID te vinden. Als dit '
-                'niet beschikbaar is vul dan \'0000000000000000\' (zestien '
-                'keer het getal \'0\') in en voer het adres of andere '
-                'verduidelijking van de locatie in het \'Extra '
-                'adresaanduiding\'-veld in.'.format(field.data)
+                'nummer onjuist is of verouderd. {1}'.format(field.data, use_kadaster_text())
             )
 
 
@@ -327,6 +330,23 @@ def y_range(form, field):
 
 
 class EditForm(FlaskForm):
+    def validate_using_gemeente(self, gemeente):
+        valid = self.validate()
+
+        if gemeente and self.bag_nummeraanduiding_id.data and self.bag_nummeraanduiding_id.data != "0000000000000000":
+            # Check that the BAG is valid for this gemeente
+            bag_record = db_exec_one_optional(BAG, nummeraanduiding=self.bag_nummeraanduiding_id.data, gemeente=gemeente.gemeente_naam)
+            if not bag_record:
+                # Check that the BAG exists
+                bag_record = db_exec_one_optional(BAG, nummeraanduiding=self.bag_nummeraanduiding_id.data)
+                if bag_record:
+                    self.bag_nummeraanduiding_id.errors.append(
+                        f"Het ingevulde nummer ({self.bag_nummeraanduiding_id.data}) is niet geldig voor deze gemeente. {use_kadaster_text()}"
+                    )
+                    valid = False
+
+        return valid
+
     # Override validate function in order to check if at least latitude
     # and longitude or x and y are filled in.
     def validate(self):

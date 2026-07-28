@@ -855,7 +855,7 @@ def create_routes(app):
                 )
 
             validator = Validator()
-            results = validator.validate(records)
+            results = validator.validate(records, gemeente)
 
             # If the spreadsheet did not validate then return the errors as
             # flash messages
