@@ -117,4 +117,12 @@ var run_editform = function () {
       });
     }, 'json');
   }, 200));
+
+  $('#adres_stembureau').on('paste', function (e) {
+    const pastedText = (event.clipboardData || window.clipboardData).getData("text");
+    const matches = pastedText && pastedText.match(/^\s*(\d{16})\s*$/);
+    if (matches) {
+      $('#bag_nummeraanduiding_id').val(matches[1]);
+    }
+  });
 };

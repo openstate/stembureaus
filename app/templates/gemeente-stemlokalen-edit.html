@@ -100,7 +100,7 @@
 
                 <span class="field_errors">
                 {% for error in f.errors %}
-                  <span>- {{ error }}</span>
+                  <span>- {{ error|safe }}</span>
                   <br>
                 {% endfor %}
                 </span>

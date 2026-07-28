@@ -135,7 +135,7 @@ class User(UserMixin, Base):
 # Add a user and link it to a gemeente by specifying the gemeente,
 # user's email address and name. Also allow to enable or disable sending
 # of a logging mail to the admins.
-def add_user(gemeente_id, email, name='', send_logging_mail=True):
+def add_user(gemeente_id, email, name='', send_invite_mail=True, send_logging_mail=True):
     user_created = 0
 
     # Add user
@@ -152,7 +152,8 @@ def add_user(gemeente_id, email, name='', send_logging_mail=True):
         user_created = 1
 
         # Send the new user an invitation email
-        send_invite(user)
+        if send_invite_mail:
+          send_invite(user)
 
         # Send logging mail
         if send_logging_mail:

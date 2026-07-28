@@ -321,6 +321,9 @@ def admin_login_required(fun):
 def custom_form_validate_on_submit(form):
     return form.is_submitted() and form.validate()
 
+def custom_form_validate_using_gemeente_on_submit(form, gemeente):
+    return form.is_submitted() and form.validate_using_gemeente(gemeente)
+
 def create_routes(app):
     # Add 'Cache-Control': 'private' header if users are logged in
     @app.after_request
@@ -1116,7 +1119,7 @@ def create_routes(app):
 
         # When the user clicked the 'Opslaan' button save the stembureau
         # to the draft_resources of each election
-        if custom_form_validate_on_submit(form):
+        if custom_form_validate_using_gemeente_on_submit(form, gemeente):
             if not stemlokaal_id:
                 stemlokaal_id = uuid.uuid4().hex
             for election in [x.verkiezing for x in elections]:
@@ -1137,6 +1140,10 @@ def create_routes(app):
                 )
             )
         elif form.is_submitted():
+            if 'bag_nummeraanduiding_id' in form.errors:
+                # There is no visible field bag_nummeraanduiding_id, so show error next to Adres field
+                form.adres_stembureau.errors.append(*form.bag_nummeraanduiding_id.errors)
+
             flash('Formulier is niet opgeslagen, kijk beneden voor de fouten.', 'error')
 
 
