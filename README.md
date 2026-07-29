@@ -64,6 +64,8 @@ Collecting and presenting stembureaus: [WaarIsMijnStemlokaal.nl](https://waarism
 Production
 - Compile CSS/JS to `static/dist` directory: `sudo docker exec stm_nodejs_1 yarn build`
 
+After a rebuild of the assets, the app container must be restarted.
+
 Development
 - Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn build`
 - Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
