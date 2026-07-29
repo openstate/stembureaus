@@ -9,7 +9,7 @@ from flask import current_app
 from flask_login import UserMixin, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import ForeignKey, String, DECIMAL, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, close_all_sessions
 from flask_sqlalchemy_lite import SQLAlchemy
 from typing import List
 import jwt

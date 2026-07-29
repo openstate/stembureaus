@@ -69,8 +69,21 @@ Development
 - Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
 
 ## Testing
-   - Run the tests: `sudo docker exec -it stm_app_1 nose2`
-   - Run 1 test: e.g. `sudo docker exec -it stm-app-1 nose2 tests.test_forms`
+
+### Setup
+The development docker compose file contains a container `mysql-tests`. Once up and running this requires a one-time manual setup for
+the `bag` table:
+  - `sudo docker cp tests/db/bag.sql stm-mysql-tests-1:.`
+  - `sudo docker exec -it stm-mysql-tests-1 mysql -p`
+    - (password `wims_tests`)
+    - `use stembureaus_tests`
+    - `source bag.sql`
+
+If this step is not performed, the `bag` table is created indirectly using `models.py` which does not create the correct indices.
+
+### Running
+  - Run the tests: `sudo docker exec -it stm_app_1 nose2`
+  - Run 1 test: e.g. `sudo docker exec -it stm-app-1 nose2 tests.test_forms`
 
 ## CLI
 To access the CLI of the app run `sudo docker exec -it stm_app_1 bash` and run `flask`, `flask ckan` and `flask mysql` to see the available commands. Here are some CLI commands:
