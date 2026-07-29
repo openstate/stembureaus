@@ -1,7 +1,6 @@
 from tests.base_test_class import BaseTestClass
 
 class TestRemovingUserConnectedToOneGemeente(BaseTestClass):
-  AFFECTS_DB = True
   gemeente_code='GM0518'
 
   def setUp(self):
@@ -28,7 +27,6 @@ class TestRemovingUserConnectedToOneGemeente(BaseTestClass):
 
 
 class TestRemovingUserConnectedToMultipleGemeenten(BaseTestClass):
-  AFFECTS_DB = True
   gemeente_code1='GM0518' # 's-Gravenhage
   gemeente_code2='GM0106' # Assen
 

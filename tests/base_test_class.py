@@ -1,16 +1,16 @@
 import contextlib
 import unittest
+from flask_login import FlaskLoginClient
 
 from test_config import TestConfig
 
 class BaseTestClass(unittest.TestCase):
     # If a test requires database transactions we want them to run within an outer transaction
     # so that the changes can be rolled back. This is accomplished in `db.test_isolation`.
-    # In `setUp` any testcase that has `AFFECTS_DB = True` will start an outer transaction,
+    # In `setUp` all testcases will start an outer transaction,
     # then some standard db test records are inserted and then the test will run which
     # can insert more records as desired. The context exits in teardown which will rollback
     # the outer transaction.
-    AFFECTS_DB = False
 
     @contextlib.contextmanager
     def start_transaction(self):
@@ -27,13 +27,15 @@ class BaseTestClass(unittest.TestCase):
         self.appctx = self.app.app_context()
         self.appctx.push()
 
-        if self.AFFECTS_DB:
-            self.transaction = self.start_transaction()
-            self.enterContext(self.transaction)
+        self.transaction = self.start_transaction()
+        self.enterContext(self.transaction)
 
-            from app.models import db
-            from tests import insert_db_test_records
-            insert_db_test_records(db)
+        from app.models import db, login_manager
+        from tests import insert_db_test_records
+        insert_db_test_records(db)
+
+        login_manager.session_protection = None
+        self.app.test_client_class = FlaskLoginClient
 
     def tearDown(self):
         self.appctx.pop()

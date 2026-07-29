@@ -6,8 +6,6 @@ from tests.record_to_test import record_to_test
 
 
 class TestRecordValidator(BaseTestClass):
-    AFFECTS_DB = True
-
     def setUp(self):
         super().setUp()
         from app.validator import RecordValidator
@@ -15,16 +13,13 @@ class TestRecordValidator(BaseTestClass):
         self.test_record = Record(**record_to_test(self.app.config["ELECTION_DATE"]))
 
     def test_parse(self):
-        with self.app.test_request_context('/'):
-            result, errors, form = self.record_validator.validate(
-                record=self.test_record.record
-            )
+        result, errors, form = self.record_validator.validate(
+            record=self.test_record.record
+        )
         self.assertEqual(result, True)
 
 
 class TestValidator(BaseTestClass):
-    AFFECTS_DB = True
-
     def setUp(self):
         super().setUp()
         from app.validator import Validator
@@ -40,17 +35,14 @@ class TestValidator(BaseTestClass):
         self.assertEqual(results['results'], {})
 
     def test_parse_one(self):
-        with self.app.test_request_context('/'):
-            results = self.validator.validate(
-                records=self.test_records)
+        results = self.validator.validate(
+            records=self.test_records)
         self.assertEqual(results['no_errors'], True)
-        # TODO test results['results'] output
-        #self.assertEqual(results['results'], {})
+        for result in results['results'].values():
+          self.assertEqual(result['errors'], {})
 
 
 class TestClosingTimeValidation(BaseTestClass):
-    AFFECTS_DB = True
-
     def setUp(self):
         super().setUp()
         from app.validator import RecordValidator
@@ -58,9 +50,8 @@ class TestClosingTimeValidation(BaseTestClass):
         self.test_record = Record(**record_to_test(self.app.config["ELECTION_DATE"], closing_time='21:01:00'))
 
     def test_parse(self):
-        with self.app.test_request_context('/'):
-            result, errors, form = self.record_validator.validate(
-                record=self.test_record.record
-            )
+        result, errors, form = self.record_validator.validate(
+            record=self.test_record.record
+        )
         self.assertEqual(result, False)
         self.assertEqual(errors, {'sluitingstijd': ['De sluitingstijd mag niet later zijn dan 21:00.']})

@@ -63,9 +63,8 @@ class BaseTestParsing(BaseTestClass):
         self.accepted_headers = accepted_headers
 
     def get_headers_good_impl(self):
-        with self.app.test_request_context('/'):
-            sh = pyexcel.get_array(file_name = self.file_path, sheet_name='Attributen')
-            headers = self.parser.parser._get_headers(sh)
+        sh = pyexcel.get_array(file_name = self.file_path, sheet_name='Attributen')
+        headers = self.parser.parser._get_headers(sh)
         # If there are 'waterschapsverkiezingen', add the 'Verkiezingen' field
         # to the accepted_headers
         if [x for x in self.app.config['CKAN_CURRENT_ELECTIONS'] if 'waterschapsverkiezingen' in x]:
