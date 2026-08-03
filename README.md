@@ -79,6 +79,10 @@ around their islands. Before displaying the map we therefore retrieve the countr
 `BQ` (the ISO code for the Caribbean Netherlands) we display the map centered on those islands.
 To geolocate the IP address we use a local copy of the `GeoLite` database from MaxMind.
 
+Note that this works even when the homepage is being cached. Retrieving gelocation takes places using a separate call to the server.
+To make sure that this does not significantly block the user experience when there is a heavy load, the call will time-out after 0.5
+seconds falling back to the default of centering on the Netherlands.
+
 ## Testing
 
 ### Setup
