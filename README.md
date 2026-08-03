@@ -81,7 +81,8 @@ To geolocate the IP address we use a local copy of the `GeoLite` database from M
 
 Note that this works even when the homepage is being cached. Retrieving gelocation takes places using a separate call to the server.
 To make sure that this does not significantly block the user experience when there is a heavy load, the call will time-out after 0.5
-seconds falling back to the default of centering on the Netherlands.
+seconds falling back to the default of centering on the Netherlands. The response will also be stored in session cookies, so that
+geolocation takes place only once during a session.
 
 ## Testing
 
