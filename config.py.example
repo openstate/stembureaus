@@ -130,3 +130,9 @@ class Config(object):
     # Monitoring settings
     MAX_GEMEENTEN_PER_USER = 5
     MAX_GEMEENTEN_PER_USER_EXCEPTIONS = []
+
+    # Entries are [longitude, latitude, zoomfactor]
+    COUNTRY_CODE_TO_MAP = {
+        'NL': [5.3, 52.2, 7],
+        'BQ': [-65.6, 15.1, 6] # Bonaire, Sint Eustatius, Saba
+    }

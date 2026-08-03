@@ -374,7 +374,7 @@ export default {
       return $('#form-search input[type="text"]').val();
     }
 
-    var run_stembureaus = function () {
+    var create_map = function () {
       StembureausApp.init();
 
       // Icons for the map markers
@@ -583,13 +583,46 @@ export default {
 
         return output;
       };
+    }
 
+    StembureausApp.display_map_for_location = function () {
+      if (!StembureausApp.homepage) {
+        StembureausApp.display_map();
+        return;
+      }
+
+      var startLongitude = Cookies.get('startLongitude');
+      var startLatitude = Cookies.get('startLatitude');
+      var startZoomfactor = Cookies.get('startZoomfactor');
+      if (startLongitude && startLatitude && startZoomfactor) {
+        StembureausApp.display_map(startLongitude, startLatitude, startZoomfactor);
+        return;
+      }
+
+      $.ajax({
+        url: '/geolocate',
+        complete: function (response, status) {
+          if (status == "success") {
+            var data = response.responseJSON;
+            StembureausApp.display_map(data.start_longitude, data.start_latitude, data.start_zoomfactor);
+            Cookies.set('startLongitude', data.start_longitude);
+            Cookies.set('startLatitude', data.start_latitude);
+            Cookies.set('startZoomfactor', data.start_zoomfactor);
+          } else {
+            StembureausApp.display_map();
+          }
+        },
+        timeout: 500
+      });
+    }
+
+    StembureausApp.display_map = function (startLongitude=5.3, startLatitude=52.2, startZoomfactor=7) {
       var opts = {
         style: 'standaard',
         target: 'map',
         center: {
-          latitude: 52.2,
-          longitude: 5.3
+          latitude: startLatitude,
+          longitude: startLongitude
         },
         overlay: 'false',
         marker: false,
@@ -598,7 +631,7 @@ export default {
       StembureausApp.map = nlmaps.window.nlmaps.createMap(opts);
 
       if (StembureausApp.homepage) {
-        StembureausApp.map.setZoom(7);
+        StembureausApp.map.setZoom(startZoomfactor);
       }
 
       StembureausApp.map.options.zoomSnap = 0.2;
@@ -732,7 +765,7 @@ export default {
     }
 
     if ($('#map').length) {
-      run_stembureaus();
+      create_map();
     }
   },
   // JavaScript to be fired on pages that contain the map, after the init JS

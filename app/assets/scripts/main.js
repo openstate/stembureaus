@@ -9,6 +9,8 @@ import L from 'leaflet';
 import 'leaflet-geometryutil';
 import 'leaflet.awesome-markers';
 import 'leaflet.markercluster';
+import Cookies from 'js-cookie';
+window.Cookies = Cookies;
 
 // Import local dependencies
 import Router from './util/Router';
