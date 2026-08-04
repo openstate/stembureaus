@@ -100,7 +100,8 @@ function create_optional_fields(stembureau, election_date, result_search = false
 
 // Marker of the user's location (available after the user uses the NLMaps
 // search or 'Gebruik mijn locatie')
-var user_marker;
+var user_marker, user_marker_circle;
+
 
 export default {
   // JavaScript to be fired on pages that contain the map
@@ -304,36 +305,49 @@ export default {
 
       // 'Gebruik mijn locatie', get and show the location of the user and
       // make sure that the map also shows the closest stembureau
-      $('#btn-location').click(function (e) {
-        StembureausApp.map.locate({setView : true, enableHighAccuracy: true, maxZoom: 16}).on('locationfound', function(e) {
+      $('#btn-location').on('click', function (e) {
+        StembureausApp.map.locate({setView : false, enableHighAccuracy: true, maxZoom: 16}).off('locationfound').on('locationfound', function(e) {
           // If a user_marker already exists, remove it
           if (user_marker) {
             StembureausApp.map.removeLayer(user_marker);
+            user_marker = null;
+          }
+          if (user_marker_circle) {
+            StembureausApp.map.removeLayer(user_marker_circle);
+            user_marker_circle = null;
           }
 
           // Find the stembureau marker closest to the user location
           var closest_marker = L.GeometryUtil.closestLayer(StembureausApp.map, StembureausApp.filtered_markers, e.latlng);
 
-          // Make sure the map shows both
+          // According to https://github.com/Leaflet/Leaflet/blob/c96f31a7a350a07cfbc852cf88e6ca69af5f5ec9/src/map/Map.js#L659:
+          //    `The accuracy attribute denotes the position accuracy radius in meters.`
+          var radius = e.accuracy;
+          var accuracy_lng = (e.bounds._northEast.lng - e.bounds._southWest.lng) / 2.0;
+          var accuracy_lat = (e.bounds._northEast.lat - e.bounds._southWest.lat) / 2.0;
+
+          // Make sure the map shows user location, stembureau marker and accuracy circle
           StembureausApp.map.fitBounds(
             L.featureGroup(
               [
                 L.marker(e.latlng),
-                L.marker(closest_marker.latlng)
+                L.marker(closest_marker.latlng),
+                L.marker([e.latitude + accuracy_lat, e.longitude + accuracy_lng]),
+                L.marker([e.latitude - accuracy_lat, e.longitude - accuracy_lng])
               ]
             ).getBounds(), {padding: [100, 100]}
           );
 
           // Add the user marker and an accuracy circle to the map
           user_marker = L.marker([e.latitude, e.longitude], {icon: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'circle', markerColor: 'blue'})}).bindPopup('Hier bent u');
-          var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+          user_marker_circle = L.circle([e.latitude, e.longitude], radius, {
               weight: 1,
               color: '#38aadd',
               fillColor: '#cacaca',
-              fillOpacity: 0.2
+              fillOpacity: 0.5
           });
           StembureausApp.map.addLayer(user_marker.setZIndexOffset(-100));
-          StembureausApp.map.addLayer(circle);
+          StembureausApp.map.addLayer(user_marker_circle);
         });
         return false;
       });
@@ -732,6 +746,7 @@ export default {
               // If a user_marker already exists, remove it
               if (user_marker) {
                 StembureausApp.map.removeLayer(user_marker);
+                user_marker = null;
               }
 
               // Get the new latlng coordinates resulting from the searched location
