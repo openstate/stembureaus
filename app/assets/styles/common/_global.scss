@@ -327,6 +327,17 @@ dd {
   width: 390px;
 }
 
+.spinner-border {
+  z-index: 2000;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 0;
+}
+
 @media(min-width:1200px) {
   .no-gutter-xl {
     padding-left: 0;

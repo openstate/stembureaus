@@ -306,6 +306,7 @@ export default {
       // 'Gebruik mijn locatie', get and show the location of the user and
       // make sure that the map also shows the closest stembureau
       $('#btn-location').on('click', function (e) {
+        $('#spinner').removeClass('d-none');
         StembureausApp.map.locate({setView : false, enableHighAccuracy: true, maxZoom: 16}).off('locationfound').on('locationfound', function(e) {
           // If a user_marker already exists, remove it
           if (user_marker) {
@@ -348,6 +349,10 @@ export default {
           });
           StembureausApp.map.addLayer(user_marker.setZIndexOffset(-100));
           StembureausApp.map.addLayer(user_marker_circle);
+          $('#spinner').addClass('d-none');
+        }).off('locationerror').on('locationerror', function(e) {
+          console.error(`Could not determine location: ${e.name}, ${e.message}`);
+          $('#spinner').addClass('d-none');
         });
         return false;
       });
