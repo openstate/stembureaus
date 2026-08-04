@@ -91,34 +91,11 @@
       </thead>
       <tbody>
         {% for record in draft_records %}
-          <div class="modal fade" id="remove-confirmation-{{ record['UUID'] }}" tabindex="-1" role="dialog" aria-labelledby="remove-confirmation-label">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="remove-confirmation-label">Stembureau verwijderen?</h4>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Weet u zeker dat u stembureau "{{ record['Naam stembureau'] }}" wilt verwijderen?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuleren</button>
-                  <form method="post" action="{{ url_for('gemeente_stemlokaal_delete') }}">
-                    {{ delete_form.csrf_token }}
-                    {{ delete_form.hidden(value=record['UUID']) }}
-                    {{ delete_form.submit }}
-                </form>
-
-                </div>
-              </div>
-            </div>
-          </div>
           <tr data-stembureau-id="{{ record['UUID'] }}">
             {% if not (upload_deadline_passed or editing_disabled) %}
               <td data-checkbox="true"></td>
               <td>
                 <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
-                <a class="remove-stembureau-link" href="" data-bs-toggle="modal" data-bs-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>
               </td>
             {% endif %}
             {% for field in field_order %}
