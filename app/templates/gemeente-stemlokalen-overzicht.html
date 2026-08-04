@@ -49,6 +49,12 @@
           {{ publish_form.submit }} [<span class="text-red">let op: er zijn wijzigingen in dit overzicht die u nog niet heeft gepubliceerd</span>]
         {% endif %}
         </form>
+        <br>
+        <form method="post" action="{{ url_for('gemeente_stemlokalen_delete') }}"  class="delete_multiple_form">
+          {{ delete_multiple_form.csrf_token }}
+          {{ delete_multiple_form.hidden }}
+          {{ delete_multiple_form.submit }}
+        </form>
       {% endif %}
     {% endif %}
 
@@ -67,10 +73,13 @@
       data-cookie="true"
       data-cookie-id-table="gemeente-{{ gemeente.gemeente_naam }}"
       data-buttons-class="outline-secondary"
+      data-multiple-select-row="true"
+      data-select-item-name="select-stembureaus"
     >
       <thead>
         <tr>
           {% if not (upload_deadline_passed or editing_disabled) %}
+          <th data-checkbox="true"></th>
           <th id="bewerk-kolom"></th>
           {% endif %}
           {% for field in field_order %}
@@ -104,11 +113,12 @@
               </div>
             </div>
           </div>
-          <tr>
+          <tr data-stembureau-id="{{ record['UUID'] }}">
             {% if not (upload_deadline_passed or editing_disabled) %}
+              <td data-checkbox="true"></td>
               <td>
                 <a href="{{ url_for('gemeente_stemlokalen_edit', stemlokaal_id=record['UUID']) }}">bewerken</a>
-                <a id="remove-stembureau-link" href="" data-bs-toggle="modal" data-bs-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>
+                <a class="remove-stembureau-link" href="" data-bs-toggle="modal" data-bs-target="#remove-confirmation-{{ record['UUID'] }}">verwijderen</a>
               </td>
             {% endif %}
             {% for field in field_order %}
@@ -133,6 +143,26 @@
     $(function () {
       $('[data-bs-toggle="tooltip"]').tooltip();
       $('[data-bs-toggle="popover"]').popover();
-    })
+    });
+
+    var eventNames = ['check', 'check-all', 'check-some', 'uncheck', 'uncheck-all', 'uncheck-some'].map(name => `${name}.bs.table`).join(' ');
+
+    var toggleButton = function () {
+      var n_selected = $('input[name=select-stembureaus]:checked').length;
+      if (n_selected == 0) {
+        $('.delete_multiple_form input[type=submit]').addClass('disabled');
+        $('input#stemlokaal_ids').val('');
+      } else {
+        var ids = $.map($('input[name=select-stembureaus]:checked'), function(element) {
+          return $(element).parents('tr').first().data('stembureau-id');
+        });
+        $('input#stemlokaal_ids').val(ids.join(','));
+        $('.delete_multiple_form input[type=submit]').removeClass('disabled');
+      }
+    }
+
+    $('#table').off(eventNames).on(eventNames, function () {
+      toggleButton();
+    });
   </script>
 {% endblock %}

@@ -118,6 +118,20 @@ class DeleteStembureauForm(FlaskForm):
     )
 
 
+class DeleteStembureausForm(FlaskForm):
+    hidden = HiddenField(
+        name="stemlokaal_ids",
+        id="stemlokaal_ids"
+    )
+
+    submit = SubmitField(
+        'Geselecteerde stembureaus verwijderen',
+        render_kw={
+            'class': 'btn btn-danger disabled'
+        }
+    )
+
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('E-mailadres', validators=[DataRequired(), Email()])
     submit = SubmitField(
