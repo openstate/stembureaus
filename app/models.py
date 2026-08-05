@@ -262,8 +262,8 @@ class BAG(Base):
     pandbouwjaar: Mapped[str] = mapped_column(String(20), nullable=True)
     x: Mapped[Decimal] = mapped_column(DECIMAL(precision=25, scale=9), nullable=True)
     y: Mapped[Decimal] = mapped_column(DECIMAL(precision=25, scale=9), nullable=True)
-    lat: Mapped[Decimal] = mapped_column(DECIMAL(precision=24, scale=16), nullable=True)
     lon: Mapped[Decimal] = mapped_column(DECIMAL(precision=24, scale=16), nullable=True)
+    lat: Mapped[Decimal] = mapped_column(DECIMAL(precision=24, scale=16), nullable=True)
     verkorteopenbareruimte: Mapped[str] = mapped_column(String(255), nullable=True)
 
     def to_json(self):
