@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js';
 import nlmaps from './nlmaps.iife';
+import { showSpinner, hideSpinner } from '../util/Spinner';
 
 var weelchair_labels = {
   'ja': '<span class="fa-stack" title="Toegankelijk voor mensen met een lichamelijke beperking"><i class="fa fa-wheelchair fa-stack-2x" aria-hidden="true"></i><i class="fa fa-check fa-stack-1x"></i></span><span class="sr-only">Toegankelijk voor mensen met een lichamelijke beperking</span>',
@@ -306,7 +307,7 @@ export default {
       // 'Gebruik mijn locatie', get and show the location of the user and
       // make sure that the map also shows the closest stembureau
       $('#btn-location').on('click', function (e) {
-        $('#spinner').removeClass('d-none');
+        showSpinner();
         StembureausApp.map.locate({setView : false, enableHighAccuracy: true, maxZoom: 16}).off('locationfound').on('locationfound', function(e) {
           // If a user_marker already exists, remove it
           if (user_marker) {
@@ -349,10 +350,10 @@ export default {
           });
           StembureausApp.map.addLayer(user_marker.setZIndexOffset(-100));
           StembureausApp.map.addLayer(user_marker_circle);
-          $('#spinner').addClass('d-none');
+          hideSpinner();
         }).off('locationerror').on('locationerror', function(e) {
           console.error(`Could not determine location: ${e.name}, ${e.message}`);
-          $('#spinner').addClass('d-none');
+          hideSpinner();
         });
         return false;
       });
@@ -752,6 +753,7 @@ export default {
 
       // Apply updates to the map if a filter is clicked
       $('.filter').change(function() {
+        showSpinner();
         //filters['dag'] = $('#dag-filter').val();
         filters['openingstijden'] = $('#openingstijden-filter').val();
 
@@ -765,6 +767,7 @@ export default {
         if (document.getElementById('form-search')) {
             StembureausApp.search(get_query());
         }
+        hideSpinner();
       });
 
       // Default view: based on which option is selected by default in map.html
