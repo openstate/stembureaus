@@ -7,6 +7,7 @@ from decimal import Decimal
 
 from app.cache_purger import CachePurger
 from app.form_utils import create_record, kieskringen
+from app.geo_locator import GeoLocator
 from app.procura import ProcuraManager
 from app.stembureaumanager import StembureauManager
 from app.tsa import TSAManager
@@ -173,6 +174,7 @@ toegankelijkheid_descriptions = {
     'prokkelduo': 'Is er een <a href="https://www.prokkel.nl/inclusieve-stembureaus/" target="_blank">prokkelduo</a> aanwezig op dit stembureau? Een prokkelduo bestaat uit twee vrijwilligers, één met een (licht) verstandelijke beperking en één zonder, die samen verschillende taken op het stembureau uitvoeren.'
 }
 
+geo_locator = GeoLocator(current_app.config, current_app.logger)
 
 # Do not show the informational messages in base.html for these routes
 skip_informational_messages_for = [
@@ -422,6 +424,17 @@ def create_routes(app):
             signup_form=signup_form
         )
 
+
+    @app.route("/geolocate")
+    def geolocate():
+        ip_address = request.remote_addr
+        start_longitude, start_latitude, start_zoomfactor = geo_locator.get_longitude_and_latitude(ip_address)
+        location = {
+            'start_longitude': start_longitude,
+            'start_latitude' : start_latitude,
+            'start_zoomfactor': start_zoomfactor
+        }
+        return jsonify(location)
 
     @app.route("/s/<gemeente>/<primary_key>")
     def show_stembureau(gemeente, primary_key):

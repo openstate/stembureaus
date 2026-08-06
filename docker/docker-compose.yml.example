@@ -63,10 +63,26 @@ services:
     # Use this to keep the container running
     tty: true
     restart: always
+  geoipupdate:
+    container_name: geoipupdate
+    image: ghcr.io/maxmind/geoipupdate
+    restart: unless-stopped
+    environment:
+      - GEOIPUPDATE_ACCOUNT_ID=XXXXXX
+      - GEOIPUPDATE_LICENSE_KEY=XXXXXXXXXXXXXXXX
+      - 'GEOIPUPDATE_EDITION_IDS=GeoLite2-City GeoLite2-Country'
+      - GEOIPUPDATE_FREQUENCY=72
+    networks:
+      - geoipupdate
+    volumes:
+      - 'geoipupdate_data:/usr/share/GeoIP'
 networks:
   stm:
+  geoipupdate:
   nginx-load-balancer:
     external:
       name: docker_nginx-load-balancer
 volumes:
   stm-mysql-volume:
+  geoipupdate_data:
+    driver: local

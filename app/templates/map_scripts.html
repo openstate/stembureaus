@@ -4,4 +4,10 @@
   var StembureausApp = window.StembureausApp || {stembureaus: [], links_external: false};
   StembureausApp.election_date = "{{ config['ELECTION_DATE'] }}";
   StembureausApp.stembureaus = {{ records |tojson |safe }};
+
+  $(document).ready(function() {
+    if ($('#map').length) {
+      StembureausApp.display_map_for_location();
+    }
+  });
 </script>

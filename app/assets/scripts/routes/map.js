@@ -374,7 +374,7 @@ export default {
       return $('#form-search input[type="text"]').val();
     }
 
-    var run_stembureaus = function () {
+    var create_map = function () {
       StembureausApp.init();
 
       // Icons for the map markers
@@ -583,13 +583,76 @@ export default {
 
         return output;
       };
+    }
 
+    StembureausApp.display_map_for_location = function () {
+      if (!StembureausApp.homepage) {
+        StembureausApp.display_map();
+        return;
+      }
+
+      var startLongitude = Cookies.get('startLongitude');
+      var startLatitude = Cookies.get('startLatitude');
+      var startZoomfactor = Cookies.get('startZoomfactor');
+      if (startLongitude && startLatitude && startZoomfactor) {
+        StembureausApp.display_map(startLongitude, startLatitude, startZoomfactor);
+        return;
+      }
+
+      $.ajax({
+        url: '/geolocate',
+        complete: function (response, status) {
+          if (status == "success") {
+            var data = response.responseJSON;
+            StembureausApp.display_map(data.start_longitude, data.start_latitude, data.start_zoomfactor);
+            Cookies.set('startLongitude', data.start_longitude);
+            Cookies.set('startLatitude', data.start_latitude);
+            Cookies.set('startZoomfactor', data.start_zoomfactor);
+          } else {
+            StembureausApp.display_map();
+          }
+        },
+        timeout: 500
+      });
+    }
+
+    StembureausApp.use_brt_layers = function () {
+      if (StembureausApp.map.hasLayer(StembureausApp.brt)) return;
+      if (StembureausApp.error_loading_brt()) return;
+
+      try {
+        StembureausApp.brt_errors = 0;
+        StembureausApp.map.removeLayer(StembureausApp.osm);
+        StembureausApp.map.addLayer(StembureausApp.brt);
+        StembureausApp.chooseLayers.addTo(StembureausApp.map);
+        StembureausApp.map.setMaxZoom(19);
+      } catch (e) { // If a tile cannot be loaded the above will lead to an error, and control is taken over by `tileerror` handler
+        console.error(`Error loading map - ${e.name}: ${e.message}`);
+      }
+    }
+
+    StembureausApp.use_osm_layers = function () {
+      if (StembureausApp.map.hasLayer(StembureausApp.osm)) return;
+
+      StembureausApp.chooseLayers.remove(StembureausApp.map);
+      StembureausApp.map.removeLayer(StembureausApp.brt);
+      StembureausApp.map.removeLayer(StembureausApp.hwh);
+      StembureausApp.map.addLayer(StembureausApp.osm);
+      StembureausApp.map.setMaxZoom(18);
+    }
+
+    // When do we consider loading the brt map failed? For now: when more than 1 (2) tiles fail to load.
+    StembureausApp.error_loading_brt = function () {
+      return StembureausApp.brt_errors > 1;
+    }
+
+    StembureausApp.display_map = function (startLongitude=5.3, startLatitude=52.2, startZoomfactor=7) {
       var opts = {
         style: 'standaard',
         target: 'map',
         center: {
-          latitude: 52.2,
-          longitude: 5.3
+          latitude: startLatitude,
+          longitude: startLongitude
         },
         overlay: 'false',
         marker: false,
@@ -598,7 +661,7 @@ export default {
       StembureausApp.map = nlmaps.window.nlmaps.createMap(opts);
 
       if (StembureausApp.homepage) {
-        StembureausApp.map.setZoom(7);
+        StembureausApp.map.setZoom(startZoomfactor);
       }
 
       StembureausApp.map.options.zoomSnap = 0.2;
@@ -607,16 +670,22 @@ export default {
       StembureausApp.map.attributionControl._attributions = {};
 
       // Basisregistratie Topografie (BRT) map used when viewing 'Europees Nederland' on our map
-      var brt = L.tileLayer(
+      StembureausApp.brt = L.tileLayer(
         'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/standaard/EPSG:3857/{z}/{x}/{y}.png',
         {
           id: 'brt',
           attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl/" target="_blank" rel="noopener">Kadaster</a> | <a href="https://waarismijnstemlokaal.nl/" target="_blank" rel="noopener">Waar is mijn stemlokaal</a>'
         }
-      );
+      ).on('tileerror', function () {
+          StembureausApp.brt_errors += 1;
+          if (StembureausApp.error_loading_brt()) {
+            StembureausApp.brt._abortLoading();
+            StembureausApp.use_osm_layers();
+          }
+      });
 
       // Alternative for BRT, luchtfoto
-      var hwh = L.tileLayer(
+      StembureausApp.hwh = L.tileLayer(
         'https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.png',
         {
           id: 'hwh',
@@ -625,13 +694,13 @@ export default {
       );
 
       var baseLayers = {
-        "Kaart": brt,
-        "Luchtfoto": hwh
+        "Kaart": StembureausApp.brt,
+        "Luchtfoto": StembureausApp.hwh
       };
 
       // OpenStreetMap map used when viewing all other places outside 'Europees Nederland' on our map,
       // because BRT doesn't have that data
-      var osm = L.tileLayer(
+      StembureausApp.osm = L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
           id: 'osm',
@@ -639,18 +708,15 @@ export default {
         }
       );
 
-      var chooseLayers = L.control.layers(baseLayers, {}, {position: 'bottomright', collapsed: false})
+      StembureausApp.chooseLayers = L.control.layers(baseLayers, {}, {position: 'bottomright', collapsed: false})
 
       // Use BRT in 'Europees Nederland' and OSM for the rest
       var zoom = StembureausApp.map.getZoom();
       var center = StembureausApp.map.getCenter();
       if (zoom >= 7 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
-        StembureausApp.map.addLayer(brt);
-        chooseLayers.addTo(StembureausApp.map);
-        StembureausApp.map.setMaxZoom(19);
+        StembureausApp.use_brt_layers();
       } else {
-        StembureausApp.map.addLayer(osm);
-        StembureausApp.map.setMaxZoom(18);
+        StembureausApp.use_osm_layers();
       }
 
       // Show BRT only when zoomed in on European Netherlands, use OSM for
@@ -659,16 +725,9 @@ export default {
         var zoom = StembureausApp.map.getZoom();
         var center = StembureausApp.map.getCenter();
         if (zoom >= 7 && center.lat > 50 && center.lat < 54 && center.lng > 3 && center.lng < 8) {
-          StembureausApp.map.removeLayer(osm);
-          StembureausApp.map.addLayer(brt);
-          chooseLayers.addTo(StembureausApp.map);
-          StembureausApp.map.setMaxZoom(19);
+          StembureausApp.use_brt_layers();
         } else {
-          chooseLayers.remove(StembureausApp.map);
-          StembureausApp.map.removeLayer(brt);
-          StembureausApp.map.removeLayer(hwh);
-          StembureausApp.map.addLayer(osm);
-          StembureausApp.map.setMaxZoom(18);
+          StembureausApp.use_osm_layers();
         }
       });
 
@@ -732,7 +791,7 @@ export default {
     }
 
     if ($('#map').length) {
-      run_stembureaus();
+      create_map();
     }
   },
   // JavaScript to be fired on pages that contain the map, after the init JS

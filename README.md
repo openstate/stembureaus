@@ -8,6 +8,8 @@ Collecting and presenting stembureaus: [WaarIsMijnStemlokaal.nl](https://waarism
 - Clone or download this project from GitHub:
 - Copy `docker/docker-compose.yml.example` to `docker/docker-compose.yml` and edit it
    - Fill in a password at `<DB_PASSWORD>`
+   - Insert the `GEOIPUPDATE_ACCOUNT_ID` from `Maxmind.com`
+   - Create a new license key on `Maxmind.com` and insert for `GEOIPUPDATE_LICENSE_KEY`
 - Copy `config.py.example` to `config.py` and edit it
    - Create a SECRET_KEY as per the instructions in the file
    - Create a CACHE_PURGE_KEY as per the instructions in the file
@@ -69,6 +71,18 @@ After a rebuild of the assets, the app container must be restarted.
 Development
 - Compile CSS/JS to `static/dist` directory (with map files): `sudo docker exec stm_nodejs_1 yarn build`
 - Automatically compile CSS/JS when a file changes (simply refresh the page in your browser after a change): `sudo docker exec stm_nodejs_1 yarn watch`
+
+
+## Geolocating
+When `WaarIsMijnStemlokaal.nl` is visited from the Caribbean Netherlands (Bonaire, Sint Eustatius and Saba) the map should be centered
+around their islands. Before displaying the map we therefore retrieve the country associated with the visiting IP address. If this is
+`BQ` (the ISO code for the Caribbean Netherlands) we display the map centered on those islands.
+To geolocate the IP address we use a local copy of the `GeoLite` database from MaxMind.
+
+Note that this works even when the homepage is being cached. Retrieving gelocation takes places using a separate call to the server.
+To make sure that this does not significantly block the user experience when there is a heavy load, the call will time-out after 0.5
+seconds falling back to the default of centering on the Netherlands. The response will also be stored in session cookies, so that
+geolocation takes place only once during a session.
 
 ## Testing
 

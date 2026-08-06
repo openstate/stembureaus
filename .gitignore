@@ -11,6 +11,7 @@ previously_published.json
 
 .credentials/*
 client_secret.json
+GeoIP.conf
 
 docker/docker-entrypoint-initdb.d/*.csv
 docker/docker-entrypoint-initdb.d/*.zip
