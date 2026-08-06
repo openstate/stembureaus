@@ -24,6 +24,7 @@ services:
         condition: service_healthy
     volumes:
       - ../:/opt/stm
+      - 'geoipupdate_data:/usr/share/GeoIP'
     networks:
       - stm
     restart: always
