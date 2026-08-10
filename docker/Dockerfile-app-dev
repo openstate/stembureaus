@@ -21,4 +21,5 @@ RUN pip install -r requirements.txt
 
 ENV FLASK_APP=website.py
 ENV FLASK_DEBUG=1
-CMD flask run --host=0.0.0.0
+ENV FLASK_ENV=development
+CMD uwsgi --socket 0.0.0.0:5000 --lazy-apps --touch-reload=uwsgi-touch-reload --py-autoreload 1 --processes 1 -w website:app
