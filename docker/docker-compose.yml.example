@@ -12,7 +12,7 @@ services:
       - ../app/static/:/usr/share/nginx/html/static/
       - ../files/:/usr/share/nginx/html/files/
     networks:
-      - nginx-load-balancer
+      - nginx-load-balancer-ipv6
       - stm
     restart: always
   app:
@@ -79,10 +79,12 @@ services:
       - 'geoipupdate_data:/usr/share/GeoIP'
 networks:
   stm:
+    enable_ipv6: true
   geoipupdate:
-  nginx-load-balancer:
+  nginx-load-balancer-ipv6:
+    enable_ipv6: true
     external:
-      name: docker_nginx-load-balancer
+      name: docker_nginx-load-balancer-ipv6
 volumes:
   stm-mysql-volume:
   geoipupdate_data:

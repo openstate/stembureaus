@@ -427,7 +427,7 @@ def create_routes(app):
 
     @app.route("/geolocate")
     def geolocate():
-        ip_address = request.remote_addr
+        ip_address = request.headers.get('X-Real-Ip', request.remote_addr)
         start_longitude, start_latitude, start_zoomfactor = geo_locator.get_longitude_and_latitude(ip_address)
         location = {
             'start_longitude': start_longitude,
