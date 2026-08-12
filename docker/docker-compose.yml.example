@@ -80,6 +80,10 @@ services:
 networks:
   stm:
     enable_ipv6: true
+    # ipam config only required for older Docker versions (< 27)
+    ipam:
+      config:
+        - subnet: fd00:dead:1234::/64
   geoipupdate:
   nginx-load-balancer-ipv6:
     external:
