@@ -82,7 +82,6 @@ networks:
     enable_ipv6: true
   geoipupdate:
   nginx-load-balancer-ipv6:
-    enable_ipv6: true
     external:
       name: docker_nginx-load-balancer-ipv6
 volumes:
