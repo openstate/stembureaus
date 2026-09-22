@@ -50,6 +50,9 @@
   </script>
 
   <main>
+    {# This variable is used in several templates #}
+    {% set upcomingElection = config['ELECTION_TYPE'] + " van " + config['ELECTION_DATE_LONG'] %}
+
     {% block content %}
     {% endblock %}
   </main>

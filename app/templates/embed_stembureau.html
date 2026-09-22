@@ -11,34 +11,35 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12">
-      <div class="text-center">
-        {# ONLY RELEVANT DURING COVID
-        {% set niet_open_voor_algemeen_publiek = false %}
-        {% if 'niet open voor algemeen publiek' in records[0]['Extra adresaanduiding'].lower() %}
-          {% set niet_open_voor_algemeen_publiek = true %}
-        {% endif %}
-        #}
-        <h1>
-          {# ONLY RELEVANT DURING COVID
-          {% if niet_open_voor_algemeen_publiek %}
-            <i class="fa fa-pencil-alt text-orange"></i>
-          {% else %}
-          #}
-            <i class="fa fa-pencil-alt text-red"></i>
-          {#
-          {% endif %}
-          #}
-          Stembureau
-          {% if records[0]['Nummer stembureau'] %}
-            #{{ records[0]['Nummer stembureau'] }}
-          {% endif %}
-          {{ records[0]['Naam stembureau'] }}
-        </h1>
-      </div>
-    </div>
-  </div>
+  {% if show_infobar %}
+  <header aria-label="Gebruikt u een screenreader? Gebruik dan niet de Kaart, maar navigeer naar de 'Stembureau informatie' h2 heading voor alle informatie over dit stembureau." class="text-center">
+  {% else %}
+  <header aria-label="Gebruikt u een screenreader? Deze embed toont enkel een kaart. U kunt beter naar WaarIsMijnStemlokaal.nl gaan, waar naast de kaart de informatie ook op een manier getoond wordt die wel geschikt is voor een screenreader."  class="text-center">
+  {% endif %}
+    {# ONLY RELEVANT DURING COVID
+    {% set niet_open_voor_algemeen_publiek = false %}
+    {% if 'niet open voor algemeen publiek' in records[0]['Extra adresaanduiding'].lower() %}
+      {% set niet_open_voor_algemeen_publiek = true %}
+    {% endif %}
+    #}
+    <h1 aria-describedby="page-subtitle">
+      {# ONLY RELEVANT DURING COVID
+      {% if niet_open_voor_algemeen_publiek %}
+        <i class="fa fa-pencil-alt text-orange"></i>
+      {% else %}
+      #}
+        <i class="fa fa-pencil-alt text-red"></i>
+      {#
+      {% endif %}
+      #}
+      Stembureau
+      {% if records[0]['Nummer stembureau'] %}
+        #{{ records[0]['Nummer stembureau'] }}
+      {% endif %}
+      {{ records[0]['Naam stembureau'] }}
+    </h1>
+    <p id="page-subtitle">{{ upcomingElection }}</p>
+  </header>
 
   <div class="row">
     {% if disclaimer %}

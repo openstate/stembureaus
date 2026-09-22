@@ -10,13 +10,14 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12">
-        <div class="text-center">
-          <h1><i class="fa fa-users text-dark-blue"></i> Gemeente {{ gemeente }}</h1>
-        </div>
-      </div>
-    </div>
+    {% if show_search %}
+    <header aria-label="Gebruikt u een screenreader? Gebruik dan niet de Filters en Kaart, maar navigeer naar de 'Stembureaus' h2 heading en zoek naar de naam of het adres van een stembureau. Open de pagina van het stembureau voor alle informatie over dat stembureau." class="text-center">
+    {% else %}
+    <header aria-label="Gebruikt u een screenreader? Deze embed toont enkel een kaart. U kunt beter naar WaarIsMijnStemlokaal.nl gaan, waar naast de kaart de informatie ook op een manier getoond wordt die wel geschikt is voor een screenreader."  class="text-center">
+    {% endif %}
+      <h1 aria-describedby="page-subtitle"><i class="fa fa-users text-dark-blue"></i> Gemeente {{ gemeente }}</h1>
+      <p id="page-subtitle">{{ upcomingElection }}</p>
+    </header>
 
     <div class="row">
       {% if not records %}
