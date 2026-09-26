@@ -661,9 +661,10 @@ export default {
       };
       StembureausApp.map = nlmaps.window.nlmaps.createMap(opts);
 
-      if (StembureausApp.homepage) {
-        StembureausApp.map.setZoom(startZoomfactor);
-      }
+      // For herindelingsverkiezingen comment this if statement (so the homepage map will zoom to the available stembureaus)
+      //if (StembureausApp.homepage) {
+      //  StembureausApp.map.setZoom(startZoomfactor);
+      //}
 
       StembureausApp.map.options.zoomSnap = 0.2;
 

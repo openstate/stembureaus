@@ -24,7 +24,7 @@ app/static/*
 app/assets/node_modules/*
 app/data/gemeenten.json
 
-files/deels_vooringevuld/*
+files/deels_vooringevuld*/*
 app/data/nieuwe-gemeenten.json
 config.py
 caching_setup

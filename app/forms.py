@@ -378,6 +378,9 @@ class EditForm(FlaskForm):
         if gemeente and self.bag_nummeraanduiding_id.data and self.bag_nummeraanduiding_id.data != "0000000000000000":
             # Check that the BAG is valid for this gemeente
             bag_record = db_exec_one_optional(BAG, nummeraanduiding=self.bag_nummeraanduiding_id.data, gemeente=gemeente.gemeente_naam)
+            # For herindelingsverkiezingen we need to check all fusiegemeenten
+            if not bag_record:
+                bag_record = db_exec_one_optional(BAG, nummeraanduiding=self.bag_nummeraanduiding_id.data, gemeente='Wijdemeren')
             if not bag_record:
                 # Check that the BAG exists
                 bag_record = db_exec_one_optional(BAG, nummeraanduiding=self.bag_nummeraanduiding_id.data)

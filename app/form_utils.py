@@ -24,7 +24,8 @@ def create_record(form, stemlokaal_id, gemeente, election):
     hoofdstembureau = ''
     if (election.startswith('gemeenteraadsverkiezingen') or
             election.startswith('kiescollegeverkiezingen') or
-            election.startswith('eilandsraadsverkiezingen')):
+            election.startswith('eilandsraadsverkiezingen') or
+            election.startswith('herindelingsverkiezingen')):
         kieskring_id = gemeente.gemeente_naam
         hoofdstembureau = gemeente.gemeente_naam
     elif (election.startswith('referendum') or

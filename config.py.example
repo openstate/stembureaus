@@ -92,6 +92,7 @@ class Config(object):
     #                        'eilandsraadsverkiezingen'
     #                        'Europese Parlementsverkiezingen'
     #                        'waterschapsverkiezingen'
+    #                        'herindelingsverkiezingen'
     ELECTION_TYPE = '<election_type>'
     PREVIOUS_ELECTION_DATE = '<date_of_previous_election>' # Format YYYY-MM-DD e.g. 2025-02-19
     PREVIOUS_ELECTION_DATE_LONG = datetime.strptime(PREVIOUS_ELECTION_DATE, "%Y-%m-%d").date().strftime("%-d %B %Y")

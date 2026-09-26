@@ -139,7 +139,7 @@ disclaimer_text = (
 )
 
 disclaimer_gemeenten = []
-with open('files/niet-deelnemende-gemeenten-2026-gr.csv') as IN:
+with open('files/niet-deelnemende-gemeenten-2026-hi.csv') as IN:
     disclaimer_gemeenten = [x.strip() for x in IN.readlines()]
 
 
@@ -1372,7 +1372,8 @@ def create_record(form, stemlokaal_id, gemeente, election):
     hoofdstembureau = ''
     if (election.startswith('gemeenteraadsverkiezingen') or
             election.startswith('kiescollegeverkiezingen') or
-            election.startswith('eilandsraadsverkiezingen')):
+            election.startswith('eilandsraadsverkiezingen') or
+            election.startswith('herindelingsverkiezingen')):
         kieskring_id = gemeente.gemeente_naam
         hoofdstembureau = gemeente.gemeente_naam
     elif (election.startswith('referendum') or
