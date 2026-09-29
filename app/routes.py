@@ -153,9 +153,11 @@ alternative_names = [
     {'gemeente_naam': 'Noardeast-Fryslan', 'gemeente_uri': 'Noardeast-Fryslân'},
     {'gemeente_naam': 'Zuidwest-Friesland', 'gemeente_uri': 'Súdwest-Fryslân'},
     {'gemeente_naam': 'Sudwest-Fryslan', 'gemeente_uri': 'Súdwest-Fryslân'},
+    # TODO: only needed during 2026HI because of herindeling with Hilversum, remove for next election
+    {'gemeente_naam': 'Wijdemeren', 'gemeente_uri': 'Hilversum'},
 ]
 alle_gemeenten = [
-    {'gemeente_naam': row[2]} for row in kieskringen
+    {'gemeente_naam': row[2]} for row in kieskringen if not row[2] == 'Wijdemeren'
 ] + alternative_names
 
 toegankelijkheid_descriptions = {
